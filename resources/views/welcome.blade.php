@@ -14,7 +14,10 @@
         --hero-small-height: 347px;
         --blue: #1f67ab;
         --blue-light: #2f80c8;
+        --orange: #df6d1c;
         --bg: #f4f4f4;
+        --text: #333333;
+        --muted: #666666;
     }
 
     *{
@@ -33,7 +36,6 @@
         background: var(--bg);
     }
 
-    /* HERO */
     .hero-holder{
         position: relative;
         width: 100%;
@@ -111,7 +113,7 @@
 
     .hero-field{
         position: relative;
-        height: 40px;
+        height: 46px;
         background: #ffffff;
         border-radius: 999px;
         display: flex;
@@ -173,12 +175,11 @@
         color: #9b9b9b;
     }
 
-    /* SECTION BELOW */
     .service-cards-section{
         position: relative;
         z-index: 10;
         background: #f4f4f4;
-        padding: 36px 0 50px;
+        padding: 60px 0 50px;
     }
 
     .service-cards-container{
@@ -190,21 +191,29 @@
     .service-cards-grid{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 42px;
-        align-items: start;
+        gap: 32px;
+        align-items: stretch;
     }
 
     .service-card-item{
-        position: relative;
-        padding-top: 78px;
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #d9d9d9;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         opacity: 0;
-        transform: translateY(60px);
-        transition: opacity 0.7s ease, transform 0.7s ease;
+        transform: translateY(50px);
+        transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
     }
 
     .service-card-item.show{
         opacity: 1;
         transform: translateY(0);
+    }
+
+    .service-card-item:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 16px 38px rgba(0,0,0,0.12);
     }
 
     .service-card-item:nth-child(2){
@@ -215,69 +224,358 @@
         transition-delay: 0.24s;
     }
 
-    .service-card-box{
-        background: #fff;
-        border: 1px solid #8c8c8c;
-        border-radius: 14px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-        text-align: center;
-        padding: 88px 18px 24px;
-        min-height: 245px;
-    }
-
     .service-card-image{
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 205px;
-        height: 155px;
-        border-radius: 16px;
+        width: 100%;
+        height: 250px;
         overflow: hidden;
-        border: 1px solid #666;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-        background: #ddd;
+        background: #e9e9e9;
     }
 
     .service-card-image img{
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.4s ease;
+    }
+
+    .service-card-item:hover .service-card-image img{
+        transform: scale(1.05);
+    }
+
+    .service-card-box{
+        padding: 22px 22px 26px;
+        text-align: center;
+    }
+
+    .service-card-divider{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+
+    .service-card-divider svg{
+        display: block;
+        max-width: 100%;
+    }
+
+    .service-card-title{
+        margin: 0 0 10px;
+        font-size: 24px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: var(--orange);
+    }
+
+    .service-card-text{
+        margin: 0 0 20px;
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--muted);
+        min-height: 48px;
+    }
+
+    .service-card-btn{
+        display: inline-block;
+        min-width: 200px;
+        padding: 12px 22px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, var(--blue-light), var(--blue));
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: 0 6px 14px rgba(31, 103, 171, 0.22);
+        transition: all 0.3s ease;
+    }
+
+    .service-card-btn:hover{
+        transform: translateY(-2px);
+        background: linear-gradient(180deg, #3d8dd4, #1c5f9d);
+    }
+
+    .explore-services-section {
+        padding: 50px 0 30px;
+        background: #f4f4f4;
+    }
+
+    .explore-services-container {
+        width: 92%;
+        max-width: 1320px;
+        margin: 0 auto;
+    }
+
+    .explore-services-heading {
+        text-align: center;
+        margin-bottom: 34px;
+    }
+
+    .explore-services-heading h2 {
+        margin: 0;
+        color: #222;
+        font-size: 34px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .heading-line {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .heading-line span {
+        display: block;
+        height: 3px;
+        border-radius: 20px;
+    }
+
+    .line-orange {
+        width: 88px;
+        background: #e97827;
+    }
+
+    .line-blue {
+        width: 126px;
+        background: #2f78bf;
+    }
+
+    .explore-services-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
+    }
+
+    .explore-card {
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        transition: 0.3s ease;
+    }
+
+    .explore-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .orange-card {
+        border: 2px solid #ea7a27;
+    }
+
+    .blue-card {
+        border: 2px solid #2f78bf;
+    }
+
+    .explore-card-image {
+        width: 100%;
+        height: 170px;
+        overflow: hidden;
+        border-bottom: 1px solid #d7d7d7;
+    }
+
+    .explore-card-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
     }
 
-    .service-card-title{
-        margin: 0 0 8px;
-        font-size: 22px;
-        line-height: 1.2;
-        font-weight: 700;
-        color: #df6d1c;
+    .explore-card-body {
+        padding: 14px 16px 18px;
+        text-align: center;
+        background: #fff;
     }
 
-    .service-card-text{
+    .explore-card-body h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .orange-card h3 {
+        color: #e97827;
+    }
+
+    .blue-card h3 {
+        color: #2f78bf;
+    }
+
+    .explore-card-body h3.small-title {
+        font-size: 14px;
+        line-height: 1.25;
+        letter-spacing: -0.2px;
+    }
+
+    .explore-card-body p {
         margin: 0 0 14px;
-        font-size: 13px;
-        line-height: 1.6;
+        color: #333;
+        font-size: 12px;
+        line-height: 1.45;
+        min-height: 34px;
+    }
+
+    .explore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 180px;
+        height: 30px;
+        padding: 0 18px;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+        transition: 0.3s ease;
+        cursor: pointer;
+    }
+
+    .explore-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .orange-btn {
+        background: linear-gradient(180deg, #ef8a39 0%, #df7122 100%);
+    }
+
+    .blue-btn {
+        background: linear-gradient(180deg, #3485cd 0%, #206eb4 100%);
+    }
+
+    .custom-modal-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        padding: 20px;
+    }
+
+    .custom-modal-overlay.active{
+        display: flex;
+    }
+
+    .custom-modal-box{
+        width: 100%;
+        max-width: 430px;
+        background: #fff;
+        border-radius: 18px;
+        padding: 26px 22px;
+        position: relative;
+        box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+        animation: modalFadeIn 0.25s ease;
+    }
+
+    @keyframes modalFadeIn{
+        from{
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .custom-modal-close{
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        border: none;
+        background: transparent;
+        font-size: 28px;
+        line-height: 1;
+        cursor: pointer;
         color: #666;
     }
 
-    .service-card-btn{
-        display: inline-block;
-        min-width: 190px;
-        padding: 10px 20px;
-        border-radius: 10px;
-        background: linear-gradient(180deg, var(--blue-light), var(--blue));
-        color: #fff;
-        text-decoration: none;
-        font-size: 14px;
+    .custom-modal-header h3{
+        margin: 0 0 6px;
+        font-size: 26px;
         font-weight: 700;
-        box-shadow: 0 4px 8px rgba(31, 103, 171, 0.25);
+        color: #1c2c3e;
+    }
+
+    .custom-modal-header p{
+        margin: 0 0 22px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .form-group{
+        margin-bottom: 16px;
+    }
+
+    .form-group label{
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .custom-input{
+        width: 100%;
+        height: 48px;
+        border: 1px solid #d8d8d8;
+        border-radius: 12px;
+        padding: 0 14px;
+        font-size: 14px;
+        outline: none;
         transition: 0.3s ease;
     }
 
-    .service-card-btn:hover{
-        transform: translateY(-2px);
-        background: linear-gradient(180deg, #3d8dd4, #1c5f9d);
+    .custom-input:focus{
+        border-color: #f25c05;
+        box-shadow: 0 0 0 4px rgba(242,92,5,0.08);
+    }
+
+    .custom-modal-actions{
+        display: flex;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .modal-btn{
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .primary-btn{
+        background: linear-gradient(180deg, #f58a3c, #f25c05);
+        color: #fff;
+        width: 100%;
+    }
+
+    .verify-btn{
+        background: linear-gradient(180deg, #2f80c8, #1f67ab);
+        color: #fff;
+        width: 100%;
+    }
+
+    .error-text{
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+
+    .otp-success-msg{
+        font-size: 13px;
+        color: #15803d;
+        margin-top: 8px;
     }
 
     @media (max-width: 1200px){
@@ -305,6 +603,14 @@
 
         .service-cards-grid{
             grid-template-columns: repeat(2, 1fr);
+        }
+
+        .explore-services-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .explore-services-heading h2 {
+            font-size: 30px;
         }
     }
 
@@ -350,9 +656,27 @@
         }
 
         .service-card-item{
+            max-width: 420px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .service-card-image{
+            height: 230px;
+        }
+
+        .explore-services-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .explore-card {
             max-width: 360px;
             margin: 0 auto;
             width: 100%;
+        }
+
+        .explore-services-heading h2 {
+            font-size: 26px;
         }
     }
 
@@ -361,201 +685,19 @@
         body.hero-scrolled .hero-title{
             font-size: 28px;
         }
+
+        .service-card-image{
+            height: 210px;
+        }
+
+        .service-card-title{
+            font-size: 22px;
+        }
+
+        .service-card-btn{
+            min-width: 100%;
+        }
     }
-
-    .service-card-divider {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 16px;
-}
-
-.service-card-divider svg {
-    display: block;
-    max-width: 100%;
-}
-
-.explore-services-section {
-    padding: 50px 0 30px;
-    background: #f4f4f4;
-    font-family: 'Poppins', sans-serif;
-}
-
-.explore-services-container {
-    width: 92%;
-    max-width: 1320px;
-    margin: 0 auto;
-}
-
-.explore-services-heading {
-    text-align: center;
-    margin-bottom: 34px;
-}
-
-.explore-services-heading h2 {
-    margin: 0;
-    color: #222;
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1.2;
-}
-
-.heading-line {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.heading-line span {
-    display: block;
-    height: 3px;
-    border-radius: 20px;
-}
-
-.line-orange {
-    width: 88px;
-    background: #e97827;
-}
-
-.line-blue {
-    width: 126px;
-    background: #2f78bf;
-}
-
-.explore-services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 28px;
-}
-
-.explore-card {
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-    transition: 0.3s ease;
-}
-
-.explore-card:hover {
-    transform: translateY(-6px);
-}
-
-.orange-card {
-    border: 2px solid #ea7a27;
-}
-
-.blue-card {
-    border: 2px solid #2f78bf;
-}
-
-.explore-card-image {
-    width: 100%;
-    height: 170px;
-    overflow: hidden;
-    border-bottom: 1px solid #d7d7d7;
-}
-
-.explore-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.explore-card-body {
-    padding: 14px 16px 18px;
-    text-align: center;
-    background: #fff;
-}
-
-.explore-card-body h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    font-weight: 800;
-    line-height: 1.2;
-}
-
-.orange-card h3 {
-    color: #e97827;
-}
-
-.blue-card h3 {
-    color: #2f78bf;
-}
-
-.explore-card-body h3.small-title {
-    font-size: 14px;
-    line-height: 1.25;
-    letter-spacing: -0.2px;
-}
-
-.explore-card-body p {
-    margin: 0 0 14px;
-    color: #333;
-    font-size: 12px;
-    line-height: 1.45;
-    min-height: 34px;
-}
-
-.explore-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 180px;
-    height: 30px;
-    padding: 0 18px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-    transition: 0.3s ease;
-}
-
-.explore-btn:hover {
-    transform: translateY(-2px);
-}
-
-.orange-btn {
-    background: linear-gradient(180deg, #ef8a39 0%, #df7122 100%);
-}
-
-.blue-btn {
-    background: linear-gradient(180deg, #3485cd 0%, #206eb4 100%);
-}
-
-@media (max-width: 1199px) {
-    .explore-services-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 991px) {
-    .explore-services-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .explore-services-heading h2 {
-        font-size: 30px;
-    }
-}
-
-@media (max-width: 767px) {
-    .explore-services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .explore-card {
-        max-width: 360px;
-        margin: 0 auto;
-        width: 100%;
-    }
-
-    .explore-services-heading h2 {
-        font-size: 26px;
-    }
-}
 </style>
 
 <div class="home-page">
@@ -600,24 +742,22 @@
     <section class="service-cards-section">
         <div class="service-cards-container">
             <div class="service-cards-grid">
-
                 <div class="service-card-item reveal-card">
                     <div class="service-card-image">
                         <img src="{{ asset('images/b1.png') }}" alt="Architect">
                     </div>
-
                     <div class="service-card-box">
                         <div class="service-card-divider">
                             <svg xmlns="http://www.w3.org/2000/svg" width="152" height="1" viewBox="0 0 152 1" fill="none">
                                 <path d="M0 0.5L152 0.500015" stroke="#4A4A4A"/>
                             </svg>
                         </div>
-
                         <h3 class="service-card-title">Architect</h3>
-                        <p class="service-card-text">
-                            Post your requirements and get your quote within 24 hours.
-                        </p>
-                        <a href="#" class="service-card-btn">Post Your Requirement</a>
+                        <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
+                        <!-- <a href="{{route('post')}}" class="service-card-btn">Post Your Requirement</a> -->
+                         <a href="{{ route('post', ['work_type_id' => 2]) }}" class="service-card-btn">
+                            Post Your Requirement
+                        </a>       
                     </div>
                 </div>
 
@@ -625,19 +765,18 @@
                     <div class="service-card-image">
                         <img src="{{ asset('images/b2.png') }}" alt="Contractor">
                     </div>
-
                     <div class="service-card-box">
                         <div class="service-card-divider">
                             <svg xmlns="http://www.w3.org/2000/svg" width="152" height="1" viewBox="0 0 152 1" fill="none">
                                 <path d="M0 0.5L152 0.500015" stroke="#4A4A4A"/>
                             </svg>
                         </div>
-
                         <h3 class="service-card-title">Contractor</h3>
-                        <p class="service-card-text">
-                            Post your requirements and get your quote within 24 hours.
-                        </p>
-                        <a href="#" class="service-card-btn">Post Your Requirement</a>
+                        <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
+                        <!-- <a href="#" class="service-card-btn">Post Your Requirement</a> -->
+                          <a href="{{ route('post', ['work_type_id' => 1]) }}" class="service-card-btn">
+                            Post Your Requirement
+                        </a> 
                     </div>
                 </div>
 
@@ -645,131 +784,306 @@
                     <div class="service-card-image">
                         <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
                     </div>
-
                     <div class="service-card-box">
                         <div class="service-card-divider">
                             <svg xmlns="http://www.w3.org/2000/svg" width="152" height="1" viewBox="0 0 152 1" fill="none">
                                 <path d="M0 0.5L152 0.500015" stroke="#4A4A4A"/>
                             </svg>
                         </div>
-
                         <h3 class="service-card-title">Interior Designer</h3>
-                        <p class="service-card-text">
-                            Post your requirements and get your quote within 24 hours.
-                        </p>
-                        <a href="#" class="service-card-btn">Post Your Requirement</a>
+                        <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
+                        <!-- <a href="#" class="service-card-btn">Post Your Requirement</a> -->
+                          <a href="{{ route('post', ['work_type_id' => 4]) }}" class="service-card-btn">
+                            Post Your Requirement
+                        </a> 
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
     <section class="explore-services-section">
-    <div class="explore-services-container">
+        <div class="explore-services-container">
 
-        <div class="explore-services-heading">
-            <h2>Explore More Services</h2>
-            <div class="heading-line">
-                <span class="line-orange"></span>
-                <span class="line-blue"></span>
+            <div class="explore-services-heading">
+                <h2>Explore More Services</h2>
+                <div class="heading-line">
+                    <span class="line-orange"></span>
+                    <span class="line-blue"></span>
+                </div>
             </div>
+            <div class="explore-services-grid">
+
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/survey-services.png') }}" alt="Survey Services">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Survey Services</h3>
+                        <p>Explore All Categories of Survey Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn orange-btn open-customer-login-modal"
+                        data-redirect="{{ route('customer.survey') }}">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Testing Services</h3>
+                        <p>Explore All Categories of Testing Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn blue-btn open-customer-login-modal"
+                        data-redirect="{{ route('customer.testing') }}">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ Estimation">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>BOQ/Estimation</h3>
+                        <p>Explore All Categories of BOQ/Estimation Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn orange-btn open-customer-login-modal"
+                        data-redirect="{{ route('customer.boq') }}">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Facade Services</h3>
+                        <p>Explore All Categories of Facade Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn blue-btn open-customer-login-modal"
+                        data-redirect="">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Machinery On Hire</h3>
+                        <p>Explore All Categories of Machinery On Hire Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn orange-btn open-customer-login-modal"
+                        data-redirect="">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Structural Audit</h3>
+                        <p>Explore All Categories of Structural Audit Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn blue-btn open-customer-login-modal"
+                        data-redirect="">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support and Legal Due Diligence">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3 class="small-title">NA Support &amp; Legal Due Diligence</h3>
+                        <p>Explore All Categories of NA Support &amp; Legal Due Diligence Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn orange-btn open-customer-login-modal"
+                        data-redirect="">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding and Fabrication">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Welding &amp; Fabrication</h3>
+                        <p>Explore All Categories of Welding &amp; Fabrication Services</p>
+                        <a href="javascript:void(0)"
+                        class="explore-btn blue-btn open-customer-login-modal"
+                        data-redirect="">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+          
+        </div>
+    </section>
+</div>
+
+<div id="customerLoginOtpModal" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <button type="button" class="custom-modal-close" id="closeCustomerLoginModal">&times;</button>
+
+        <div class="custom-modal-header">
+            <h3>Login to Continue</h3>
+            <p>Enter your mobile number to get OTP</p>
         </div>
 
-        <div class="explore-services-grid">
+        <div class="custom-modal-body">
+            <input type="hidden" id="customer_redirect_url">
 
-            <div class="explore-card orange-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/survey-services.png') }}" alt="Survey Services">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Survey Services</h3>
-                    <p>Explore All Categories of Survey Services</p>
-                    <a href="#" class="explore-btn orange-btn">Get Started</a>
-                </div>
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input type="text" id="customer_mobile_number" class="custom-input" placeholder="Enter mobile number" maxlength="10">
+                <small class="error-text" id="customer_mobile_error"></small>
             </div>
 
-            <div class="explore-card blue-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Testing Services</h3>
-                    <p>Explore All Categories of Testing Services</p>
-                    <a href="#" class="explore-btn blue-btn">Get Started</a>
-                </div>
+            <div class="form-group" id="customerOtpSection" style="display:none;">
+                <label>Enter OTP</label>
+                <input type="text" id="customer_otp_code" class="custom-input" placeholder="Enter OTP" maxlength="6">
+                <small class="error-text" id="customer_otp_error"></small>
             </div>
 
-            <div class="explore-card orange-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ Estimation">
-                </div>
-                <div class="explore-card-body">
-                    <h3>BOQ/Estimation</h3>
-                    <p>Explore All Categories of BOQ/Estimation Services</p>
-                    <a href="#" class="explore-btn orange-btn">Get Started</a>
-                </div>
-            </div>
+            <div class="otp-success-msg" id="customer_otp_success_msg"></div>
 
-            <div class="explore-card blue-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Facade Services</h3>
-                    <p>Explore All Categories of Facade Services</p>
-                    <a href="#" class="explore-btn blue-btn">Get Started</a>
-                </div>
+            <div class="custom-modal-actions">
+                <button type="button" class="modal-btn primary-btn" id="customerSendOtpBtn">Get OTP</button>
+                <button type="button" class="modal-btn verify-btn" id="customerVerifyOtpBtn" style="display:none;">Verify OTP</button>
             </div>
-
-            <div class="explore-card orange-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Machinery On Hire</h3>
-                    <p>Explore All Categories of Machinery On Hire Services</p>
-                    <a href="#" class="explore-btn orange-btn">Get Started</a>
-                </div>
-            </div>
-
-            <div class="explore-card blue-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Structural Audit</h3>
-                    <p>Explore All Categories of Structural Audit Services</p>
-                    <a href="#" class="explore-btn blue-btn">Get Started</a>
-                </div>
-            </div>
-
-            <div class="explore-card orange-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support and Legal Due Diligence">
-                </div>
-                <div class="explore-card-body">
-                    <h3 class="small-title">NA Support &amp; Legal Due Diligence</h3>
-                    <p>Explore All Categories of NA Support &amp; Legal Due Diligence Services</p>
-                    <a href="#" class="explore-btn orange-btn">Get Started</a>
-                </div>
-            </div>
-
-            <div class="explore-card blue-card">
-                <div class="explore-card-image">
-                    <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding and Fabrication">
-                </div>
-                <div class="explore-card-body">
-                    <h3>Welding &amp; Fabrication</h3>
-                    <p>Explore All Categories of Welding &amp; Fabrication Services</p>
-                    <a href="#" class="explore-btn blue-btn">Get Started</a>
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    });
+
+    $(document).on('click', '.open-customer-login-modal', function () {
+        let redirectUrl = $(this).data('redirect');
+
+        $('#customer_redirect_url').val(redirectUrl);
+        $('#customer_mobile_number').val('');
+        $('#customer_otp_code').val('');
+        $('#customer_mobile_error').text('');
+        $('#customer_otp_error').text('');
+        $('#customer_otp_success_msg').text('');
+        $('#customerOtpSection').hide();
+        $('#customerVerifyOtpBtn').hide();
+        $('#customerSendOtpBtn').show();
+
+        $('#customerLoginOtpModal').addClass('active');
+    });
+
+    $('#closeCustomerLoginModal').on('click', function () {
+        $('#customerLoginOtpModal').removeClass('active');
+    });
+
+    $('#customerLoginOtpModal').on('click', function (e) {
+        if (e.target.id === 'customerLoginOtpModal') {
+            $('#customerLoginOtpModal').removeClass('active');
+        }
+    });
+
+    $('#customerSendOtpBtn').on('click', function () {
+        let mobile = $('#customer_mobile_number').val();
+
+        $('#customer_mobile_error').text('');
+        $('#customer_otp_error').text('');
+        $('#customer_otp_success_msg').text('');
+
+        $.ajax({
+            url: "{{ route('customer.send.otp') }}",
+            type: "POST",
+            data: {
+                mobile: mobile
+            },
+            success: function (response) {
+                if (response.status) {
+                    $('#customerOtpSection').show();
+                    $('#customerVerifyOtpBtn').show();
+                    $('#customerSendOtpBtn').hide();
+                    $('#customer_otp_success_msg').text(response.message);
+                } else {
+                    $('#customer_mobile_error').text(response.message);
+                }
+            },
+            error: function (xhr) {
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors && xhr.responseJSON.errors.mobile) {
+                        $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
+                    } else if (xhr.responseJSON.message) {
+                        $('#customer_mobile_error').text(xhr.responseJSON.message);
+                    }
+                }
+            }
+        });
+    });
+
+    $('#customerVerifyOtpBtn').on('click', function () {
+        let mobile = $('#customer_mobile_number').val();
+        let otp = $('#customer_otp_code').val();
+        let redirectUrl = $('#customer_redirect_url').val();
+
+        $('#customer_mobile_error').text('');
+        $('#customer_otp_error').text('');
+
+        $.ajax({
+            url: "{{ route('customer.verify.otp') }}",
+            type: "POST",
+            data: {
+                mobile: mobile,
+                otp: otp,
+                redirect_url: redirectUrl
+            },
+            success: function (response) {
+                if (response.status) {
+                    window.location.href = response.redirect;
+                } else {
+                    $('#customer_otp_error').text(response.message);
+                }
+            },
+            error: function (xhr) {
+                if (xhr.responseJSON) {
+                    if (xhr.responseJSON.errors) {
+                        if (xhr.responseJSON.errors.mobile) {
+                            $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
+                        }
+                        if (xhr.responseJSON.errors.otp) {
+                            $('#customer_otp_error').text(xhr.responseJSON.errors.otp[0]);
+                        }
+                    } else if (xhr.responseJSON.message) {
+                        $('#customer_otp_error').text(xhr.responseJSON.message);
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 <script>
     function toggleHeroResize() {

@@ -5,7 +5,6 @@
     <title>@yield('title', 'My Laravel App')</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
 
@@ -21,7 +20,6 @@
     @include('partials.footer')
 
     <!-- JS -->
-    <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 </html>

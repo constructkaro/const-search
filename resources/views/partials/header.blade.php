@@ -21,14 +21,12 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* Container */
 .container {
     width: 92%;
     max-width: 1450px;
     margin: auto;
 }
 
-/* Flex Layout */
 .header-wrapper {
     display: flex;
     align-items: center;
@@ -36,8 +34,6 @@ body {
     gap: 24px;
     min-height: 92px;
 }
-
-/* Logo */
 
 .logo {
     display: flex;
@@ -52,7 +48,6 @@ body {
     margin-left: -60px;
 }
 
-/* Navigation */
 .nav-menu {
     flex: 1;
     display: flex;
@@ -89,7 +84,6 @@ body {
 
 .nav-menu ul li a.active {
     color: #f37021;
-    /* background: rgba(243, 112, 33, 0.12); */
     font-weight: 700;
 }
 
@@ -105,7 +99,6 @@ body {
     border-radius: 10px;
 }
 
-/* Buttons */
 .header-actions {
     display: flex;
     align-items: center;
@@ -137,11 +130,82 @@ body {
     background: linear-gradient(180deg, #ffa25d 0%, #dc5f14 100%);
 }
 
-.btn-light {
-    background: linear-gradient(180deg, #ffab72 0%, #f37021 100%);
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-/* Responsive */
+.header-login-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:170px;
+    height:46px;
+    padding:0 22px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#fff;
+    font-weight:700;
+    background:linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+    box-shadow:0 6px 14px rgba(223,113,34,0.22);
+}
+
+.customer-login-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid #e3e3e3;
+    border-radius:999px;
+    padding:8px 10px 8px 8px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.customer-avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#3485cd 0%, #206eb4 100%);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    font-weight:800;
+}
+
+.customer-info{
+    display:flex;
+    flex-direction:column;
+    line-height:1.2;
+}
+
+.customer-name{
+    font-size:14px;
+    font-weight:700;
+    color:#1f2329;
+}
+
+.customer-mobile{
+    font-size:12px;
+    color:#666;
+}
+
+.logout-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:36px;
+    padding:0 14px;
+    border-radius:999px;
+    text-decoration:none;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    background:linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+}
+
 @media (max-width: 1100px) {
     .header-wrapper {
         flex-wrap: wrap;
@@ -172,28 +236,20 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        width: 94%;
+@media(max-width:767px){
+    .customer-login-box{
+        width:100%;
+        border-radius:18px;
+        justify-content:space-between;
     }
 
-    .header-wrapper {
-        min-height: auto;
+    .header-right{
+        width:100%;
     }
 
     .logo img {
         max-height: 48px;
-    }
-
-    .nav-menu ul li a {
-        padding: 10px 14px;
-        font-size: 15px;
-    }
-
-    .btn-glow {
-        min-height: 44px;
-        padding: 0 18px;
-        font-size: 13px;
+        margin-left: 0;
     }
 }
 </style>
@@ -217,9 +273,32 @@ body {
 
         <div class="header-actions">
             <a href="#" class="btn-glow">ConstructKaro Job Portal</a>
-            <a href="#" class="btn-glow btn-light">Login / Sign Up</a>
         </div>
 
+        <div class="header-right">
+            @if(session('customer_logged_in'))
+                <div class="customer-login-box">
+                    <!-- <div class="customer-avatar">
+                        {{ strtoupper(substr(session('customer_mobile') ?: 'C', 0, 1)) }}
+                    </div> -->
+
+                    <div class="customer-info">
+                        <div class="customer-name">
+                            {{ session('customer_name') ?: 'Mobile User' }}
+                        </div>
+                        <div class="customer-mobile">
+                            {{ session('customer_mobile') }}
+                        </div>
+                    </div>
+
+                    <a href="{{ route('customer.logout') }}" class="logout-btn">Logout</a>
+                </div>
+            @else
+                <a href="javascript:void(0)" class="header-login-btn open-customer-login-modal">
+                    Login / Sign Up
+                </a>
+            @endif
+        </div>
     </div>
 </header>
 
