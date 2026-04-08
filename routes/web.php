@@ -28,7 +28,7 @@ use App\Http\Controllers\WeldingFabricationController;
 
 //vendor
 Route::domain('vendor.constructkaro.in')->group(function () {
-    Route::get('/vendor', function () {
+    Route::get('/', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
