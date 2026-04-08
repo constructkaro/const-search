@@ -30,6 +30,10 @@
         --radius-md: 14px;
     }
 
+    *{
+        box-sizing: border-box;
+    }
+
     body{
         background:
             radial-gradient(circle at top right, rgba(234,123,47,0.05), transparent 16%),
@@ -67,35 +71,6 @@
         height: 180px;
         background: radial-gradient(circle, rgba(234,123,47,0.05) 0%, transparent 70%);
         pointer-events: none;
-    }
-
-    .step-label{
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
-    .step-no{
-        width: 34px;
-        height: 34px;
-        border-radius: 11px;
-        background: linear-gradient(135deg, #ea7b2f 0%, #f09a57 100%);
-        color: #fff;
-        font-size: 17px;
-        font-weight: 900;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 10px 18px rgba(234,123,47,0.20);
-    }
-
-    .step-text{
-        color: var(--primary);
-        font-size: 15px;
-        font-weight: 900;
-        letter-spacing: 2px;
-        text-transform: uppercase;
     }
 
     .section-head{
@@ -408,11 +383,18 @@
     }
 
     .file-name{
-        margin-top: 8px;
-        font-size: 12px;
-        font-weight: 800;
-        color: var(--primary);
+        margin-top: 10px;
+        font-size: 13px;
+        color: #16a34a;
+        font-weight: 700;
         word-break: break-word;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .file-name:hover{
+        text-decoration: underline;
     }
 
     .submit-wrap{
@@ -440,6 +422,7 @@
         transition: all .22s ease;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
     }
 
     .submit-btn::before{
@@ -577,12 +560,8 @@
             @csrf
 
             <div class="form-card">
-                
-
                 <div class="section-head">
-                    <div class="section-icon">
-                        ⚖️
-                    </div>
+                    <div class="section-icon">⚖️</div>
                     <div class="section-title-wrap">
                         <h2>Services & Expertise</h2>
                         <p>Select your legal and NA support capabilities</p>
@@ -726,11 +705,8 @@
             </div>
 
             <div class="form-card">
-               
                 <div class="section-head">
-                    <div class="section-icon">
-                        📎
-                    </div>
+                    <div class="section-icon">📎</div>
                     <div class="section-title-wrap">
                         <h2>Documents</h2>
                         <p>Upload business and verification documents</p>
@@ -747,8 +723,8 @@
                             <div class="upload-text">Drag & drop or <span>browse</span></div>
                             <div class="upload-note">PDF, JPG, PNG (Max 5MB)</div>
                         </label>
-                        <input type="file" name="gst_certificate" id="gst_certificate">
-                        <div class="file-name" id="gst_certificate_name"></div>
+                        <input type="file" name="gst_certificate" id="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                        <a href="#" class="file-name" id="gst_certificate_name" target="_blank" style="display:none;"></a>
                         @error('gst_certificate')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -763,8 +739,8 @@
                             <div class="upload-text">Drag & drop or <span>browse</span></div>
                             <div class="upload-note">PDF, JPG, PNG (Max 5MB)</div>
                         </label>
-                        <input type="file" name="aadhar_card" id="aadhar_card">
-                        <div class="file-name" id="aadhar_card_name"></div>
+                        <input type="file" name="aadhar_card" id="aadhar_card" accept=".pdf,.jpg,.jpeg,.png">
+                        <a href="#" class="file-name" id="aadhar_card_name" target="_blank" style="display:none;"></a>
                         @error('aadhar_card')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -779,8 +755,8 @@
                             <div class="upload-text">Drag & drop or <span>browse</span></div>
                             <div class="upload-note">PDF, JPG, PNG (Max 5MB)</div>
                         </label>
-                        <input type="file" name="company_profile" id="company_profile">
-                        <div class="file-name" id="company_profile_name"></div>
+                        <input type="file" name="company_profile" id="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+                        <a href="#" class="file-name" id="company_profile_name" target="_blank" style="display:none;"></a>
                         @error('company_profile')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -795,8 +771,8 @@
                             <div class="upload-text">Drag & drop or <span>browse</span></div>
                             <div class="upload-note">PDF, JPG, PNG (Max 5MB)</div>
                         </label>
-                        <input type="file" name="registration_license" id="registration_license">
-                        <div class="file-name" id="registration_license_name"></div>
+                        <input type="file" name="registration_license" id="registration_license" accept=".pdf,.jpg,.jpeg,.png">
+                        <a href="#" class="file-name" id="registration_license_name" target="_blank" style="display:none;"></a>
                         @error('registration_license')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -825,14 +801,25 @@
 
         input.addEventListener('change', function () {
             const label = wrapper.querySelector('.upload-box');
-            if (this.files && this.files.length > 0) {
-                output.textContent = this.files[0].name;
-                if (!activeOrange) {
+            const file = this.files[0];
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                output.textContent = file.name;
+                output.href = fileUrl;
+                output.style.display = 'inline-block';
+                output.setAttribute('target', '_blank');
+
+                if (!activeOrange && label) {
                     label.classList.add('active-orange');
                 }
             } else {
                 output.textContent = '';
-                if (!activeOrange) {
+                output.href = '#';
+                output.style.display = 'none';
+
+                if (!activeOrange && label) {
                     label.classList.remove('active-orange');
                 }
             }
@@ -854,5 +841,4 @@
         }
     });
 </script>
-
 @endsection

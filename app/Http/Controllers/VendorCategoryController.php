@@ -62,7 +62,11 @@ class VendorCategoryController extends Controller
         }
 
         $workTypeName = $slugToWorkType[$slug] ?? null;
+        $exp_year=DB::table('experience_years')->get();
+        $team_size = DB::table('team_size')->get();
+        $entity_type = DB::table('entity_type')->get();
 
+        // dd($exp_year);
         $workType = null;
         $projectTypes = collect();
 
@@ -82,6 +86,9 @@ class VendorCategoryController extends Controller
         return view($slugToView[$slug], [
             'workType' => $workType,
             'projectTypes' => $projectTypes,
+            'experienceYears' => $exp_year,
+            'team_size' =>$team_size,
+            'entity_type' =>$entity_type
         ]);
     }
 

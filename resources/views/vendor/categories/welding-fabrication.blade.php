@@ -649,6 +649,25 @@
             font-size: 16px;
         }
     }
+
+    .upload-item input[type="file"]{
+    display: none;
+}
+
+.file-name{
+    margin-top: 10px;
+    font-size: 13px;
+    color: #16a34a;
+    font-weight: 700;
+    word-break: break-word;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.file-name:hover{
+    text-decoration: underline;
+}
 </style>
 
 @php
@@ -889,7 +908,7 @@
                 </div>
             </div>
 
-            <div class="fab-card">
+            <!-- <div class="fab-card">
                 <div class="section-divider"></div>
                 <div class="section-head">
                     <div class="section-icon">
@@ -956,7 +975,75 @@
                         @enderror
                     </div>
                 </div>
-            </div>
+            </div> -->
+            <div class="fab-card">
+    <div class="section-divider"></div>
+    <div class="section-head">
+        <div class="section-icon">
+            <i class="fa-solid fa-file-arrow-up"></i>
+        </div>
+        <div>
+            <h2 class="section-title">Upload Documents</h2>
+            <p class="section-sub">Upload your verification documents</p>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="upload-grid">
+        <div class="upload-item" id="company_wrap">
+            <label for="company_profile" class="upload-box">
+                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                <h4>Company Profile</h4>
+                <p>PDF, JPG or PNG · Max 5MB</p>
+            </label>
+            <input type="file" name="company_profile" id="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+            <a href="#" class="file-name file-link" id="company_profile_name" target="_blank" style="display:none;"></a>
+            @error('company_profile')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="upload-item" id="gst_wrap">
+            <label for="gst_certificate" class="upload-box">
+                <div class="upload-icon"><i class="fa-solid fa-receipt"></i></div>
+                <h4>GST Certificate</h4>
+                <p>PDF, JPG or PNG · Max 5MB</p>
+            </label>
+            <input type="file" name="gst_certificate" id="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+            <a href="#" class="file-name file-link" id="gst_certificate_name" target="_blank" style="display:none;"></a>
+            @error('gst_certificate')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="upload-item" id="aadhaar_wrap">
+            <label for="aadhaar_card" class="upload-box">
+                <div class="upload-icon"><i class="fa-regular fa-credit-card"></i></div>
+                <h4>Aadhaar Card</h4>
+                <p>PDF, JPG or PNG · Max 5MB</p>
+            </label>
+            <input type="file" name="aadhaar_card" id="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
+            <a href="#" class="file-name file-link" id="aadhaar_card_name" target="_blank" style="display:none;"></a>
+            @error('aadhaar_card')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="upload-item" id="udyam_wrap">
+            <label for="udyam_certificate" class="upload-box">
+                <div class="upload-icon"><i class="fa-solid fa-award"></i></div>
+                <h4>Udyam Certificate</h4>
+                <p>PDF, JPG or PNG · Max 5MB</p>
+            </label>
+            <input type="file" name="udyam_certificate" id="udyam_certificate" accept=".pdf,.jpg,.jpeg,.png">
+            <a href="#" class="file-name file-link" id="udyam_certificate_name" target="_blank" style="display:none;"></a>
+            @error('udyam_certificate')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+    </div>
+</div>
 
             <div class="submit-wrap">
                 <button type="submit" class="submit-btn">Register as Fabrication Partner</button>
@@ -1003,5 +1090,34 @@
         }
     });
 </script>
+<script>
+    function bindFilePreview(inputId, fileNameId) {
+        const input = document.getElementById(inputId);
+        const fileNameBox = document.getElementById(fileNameId);
 
+        if (!input || !fileNameBox) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                fileNameBox.textContent = file.name;
+                fileNameBox.href = fileUrl;
+                fileNameBox.style.display = 'inline-block';
+                fileNameBox.setAttribute('target', '_blank');
+            } else {
+                fileNameBox.textContent = '';
+                fileNameBox.href = '#';
+                fileNameBox.style.display = 'none';
+            }
+        });
+    }
+
+    bindFilePreview('company_profile', 'company_profile_name');
+    bindFilePreview('gst_certificate', 'gst_certificate_name');
+    bindFilePreview('aadhaar_card', 'aadhaar_card_name');
+    bindFilePreview('udyam_certificate', 'udyam_certificate_name');
+</script>
 @endsection

@@ -611,11 +611,11 @@
             <div class="field-label">Years of Experience <span class="req">*</span></div>
             <select class="form-select" name="experience_years">
                 <option value="" selected disabled>Select years of experience</option>
-                <option value="20+ Years">20+ Years</option>
-                <option value="15-20 Years">15-20 Years</option>
-                <option value="10-15 Years">10-15 Years</option>
-                <option value="5-10 Years">5-10 Years</option>
-                <option value="1-5 Years">1-5 Years</option>
+                @foreach($experienceYears as $experience)
+                    <option value="{{ $experience->id }}">
+                        {{ $experience->experiance }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -623,37 +623,27 @@
             <div class="field-label">Team Size <span class="req">*</span></div>
             <select class="form-select" name="team_size">
                 <option value="" selected disabled>Select team size</option>
-                <option value="21-50 people">21-50 people</option>
-                <option value="1-10 people">1-10 people</option>
-                <option value="11-20 people">11-20 people</option>
-                <option value="51-100 people">51-100 people</option>
-                <option value="100+ people">100+ people</option>
+                @foreach($team_size as $team)
+                    <option value="{{ $team->id }}">
+                        {{ $team->team_size }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
-        <div>
-            <div class="field-label">State <span class="req">*</span></div>
-            <select class="form-select" name="state">
-                <option value="" selected disabled>Select state</option>
-                <option value="Maharashtra">Maharashtra</option>
-            </select>
-        </div>
+        
 
         <div>
-            <div class="field-label">Region <span class="req">*</span></div>
-            <select class="form-select" name="region">
-                <option value="" selected disabled>Select region</option>
-                <option value="Raigad">Raigad</option>
-            </select>
-        </div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="city" placeholder="Enter city">
 
-        <div>
-            <div class="field-label">City <span class="req">*</span></div>
-            <select class="form-select" name="city">
-                <option value="" selected disabled>Select city</option>
-                <option value="Khopoli">Khopoli</option>
-            </select>
-        </div>
+                    </div>
+
+         <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode">
+
+                    </div>
 
         <div>
             <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
@@ -686,10 +676,11 @@
             <div class="field-label">Type of Entity <span class="req">*</span></div>
             <select class="form-select" name="entity_type">
                 <option value="" selected disabled>Select entity type</option>
-                <option value="Proprietorship">Proprietorship</option>
-                <option value="Partnership">Partnership</option>
-                <option value="Pvt Ltd">Pvt Ltd</option>
-                <option value="LLP">LLP</option>
+                @foreach($entity_type as $entity)
+                    <option value="{{ $entity->id }}">
+                        {{ $entity->entity_type }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
@@ -742,18 +733,22 @@
             </div>
         </div>
 
-        <div style="grid-column: 1 / -1;">
+       <div style="grid-column: 1 / -1;">
             <div class="field-label">Upload MSME/Udyam Certificate</div>
             <div class="upload-box-wrap">
-                <input type="file" id="msme_certificate" name="msme_certificate">
+                <input type="file" id="msme_certificate" name="msme_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                
                 <label for="msme_certificate" class="upload-box">
                     <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
                     <div class="upload-content">
                         <div class="upload-main">Upload MSME/Udyam Certificate</div>
-                        <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                        <div class="upload-note file-name">PDF, JPG, PNG up to 20MB</div>
                     </div>
                 </label>
-                <a href="#" class="uploaded-link">View Uploaded MSME</a>
+
+                <a href="#" class="uploaded-link" id="msme_certificate_link" target="_blank" style="display:none;">
+                    View Uploaded MSME
+                </a>
             </div>
         </div>
     </div>
@@ -772,5 +767,39 @@
     </div>
     </form>
 </div>
+<script>
+    function setupFilePreview(inputId, linkId) {
+        const input = document.getElementById(inputId);
+        const link = document.getElementById(linkId);
 
+        if (!input || !link) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const wrap = this.closest('.upload-box-wrap');
+            const fileNameBox = wrap.querySelector('.file-name');
+
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+
+                link.href = fileURL;
+                link.style.display = 'inline-block';
+                link.textContent = 'View Uploaded MSME';
+
+                if (fileNameBox) {
+                    fileNameBox.textContent = file.name;
+                }
+            } else {
+                link.href = '#';
+                link.style.display = 'none';
+
+                if (fileNameBox) {
+                    fileNameBox.textContent = 'PDF, JPG, PNG up to 20MB';
+                }
+            }
+        });
+    }
+
+    setupFilePreview('msme_certificate', 'msme_certificate_link');
+</script>
 @endsection

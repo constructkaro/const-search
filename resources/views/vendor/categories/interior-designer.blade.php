@@ -6,15 +6,19 @@
 @section('content')
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
     :root{
         --ck-bg: #f4f7fb;
         --ck-white: #ffffff;
         --ck-navy: #0f173d;
         --ck-navy-2: #1e3766;
-        --ck-navy-3: #355c9a;
         --ck-orange: #eb7a2f;
         --ck-orange-2: #f39a56;
-        --ck-orange-soft: #fff4eb;
         --ck-text: #182b49;
         --ck-text-soft: #71829b;
         --ck-muted: #99a6b7;
@@ -26,9 +30,7 @@
         --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
         --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.20);
         --ck-radius-xl: 28px;
-        --ck-radius-lg: 20px;
         --ck-radius-md: 16px;
-        --ck-radius-sm: 14px;
     }
 
     body{
@@ -284,6 +286,10 @@
         display: none;
     }
 
+    .upload-box-wrap{
+        position: relative;
+    }
+
     .upload-box{
         min-height: 92px;
         border: 1.5px solid var(--ck-line-dark);
@@ -336,6 +342,19 @@
         word-break: break-word;
     }
 
+    .uploaded-link{
+        display: none;
+        margin-top: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #eb7a2f;
+        text-decoration: none;
+    }
+
+    .uploaded-link:hover{
+        text-decoration: underline;
+    }
+
     .photo-grid{
         display: grid;
         grid-template-columns: repeat(3,minmax(0,1fr));
@@ -361,6 +380,7 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        cursor: pointer;
     }
 
     .photo-preview img{
@@ -390,27 +410,23 @@
         flex-wrap: wrap;
     }
 
-   .submit-btn {
-    min-width: 324px;
-    height: 58px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 900;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    box-shadow: var(--ck-shadow-lg);
-    transition: .22s;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    .submit-btn{
+        min-width: 324px;
+        height: 58px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color: #fff;
+        font-size: 15px;
+        font-weight: 900;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        box-shadow: var(--ck-shadow-lg);
+        transition: .22s;
+        cursor: pointer;
+    }
 
     .submit-btn:hover{
         transform: translateY(-1px);
@@ -495,11 +511,15 @@
             font-size: 17px;
         }
     }
+    
 </style>
 
 @php
     $workType = $workType ?? null;
     $projectTypes = $projectTypes ?? collect();
+    $experienceYears = $experienceYears ?? collect();
+    $team_size = $team_size ?? collect();
+    $entity_type = $entity_type ?? collect();
 @endphp
 
 <form action="{{ route('interior.store') }}" method="POST" enctype="multipart/form-data">
@@ -569,11 +589,12 @@
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
                         <select class="form-select @error('experience_years') is-invalid @enderror" name="experience_years">
-                            <option value="">Select experience</option>
-                            <option value="10+ Years" {{ old('experience_years') == '10+ Years' ? 'selected' : '' }}>10+ Years</option>
-                            <option value="5-10 Years" {{ old('experience_years') == '5-10 Years' ? 'selected' : '' }}>5-10 Years</option>
-                            <option value="2-5 Years" {{ old('experience_years') == '2-5 Years' ? 'selected' : '' }}>2-5 Years</option>
-                            <option value="0-2 Years" {{ old('experience_years') == '0-2 Years' ? 'selected' : '' }}>0-2 Years</option>
+                            <option value="" disabled {{ old('experience_years') ? '' : 'selected' }}>Select years of experience</option>
+                            @foreach($experienceYears as $experience)
+                                <option value="{{ $experience->id }}" {{ old('experience_years') == $experience->id ? 'selected' : '' }}>
+                                    {{ $experience->experiance ?? $experience->experience }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('experience_years')
                             <div class="error-text">{{ $message }}</div>
@@ -583,11 +604,12 @@
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
                         <select class="form-select @error('team_size') is-invalid @enderror" name="team_size">
-                            <option value="">Select team size</option>
-                            <option value="1-5 people" {{ old('team_size') == '1-5 people' ? 'selected' : '' }}>1-5 people</option>
-                            <option value="6-20 people" {{ old('team_size') == '6-20 people' ? 'selected' : '' }}>6-20 people</option>
-                            <option value="21-50 people" {{ old('team_size') == '21-50 people' ? 'selected' : '' }}>21-50 people</option>
-                            <option value="50+ people" {{ old('team_size') == '50+ people' ? 'selected' : '' }}>50+ people</option>
+                            <option value="" disabled {{ old('team_size') ? '' : 'selected' }}>Select team size</option>
+                            @foreach($team_size as $team)
+                                <option value="{{ $team->id }}" {{ old('team_size') == $team->id ? 'selected' : '' }}>
+                                    {{ $team->team_size }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('team_size')
                             <div class="error-text">{{ $message }}</div>
@@ -595,35 +617,17 @@
                     </div>
 
                     <div>
-                        <div class="field-label">State <span class="req">*</span></div>
-                        <select class="form-select @error('state') is-invalid @enderror" name="state">
-                            <option value="">Select state</option>
-                            <option value="Maharashtra" {{ old('state') == 'Maharashtra' ? 'selected' : '' }}>Maharashtra</option>
-                        </select>
-                        @error('state')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="field-label">Region <span class="req">*</span></div>
-                        <select class="form-select @error('region') is-invalid @enderror" name="region">
-                            <option value="">Select region</option>
-                            <option value="Mumbai" {{ old('region') == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
-                            <option value="Navi Mumbai" {{ old('region') == 'Navi Mumbai' ? 'selected' : '' }}>Navi Mumbai</option>
-                            <option value="Raigad" {{ old('region') == 'Raigad' ? 'selected' : '' }}>Raigad</option>
-                            <option value="Thane" {{ old('region') == 'Thane' ? 'selected' : '' }}>Thane</option>
-                            <option value="Pune" {{ old('region') == 'Pune' ? 'selected' : '' }}>Pune</option>
-                        </select>
-                        @error('region')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" placeholder="Enter city name">
+                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" placeholder="Enter city">
                         @error('city')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('pincode') is-invalid @enderror" name="pincode" value="{{ old('pincode') }}" placeholder="Enter pincode">
+                        @error('pincode')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
                     </div>
@@ -653,7 +657,7 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Studio / Firm Name <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}">
+                        <input type="text" class="form-input @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" placeholder="Enter studio or firm name">
                         @error('company_name')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -662,12 +666,12 @@
                     <div>
                         <div class="field-label">Type of Entity <span class="req">*</span></div>
                         <select class="form-select @error('entity_type') is-invalid @enderror" name="entity_type">
-                            <option value="">Select entity type</option>
-                            <option value="Proprietorship" {{ old('entity_type') == 'Proprietorship' ? 'selected' : '' }}>Proprietorship</option>
-                            <option value="Partnership" {{ old('entity_type') == 'Partnership' ? 'selected' : '' }}>Partnership</option>
-                            <option value="Pvt Ltd" {{ old('entity_type') == 'Pvt Ltd' ? 'selected' : '' }}>Pvt Ltd</option>
-                            <option value="LLP" {{ old('entity_type') == 'LLP' ? 'selected' : '' }}>LLP</option>
-                            <option value="Freelancer" {{ old('entity_type') == 'Freelancer' ? 'selected' : '' }}>Freelancer</option>
+                            <option value="" disabled {{ old('entity_type') ? '' : 'selected' }}>Select entity type</option>
+                            @foreach($entity_type as $entity)
+                                <option value="{{ $entity->id }}" {{ old('entity_type') == $entity->id ? 'selected' : '' }}>
+                                    {{ $entity->entity_type }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('entity_type')
                             <div class="error-text">{{ $message }}</div>
@@ -676,7 +680,7 @@
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                        <textarea class="form-textarea @error('registered_address') is-invalid @enderror" name="registered_address">{{ old('registered_address') }}</textarea>
+                        <textarea class="form-textarea @error('registered_address') is-invalid @enderror" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address') }}</textarea>
                         @error('registered_address')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -684,7 +688,7 @@
 
                     <div>
                         <div class="field-label">Principal Designer Name <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('contact_person_name') is-invalid @enderror" name="contact_person_name" value="{{ old('contact_person_name') }}">
+                        <input type="text" class="form-input @error('contact_person_name') is-invalid @enderror" name="contact_person_name" value="{{ old('contact_person_name') }}" placeholder="Enter principal designer name">
                         @error('contact_person_name')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -692,7 +696,7 @@
 
                     <div>
                         <div class="field-label">Designation <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('contact_person_designation') is-invalid @enderror" name="contact_person_designation" value="{{ old('contact_person_designation', 'Interior Designer') }}">
+                        <input type="text" class="form-input @error('contact_person_designation') is-invalid @enderror" name="contact_person_designation" value="{{ old('contact_person_designation', 'Interior Designer') }}" placeholder="Enter designation">
                         @error('contact_person_designation')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -700,7 +704,7 @@
 
                     <div>
                         <div class="field-label">PAN Number</div>
-                        <input type="text" class="form-input @error('pan_number') is-invalid @enderror" name="pan_number" value="{{ old('pan_number') }}">
+                        <input type="text" class="form-input @error('pan_number') is-invalid @enderror" name="pan_number" value="{{ old('pan_number') }}" placeholder="Enter PAN number">
                         @error('pan_number')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -708,7 +712,7 @@
 
                     <div>
                         <div class="field-label">GST Number</div>
-                        <input type="text" class="form-input @error('gst_number') is-invalid @enderror" name="gst_number" value="{{ old('gst_number') }}">
+                        <input type="text" class="form-input @error('gst_number') is-invalid @enderror" name="gst_number" value="{{ old('gst_number') }}" placeholder="Enter GST number">
                         @error('gst_number')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -724,7 +728,7 @@
 
                     <div>
                         <div class="field-label">Website / Portfolio Link</div>
-                        <input type="text" class="form-input @error('website') is-invalid @enderror" name="website" value="{{ old('website') }}">
+                        <input type="text" class="form-input @error('website') is-invalid @enderror" name="website" value="{{ old('website') }}" placeholder="Enter website or portfolio link">
                         @error('website')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -747,15 +751,18 @@
                 <div class="upload-grid-2">
                     <div>
                         <div class="upload-title">PAN Card <span class="req">*</span></div>
-                        <input type="file" class="upload-input" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
-                        <label class="upload-box" for="pan_card">
-                            <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
-                            <div>
-                                <div class="upload-main">Upload PAN Card</div>
-                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                            </div>
-                        </label>
-                        <div class="file-name" id="pan_card_name"></div>
+                        <div class="upload-box-wrap">
+                            <input type="file" class="upload-input" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
+                            <label class="upload-box" for="pan_card">
+                                <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
+                                <div>
+                                    <div class="upload-main">Upload PAN Card</div>
+                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View File</a>
+                            <div class="file-name" id="pan_card_name"></div>
+                        </div>
                         @error('pan_card')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -763,15 +770,18 @@
 
                     <div>
                         <div class="upload-title">GST Certificate</div>
-                        <input type="file" class="upload-input" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
-                        <label class="upload-box" for="gst_certificate">
-                            <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <div>
-                                <div class="upload-main">Upload GST Certificate</div>
-                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                            </div>
-                        </label>
-                        <div class="file-name" id="gst_certificate_name"></div>
+                        <div class="upload-box-wrap">
+                            <input type="file" class="upload-input" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                            <label class="upload-box" for="gst_certificate">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div>
+                                    <div class="upload-main">Upload GST Certificate</div>
+                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View File</a>
+                            <div class="file-name" id="gst_certificate_name"></div>
+                        </div>
                         @error('gst_certificate')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -779,15 +789,18 @@
 
                     <div>
                         <div class="upload-title">Company Profile / Brochure <span class="req">*</span></div>
-                        <input type="file" class="upload-input" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
-                        <label class="upload-box" for="company_profile">
-                            <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
-                            <div>
-                                <div class="upload-main">Upload Brochure</div>
-                                <div class="upload-note">PDF, max 20MB</div>
-                            </div>
-                        </label>
-                        <div class="file-name" id="company_profile_name"></div>
+                        <div class="upload-box-wrap">
+                            <input type="file" class="upload-input" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+                            <label class="upload-box" for="company_profile">
+                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
+                                <div>
+                                    <div class="upload-main">Upload Brochure</div>
+                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View File</a>
+                            <div class="file-name" id="company_profile_name"></div>
+                        </div>
                         @error('company_profile')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -795,15 +808,18 @@
 
                     <div>
                         <div class="upload-title">Client Testimonial / Work Completion Docs</div>
-                        <input type="file" class="upload-input" id="supporting_documents" name="supporting_documents" accept=".pdf,.jpg,.jpeg,.png">
-                        <label class="upload-box" for="supporting_documents">
-                            <div class="upload-icon"><i class="fa-regular fa-file-circle-check"></i></div>
-                            <div>
-                                <div class="upload-main">Upload Supporting Documents</div>
-                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                            </div>
-                        </label>
-                        <div class="file-name" id="supporting_documents_name"></div>
+                        <div class="upload-box-wrap">
+                            <input type="file" class="upload-input" id="supporting_documents" name="supporting_documents" accept=".pdf,.jpg,.jpeg,.png">
+                            <label class="upload-box" for="supporting_documents">
+                                <div class="upload-icon"><i class="fa-regular fa-file-circle-check"></i></div>
+                                <div>
+                                    <div class="upload-main">Upload Supporting Documents</div>
+                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="supporting_documents_link" target="_blank" style="display:none;">View File</a>
+                            <div class="file-name" id="supporting_documents_name"></div>
+                        </div>
                         @error('supporting_documents')
                             <div class="error-text">{{ $message }}</div>
                         @enderror
@@ -817,10 +833,13 @@
                         @for($i = 1; $i <= 3; $i++)
                             <div class="photo-card">
                                 <input type="file" class="upload-input portfolio-image-input" id="portfolio_image_{{ $i }}" name="portfolio_images[]" accept=".jpg,.jpeg,.png">
+
                                 <label for="portfolio_image_{{ $i }}" class="photo-preview">
                                     <img id="portfolio_preview_{{ $i }}" src="" alt="Portfolio Preview {{ $i }}">
                                     <div class="placeholder" id="portfolio_placeholder_{{ $i }}">Interior Project {{ $i }}</div>
                                 </label>
+
+                                <a href="#" class="uploaded-link" id="portfolio_link_{{ $i }}" target="_blank" style="display:none;">View Image</a>
                             </div>
                         @endfor
                     </div>
@@ -847,21 +866,41 @@
 </form>
 
 <script>
-    function bindFileName(inputId, nameId) {
+    function bindFilePreview(inputId, nameId, linkId) {
         const input = document.getElementById(inputId);
         const nameBox = document.getElementById(nameId);
+        const linkBox = document.getElementById(linkId);
 
-        if (input && nameBox) {
-            input.addEventListener('change', function () {
-                nameBox.textContent = this.files.length ? this.files[0].name : '';
-            });
-        }
+        if (!input || !linkBox) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                if (nameBox) {
+                    nameBox.textContent = file.name;
+                }
+
+                linkBox.href = fileUrl;
+                linkBox.style.display = 'inline-block';
+                linkBox.setAttribute('target', '_blank');
+            } else {
+                if (nameBox) {
+                    nameBox.textContent = '';
+                }
+
+                linkBox.href = '#';
+                linkBox.style.display = 'none';
+            }
+        });
     }
 
-    bindFileName('pan_card', 'pan_card_name');
-    bindFileName('gst_certificate', 'gst_certificate_name');
-    bindFileName('company_profile', 'company_profile_name');
-    bindFileName('supporting_documents', 'supporting_documents_name');
+    bindFilePreview('pan_card', 'pan_card_name', 'pan_card_link');
+    bindFilePreview('gst_certificate', 'gst_certificate_name', 'gst_certificate_link');
+    bindFilePreview('company_profile', 'company_profile_name', 'company_profile_link');
+    bindFilePreview('supporting_documents', 'supporting_documents_name', 'supporting_documents_link');
 
     document.querySelectorAll('.portfolio-image-input').forEach(function(input, index) {
         input.addEventListener('change', function(e) {
@@ -869,18 +908,90 @@
             const imageNumber = index + 1;
             const preview = document.getElementById('portfolio_preview_' + imageNumber);
             const placeholder = document.getElementById('portfolio_placeholder_' + imageNumber);
+            const link = document.getElementById('portfolio_link_' + imageNumber);
 
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
+                const fileUrl = URL.createObjectURL(file);
+
+                if (preview) {
+                    preview.src = fileUrl;
                     preview.style.display = 'block';
+                }
+
+                if (placeholder) {
                     placeholder.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
+                }
+
+                if (link) {
+                    link.href = fileUrl;
+                    link.style.display = 'inline-block';
+                    link.setAttribute('target', '_blank');
+                }
+            } else {
+                if (preview) {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+
+                if (placeholder) {
+                    placeholder.style.display = 'block';
+                }
+
+                if (link) {
+                    link.href = '#';
+                    link.style.display = 'none';
+                }
             }
         });
     });
+</script>
+<script>
+    function bindFilePreview(inputId, fileNameId, linkId) {
+        const input = document.getElementById(inputId);
+        const fileNameBox = document.getElementById(fileNameId);
+        const linkBox = document.getElementById(linkId);
+
+        if (!input) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                // green filename clickable
+                if (fileNameBox) {
+                    fileNameBox.textContent = file.name;
+                    fileNameBox.href = fileUrl;
+                    fileNameBox.style.display = 'inline-block';
+                    fileNameBox.setAttribute('target', '_blank');
+                }
+
+                // optional separate view file link
+                if (linkBox) {
+                    linkBox.href = fileUrl;
+                    linkBox.style.display = 'inline-block';
+                    linkBox.setAttribute('target', '_blank');
+                }
+            } else {
+                if (fileNameBox) {
+                    fileNameBox.textContent = '';
+                    fileNameBox.href = '#';
+                    fileNameBox.style.display = 'none';
+                }
+
+                if (linkBox) {
+                    linkBox.href = '#';
+                    linkBox.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    bindFilePreview('pan_card', 'pan_card_name', 'pan_card_link');
+    bindFilePreview('gst_certificate', 'gst_certificate_name', 'gst_certificate_link');
+    bindFilePreview('company_profile', 'company_profile_name', 'company_profile_link');
+    bindFilePreview('supporting_documents', 'supporting_documents_name', 'supporting_documents_link');
 </script>
 
 @endsection

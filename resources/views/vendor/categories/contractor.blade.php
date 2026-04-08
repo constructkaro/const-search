@@ -542,6 +542,39 @@
         }
     }
 </style>
+<style>
+    .uploaded-link {
+        display: none;
+        margin-top: 8px;
+        color: #0d6efd;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .uploaded-link:hover {
+        text-decoration: underline;
+    }
+
+    .upload-box-wrap input[type="file"] {
+        display: none;
+    }
+
+    .upload-box {
+        cursor: pointer;
+        border: 1px dashed #cfd4dc;
+        border-radius: 12px;
+        padding: 16px;
+        display: block;
+        background: #fff;
+    }
+
+    .upload-note.file-name {
+        font-size: 13px;
+        color: #6c757d;
+        margin-top: 4px;
+        word-break: break-word;
+    }
+</style>
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="contractor-page">
@@ -608,13 +641,13 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
-                        <select class="form-select" name="experience_years">
+                        <select class="form-select" name="experience_years" id="experience_years">
                             <option value="" selected disabled>Select years of experience</option>
-                            <option value="20+ Years">20+ Years</option>
-                            <option value="15-20 Years">15-20 Years</option>
-                            <option value="10-15 Years">10-15 Years</option>
-                            <option value="5-10 Years">5-10 Years</option>
-                            <option value="1-5 Years">1-5 Years</option>
+                            @foreach($experienceYears as $experience)
+                                <option value="{{ $experience->id }}">
+                                    {{ $experience->experiance }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -622,11 +655,11 @@
                         <div class="field-label">Team Size <span class="req">*</span></div>
                         <select class="form-select" name="team_size">
                             <option value="" selected disabled>Select team size</option>
-                            <option value="21-50 people">21-50 people</option>
-                            <option value="1-10 people">1-10 people</option>
-                            <option value="11-20 people">11-20 people</option>
-                            <option value="51-100 people">51-100 people</option>
-                            <option value="100+ people">100+ people</option>
+                             @foreach($team_size as $team)
+                                <option value="{{ $team->id }}">
+                                    {{ $team->team_size }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -674,10 +707,12 @@
                     <div>
                         <div class="field-label">Type of Entity <span class="req">*</span></div>
                         <select class="form-select" name="entity_type">
-                            <option>Proprietorship</option>
-                            <option>Partnership</option>
-                            <option>Pvt Ltd</option>
-                            <option>LLP</option>
+                            <option value="" selected disabled>Select entity type</option>
+                            @foreach($entity_type as $entity)
+                                <option value="{{ $entity->id }}">
+                                    {{ $entity->entity_type }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -765,145 +800,68 @@
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
-
                 <div class="upload-grid-2">
                     <div>
                         <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
                         <div class="upload-box-wrap">
-                            <input type="file" id="pan_card" name="pan_card">
+                            <input type="file" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="pan_card" class="upload-box">
                                 <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">PAN Card</div>
-                                    <div class="upload-note">Choose and upload PDF</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link">View PAN</a>
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a>
                         </div>
                     </div>
 
                     <div>
                         <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
                         <div class="upload-box-wrap">
-                            <input type="file" id="gst_certificate" name="gst_certificate">
+                            <input type="file" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="gst_certificate" class="upload-box">
                                 <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">GST Certificate</div>
-                                    <div class="upload-note">Choose and upload PDF</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link">View GST</a>
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a>
                         </div>
                     </div>
 
                     <div>
-                        <div class="upload-title">Aadhaar Card (Authorised Person) <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-title">Aadhaar Card <span class="req">*</span> (PDF, max 20 MB)</div>
                         <div class="upload-box-wrap">
-                            <input type="file" id="aadhaar_card" name="aadhaar_card">
+                            <input type="file" id="aadhaar_card" name="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="aadhaar_card" class="upload-box">
                                 <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Aadhaar Card</div>
-                                    <div class="upload-note">Choose and upload PDF</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link">View Aadhaar</a>
+                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a>
                         </div>
                     </div>
 
                     <div>
                         <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
                         <div class="upload-box-wrap">
-                            <input type="file" id="company_profile" name="company_profile" multiple>
+                            <input type="file" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="company_profile" class="upload-box">
                                 <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Company Profile</div>
-                                    <div class="upload-note">Upload PDF / certificate file</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link">View Certificate</a>
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a>
                         </div>
                     </div>
                 </div>
-
-                <div class="field-block">
-                    <div class="field-label">Work Completion Photos <span class="req">*</span> (max 20 MB each)</div>
-
-                    <div class="photo-grid">
-                        <div class="photo-card">
-                            <div class="photo-preview">
-                                <img src="/mnt/data/8950088f-f30f-409a-8a8e-4756d782cb23.png" alt="Work Photo 1">
-                            </div>
-                            <div class="photo-actions">
-                                <a href="#" class="photo-link">View Full Image</a>
-                                <div class="replace-row">
-                                    <button type="button" class="replace-btn">Replace</button>
-                                    <input type="file" name="work_photo_1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="photo-card">
-                            <div class="photo-preview">
-                                <img src="/mnt/data/2f35f3de-ea17-44c6-afa8-eba4e11f53f3.png" alt="Work Photo 2">
-                            </div>
-                            <div class="photo-actions">
-                                <a href="#" class="photo-link">View Full Image</a>
-                                <div class="replace-row">
-                                    <button type="button" class="replace-btn">Replace</button>
-                                    <input type="file" name="work_photo_2">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="photo-card">
-                            <div class="photo-preview">
-                                <img src="/mnt/data/54333cd7-297d-4ef9-aad9-367c7a2a4226.png" alt="Work Photo 3">
-                            </div>
-                            <div class="photo-actions">
-                                <a href="#" class="photo-link">View Full Image</a>
-                                <div class="replace-row">
-                                    <button type="button" class="replace-btn">Replace</button>
-                                    <input type="file" name="work_photo_3">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="upload-grid-2" style="margin-top:24px;">
-                    <div>
-                        <div class="upload-title">PF Registration Documents (PDF, max 20 MB)</div>
-                        <div class="upload-box-wrap">
-                            <input type="file" id="pf_doc" name="pf_doc">
-                            <label for="pf_doc" class="upload-box">
-                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                                <div class="upload-content">
-                                    <div class="upload-main">PF Registration Documents</div>
-                                    <div class="upload-note">Upload PDF document</div>
-                                </div>
-                            </label>
-                            <a href="#" class="uploaded-link">View PF Doc</a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="upload-title">ESIC Registration Documents (PDF, max 20 MB)</div>
-                        <div class="upload-box-wrap">
-                            <input type="file" id="esic_doc" name="esic_doc">
-                            <label for="esic_doc" class="upload-box">
-                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                                <div class="upload-content">
-                                    <div class="upload-main">ESIC Registration Documents</div>
-                                    <div class="upload-note">Upload PDF document</div>
-                                </div>
-                            </label>
-                            <a href="#" class="uploaded-link">View ESIC Doc</a>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
 
             {{-- SUBMIT --}}
@@ -919,4 +877,42 @@
         </div>
     </div>
 </form>
+
+<script>
+    function setupFilePreview(inputId, linkId) {
+        const input = document.getElementById(inputId);
+        const link = document.getElementById(linkId);
+
+        if (!input || !link) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const fileNameBox = this.closest('.upload-box-wrap').querySelector('.file-name');
+
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+
+                link.href = fileURL;
+                link.style.display = 'inline-block';
+                link.textContent = 'View File';
+
+                if (fileNameBox) {
+                    fileNameBox.textContent = file.name;
+                }
+            } else {
+                link.href = '#';
+                link.style.display = 'none';
+
+                if (fileNameBox) {
+                    fileNameBox.textContent = 'Choose and upload file';
+                }
+            }
+        });
+    }
+
+    setupFilePreview('pan_card', 'pan_card_link');
+    setupFilePreview('gst_certificate', 'gst_certificate_link');
+    setupFilePreview('aadhaar_card', 'aadhaar_card_link');
+    setupFilePreview('company_profile', 'company_profile_link');
+</script>
 @endsection

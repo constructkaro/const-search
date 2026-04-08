@@ -1,7 +1,7 @@
 @extends('vendor.layouts.vapp')
 
-@section('title', 'Interior Designer Registration Form')
-@section('page_title', 'Interior Designer Registration Form')
+@section('title', 'Surveyor Registration Form')
+@section('page_title', 'Surveyor Registration Form')
 
 @section('content')
 
@@ -576,6 +576,20 @@
             font-size: 16px;
         }
     }
+    .file-name{
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ck-green);
+    font-weight: 700;
+    word-break: break-word;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.file-name:hover{
+    text-decoration: underline;
+}
 </style>
 
 @php
@@ -595,7 +609,7 @@
                         <i class="fa-solid fa-couch"></i>
                     </div>
                     <div>
-                        <h1>Join as an Interior Designer Partner</h1>
+                        <h1>Join as an Surveyor Partner</h1>
                         <p>Complete your profile, upload your documents, and start getting matched with relevant interior projects.</p>
                     </div>
                 </div>
@@ -674,50 +688,28 @@
 
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
-                        <select class="form-select @error('team_size') is-invalid @enderror" name="team_size">
-                            <option value="">Select team size</option>
-                            <option value="1-5 people" {{ old('team_size') == '1-5 people' ? 'selected' : '' }}>1-5 people</option>
-                            <option value="6-20 people" {{ old('team_size') == '6-20 people' ? 'selected' : '' }}>6-20 people</option>
-                            <option value="21-50 people" {{ old('team_size') == '21-50 people' ? 'selected' : '' }}>21-50 people</option>
-                            <option value="50+ people" {{ old('team_size') == '50+ people' ? 'selected' : '' }}>50+ people</option>
+                         <select class="form-select" name="team_size">
+                            <option value="" selected disabled>Select team size</option>
+                            @foreach($team_size as $team)
+                                <option value="{{ $team->id }}">
+                                    {{ $team->team_size }}
+                                </option>
+                            @endforeach
                         </select>
-                        @error('team_size')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
                     </div>
 
-                    <div>
-                        <div class="field-label">State <span class="req">*</span></div>
-                        <select class="form-select @error('state') is-invalid @enderror" name="state">
-                            <option value="">Select state</option>
-                            <option value="Maharashtra" {{ old('state') == 'Maharashtra' ? 'selected' : '' }}>Maharashtra</option>
-                        </select>
-                        @error('state')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="field-label">Region <span class="req">*</span></div>
-                        <select class="form-select @error('region') is-invalid @enderror" name="region">
-                            <option value="">Select region</option>
-                            <option value="Mumbai" {{ old('region') == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
-                            <option value="Navi Mumbai" {{ old('region') == 'Navi Mumbai' ? 'selected' : '' }}>Navi Mumbai</option>
-                            <option value="Raigad" {{ old('region') == 'Raigad' ? 'selected' : '' }}>Raigad</option>
-                            <option value="Thane" {{ old('region') == 'Thane' ? 'selected' : '' }}>Thane</option>
-                            <option value="Pune" {{ old('region') == 'Pune' ? 'selected' : '' }}>Pune</option>
-                        </select>
-                        @error('region')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
+            
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" placeholder="Enter city name">
-                        @error('city')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city"  placeholder="Enter city name">
+                       
+                    </div>
+
+                    
+                    <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode">
+
                     </div>
 
                     <div>
@@ -845,10 +837,7 @@
                                 <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
                             </div>
                         </label>
-                        <div class="file-name" id="pan_card_name"></div>
-                        @error('pan_card')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <a href="#" class="file-name file-link" id="pan_card_name" target="_blank" style="display:none;"></a>
                     </div>
 
                     <div>
@@ -861,10 +850,7 @@
                                 <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
                             </div>
                         </label>
-                        <div class="file-name" id="gst_certificate_name"></div>
-                        @error('gst_certificate')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <a href="#" class="file-name file-link" id="gst_certificate_name" target="_blank" style="display:none;"></a>
                     </div>
 
                     <div>
@@ -877,10 +863,7 @@
                                 <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
                             </div>
                         </label>
-                        <div class="file-name" id="company_profile_name"></div>
-                        @error('company_profile')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <a href="#" class="file-name file-link" id="company_profile_name" target="_blank" style="display:none;"></a>
                     </div>
 
                     <div>
@@ -893,10 +876,7 @@
                                 <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
                             </div>
                         </label>
-                        <div class="file-name" id="supporting_documents_name"></div>
-                        @error('supporting_documents')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                        <a href="#" class="file-name file-link" id="supporting_documents_name" target="_blank" style="display:none;"></a>
                     </div>
                 </div>
 
@@ -971,5 +951,65 @@
         });
     });
 </script>
+<script>
+    function bindFilePreview(inputId, fileNameId) {
+        const input = document.getElementById(inputId);
+        const fileNameBox = document.getElementById(fileNameId);
 
+        if (!input || !fileNameBox) return;
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                fileNameBox.textContent = file.name;
+                fileNameBox.href = fileUrl;
+                fileNameBox.style.display = 'inline-block';
+                fileNameBox.setAttribute('target', '_blank');
+            } else {
+                fileNameBox.textContent = '';
+                fileNameBox.href = '#';
+                fileNameBox.style.display = 'none';
+            }
+        });
+    }
+
+    bindFilePreview('pan_card', 'pan_card_name');
+    bindFilePreview('gst_certificate', 'gst_certificate_name');
+    bindFilePreview('company_profile', 'company_profile_name');
+    bindFilePreview('supporting_documents', 'supporting_documents_name');
+
+    document.querySelectorAll('.portfolio-image-input').forEach(function(input, index) {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const imageNumber = index + 1;
+            const preview = document.getElementById('portfolio_preview_' + imageNumber);
+            const placeholder = document.getElementById('portfolio_placeholder_' + imageNumber);
+
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+
+                if (preview) {
+                    preview.src = fileUrl;
+                    preview.style.display = 'block';
+                }
+
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+            } else {
+                if (preview) {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+
+                if (placeholder) {
+                    placeholder.style.display = 'block';
+                }
+            }
+        });
+    });
+</script>
 @endsection

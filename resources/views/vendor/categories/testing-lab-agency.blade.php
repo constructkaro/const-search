@@ -395,6 +395,24 @@
             align-items:stretch;
         }
     }
+
+    .upload-box input[type="file"]{
+    display: none;
+}
+
+.file-name{
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #16a34a;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.file-name:hover{
+    text-decoration: underline;
+}
 </style>
 
 <div class="testing-wrap">
@@ -622,7 +640,7 @@
         </div>
 
         {{-- Upload Documents --}}
-        <div class="form-section-card">
+        <!-- <div class="form-section-card">
             <div class="section-head">
                 <div class="section-icon purple">
                     <i class="fa-solid fa-arrow-up-from-bracket"></i>
@@ -704,7 +722,90 @@
                     Submit & Get Verified Leads
                 </button>
             </div>
+        </div> -->
+        <div class="form-section-card">
+    <div class="section-head">
+        <div class="section-icon purple">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
         </div>
+        <div>
+            <h2>Upload Documents</h2>
+            <p>Upload relevant certificates and documents</p>
+        </div>
+    </div>
+
+    <div class="upload-grid">
+        <div class="upload-box">
+            <input type="file" id="gst_certificate" name="gst_certificate">
+            <label for="gst_certificate" class="upload-label active">
+                <i class="fa-regular fa-file-lines"></i>
+                <h4>GST Certificate</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="gst_certificate_name" target="_blank" style="display:none;"></a>
+        </div>
+
+        <div class="upload-box">
+            <input type="file" id="aadhaar_card" name="aadhaar_card">
+            <label for="aadhaar_card" class="upload-label">
+                <i class="fa-regular fa-id-card"></i>
+                <h4>Aadhaar Card</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="aadhaar_card_name" target="_blank" style="display:none;"></a>
+        </div>
+
+        <div class="upload-box">
+            <input type="file" id="company_profile" name="company_profile">
+            <label for="company_profile" class="upload-label">
+                <i class="fa-regular fa-building"></i>
+                <h4>Company Profile</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="company_profile_name" target="_blank" style="display:none;"></a>
+        </div>
+
+        <div class="upload-box">
+            <input type="file" id="nabl_certificate" name="nabl_certificate">
+            <label for="nabl_certificate" class="upload-label">
+                <i class="fa-regular fa-award"></i>
+                <h4>NABL Certificate</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="nabl_certificate_name" target="_blank" style="display:none;"></a>
+        </div>
+
+        <div class="upload-box">
+            <input type="file" id="lab_photos" name="lab_photos[]" multiple>
+            <label for="lab_photos" class="upload-label">
+                <i class="fa-regular fa-image"></i>
+                <h4>Lab Photos</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="lab_photos_name" target="_blank" style="display:none;"></a>
+        </div>
+
+        <div class="upload-box">
+            <input type="file" id="accreditation_certificate" name="accreditation_certificate">
+            <label for="accreditation_certificate" class="upload-label">
+                <i class="fa-regular fa-circle-check"></i>
+                <h4>Accreditation Certificate</h4>
+                <p>Click to upload</p>
+            </label>
+            <a href="#" class="file-name file-link" id="accreditation_certificate_name" target="_blank" style="display:none;"></a>
+        </div>
+    </div>
+
+    <div class="footer-actions">
+        <a href="{{ url()->previous() }}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
+
+        <button type="submit" class="btn-submit">
+            Submit & Get Verified Leads
+        </button>
+    </div>
+</div>
     </form>
 </div>
 
@@ -729,5 +830,38 @@
         });
     });
 </script>
+<script>
+    function bindFilePreview(inputId, fileNameId) {
+        const input = document.getElementById(inputId);
+        const fileNameBox = document.getElementById(fileNameId);
 
+        if (!input || !fileNameBox) return;
+
+        input.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileUrl = URL.createObjectURL(file);
+
+                fileNameBox.textContent = this.files.length > 1
+                    ? `${this.files.length} files selected`
+                    : file.name;
+
+                fileNameBox.href = fileUrl;
+                fileNameBox.style.display = 'inline-block';
+                fileNameBox.setAttribute('target', '_blank');
+            } else {
+                fileNameBox.textContent = '';
+                fileNameBox.href = '#';
+                fileNameBox.style.display = 'none';
+            }
+        });
+    }
+
+    bindFilePreview('gst_certificate', 'gst_certificate_name');
+    bindFilePreview('aadhaar_card', 'aadhaar_card_name');
+    bindFilePreview('company_profile', 'company_profile_name');
+    bindFilePreview('nabl_certificate', 'nabl_certificate_name');
+    bindFilePreview('lab_photos', 'lab_photos_name');
+    bindFilePreview('accreditation_certificate', 'accreditation_certificate_name');
+</script>
 @endsection
