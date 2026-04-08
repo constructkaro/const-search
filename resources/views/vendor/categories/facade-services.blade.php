@@ -26,6 +26,7 @@
         --ck-line-dark: #d7e0ea;
 
         --ck-green: #22c55e;
+        --ck-red: #dc2626;
 
         --ck-shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.05);
         --ck-shadow-md: 0 16px 40px rgba(15, 23, 42, 0.07);
@@ -38,11 +39,15 @@
     }
 
     body{
-        background: linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+        background:
+            linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+        background-size: 56px 56px, 56px 56px, auto;
     }
 
     .facade-page{
-        max-width: 1180px;
+        max-width: 1220px;
         margin: 0 auto;
         padding: 18px 0 34px;
     }
@@ -51,6 +56,65 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+    }
+
+    .top-banner{
+        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
+        border: 1px solid #f2e0d0;
+        border-radius: 26px;
+        box-shadow: var(--ck-shadow-md);
+        padding: 22px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .top-banner-left{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .top-banner-icon{
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        box-shadow: 0 16px 32px rgba(242,106,0,0.22);
+        flex-shrink: 0;
+    }
+
+    .top-banner h1{
+        margin: 0;
+        color: var(--ck-navy);
+        font-size: 28px;
+        line-height: 1.2;
+        font-weight: 900;
+    }
+
+    .top-banner p{
+        margin: 6px 0 0;
+        color: var(--ck-text-soft);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .top-badge{
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #f1dfcf;
+        color: var(--ck-orange);
+        font-size: 14px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(242,106,0,0.06);
     }
 
     .facade-card{
@@ -72,6 +136,14 @@
         height: 220px;
         background: radial-gradient(circle, rgba(242,106,0,0.05) 0%, transparent 72%);
         pointer-events: none;
+    }
+
+    .section-divider{
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--ck-orange), rgba(242,106,0,0.08));
+        border-radius: 999px;
+        margin-bottom: 24px;
     }
 
     .section-head{
@@ -116,17 +188,63 @@
         margin-top: 26px;
     }
 
-    .field-title{
+    .field-title,
+    .field-label{
         margin: 0 0 14px;
         font-size: 16px;
         color: var(--ck-navy);
         font-weight: 800;
     }
 
+    .field-title .req,
+    .field-label .req{
+        color: var(--ck-red);
+    }
+
     .field-title small{
         color: var(--ck-muted);
         font-weight: 700;
         font-size: 14px;
+    }
+
+    .field-sub{
+        margin: -2px 0 14px;
+        font-size: 14px;
+        color: var(--ck-text-soft);
+        font-weight: 500;
+    }
+
+    .vendor-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:var(--ck-radius-md);
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+    }
+
+    .vendor-value{
+        font-size:16px;
+        font-weight:800;
+        color:var(--ck-navy);
+    }
+
+    .vendor-chip{
+        background:linear-gradient(135deg,var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
+    .project-grid{
+        display:grid;
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+        gap:16px;
     }
 
     .service-grid{
@@ -141,10 +259,56 @@
         gap: 18px;
     }
 
+    .project-item input,
     .card-option input,
     .pill-option input,
     .upload-item input[type="file"]{
         display: none;
+    }
+
+    .project-item label{
+        min-height: 62px;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: #fff;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        padding:14px 16px;
+        cursor:pointer;
+        transition: all .22s ease;
+        font-size:15px;
+        color:var(--ck-text);
+        font-weight:700;
+        line-height:1.4;
+    }
+
+    .project-item label::before{
+        content:"";
+        width:20px;
+        height:20px;
+        border-radius:6px;
+        border:2px solid #c4d0de;
+        background:#fff;
+        flex-shrink:0;
+        transition:.22s ease;
+    }
+
+    .project-item label:hover{
+        transform: translateY(-2px);
+        box-shadow: var(--ck-shadow-sm);
+    }
+
+    .project-item input:checked + label{
+        border-color: var(--ck-orange);
+        background: linear-gradient(180deg, #fffaf6 0%, #fff2e9 100%);
+        box-shadow: 0 10px 18px rgba(242,106,0,0.08);
+    }
+
+    .project-item input:checked + label::before{
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        border-color: var(--ck-orange);
+        box-shadow: inset 0 0 0 4px #fff;
     }
 
     .card-option label{
@@ -435,7 +599,8 @@
     }
 
     @media (max-width: 992px){
-        .service-grid{
+        .service-grid,
+        .project-grid{
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
@@ -455,14 +620,29 @@
             padding: 12px 0 24px;
         }
 
+        .top-banner{
+            padding: 18px 16px;
+            border-radius: 20px;
+        }
+
+        .top-banner h1{
+            font-size: 22px;
+        }
+
         .facade-card{
             padding: 18px 16px 22px;
             border-radius: 20px;
         }
 
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .service-grid,
         .building-grid,
-        .upload-grid{
+        .upload-grid,
+        .project-grid{
             grid-template-columns: 1fr;
         }
 
@@ -480,6 +660,48 @@
         }
     }
 </style>
+
+@php
+    $serviceTypes = [
+        ['name' => 'Glass Facade', 'icon' => 'fa-solid fa-panorama'],
+        ['name' => 'ACP Cladding', 'icon' => 'fa-regular fa-credit-card'],
+        ['name' => 'Aluminium Facade', 'icon' => 'fa-regular fa-window-maximize'],
+        ['name' => 'Curtain Wall', 'icon' => 'fa-regular fa-square'],
+        ['name' => 'Structural Glazing', 'icon' => 'fa-solid fa-grip'],
+        ['name' => 'Spider Glazing', 'icon' => 'fa-regular fa-gem'],
+        ['name' => 'HPL Cladding', 'icon' => 'fa-regular fa-square-full'],
+        ['name' => 'Stone Cladding', 'icon' => 'fa-solid fa-mountain-sun'],
+        ['name' => 'Metal Cladding', 'icon' => 'fa-solid fa-shield-halved'],
+        ['name' => 'Facade Design', 'icon' => 'fa-solid fa-compass-drafting'],
+        ['name' => 'Facade Execution', 'icon' => 'fa-solid fa-helmet-safety'],
+        ['name' => 'Repair / Maintenance', 'icon' => 'fa-solid fa-wrench'],
+    ];
+
+    $serviceModels = [
+        'Consultancy Only',
+        'Design Only',
+        'Execution Only',
+        'Design + Execution',
+        'Repair / Maintenance',
+        'Turnkey',
+    ];
+
+    $buildingTypes = [
+        ['name' => 'Residential', 'icon' => 'fa-solid fa-house'],
+        ['name' => 'Commercial', 'icon' => 'fa-solid fa-building'],
+        ['name' => 'Industrial', 'icon' => 'fa-solid fa-industry'],
+        ['name' => 'Infrastructure', 'icon' => 'fa-solid fa-landmark'],
+        ['name' => 'Interior', 'icon' => 'fa-solid fa-couch'],
+        ['name' => 'Renovation', 'icon' => 'fa-solid fa-hammer'],
+    ];
+
+    $oldServiceTypes = old('service_types', []);
+    $oldServiceModels = old('service_models', []);
+    $oldBuildingTypes = old('building_types', []);
+
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+@endphp
 
 <div class="facade-page">
     <div class="facade-stack">
@@ -502,6 +724,19 @@
             </div>
         @endif
 
+        <div class="top-banner">
+            <div class="top-banner-left">
+                <div class="top-banner-icon">
+                    <i class="fa-solid fa-building-user"></i>
+                </div>
+                <div>
+                    <h1>Join as a Facade Services Partner</h1>
+                    <p>Show your facade expertise, service model, and building specialization to receive relevant project enquiries.</p>
+                </div>
+            </div>
+            <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
+        </div>
+
         <form action="{{ route('facade_services.store') }}" method="POST" enctype="multipart/form-data" id="facadeForm">
             @csrf
 
@@ -516,44 +751,39 @@
                     </div>
                 </div>
 
-                @php
-                    $serviceTypes = [
-                        ['name' => 'Glass Facade', 'icon' => 'fa-regular fa-glass-water'],
-                        ['name' => 'ACP Cladding', 'icon' => 'fa-regular fa-credit-card'],
-                        ['name' => 'Aluminium Facade', 'icon' => 'fa-regular fa-window-maximize'],
-                        ['name' => 'Curtain Wall', 'icon' => 'fa-regular fa-square'],
-                        ['name' => 'Structural Glazing', 'icon' => 'fa-solid fa-grip'],
-                        ['name' => 'Spider Glazing', 'icon' => 'fa-regular fa-gem'],
-                        ['name' => 'HPL Cladding', 'icon' => 'fa-regular fa-square'],
-                        ['name' => 'Stone Cladding', 'icon' => 'fa-regular fa-mountain'],
-                        ['name' => 'Metal Cladding', 'icon' => 'fa-regular fa-shield'],
-                        ['name' => 'Facade Design', 'icon' => 'fa-solid fa-screwdriver-wrench'],
-                        ['name' => 'Facade Execution', 'icon' => 'fa-solid fa-helmet-safety'],
-                        ['name' => 'Repair / Maintenance', 'icon' => 'fa-solid fa-wrench'],
-                    ];
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Facade Services' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Facade Services' }}</div>
+                    </div>
+                </div>
 
-                    $serviceModels = [
-                        'Consultancy Only',
-                        'Design Only',
-                        'Execution Only',
-                        'Design + Execution',
-                        'Repair / Maintenance',
-                        'Turnkey',
-                    ];
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
 
-                    $buildingTypes = [
-                        ['name' => 'Residential', 'icon' => 'fa-solid fa-house'],
-                        ['name' => 'Commercial', 'icon' => 'fa-solid fa-building'],
-                        ['name' => 'Industrial', 'icon' => 'fa-solid fa-industry'],
-                        ['name' => 'Infrastructure', 'icon' => 'fa-solid fa-landmark'],
-                        ['name' => 'Interior', 'icon' => 'fa-solid fa-couch'],
-                        ['name' => 'Renovation', 'icon' => 'fa-solid fa-hammer'],
-                    ];
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="project-item">
+                                <input
+                                    type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
+                    </div>
 
-                    $oldServiceTypes = old('service_types', []);
-                    $oldServiceModels = old('service_models', []);
-                    $oldBuildingTypes = old('building_types', []);
-                @endphp
+                    @error('project_types')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
                 <div class="field-block">
                     <div class="field-title">Service Type <small>(select multiple)</small></div>
@@ -632,6 +862,7 @@
             </div>
 
             <div class="facade-card">
+                <div class="section-divider"></div>
                 <div class="section-head">
                     <div class="section-icon">
                         <i class="fa-solid fa-file-arrow-up"></i>
@@ -645,10 +876,10 @@
                 @php
                     $documents = [
                         ['name' => 'company_profile', 'label' => 'Company Profile', 'icon' => 'fa-regular fa-file-lines'],
-                        ['name' => 'gst_certificate', 'label' => 'GST Certificate', 'icon' => 'fa-regular fa-file-certificate'],
+                        ['name' => 'gst_certificate', 'label' => 'GST Certificate', 'icon' => 'fa-solid fa-file-invoice'],
                         ['name' => 'aadhaar_card', 'label' => 'Aadhaar Card', 'icon' => 'fa-regular fa-credit-card'],
-                        ['name' => 'safety_certifications', 'label' => 'Safety Certifications', 'icon' => 'fa-regular fa-shield'],
-                        ['name' => 'quality_certifications', 'label' => 'Quality Certifications', 'icon' => 'fa-regular fa-award'],
+                        ['name' => 'safety_certifications', 'label' => 'Safety Certifications', 'icon' => 'fa-solid fa-shield-halved'],
+                        ['name' => 'quality_certifications', 'label' => 'Quality Certifications', 'icon' => 'fa-solid fa-award'],
                     ];
                 @endphp
 
@@ -673,7 +904,7 @@
 
             <div class="cta-wrap">
                 <button type="submit" class="cta-btn">
-                    <i class="fa-regular fa-shield-check"></i>
+                    <i class="fa-regular fa-circle-check"></i>
                     <span>Register as Facade Partner</span>
                 </button>
 

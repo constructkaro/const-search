@@ -217,7 +217,7 @@
 
     .project-grid{
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 16px 20px;
     }
 
@@ -544,387 +544,379 @@
 </style>
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
-<div class="contractor-page">
-    <div class="contractor-stack">
+    <div class="contractor-page">
+        <div class="contractor-stack">
 
-        {{-- SECTION 1 --}}
-        <div class="section-card">
-            <div class="section-head">
-                <div class="section-badge">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <div class="section-title-wrap">
-                    <h2>Business & Work Details</h2>
-                    <p>Select your construction category and project expertise</p>
-                </div>
-            </div>
-
-            <div class="field-block">
-                <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
-                <div class="vendor-bar">
-                    <div class="vendor-value">Contractor</div>
-                    <div class="vendor-chip">Contractor</div>
-                </div>
-            </div>
-
-            <div class="field-block">
-                <div class="field-label">Project Type <span class="req">*</span></div>
-                <div class="field-sub">Select all project types you have experience in</div>
-
-                <div class="project-grid">
-                    @php
-                        $projectTypes = [
-                            'Residential contractor',
-                            'Roads & highways contractor',
-                            'Bridges, culverts contractor',
-                            'Earthwork, excavation contractor',
-                            'Electrical Contractor',
-                            'Plumbing Contractor',
-                            'Mechanical Contractor',
-                            'HVAC Contractor',
-                            'Paint Contractor',
-                            'Waterproofing Contractor',
-                            'Fabrication / Structural Steel Contractor',
-                            'Landscaping Contractor',
-                        ];
-                    @endphp
-
-                    @foreach($projectTypes as $index => $type)
-                        <div class="check-card">
-                            <input type="checkbox" id="project_type_{{ $index }}" name="project_types[]" value="{{ $type }}">
-                            <label for="project_type_{{ $index }}">{{ $type }}</label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        {{-- SECTION 2 --}}
-        <div class="section-card">
-            <div class="section-divider"></div>
-
-            <div class="section-head">
-                <div class="section-badge">
-                    <i class="fa-solid fa-building"></i>
-                </div>
-                <div class="section-title-wrap">
-                    <h2>Basic Business Information</h2>
-                    <p>Company overview and operating details</p>
-                </div>
-            </div>
-
-            <div class="form-grid-2">
-                <div>
-                    <div class="field-label">Years of Experience <span class="req">*</span></div>
-                    <select class="form-select" name="experience_years">
-                        <option>20+ Years</option>
-                        <option>15-20 Years</option>
-                        <option>10-15 Years</option>
-                        <option>5-10 Years</option>
-                        <option>1-5 Years</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="field-label">Team Size <span class="req">*</span></div>
-                    <select class="form-select" name="team_size">
-                        <option>21-50 people</option>
-                        <option>1-10 people</option>
-                        <option>11-20 people</option>
-                        <option>51-100 people</option>
-                        <option>100+ people</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="field-label">State <span class="req">*</span></div>
-                    <select class="form-select" name="state">
-                        <option>Maharashtra</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="field-label">Region <span class="req">*</span></div>
-                    <select class="form-select" name="region">
-                        <option>Raigad</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="field-label">City <span class="req">*</span></div>
-                    <select class="form-select" name="city">
-                        <option>Khopoli</option>
-                    </select>
-                </div>
-
-                <div>
-                    <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                    <input type="text" class="form-input" name="minimum_project_value" value="2000000">
-                </div>
-            </div>
-        </div>
-
-        {{-- SECTION 3 --}}
-        <div class="section-card">
-            <div class="section-divider"></div>
-
-            <div class="section-head">
-                <div class="section-badge">
-                    <i class="fa-solid fa-id-card"></i>
-                </div>
-                <div class="section-title-wrap">
-                    <h2>Company & Compliance Details</h2>
-                    <p>Legal, statutory and contact information</p>
-                </div>
-            </div>
-
-            <div class="form-grid-2">
-                <div>
-                    <div class="field-label">Company Name <span class="req">*</span></div>
-                    <input type="text" class="form-input" name="company_name" value="Shreeyash Construction">
-                </div>
-
-                <div>
-                    <div class="field-label">Type of Entity <span class="req">*</span></div>
-                    <select class="form-select" name="entity_type">
-                        <option>Proprietorship</option>
-                        <option>Partnership</option>
-                        <option>Pvt Ltd</option>
-                        <option>LLP</option>
-                    </select>
-                </div>
-
-                <div style="grid-column: 1 / -1;">
-                    <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                    <textarea class="form-textarea" name="registered_address">Crescent pearl - B, B-G/1, Veena Nagar, Katrang, Road, Nr. St. Anthony Church, Khopoli, Maharashtra 410203</textarea>
-                </div>
-
-                <div>
-                    <div class="field-label">Contact Person Designation <span class="req">*</span></div>
-                    <input type="text" class="form-input" name="contact_person_designation" value="Owner">
-                </div>
-
-                <div>
-                    <div class="field-label">Contact Person Name</div>
-                    <input type="text" class="form-input" name="contact_person_name" value="Anant Ganpat Patil">
-                </div>
-
-                <div>
-                    <div class="field-label">PAN Number</div>
-                    <input type="text" class="form-input" name="pan_number" value="AKPPP2912F">
-                </div>
-
-                <div>
-                    <div class="field-label">TAN Number</div>
-                    <input type="text" class="form-input" name="tan_number" value="PNEC05999A">
-                </div>
-
-                <div>
-                    <div class="field-label">ESIC Number</div>
-                    <input type="text" class="form-input" name="esic_number" value="34000381160000999">
-                </div>
-
-                <div>
-                    <div class="field-label">PF No</div>
-                    <input type="text" class="form-input" name="pf_number" value="MH/VASHI/220262/5263">
-                </div>
-
-                <div style="grid-column: 1 / -1;">
-                    <div class="field-label">MSME/Udyam Registered <span class="req">*</span></div>
-                    <div class="radio-group">
-                        <div class="radio-pill">
-                            <input type="radio" id="msme_yes" name="msme_registered" value="Yes">
-                            <label for="msme_yes">Yes</label>
-                        </div>
-                        <div class="radio-pill">
-                            <input type="radio" id="msme_no" name="msme_registered" value="No">
-                            <label for="msme_no">No</label>
-                        </div>
+            {{-- SECTION 1 --}}
+            <div class="section-card">
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Business & Work Details</h2>
+                        <p>Select your construction category and project expertise</p>
                     </div>
                 </div>
 
-                <div style="grid-column: 1 / -1;">
-                    <div class="field-label">Upload MSME/Udyam Certificate</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="msme_certificate" name="msme_certificate">
-                        <label for="msme_certificate" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">Upload MSME/Udyam Certificate</div>
-                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                            </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View Uploaded MSME</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- SECTION 4 --}}
-        <div class="section-card">
-            <div class="section-divider"></div>
-
-            <div class="section-head">
-                <div class="section-badge">
-                    <i class="fa-solid fa-file-arrow-up"></i>
-                </div>
-                <div class="section-title-wrap">
-                    <h2>Documents & Work Proof</h2>
-                    <p>Upload legal documents, company profile and work completion evidence</p>
-                </div>
-            </div>
-
-            <div class="upload-grid-2">
-                <div>
-                    <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="pan_card" name="pan_card">
-                        <label for="pan_card" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">PAN Card</div>
-                                <div class="upload-note">Choose and upload PDF</div>
-                            </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View PAN</a>
+            
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Contractor' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Contractor' }}</div>
                     </div>
                 </div>
 
-                <div>
-                    <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="gst_certificate" name="gst_certificate">
-                        <label for="gst_certificate" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">GST Certificate</div>
-                                <div class="upload-note">Choose and upload PDF</div>
-                            </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View GST</a>
-                    </div>
-                </div>
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
 
-                <div>
-                    <div class="upload-title">Aadhaar Card (Authorised Person) <span class="req">*</span> (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="aadhaar_card" name="aadhaar_card">
-                        <label for="aadhaar_card" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">Aadhaar Card</div>
-                                <div class="upload-note">Choose and upload PDF</div>
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="check-card">
+                                <input
+                                    type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View Aadhaar</a>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="company_profile" name="company_profile" multiple>
-                        <label for="company_profile" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">Company Profile</div>
-                                <div class="upload-note">Upload PDF / certificate file</div>
-                            </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View Certificate</a>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found for Contractor.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
 
-            <div class="field-block">
-                <div class="field-label">Work Completion Photos <span class="req">*</span> (max 20 MB each)</div>
+            {{-- SECTION 2 --}}
+            <div class="section-card">
+                <div class="section-divider"></div>
 
-                <div class="photo-grid">
-                    <div class="photo-card">
-                        <div class="photo-preview">
-                            <img src="/mnt/data/8950088f-f30f-409a-8a8e-4756d782cb23.png" alt="Work Photo 1">
-                        </div>
-                        <div class="photo-actions">
-                            <a href="#" class="photo-link">View Full Image</a>
-                            <div class="replace-row">
-                                <button type="button" class="replace-btn">Replace</button>
-                                <input type="file" name="work_photo_1">
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Basic Business Information</h2>
+                        <p>Company overview and operating details</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Years of Experience <span class="req">*</span></div>
+                        <select class="form-select" name="experience_years">
+                            <option value="" selected disabled>Select years of experience</option>
+                            <option value="20+ Years">20+ Years</option>
+                            <option value="15-20 Years">15-20 Years</option>
+                            <option value="10-15 Years">10-15 Years</option>
+                            <option value="5-10 Years">5-10 Years</option>
+                            <option value="1-5 Years">1-5 Years</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <div class="field-label">Team Size <span class="req">*</span></div>
+                        <select class="form-select" name="team_size">
+                            <option value="" selected disabled>Select team size</option>
+                            <option value="21-50 people">21-50 people</option>
+                            <option value="1-10 people">1-10 people</option>
+                            <option value="11-20 people">11-20 people</option>
+                            <option value="51-100 people">51-100 people</option>
+                            <option value="100+ people">100+ people</option>
+                        </select>
+                    </div>
+
+                    
+                    <div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="city" placeholder="Enter city">
+
+                    </div>
+
+                     <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode">
+
+                    </div>
+
+                    <div>
+                        <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
+                      
+                         <input type="text" class="form-input" name="minimum_project_value" placeholder="Enter minimum project value">
+                    </div>
+                </div>
+            </div>
+
+            {{-- SECTION 3 --}}
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Company & Compliance Details</h2>
+                        <p>Legal, statutory and contact information</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Company Name <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="company_name" placeholder="Enter company name">
+                    </div>
+
+                    <div>
+                        <div class="field-label">Type of Entity <span class="req">*</span></div>
+                        <select class="form-select" name="entity_type">
+                            <option>Proprietorship</option>
+                            <option>Partnership</option>
+                            <option>Pvt Ltd</option>
+                            <option>LLP</option>
+                        </select>
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">Registered Office Address <span class="req">*</span></div>
+                       
+                         <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address"></textarea>
+                    </div>
+
+                    <div>
+                        <div class="field-label">Contact Person Designation <span class="req">*</span></div>
+                         <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter designation">
+                    </div>
+
+                    <div>
+                        <div class="field-label">Contact Person Name</div>
+                        
+                         <input type="text" class="form-input" name="contact_person_name" placeholder="Enter contact person name">
+                    </div>
+
+                    <div>
+                        <div class="field-label">PAN Number</div>
+                      
+                         <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number">
+                    </div>
+
+                    <div>
+                        <div class="field-label">TAN Number</div>
+                      
+                         <input type="text" class="form-input" name="tan_number" placeholder="Enter TAN number">
+                    </div>
+
+                    <div>
+                        <div class="field-label">ESIC Number</div>
+                        
+                         <input type="text" class="form-input" name="esic_number" placeholder="Enter ESIC number">
+                    </div>
+
+                    <div>
+                        <div class="field-label">PF No</div>
+                         <input type="text" class="form-input" name="pf_number" placeholder="Enter PF number">
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">MSME/Udyam Registered <span class="req">*</span></div>
+                        <div class="radio-group">
+                            <div class="radio-pill">
+                                <input type="radio" id="msme_yes" name="msme_registered" value="Yes">
+                                <label for="msme_yes">Yes</label>
+                            </div>
+                            <div class="radio-pill">
+                                <input type="radio" id="msme_no" name="msme_registered" value="No">
+                                <label for="msme_no">No</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="photo-card">
-                        <div class="photo-preview">
-                            <img src="/mnt/data/2f35f3de-ea17-44c6-afa8-eba4e11f53f3.png" alt="Work Photo 2">
-                        </div>
-                        <div class="photo-actions">
-                            <a href="#" class="photo-link">View Full Image</a>
-                            <div class="replace-row">
-                                <button type="button" class="replace-btn">Replace</button>
-                                <input type="file" name="work_photo_2">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="photo-card">
-                        <div class="photo-preview">
-                            <img src="/mnt/data/54333cd7-297d-4ef9-aad9-367c7a2a4226.png" alt="Work Photo 3">
-                        </div>
-                        <div class="photo-actions">
-                            <a href="#" class="photo-link">View Full Image</a>
-                            <div class="replace-row">
-                                <button type="button" class="replace-btn">Replace</button>
-                                <input type="file" name="work_photo_3">
-                            </div>
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">Upload MSME/Udyam Certificate</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="msme_certificate" name="msme_certificate">
+                            <label for="msme_certificate" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Upload MSME/Udyam Certificate</div>
+                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View Uploaded MSME</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="upload-grid-2" style="margin-top:24px;">
-                <div>
-                    <div class="upload-title">PF Registration Documents (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="pf_doc" name="pf_doc">
-                        <label for="pf_doc" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">PF Registration Documents</div>
-                                <div class="upload-note">Upload PDF document</div>
-                            </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View PF Doc</a>
+            {{-- SECTION 4 --}}
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Documents & Work Proof</h2>
+                        <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
 
-                <div>
-                    <div class="upload-title">ESIC Registration Documents (PDF, max 20 MB)</div>
-                    <div class="upload-box-wrap">
-                        <input type="file" id="esic_doc" name="esic_doc">
-                        <label for="esic_doc" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <div class="upload-content">
-                                <div class="upload-main">ESIC Registration Documents</div>
-                                <div class="upload-note">Upload PDF document</div>
+                <div class="upload-grid-2">
+                    <div>
+                        <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="pan_card" name="pan_card">
+                            <label for="pan_card" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">PAN Card</div>
+                                    <div class="upload-note">Choose and upload PDF</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View PAN</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="gst_certificate" name="gst_certificate">
+                            <label for="gst_certificate" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">GST Certificate</div>
+                                    <div class="upload-note">Choose and upload PDF</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View GST</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Aadhaar Card (Authorised Person) <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="aadhaar_card" name="aadhaar_card">
+                            <label for="aadhaar_card" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Aadhaar Card</div>
+                                    <div class="upload-note">Choose and upload PDF</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View Aadhaar</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="company_profile" name="company_profile" multiple>
+                            <label for="company_profile" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Company Profile</div>
+                                    <div class="upload-note">Upload PDF / certificate file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View Certificate</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-block">
+                    <div class="field-label">Work Completion Photos <span class="req">*</span> (max 20 MB each)</div>
+
+                    <div class="photo-grid">
+                        <div class="photo-card">
+                            <div class="photo-preview">
+                                <img src="/mnt/data/8950088f-f30f-409a-8a8e-4756d782cb23.png" alt="Work Photo 1">
                             </div>
-                        </label>
-                        <a href="#" class="uploaded-link">View ESIC Doc</a>
+                            <div class="photo-actions">
+                                <a href="#" class="photo-link">View Full Image</a>
+                                <div class="replace-row">
+                                    <button type="button" class="replace-btn">Replace</button>
+                                    <input type="file" name="work_photo_1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="photo-card">
+                            <div class="photo-preview">
+                                <img src="/mnt/data/2f35f3de-ea17-44c6-afa8-eba4e11f53f3.png" alt="Work Photo 2">
+                            </div>
+                            <div class="photo-actions">
+                                <a href="#" class="photo-link">View Full Image</a>
+                                <div class="replace-row">
+                                    <button type="button" class="replace-btn">Replace</button>
+                                    <input type="file" name="work_photo_2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="photo-card">
+                            <div class="photo-preview">
+                                <img src="/mnt/data/54333cd7-297d-4ef9-aad9-367c7a2a4226.png" alt="Work Photo 3">
+                            </div>
+                            <div class="photo-actions">
+                                <a href="#" class="photo-link">View Full Image</a>
+                                <div class="replace-row">
+                                    <button type="button" class="replace-btn">Replace</button>
+                                    <input type="file" name="work_photo_3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="upload-grid-2" style="margin-top:24px;">
+                    <div>
+                        <div class="upload-title">PF Registration Documents (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="pf_doc" name="pf_doc">
+                            <label for="pf_doc" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">PF Registration Documents</div>
+                                    <div class="upload-note">Upload PDF document</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View PF Doc</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">ESIC Registration Documents (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="esic_doc" name="esic_doc">
+                            <label for="esic_doc" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">ESIC Registration Documents</div>
+                                    <div class="upload-note">Upload PDF document</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link">View ESIC Doc</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- SUBMIT --}}
-        <div class="submit-bar">
-            <button type="submit" class="submit-btn">
-                <i class="fa-regular fa-paper-plane"></i>
-                <span>Submit Contractor Profile</span>
-            </button>
-            <div class="submit-note">
-                By submitting, you agree to ConstructKaro’s vendor verification process and project lead matching system.
+            {{-- SUBMIT --}}
+            <div class="submit-bar">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span>Submit Contractor Profile</span>
+                </button>
+                <div class="submit-note">
+                    By submitting, you agree to ConstructKaro’s vendor verification process and project lead matching system.
+                </div>
             </div>
         </div>
     </div>
-</div>
 </form>
 @endsection

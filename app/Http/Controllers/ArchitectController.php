@@ -11,7 +11,20 @@ class ArchitectController extends Controller
 {
     public function create()
     {
-        return view('vendor.category.architect-registration');
+         $workType = DB::table('work_types')
+            ->where('work_type', 'Contractor')
+            ->first();
+
+        $projectTypes = collect();
+
+        if ($workType) {
+            $projectTypes = DB::table('work_subtypes')
+                ->where('work_type_id', $workType->id)
+                ->orderBy('work_subtype', 'asc')
+                ->pluck('work_subtype');
+        }
+        // dd('test');
+        return view('vendor.categories.architect',compact('workType', 'projectTypes'));
     }
 
 

@@ -11,18 +11,18 @@
     }
 
     .boq-section {
-        padding: 70px 20px 90px;
+        padding: 55px 20px 80px;
         background: linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
     }
 
     .boq-container {
-        max-width: 1320px;
+        max-width: 1240px;
         margin: 0 auto;
     }
 
     .boq-heading {
         text-align: center;
-        margin-bottom: 60px;
+        margin-bottom: 42px;
     }
 
     .boq-heading h2 {
@@ -30,20 +30,21 @@
         font-weight: 800;
         color: #111827;
         line-height: 1.1;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 
     .boq-line {
-        width: 220px;
+        width: 180px;
         height: 4px;
-        margin: 0 auto 18px;
-        border-radius: 20px;
+        margin: 0 auto 16px;
+        border-radius: 30px;
         background: linear-gradient(to right, #2f78bf 50%, #ef7a22 50%);
     }
 
     .boq-heading p {
-        font-size: 17px;
+        font-size: 16px;
         color: #6b7280;
+        margin: 0;
     }
 
     .success-message {
@@ -59,39 +60,35 @@
 
     .boq-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 32px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
         align-items: stretch;
     }
 
     .boq-card {
         position: relative;
-        border-radius: 26px;
-        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
-        transition: all 0.25s ease;
+        border-radius: 22px;
+        overflow: visible;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
         display: flex;
         flex-direction: column;
-        min-height: 100%;
+        min-height: 620px;
+        transition: all 0.25s ease;
     }
 
     .boq-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+        transform: translateY(-5px);
+        box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12);
     }
 
     .boq-card.orange-theme {
-        background: #fff3ea;
+        background: #fff6ef;
         border: 2px solid #ef7a22;
     }
 
     .boq-card.blue-theme {
-        background: #eef6ff;
+        background: #f1f7ff;
         border: 2px solid #2f78bf;
-        transform: scale(1.02);
-    }
-
-    .boq-card.blue-theme:hover {
-        transform: scale(1.02) translateY(-8px);
     }
 
     .boq-card.white-theme {
@@ -101,19 +98,23 @@
 
     .boq-badge {
         position: absolute;
-        top: -22px;
+        top: -26px;
         left: 50%;
         transform: translateX(-50%);
-        min-width: 250px;
-        max-width: 88%;
-        padding: 15px 22px;
-        border-radius: 18px;
+        width: calc(65% - 34px);
+        min-height: 22px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
+        padding: 13px 16px;
         color: #fff;
-        font-size: 19px;
+        font-size: 16px;
         font-weight: 800;
-        line-height: 1.2;
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+        line-height: 1.25;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        z-index: 2;
     }
 
     .orange-badge {
@@ -129,23 +130,38 @@
     }
 
     .boq-card-body {
-        padding: 74px 30px 30px;
         display: flex;
         flex-direction: column;
         flex: 1;
+        padding: 58px 22px 22px;
         text-align: center;
     }
 
     .boq-top-text {
-        font-size: 16px;
+        font-size: 15px;
         color: #6b7280;
-        margin-bottom: 20px;
+        margin: 0 0 16px;
+        line-height: 1.45;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .boq-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .boq-block {
+        margin-bottom: 16px;
     }
 
     .boq-subtitle {
-        font-size: 19px;
+        font-size: 15px;
         font-weight: 800;
-        margin: 20px 0 12px;
+        margin: 0 0 8px;
     }
 
     .orange-text {
@@ -157,26 +173,24 @@
     }
 
     .mix-text {
-        background: linear-gradient(90deg, #f48b35, #2f78bf);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #9b7a56;
     }
 
     .boq-list {
         list-style: none;
         padding: 0;
         margin: 0;
+        text-align: center;
     }
 
     .boq-list li {
         position: relative;
-        padding-left: 20px;
-        margin: 10px 0;
-        font-size: 16px;
-        line-height: 1.5;
-        color: #4b5563;
-        text-align: left;
         display: inline-block;
+        padding-left: 15px;
+        margin: 7px 0;
+        font-size: 15px;
+        line-height: 1.45;
+        color: #4b5563;
     }
 
     .boq-list li::before {
@@ -184,8 +198,8 @@
         position: absolute;
         left: 0;
         top: 10px;
-        width: 7px;
-        height: 7px;
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
         background: #ef7a22;
     }
@@ -198,39 +212,49 @@
         background: #9ca3af;
     }
 
+    .boq-bottom {
+        margin-top: auto;
+        padding-top: 8px;
+    }
+
     .boq-price-box {
-        margin-top: 24px;
+        min-height: 92px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .boq-price-box h3 {
-        font-size: 19px;
+        font-size: 17px;
         font-weight: 800;
         color: #111827;
-        margin-bottom: 8px;
+        margin: 0 0 6px;
+        line-height: 1.35;
     }
 
     .boq-price-box p {
-        font-size: 14px;
+        font-size: 13px;
         color: #6b7280;
-        line-height: 1.5;
+        line-height: 1.45;
+        margin: 0;
     }
 
     .boq-free-box h2 {
-        font-size: 46px;
+        font-size: 44px;
         font-weight: 900;
         color: #111827;
-        margin-bottom: 8px;
+        margin: 0 0 6px;
+        line-height: 1;
     }
 
     .boq-free-box h2 span {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         color: #4b5563;
     }
 
     .boq-btn-wrap {
-        margin-top: auto;
-        padding-top: 24px;
+        margin-top: 16px;
         text-align: center;
     }
 
@@ -238,13 +262,13 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 210px;
-        height: 52px;
-        padding: 0 24px;
-        border-radius: 14px;
+        min-width: 170px;
+        height: 44px;
+        padding: 0 20px;
+        border-radius: 12px;
         text-decoration: none;
         color: #fff;
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 800;
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
         transition: all 0.2s ease;
@@ -269,7 +293,7 @@
         background: linear-gradient(90deg, #f48b35 0%, #2f78bf 100%);
     }
 
-    /* Small Modal */
+    /* Modal */
     .boq-modal {
         display: none;
         position: fixed;
@@ -351,8 +375,8 @@
     }
 
     .modal-form-control {
-        width: 90%;
-        height: 32px;
+        width: 100%;
+        height: 42px;
         border: 1px solid #9aa4af;
         border-radius: 6px;
         background: #edf4fb;
@@ -360,6 +384,7 @@
         font-size: 14px;
         color: #111;
         outline: none;
+        box-sizing: border-box;
     }
 
     .modal-form-control:focus {
@@ -435,16 +460,12 @@
     @media (max-width: 1200px) {
         .boq-grid {
             grid-template-columns: 1fr;
-            max-width: 520px;
+            max-width: 430px;
             margin: 0 auto;
         }
 
-        .boq-card.blue-theme {
-            transform: none;
-        }
-
-        .boq-card.blue-theme:hover {
-            transform: translateY(-8px);
+        .boq-card {
+            min-height: auto;
         }
     }
 
@@ -459,46 +480,45 @@
             gap: 14px;
         }
 
-        .boq-modal-title {
-            font-size: 22px;
-        }
-
-        .boq-modal-subtitle {
-            font-size: 13px;
-            margin-bottom: 18px;
+        .boq-heading h2 {
+            font-size: 42px;
         }
     }
 
     @media (max-width: 768px) {
         .boq-section {
-            padding: 50px 15px 70px;
+            padding: 45px 14px 65px;
+        }
+
+        .boq-heading {
+            margin-bottom: 34px;
         }
 
         .boq-heading h2 {
-            font-size: 38px;
+            font-size: 34px;
         }
 
         .boq-line {
-            width: 180px;
+            width: 150px;
         }
 
         .boq-heading p {
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .boq-badge {
-            width: calc(100% - 30px);
-            min-width: auto;
-            font-size: 17px;
-            padding: 14px 18px;
+            width: calc(100% - 24px);
+            min-height: 52px;
+            font-size: 15px;
+            padding: 10px 12px;
         }
 
         .boq-card-body {
-            padding: 72px 20px 24px;
+            padding: 56px 18px 20px;
         }
 
         .boq-list li {
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .boq-free-box h2 {
@@ -506,9 +526,9 @@
         }
 
         .boq-btn {
-            min-width: 180px;
-            height: 48px;
-            font-size: 15px;
+            min-width: 165px;
+            height: 42px;
+            font-size: 14px;
         }
     }
 
@@ -563,6 +583,17 @@
             font-size: 18px;
         }
     }
+
+    .simple-file-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+        font-size: 14px;
+        color: #374151;
+        box-sizing: border-box;
+    }
 </style>
 
 <section class="boq-section">
@@ -587,33 +618,43 @@
                 <div class="boq-card-body">
                     <p class="boq-top-text">Quick planning without site visit</p>
 
-                    <h4 class="boq-subtitle orange-text">Best For</h4>
-                    <ul class="boq-list">
-                        <li>Early planning / idea stage</li>
-                    </ul>
+                    <div class="boq-content">
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle orange-text">Best For</h4>
+                            <ul class="boq-list">
+                                <li>Early planning / idea stage</li>
+                            </ul>
+                        </div>
 
-                    <h4 class="boq-subtitle orange-text">Includes</h4>
-                    <ul class="boq-list">
-                        <li>Approximate project cost</li>
-                        <li>Basic quantity estimation</li>
-                        <li>Item-wise cost breakup</li>
-                        <li>Based on standard assumptions</li>
-                    </ul>
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle orange-text">Includes</h4>
+                            <ul class="boq-list">
+                                <li>Approximate project cost</li>
+                                <li>Basic quantity estimation</li>
+                                <li>Item-wise cost breakup</li>
+                                <li>Based on standard assumptions</li>
+                            </ul>
+                        </div>
 
-                    <h4 class="boq-subtitle orange-text">Input Required</h4>
-                    <ul class="boq-list">
-                        <li>Plot size / area</li>
-                        <li>Basic requirements</li>
-                        <li>Drawings</li>
-                    </ul>
-
-                    <div class="boq-price-box">
-                        <h3>₹2,000 – ₹7,000</h3>
-                        <p>Final cost may vary after site measurement</p>
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle orange-text">Input Required</h4>
+                            <ul class="boq-list">
+                                <li>Plot size / area</li>
+                                <li>Basic requirements</li>
+                                <li>Drawings</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="boq-btn-wrap">
-                        <button type="button" class="boq-btn orange-btn open-boq-modal" data-package="Rough Estimate">Get Estimate</button>
+                    <div class="boq-bottom">
+                        <div class="boq-price-box">
+                            <h3>₹2,000 – ₹7,000</h3>
+                            <p>Final cost may vary after site measurement</p>
+                        </div>
+
+                        <div class="boq-btn-wrap">
+                            <button type="button" class="boq-btn orange-btn open-boq-modal" data-package="Rough Estimate">Get Estimate</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -625,27 +666,35 @@
                 <div class="boq-card-body">
                     <p class="boq-top-text">Accurate costing for real execution</p>
 
-                    <h4 class="boq-subtitle blue-text">Best For</h4>
-                    <ul class="boq-list">
-                        <li>Ready sites / final budgeting</li>
-                    </ul>
+                    <div class="boq-content">
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle blue-text">Best For</h4>
+                            <ul class="boq-list">
+                                <li>Ready sites / final budgeting</li>
+                            </ul>
+                        </div>
 
-                    <h4 class="boq-subtitle blue-text">Includes</h4>
-                    <ul class="boq-list">
-                        <li>Site visit by expert</li>
-                        <li>Measurement sheet</li>
-                        <li>Detailed BOQ</li>
-                        <li>Accurate quantity takeoff</li>
-                        <li>Market-based cost estimation</li>
-                    </ul>
-
-                    <div class="boq-price-box">
-                        <h3>Visit: ₹2,000 – ₹10,000</h3>
-                        <h3>BOQ: ₹5,000 – ₹1,00,000+</h3>
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle blue-text">Includes</h4>
+                            <ul class="boq-list">
+                                <li>Site visit by expert</li>
+                                <li>Measurement sheet</li>
+                                <li>Detailed BOQ</li>
+                                <li>Accurate quantity takeoff</li>
+                                <li>Market-based cost estimation</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="boq-btn-wrap">
-                        <button type="button" class="boq-btn blue-btn open-boq-modal" data-package="Detailed BOQ + Site Measurement">Book Site Visit</button>
+                    <div class="boq-bottom">
+                        <div class="boq-price-box">
+                            <h3>Visit: ₹2,000 – ₹10,000</h3>
+                            <h3>BOQ: ₹5,000 – ₹1,00,000+</h3>
+                        </div>
+
+                        <div class="boq-btn-wrap">
+                            <button type="button" class="boq-btn blue-btn open-boq-modal" data-package="Detailed BOQ + Site Measurement">Book Site Visit</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -657,32 +706,42 @@
                 <div class="boq-card-body">
                     <p class="boq-top-text">Zero upfront cost for serious projects</p>
 
-                    <h4 class="boq-subtitle mix-text">Best For</h4>
-                    <ul class="boq-list">
-                        <li>Clients ready to start construction</li>
-                    </ul>
+                    <div class="boq-content">
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle mix-text">Best For</h4>
+                            <ul class="boq-list">
+                                <li>Clients ready to start construction</li>
+                            </ul>
+                        </div>
 
-                    <h4 class="boq-subtitle mix-text">Includes</h4>
-                    <ul class="boq-list">
-                        <li>Free site measurement</li>
-                        <li>Complete BOQ</li>
-                        <li>End-to-end execution support</li>
-                    </ul>
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle mix-text">Includes</h4>
+                            <ul class="boq-list">
+                                <li>Free site measurement</li>
+                                <li>Complete BOQ</li>
+                                <li>End-to-end execution support</li>
+                            </ul>
+                        </div>
 
-                    <h4 class="boq-subtitle mix-text">How It Works</h4>
-                    <ul class="boq-list">
-                        <li>No upfront BOQ cost</li>
-                        <li>Execution via ConstructKaro</li>
-                        <li>Managed by ConstructKaro</li>
-                    </ul>
-
-                    <div class="boq-price-box boq-free-box">
-                        <h2>₹0 <span>upfront</span></h2>
-                        <p>Applicable only if project is executed through ConstructKaro</p>
+                        <div class="boq-block">
+                            <h4 class="boq-subtitle mix-text">How It Works</h4>
+                            <ul class="boq-list">
+                                <li>No upfront BOQ cost</li>
+                                <li>Execution via ConstructKaro</li>
+                                <li>Managed by ConstructKaro</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="boq-btn-wrap">
-                        <button type="button" class="boq-btn mix-btn open-boq-modal" data-package="Free BOQ with Execution">Start My Project</button>
+                    <div class="boq-bottom">
+                        <div class="boq-price-box boq-free-box">
+                            <h2>₹0 <span>upfront</span></h2>
+                            <p>Applicable only if project is executed through ConstructKaro</p>
+                        </div>
+
+                        <div class="boq-btn-wrap">
+                            <button type="button" class="boq-btn mix-btn open-boq-modal" data-package="Free BOQ with Execution">Start My Project</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -857,13 +916,10 @@
                 </div>
 
                 <div class="modal-form-group">
-                    <label>Upload Drawings</label>
-                    <div class="file-upload-box">
-                        <div class="file-upload-label"><i>⤴</i> Choose File</div>
-                        <input type="file" name="drawing_file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.dwg">
-                    </div>
-                    @error('drawing_file') <div class="error-text">{{ $message }}</div> @enderror
-                </div>
+    <label>Upload Drawings</label>
+    <input type="file" name="drawing_file" class="simple-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.dwg">
+    @error('drawing_file') <div class="error-text">{{ $message }}</div> @enderror
+</div>
 
                 <div class="modal-form-group full-width">
                     <label style="color:#2f78bf;">Additional Requirement Details:</label>

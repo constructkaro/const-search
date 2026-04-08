@@ -15,10 +15,14 @@
         --line: #e5ebf2;
         --line-dark: #d6dee8;
         --primary: #ff6a00;
+        --primary-2: #ff8632;
         --primary-soft: #fff3ea;
         --navy: #1d2d44;
+        --danger: #dc2626;
+        --success: #16a34a;
         --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.05);
         --shadow-md: 0 14px 35px rgba(15, 23, 42, 0.07);
+        --shadow-lg: 0 16px 30px rgba(255,106,0,0.18);
         --radius-xl: 24px;
         --radius-lg: 18px;
         --radius-md: 14px;
@@ -31,15 +35,74 @@
     }
 
     .fab-page{
-        max-width: 1120px;
+        max-width: 1180px;
         margin: 0 auto;
-        padding: 14px 0 28px;
+        padding: 16px 0 28px;
     }
 
     .fab-stack{
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 20px;
+    }
+
+    .top-banner{
+        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
+        border: 1px solid #f2e0d0;
+        border-radius: 24px;
+        box-shadow: var(--shadow-md);
+        padding: 20px 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .top-banner-left{
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .top-banner-icon{
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 14px 28px rgba(255,106,0,0.20);
+        flex-shrink: 0;
+    }
+
+    .top-banner h1{
+        margin: 0;
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--navy);
+        line-height: 1.2;
+    }
+
+    .top-banner p{
+        margin: 5px 0 0;
+        color: var(--text-soft);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .top-badge{
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #f1dfcf;
+        color: var(--primary);
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(255,106,0,0.06);
     }
 
     .fab-card{
@@ -94,16 +157,32 @@
         letter-spacing: .2px;
     }
 
+    .section-sub{
+        margin: 3px 0 0;
+        font-size: 13px;
+        color: var(--text-soft);
+        font-weight: 500;
+    }
+
     .divider{
         border: none;
         border-top: 1px solid var(--line);
         margin: 0 0 16px;
     }
 
+    .section-divider{
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--primary), rgba(255,106,0,0.08));
+        border-radius: 999px;
+        margin-bottom: 18px;
+    }
+
     .field-block + .field-block{
         margin-top: 22px;
     }
 
+    .field-label,
     .field-title{
         font-size: 15px;
         color: var(--text);
@@ -111,10 +190,49 @@
         margin-bottom: 12px;
     }
 
+    .field-label .req,
+    .field-title .req{
+        color: var(--danger);
+    }
+
+    .field-sub{
+        margin: -4px 0 14px;
+        color: var(--text-soft);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
     .field-title small{
         color: var(--muted);
         font-size: 13px;
         font-weight: 700;
+    }
+
+    .vendor-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--line-dark);
+        border-radius:14px;
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+    }
+
+    .vendor-value{
+        font-size:16px;
+        font-weight:800;
+        color:var(--navy);
+    }
+
+    .vendor-chip{
+        background:linear-gradient(135deg,var(--primary) 0%, var(--primary-2) 100%);
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
     }
 
     .inner-service-box{
@@ -141,8 +259,56 @@
         gap: 14px;
     }
 
-    .option-item input{
+    .project-item input,
+    .option-item input,
+    .pill-item input,
+    .upload-item input[type="file"]{
         display: none;
+    }
+
+    .project-item label{
+        min-height: 60px;
+        border: 1.5px solid var(--line-dark);
+        border-radius: 14px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: all 0.22s ease;
+        font-size: 14px;
+        color: var(--text);
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .project-item label::before{
+        content: "";
+        width: 18px;
+        height: 18px;
+        border: 2px solid #cbd5e1;
+        border-radius: 6px;
+        background: #fff;
+        flex-shrink: 0;
+        transition: all 0.22s ease;
+    }
+
+    .project-item label:hover{
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .project-item input:checked + label{
+        border-color: var(--primary);
+        background: linear-gradient(180deg, #fffaf6 0%, #fff0e6 100%);
+        box-shadow: 0 10px 22px rgba(255,106,0,0.10);
+    }
+
+    .project-item input:checked + label::before{
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+        border-color: var(--primary);
+        box-shadow: inset 0 0 0 4px #fff;
     }
 
     .option-label{
@@ -246,10 +412,6 @@
         gap: 10px;
     }
 
-    .pill-item input{
-        display: none;
-    }
-
     .pill-item label{
         min-height: 42px;
         padding: 0 18px;
@@ -277,10 +439,6 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
-    }
-
-    .upload-item input[type="file"]{
-        display: none;
     }
 
     .upload-box{
@@ -395,6 +553,14 @@
         box-shadow: 0 20px 34px rgba(255,106,0,0.22);
     }
 
+    .submit-note{
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+    }
+
     .alert-success{
         background: #ecfdf3;
         color: #027a48;
@@ -440,9 +606,23 @@
     }
 
     @media (max-width: 768px){
+        .top-banner{
+            padding: 16px 14px;
+            border-radius: 18px;
+        }
+
+        .top-banner h1{
+            font-size: 20px;
+        }
+
         .fab-card{
             padding: 18px 14px;
             border-radius: 20px;
+        }
+
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .service-grid,
@@ -471,6 +651,52 @@
     }
 </style>
 
+@php
+    $oldServiceTypes = old('service_types', []);
+    $oldWeldingServices = old('welding_services', []);
+    $oldServiceModels = old('service_models', []);
+    $oldProjectTypesHandled = old('project_types_handled', []);
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+
+    $fabricationServices = [
+        ['name' => 'Structural Fabrication', 'icon' => 'fa-regular fa-square-plus'],
+        ['name' => 'Industrial Fabrication', 'icon' => 'fa-solid fa-industry'],
+        ['name' => 'MS / SS Fabrication', 'icon' => 'fa-solid fa-layer-group'],
+        ['name' => 'Aluminium Fabrication', 'icon' => 'fa-regular fa-gem'],
+        ['name' => 'Gate / Railing', 'icon' => 'fa-solid fa-door-open'],
+        ['name' => 'Shed / PEB Structure', 'icon' => 'fa-solid fa-warehouse'],
+        ['name' => 'Staircase / Handrail', 'icon' => 'fa-solid fa-arrow-up-right-dots'],
+        ['name' => 'Grill / Window', 'icon' => 'fa-regular fa-window-maximize'],
+    ];
+
+    $weldingServices = [
+        ['name' => 'Welding Services', 'icon' => 'fa-solid fa-fire-flame-curved'],
+        ['name' => 'MIG / TIG Welding', 'icon' => 'fa-solid fa-bolt'],
+        ['name' => 'Pipeline Welding', 'icon' => 'fa-solid fa-diagram-project'],
+    ];
+
+    $serviceModels = [
+        'Labour Only',
+        'Fabrication Only',
+        'Welding Only',
+        'Material + Labour',
+        'On-site Work',
+        'Workshop Work',
+        'Turnkey',
+    ];
+
+    $handledProjectTypes = [
+        ['name' => 'Residential', 'icon' => 'fa-solid fa-house'],
+        ['name' => 'Commercial', 'icon' => 'fa-solid fa-building'],
+        ['name' => 'Industrial', 'icon' => 'fa-solid fa-industry'],
+        ['name' => 'Infrastructure', 'icon' => 'fa-solid fa-landmark'],
+        ['name' => 'Interior', 'icon' => 'fa-solid fa-couch'],
+        ['name' => 'Renovation', 'icon' => 'fa-solid fa-hammer'],
+        ['name' => 'Factory / Warehouse', 'icon' => 'fa-solid fa-warehouse'],
+    ];
+@endphp
+
 <div class="fab-page">
     <div class="fab-stack">
 
@@ -492,6 +718,19 @@
             </div>
         @endif
 
+        <div class="top-banner">
+            <div class="top-banner-left">
+                <div class="top-banner-icon">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+                <div>
+                    <h1>Join as a Fabrication Partner</h1>
+                    <p>Show your fabrication, welding, and project execution expertise to receive relevant construction enquiries.</p>
+                </div>
+            </div>
+            <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
+        </div>
+
         <form action="{{ route('fabrication_service.store') }}" method="POST" enctype="multipart/form-data" id="fabricationForm">
             @csrf
 
@@ -500,104 +739,100 @@
                     <div class="section-icon">
                         <i class="fa-solid fa-gears"></i>
                     </div>
-                    <h2 class="section-title">Service Category Details</h2>
+                    <div>
+                        <h2 class="section-title">Service Category Details</h2>
+                        <p class="section-sub">Select your fabrication and welding expertise</p>
+                    </div>
                 </div>
 
                 <hr class="divider">
 
-                @php
-                    $oldServiceTypes = old('service_types', []);
-                    $oldServiceModels = old('service_models', []);
-                    $oldProjectTypes = old('project_types_handled', []);
-
-                    $fabricationServices = [
-                        ['name' => 'Structural Fabrication', 'icon' => 'fa-regular fa-square-plus'],
-                        ['name' => 'Industrial Fabrication', 'icon' => 'fa-solid fa-industry'],
-                        ['name' => 'MS / SS Fabrication', 'icon' => 'fa-solid fa-layer-group'],
-                        ['name' => 'Aluminium Fabrication', 'icon' => 'fa-regular fa-gem'],
-                        ['name' => 'Gate / Railing', 'icon' => 'fa-solid fa-door-open'],
-                        ['name' => 'Shed / PEB Structure', 'icon' => 'fa-solid fa-warehouse'],
-                        ['name' => 'Staircase / Handrail', 'icon' => 'fa-solid fa-arrow-up-right-dots'],
-                        ['name' => 'Grill / Window', 'icon' => 'fa-regular fa-window-maximize'],
-                    ];
-
-                    $weldingServices = [
-                        ['name' => 'Welding Services', 'icon' => 'fa-solid fa-fire-flame-curved'],
-                        ['name' => 'MIG / TIG Welding', 'icon' => 'fa-solid fa-bolt'],
-                        ['name' => 'Pipeline Welding', 'icon' => 'fa-solid fa-diagram-project'],
-                    ];
-
-                    $serviceModels = [
-                        'Labour Only',
-                        'Fabrication Only',
-                        'Welding Only',
-                        'Material + Labour',
-                        'On-site Work',
-                        'Workshop Work',
-                        'Turnkey',
-                    ];
-
-                    $projectTypes = [
-                        ['name' => 'Residential', 'icon' => 'fa-solid fa-house'],
-                        ['name' => 'Commercial', 'icon' => 'fa-solid fa-building'],
-                        ['name' => 'Industrial', 'icon' => 'fa-solid fa-industry'],
-                        ['name' => 'Infrastructure', 'icon' => 'fa-solid fa-landmark'],
-                        ['name' => 'Interior', 'icon' => 'fa-solid fa-couch'],
-                        ['name' => 'Renovation', 'icon' => 'fa-solid fa-hammer'],
-                        ['name' => 'Factory / Warehouse', 'icon' => 'fa-solid fa-warehouse'],
-                    ];
-                @endphp
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Fabrication Services' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Fabrication Services' }}</div>
+                    </div>
+                </div>
 
                 <div class="field-block">
-                    <div class="inner-service-box">
-                        <div class="field-title">Fabrication Services <small>(select all that apply)</small></div>
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
 
-                        <div class="service-grid">
-                            @foreach($fabricationServices as $index => $type)
-                                <div class="option-item">
-                                    <input
-                                        type="checkbox"
-                                        id="fabrication_service_{{ $index }}"
-                                        name="service_types[]"
-                                        value="{{ $type['name'] }}"
-                                        {{ in_array($type['name'], $oldServiceTypes) ? 'checked' : '' }}
-                                    >
-                                    <label class="option-label" for="fabrication_service_{{ $index }}">
-                                        <div class="option-icon">
-                                            <i class="{{ $type['icon'] }}"></i>
-                                        </div>
-                                        <div class="option-text">{{ $type['name'] }}</div>
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="project-item">
+                                <input
+                                    type="checkbox"
+                                    id="main_project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="main_project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
                     </div>
 
-                    <div class="inner-service-box">
-                        <div class="field-title">Welding Services <small>(select all that apply)</small></div>
+                    @error('project_types')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
-                        <div class="welding-grid">
-                            @foreach($weldingServices as $index => $type)
-                                <div class="option-item">
-                                    <input
-                                        type="checkbox"
-                                        id="welding_service_{{ $index }}"
-                                        name="service_types[]"
-                                        value="{{ $type['name'] }}"
-                                        {{ in_array($type['name'], $oldServiceTypes) ? 'checked' : '' }}
-                                    >
-                                    <label class="option-label" for="welding_service_{{ $index }}">
-                                        <div class="option-icon">
-                                            <i class="{{ $type['icon'] }}"></i>
-                                        </div>
-                                        <div class="option-text">{{ $type['name'] }}</div>
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
+                <div class="inner-service-box">
+                    <div class="field-title">Fabrication Services <small>(select multiple)</small></div>
+
+                    <div class="service-grid">
+                        @foreach($fabricationServices as $index => $service)
+                            <div class="option-item">
+                                <input
+                                    type="checkbox"
+                                    id="fabrication_service_{{ $index }}"
+                                    name="service_types[]"
+                                    value="{{ $service['name'] }}"
+                                    {{ in_array($service['name'], $oldServiceTypes) ? 'checked' : '' }}
+                                >
+                                <label class="option-label" for="fabrication_service_{{ $index }}">
+                                    <div class="option-icon">
+                                        <i class="{{ $service['icon'] }}"></i>
+                                    </div>
+                                    <div class="option-text">{{ $service['name'] }}</div>
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
 
                     @error('service_types')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="inner-service-box">
+                    <div class="field-title">Welding Services <small>(select multiple)</small></div>
+
+                    <div class="welding-grid">
+                        @foreach($weldingServices as $index => $service)
+                            <div class="option-item">
+                                <input
+                                    type="checkbox"
+                                    id="welding_service_{{ $index }}"
+                                    name="welding_services[]"
+                                    value="{{ $service['name'] }}"
+                                    {{ in_array($service['name'], $oldWeldingServices) ? 'checked' : '' }}
+                                >
+                                <label class="option-label" for="welding_service_{{ $index }}">
+                                    <div class="option-icon">
+                                        <i class="{{ $service['icon'] }}"></i>
+                                    </div>
+                                    <div class="option-text">{{ $service['name'] }}</div>
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @error('welding_services')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
@@ -629,16 +864,16 @@
                     <div class="field-title">Project Types Handled</div>
 
                     <div class="project-grid">
-                        @foreach($projectTypes as $index => $type)
+                        @foreach($handledProjectTypes as $index => $type)
                             <div class="option-item">
                                 <input
                                     type="checkbox"
-                                    id="project_type_{{ $index }}"
+                                    id="handled_project_type_{{ $index }}"
                                     name="project_types_handled[]"
                                     value="{{ $type['name'] }}"
-                                    {{ in_array($type['name'], $oldProjectTypes) ? 'checked' : '' }}
+                                    {{ in_array($type['name'], $oldProjectTypesHandled) ? 'checked' : '' }}
                                 >
-                                <label class="option-label" for="project_type_{{ $index }}">
+                                <label class="option-label" for="handled_project_type_{{ $index }}">
                                     <div class="option-icon">
                                         <i class="{{ $type['icon'] }}"></i>
                                     </div>
@@ -655,11 +890,15 @@
             </div>
 
             <div class="fab-card">
+                <div class="section-divider"></div>
                 <div class="section-head">
                     <div class="section-icon">
                         <i class="fa-solid fa-file-arrow-up"></i>
                     </div>
-                    <h2 class="section-title">Upload Documents</h2>
+                    <div>
+                        <h2 class="section-title">Upload Documents</h2>
+                        <p class="section-sub">Upload your verification documents</p>
+                    </div>
                 </div>
 
                 <hr class="divider">
@@ -721,6 +960,7 @@
 
             <div class="submit-wrap">
                 <button type="submit" class="submit-btn">Register as Fabrication Partner</button>
+                <div class="submit-note">Our team will review your profile and activate your vendor account.</div>
             </div>
         </form>
     </div>
@@ -755,11 +995,11 @@
     document.getElementById('fabricationForm').addEventListener('submit', function (e) {
         const serviceTypes = document.querySelectorAll("input[name='service_types[]']:checked").length;
         const serviceModels = document.querySelectorAll("input[name='service_models[]']:checked").length;
-        const projectTypes = document.querySelectorAll("input[name='project_types_handled[]']:checked").length;
+        const projectTypesHandled = document.querySelectorAll("input[name='project_types_handled[]']:checked").length;
 
-        if (serviceTypes === 0 || serviceModels === 0 || projectTypes === 0) {
+        if (serviceTypes === 0 || serviceModels === 0 || projectTypesHandled === 0) {
             e.preventDefault();
-            alert('Please select at least one option from Fabrication/Welding Services, Service Model, and Project Types Handled.');
+            alert('Please select at least one option from Fabrication Services, Service Model, and Project Types Handled.');
         }
     });
 </script>

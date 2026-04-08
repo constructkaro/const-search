@@ -4,18 +4,17 @@ body {
     font-family: 'Poppins', Arial, sans-serif;
 }
 
-/* Header */
 .main-header {
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 9999;
     background: rgba(255, 255, 255, 0.96);
     border-bottom: 1px solid rgba(0,0,0,0.05);
     transition: all 0.3s ease;
 }
 
 .main-header.scrolled {
-    background: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
@@ -31,21 +30,27 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    min-height: 92px;
+    gap: 20px;
+    min-height: 90px;
+    position: relative;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    flex-shrink: 0;
+}
+
+.logo a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 .logo img {
-    max-height: 90px;
+    max-height: 74px;
     width: auto;
     display: block;
-    margin-left: -60px;
 }
 
 .nav-menu {
@@ -99,7 +104,7 @@ body {
     border-radius: 10px;
 }
 
-.header-actions {
+.header-right {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -130,126 +135,263 @@ body {
     background: linear-gradient(180deg, #ffa25d 0%, #dc5f14 100%);
 }
 
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.header-login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 46px;
+    padding: 0 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+    box-shadow: 0 6px 14px rgba(223,113,34,0.22);
+    white-space: nowrap;
 }
 
-.header-login-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-width:170px;
-    height:46px;
-    padding:0 22px;
-    border-radius:999px;
-    text-decoration:none;
-    color:#fff;
-    font-weight:700;
-    background:linear-gradient(180deg,#f08b39 0%, #df7122 100%);
-    box-shadow:0 6px 14px rgba(223,113,34,0.22);
+.customer-login-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 999px;
+    padding: 8px 10px 8px 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.customer-login-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    background:#fff;
-    border:1px solid #e3e3e3;
-    border-radius:999px;
-    padding:8px 10px 8px 8px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+.customer-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
 }
 
-.customer-avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:linear-gradient(180deg,#3485cd 0%, #206eb4 100%);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    font-weight:800;
+.customer-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f2329;
 }
 
-.customer-info{
-    display:flex;
-    flex-direction:column;
-    line-height:1.2;
+.customer-mobile {
+    font-size: 12px;
+    color: #666;
 }
 
-.customer-name{
-    font-size:14px;
-    font-weight:700;
-    color:#1f2329;
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    background: linear-gradient(180deg,#f08b39 0%, #df7122 100%);
 }
 
-.customer-mobile{
-    font-size:12px;
-    color:#666;
+.menu-toggle {
+    display: none;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    background: #fff3ea;
+    color: #df7122;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
-.logout-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    height:36px;
-    padding:0 14px;
-    border-radius:999px;
-    text-decoration:none;
-    color:#fff;
-    font-size:13px;
-    font-weight:700;
-    background:linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+.menu-toggle svg {
+    width: 24px;
+    height: 24px;
 }
 
+.mobile-menu-panel {
+    display: none;
+}
+
+/* Tablet */
 @media (max-width: 1100px) {
     .header-wrapper {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 18px 0;
-    }
-
-    .logo {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .nav-menu {
-        width: 100%;
-        order: 2;
-    }
-
-    .nav-menu ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .header-actions {
-        width: 100%;
-        justify-content: center;
-        order: 3;
-        flex-wrap: wrap;
-    }
-}
-
-@media(max-width:767px){
-    .customer-login-box{
-        width:100%;
-        border-radius:18px;
-        justify-content:space-between;
-    }
-
-    .header-right{
-        width:100%;
+        min-height: 82px;
+        gap: 14px;
     }
 
     .logo img {
-        max-height: 48px;
-        margin-left: 0;
+        max-height: 62px;
+    }
+
+    .nav-menu ul li a {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .btn-glow,
+    .header-login-btn {
+        min-height: 44px;
+        font-size: 13px;
+        padding: 0 16px;
+    }
+
+    .customer-login-box {
+        padding: 7px 8px 7px 12px;
+        gap: 10px;
+    }
+
+    .customer-name {
+        font-size: 13px;
+    }
+
+    .customer-mobile {
+        font-size: 11px;
+    }
+}
+
+/* Mobile menu mode */
+@media (max-width: 991px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .header-right .btn-glow {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
+    }
+
+    .header-wrapper {
+        min-height: 76px;
+    }
+
+    .logo img {
+        max-height: 56px;
+    }
+
+    .mobile-menu-panel {
+        display: none;
+        width: 100%;
+        background: #fff;
+        border-top: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+    }
+
+    .mobile-menu-panel.active {
+        display: block;
+    }
+
+    .mobile-menu-inner {
+        width: 92%;
+        max-width: 1450px;
+        margin: auto;
+        padding: 14px 0 18px;
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .mobile-nav a {
+        text-decoration: none;
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        transition: 0.3s ease;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav a.active {
+        background: rgba(243, 112, 33, 0.08);
+        color: #f37021;
+    }
+
+    .mobile-header-actions {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mobile-header-actions .btn-glow,
+    .mobile-header-actions .header-login-btn,
+    .mobile-header-actions .logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .mobile-customer-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid #e3e3e3;
+        border-radius: 16px;
+        padding: 12px 14px;
+        background: #fff;
+    }
+
+    .mobile-customer-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobile-customer-left .customer-name {
+        font-size: 14px;
+    }
+
+    .mobile-customer-left .customer-mobile {
+        font-size: 12px;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+
+    .customer-login-box {
+        display: none;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 576px) {
+    .container {
+        width: 94%;
+    }
+
+    .header-wrapper {
+        min-height: 70px;
+    }
+
+    .logo img {
+        max-height: 50px;
+    }
+
+    .header-login-btn {
+        min-width: auto;
+        padding: 0 14px;
+        height: 42px;
+        font-size: 12px;
+    }
+
+    .menu-toggle {
+        width: 42px;
+        height: 42px;
+    }
+
+    .header-right {
+        gap: 8px;
     }
 }
 </style>
@@ -258,7 +400,9 @@ body {
     <div class="container header-wrapper">
 
         <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro">
+            <a href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro">
+            </a>
         </div>
 
         <nav class="nav-menu">
@@ -271,17 +415,10 @@ body {
             </ul>
         </nav>
 
-        <div class="header-actions">
-            <a href="#" class="btn-glow">ConstructKaro Job Portal</a>
-        </div>
-
         <div class="header-right">
+
             @if(session('customer_logged_in'))
                 <div class="customer-login-box">
-                    <!-- <div class="customer-avatar">
-                        {{ strtoupper(substr(session('customer_mobile') ?: 'C', 0, 1)) }}
-                    </div> -->
-
                     <div class="customer-info">
                         <div class="customer-name">
                             {{ session('customer_name') ?: 'Mobile User' }}
@@ -298,6 +435,45 @@ body {
                     Login / Sign Up
                 </a>
             @endif
+
+            <button class="menu-toggle" id="menuToggleBtn" type="button" aria-label="Open Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <path d="M4 7H20"></path>
+                    <path d="M4 12H20"></path>
+                    <path d="M4 17H20"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="mobile-menu-panel" id="mobileMenuPanel">
+        <div class="mobile-menu-inner">
+
+            <nav class="mobile-nav">
+                <a href="{{ url('/') }}" class="active">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Services</a>
+                <a href="#">Knowledge Hub</a>
+                <a href="#">Contact</a>
+            </nav>
+
+            <div class="mobile-header-actions">
+              
+                @if(session('customer_logged_in'))
+                    <div class="mobile-customer-box">
+                        <div class="mobile-customer-left">
+                            <div class="customer-name">{{ session('customer_name') ?: 'Mobile User' }}</div>
+                            <div class="customer-mobile">{{ session('customer_mobile') }}</div>
+                        </div>
+                        <a href="{{ route('customer.logout') }}" class="logout-btn">Logout</a>
+                    </div>
+                @else
+                    <a href="javascript:void(0)" class="header-login-btn open-customer-login-modal">
+                        Login / Sign Up
+                    </a>
+                @endif
+            </div>
+
         </div>
     </div>
 </header>
@@ -311,4 +487,22 @@ window.addEventListener("scroll", function () {
         header.classList.remove("scrolled");
     }
 });
+
+const menuToggleBtn = document.getElementById("menuToggleBtn");
+const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+
+if (menuToggleBtn && mobileMenuPanel) {
+    menuToggleBtn.addEventListener("click", function () {
+        mobileMenuPanel.classList.toggle("active");
+    });
+
+    document.addEventListener("click", function (e) {
+        if (
+            !mobileMenuPanel.contains(e.target) &&
+            !menuToggleBtn.contains(e.target)
+        ) {
+            mobileMenuPanel.classList.remove("active");
+        }
+    });
+}
 </script>

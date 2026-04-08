@@ -23,6 +23,18 @@
         --ck-danger: #dc2626;
         --ck-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
         --ck-shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.12);
+        --ck-radius-xl: 28px;
+        --ck-radius-lg: 22px;
+        --ck-radius-md: 18px;
+        --ck-radius-sm: 14px;
+    }
+
+    body{
+        background:
+            linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
+        background-size: 56px 56px, 56px 56px, auto;
     }
 
     .boq-page {
@@ -196,18 +208,6 @@
         font-size: 15px;
     }
 
-    .step-tag {
-        background: var(--ck-primary-soft);
-        color: var(--ck-primary-dark);
-        font-size: 13px;
-        font-weight: 800;
-        padding: 10px 14px;
-        border-radius: 999px;
-        white-space: nowrap;
-        border: 1px solid #fde7c3;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-    }
-
     .field-block + .field-block {
         margin-top: 28px;
     }
@@ -216,7 +216,11 @@
         font-size: 16px;
         font-weight: 800;
         color: var(--ck-dark-2);
-        margin-bottom: 14px;
+        margin-bottom: 10px;
+    }
+
+    .field-label .req {
+        color: var(--ck-danger);
     }
 
     .field-subtext {
@@ -225,9 +229,36 @@
         margin-bottom: 14px;
     }
 
+    .vendor-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--ck-border);
+        border-radius:18px;
+        background:linear-gradient(180deg,#ffffff 0%,#fcfcfd 100%);
+    }
+
+    .vendor-value{
+        font-size:16px;
+        font-weight:800;
+        color:var(--ck-dark);
+    }
+
+    .vendor-chip{
+        background:linear-gradient(135deg,#f59e0b 0%,#ea580c 100%);
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
     .project-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 16px;
         margin-bottom: 6px;
     }
@@ -396,6 +427,16 @@
         padding: 10px 12px;
     }
 
+    .upload-box input[type="file"]::file-selector-button {
+        border: none;
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: white;
+        padding: 8px 12px;
+        margin-right: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
     .file-note {
         margin-top: 6px;
         font-size: 13px;
@@ -481,6 +522,11 @@
             align-items: flex-start;
         }
 
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .project-grid,
         .upload-grid {
             grid-template-columns: 1fr;
@@ -500,6 +546,12 @@
         }
     }
 </style>
+
+@php
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+    $turnaroundTimes = ['2 Days', '3 Days', '5 Days', '7 Days', '10 Days', '10+ Days'];
+@endphp
 
 <div class="boq-page">
 
@@ -546,45 +598,45 @@
                         <p>Your project expertise and estimated turnaround timeline</p>
                     </div>
                 </div>
-                
             </div>
 
             <div class="field-block">
-                <div class="field-label">Project Types Handled</div>
-                <div class="field-subtext">Select all project categories you can handle professionally.</div>
+                <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                <div class="vendor-bar">
+                    <div class="vendor-value">{{ $workType->work_type ?? 'BOQ / Estimation' }}</div>
+                    <div class="vendor-chip">{{ $workType->work_type ?? 'BOQ / Estimation' }}</div>
+                </div>
+            </div>
 
-                @php
-                    $projectTypes = ['Residential', 'Commercial', 'Industrial', 'Infrastructure', 'Interior', 'Renovation'];
-                    $oldProjectTypes = old('project_types_handled', []);
-                @endphp
+            <div class="field-block">
+                <div class="field-label">Project Type <span class="req">*</span></div>
+                <div class="field-subtext">Select all project types you have experience in.</div>
 
                 <div class="project-grid">
-                    @foreach($projectTypes as $type)
+                    @forelse($projectTypes as $index => $type)
                         <div class="project-item">
                             <input
                                 type="checkbox"
-                                id="project_{{ $loop->index }}"
-                                name="project_types_handled[]"
+                                id="project_type_{{ $index }}"
+                                name="project_types[]"
                                 value="{{ $type }}"
-                                {{ in_array($type, $oldProjectTypes) ? 'checked' : '' }}
+                                {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
                             >
-                            <label for="project_{{ $loop->index }}">{{ $type }}</label>
+                            <label for="project_type_{{ $index }}">{{ $type }}</label>
                         </div>
-                    @endforeach
+                    @empty
+                        <p style="color:red; font-weight:600;">No project types found.</p>
+                    @endforelse
                 </div>
 
-                @error('project_types_handled')
+                @error('project_types')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
 
             <div class="field-block">
-                <div class="field-label">BOQ Turnaround Time</div>
+                <div class="field-label">BOQ Turnaround Time <span class="req">*</span></div>
                 <div class="field-subtext">Choose your usual delivery timeline for BOQ / estimation work.</div>
-
-                @php
-                    $turnaroundTimes = ['2 Days', '3 Days', '5 Days', '7 Days', '10 Days', '10+ Days'];
-                @endphp
 
                 <div class="turnaround-grid">
                     @foreach($turnaroundTimes as $time)
@@ -618,7 +670,6 @@
                         <p>Upload your business and identity documents for verification</p>
                     </div>
                 </div>
-                
             </div>
 
             <div class="upload-grid">
@@ -639,12 +690,12 @@
                 </div>
 
                 <div class="upload-col">
-                    <label class="top-label">Aadhar Card</label>
+                    <label class="top-label">Aadhaar Card</label>
                     <div class="upload-box">
                         <div class="upload-icon">
                             <i class="fa-solid fa-id-card"></i>
                         </div>
-                        <h4>Upload Aadhar Card</h4>
+                        <h4>Upload Aadhaar Card</h4>
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
                         <input type="file" name="aadhar_card" id="aadhar_card">
                         <div class="file-note" id="aadhar_card_name"></div>

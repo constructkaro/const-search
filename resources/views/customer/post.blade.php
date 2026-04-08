@@ -478,7 +478,7 @@ body{
                         </div>
 
                         <div class="form-actions">
-                            <div class="secure-note">🔒 Your details are shared only with verified vendors</div>
+                            
                             <button class="submit-btn" type="submit">Submit Project</button>
                         </div>
                     </div>

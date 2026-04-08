@@ -15,8 +15,10 @@
         --line: #e3eaf2;
         --line-dark: #d4deea;
         --primary: #ea7b2f;
+        --primary-2: #f39a56;
         --primary-soft: #fff5ed;
         --navy: #1d355a;
+        --danger: #dc2626;
         --shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.04);
         --shadow-md: 0 16px 38px rgba(15, 23, 42, 0.06);
         --shadow-lg: 0 18px 38px rgba(234, 123, 47, 0.18);
@@ -26,11 +28,15 @@
     }
 
     body{
-        background: linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+        background:
+            linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+            linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+        background-size: 56px 56px, 56px 56px, auto;
     }
 
     .page-wrap{
-        max-width: 1180px;
+        max-width: 1220px;
         margin: 0 auto;
         padding: 18px 0 34px;
     }
@@ -39,6 +45,65 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+    }
+
+    .top-banner{
+        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
+        border: 1px solid #f2e0d0;
+        border-radius: 26px;
+        box-shadow: var(--shadow-md);
+        padding: 22px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .top-banner-left{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .top-banner-icon{
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        box-shadow: 0 16px 32px rgba(234,123,47,0.22);
+        flex-shrink: 0;
+    }
+
+    .top-banner h1{
+        margin: 0;
+        color: var(--navy);
+        font-size: 28px;
+        line-height: 1.2;
+        font-weight: 900;
+    }
+
+    .top-banner p{
+        margin: 6px 0 0;
+        color: var(--text-soft);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .top-badge{
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #f1dfcf;
+        color: var(--primary);
+        font-size: 14px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(234,123,47,0.06);
     }
 
     .card-box{
@@ -51,11 +116,32 @@
         overflow: hidden;
     }
 
+    .card-box::before{
+        content:"";
+        position:absolute;
+        right:-80px;
+        top:-80px;
+        width:220px;
+        height:220px;
+        background: radial-gradient(circle, rgba(234,123,47,0.06) 0%, transparent 72%);
+        pointer-events:none;
+    }
+
+    .section-divider{
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--primary), rgba(234,123,47,0.08));
+        border-radius: 999px;
+        margin-bottom: 24px;
+    }
+
     .card-head{
         display: flex;
         align-items: center;
         gap: 16px;
         margin-bottom: 22px;
+        position: relative;
+        z-index: 2;
     }
 
     .card-icon{
@@ -86,28 +172,120 @@
         font-weight: 500;
     }
 
-    .field-title{
-        margin: 0 0 14px;
+    .field-block + .field-block{
+        margin-top: 24px;
+    }
+
+    .field-title,
+    .field-label{
+        margin: 0 0 12px;
         font-size: 16px;
         color: var(--navy);
         font-weight: 800;
     }
 
-    .field-title .req{
-        color: var(--primary);
+    .field-title .req,
+    .field-label .req{
+        color: var(--danger);
+    }
+
+    .field-sub{
+        margin: -2px 0 14px;
+        font-size: 14px;
+        color: var(--text-soft);
+        font-weight: 500;
+    }
+
+    .vendor-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--line-dark);
+        border-radius:14px;
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+    }
+
+    .vendor-value{
+        font-size:16px;
+        font-weight:800;
+        color:var(--navy);
+    }
+
+    .vendor-chip{
+        background:linear-gradient(135deg,var(--primary) 0%, var(--primary-2) 100%);
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
+    .project-grid{
+        display:grid;
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+        gap:16px;
+    }
+
+    .project-item input,
+    .category-item input,
+    .pill-item input,
+    .toggle-wrap input,
+    .upload-item input[type="file"]{
+        display: none;
+    }
+
+    .project-item label{
+        min-height: 62px;
+        border: 1.5px solid var(--line-dark);
+        border-radius: 14px;
+        background: #fff;
+        display:flex;
+        align-items:center;
+        gap:14px;
+        padding:14px 16px;
+        cursor:pointer;
+        transition: all .22s ease;
+        font-size:15px;
+        color:var(--text);
+        font-weight:700;
+        line-height:1.4;
+    }
+
+    .project-item label::before{
+        content:"";
+        width:20px;
+        height:20px;
+        border-radius:6px;
+        border:2px solid #c4d0de;
+        background:#fff;
+        flex-shrink:0;
+        transition:.22s ease;
+    }
+
+    .project-item label:hover{
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .project-item input:checked + label{
+        border-color: var(--primary);
+        background: linear-gradient(180deg, #fffaf6 0%, #fff1e8 100%);
+        box-shadow: 0 12px 22px rgba(234,123,47,0.10);
+    }
+
+    .project-item input:checked + label::before{
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+        border-color: var(--primary);
+        box-shadow: inset 0 0 0 4px #fff;
     }
 
     .category-grid{
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 16px;
-    }
-
-    .category-item input,
-    .pill-item input,
-    .toggle-wrap input,
-    .upload-item input[type="file"]{
-        display: none;
     }
 
     .category-item label{
@@ -187,6 +365,7 @@
         justify-content: space-between;
         gap: 16px;
         margin-bottom: 14px;
+        flex-wrap: wrap;
     }
 
     .add-machine-btn{
@@ -230,6 +409,11 @@
         font-size: 16px;
         color: var(--text);
         outline: none;
+    }
+
+    .form-input::placeholder{
+        color:#97a4b5;
+        font-weight:500;
     }
 
     .form-input:focus,
@@ -486,6 +670,10 @@
         .category-grid{
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
+
+        .project-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
     @media (max-width: 992px){
@@ -501,12 +689,27 @@
             padding: 12px 0 24px;
         }
 
+        .top-banner{
+            padding: 18px 16px;
+            border-radius: 20px;
+        }
+
+        .top-banner h1{
+            font-size: 22px;
+        }
+
         .card-box{
             padding: 18px 16px 22px;
             border-radius: 20px;
         }
 
-        .category-grid{
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .category-grid,
+        .project-grid{
             grid-template-columns: 1fr;
         }
 
@@ -518,6 +721,26 @@
         }
     }
 </style>
+
+@php
+    $categories = [
+        ['name' => 'Earthwork & Excavation', 'icon' => 'fa-solid fa-trowel'],
+        ['name' => 'Material Handling', 'icon' => 'fa-solid fa-box-open'],
+        ['name' => 'Concrete Machinery', 'icon' => 'fa-solid fa-fire-flame-curved'],
+        ['name' => 'Road Equipment', 'icon' => 'fa-solid fa-road'],
+        ['name' => 'Compaction Equipment', 'icon' => 'fa-solid fa-layer-group'],
+        ['name' => 'Foundation & Piling', 'icon' => 'fa-solid fa-anchor'],
+        ['name' => 'Power & Utility', 'icon' => 'fa-solid fa-bolt'],
+        ['name' => 'Transport & Hauling', 'icon' => 'fa-solid fa-truck'],
+        ['name' => 'Finishing Equipment', 'icon' => 'fa-solid fa-paint-roller'],
+        ['name' => 'Survey & Tech', 'icon' => 'fa-solid fa-crosshairs'],
+    ];
+
+    $oldCategories = old('machinery_categories', []);
+    $oldRentalBasis = old('rental_basis', []);
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+@endphp
 
 <div class="page-wrap">
     <div class="stack">
@@ -540,6 +763,19 @@
             </div>
         @endif
 
+        <div class="top-banner">
+            <div class="top-banner-left">
+                <div class="top-banner-icon">
+                    <i class="fa-solid fa-truck-monster"></i>
+                </div>
+                <div>
+                    <h1>Join as a Machinery Provider</h1>
+                    <p>Show your machinery inventory, rental options, and support services to receive relevant construction equipment enquiries.</p>
+                </div>
+            </div>
+            <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
+        </div>
+
         <form action="{{ route('machinery_provider.store') }}" method="POST" enctype="multipart/form-data" id="machineryForm">
             @csrf
 
@@ -552,47 +788,65 @@
                     </div>
                 </div>
 
-                <div class="field-title">Machinery Categories <span class="req">*</span></div>
-
-                @php
-                    $categories = [
-                        ['name' => 'Earthwork & Excavation', 'icon' => 'fa-solid fa-trowel'],
-                        ['name' => 'Material Handling', 'icon' => 'fa-solid fa-box-open'],
-                        ['name' => 'Concrete Machinery', 'icon' => 'fa-solid fa-fire-flame-curved'],
-                        ['name' => 'Road Equipment', 'icon' => 'fa-solid fa-road'],
-                        ['name' => 'Compaction Equipment', 'icon' => 'fa-solid fa-layer-group'],
-                        ['name' => 'Foundation & Piling', 'icon' => 'fa-solid fa-anchor'],
-                        ['name' => 'Power & Utility', 'icon' => 'fa-solid fa-bolt'],
-                        ['name' => 'Transport & Hauling', 'icon' => 'fa-solid fa-truck'],
-                        ['name' => 'Finishing Equipment', 'icon' => 'fa-solid fa-paint-roller'],
-                        ['name' => 'Survey & Tech', 'icon' => 'fa-solid fa-crosshairs'],
-                    ];
-
-                    $oldCategories = old('machinery_categories', []);
-                    $oldRentalBasis = old('rental_basis', []);
-                @endphp
-
-                <div class="category-grid">
-                    @foreach($categories as $index => $category)
-                        <div class="category-item">
-                            <input
-                                type="checkbox"
-                                id="category_{{ $index }}"
-                                name="machinery_categories[]"
-                                value="{{ $category['name'] }}"
-                                {{ in_array($category['name'], $oldCategories) ? 'checked' : '' }}
-                            >
-                            <label for="category_{{ $index }}">
-                                <div class="cat-icon"><i class="{{ $category['icon'] }}"></i></div>
-                                <div class="cat-text">{{ $category['name'] }}</div>
-                            </label>
-                        </div>
-                    @endforeach
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Machinery Provider' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Machinery Provider' }}</div>
+                    </div>
                 </div>
 
-                @error('machinery_categories')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
+
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="project-item">
+                                <input
+                                    type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
+                    </div>
+
+                    @error('project_types')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="field-block">
+                    <div class="field-title">Machinery Categories <span class="req">*</span></div>
+
+                    <div class="category-grid">
+                        @foreach($categories as $index => $category)
+                            <div class="category-item">
+                                <input
+                                    type="checkbox"
+                                    id="machinery_category_{{ $index }}"
+                                    name="machinery_categories[]"
+                                    value="{{ $category['name'] }}"
+                                    {{ in_array($category['name'], $oldCategories) ? 'checked' : '' }}
+                                >
+                                <label for="machinery_category_{{ $index }}">
+                                    <div class="cat-icon"><i class="{{ $category['icon'] }}"></i></div>
+                                    <div class="cat-text">{{ $category['name'] }}</div>
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @error('machinery_categories')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
 
                 <hr class="divider">
 
@@ -616,19 +870,19 @@
                             <div class="machine-grid">
                                 <div>
                                     <div class="label-sm">Brand</div>
-                                    <input type="text" name="brand[]" class="form-input" placeholder="e.g. JCB, TATA" value="{{ $brand }}">
+                                    <input type="text" name="brand[]" class="form-input" placeholder="Enter brand name" value="{{ $brand }}">
                                 </div>
                                 <div>
                                     <div class="label-sm">Model</div>
-                                    <input type="text" name="model[]" class="form-input" placeholder="e.g. 3DX" value="{{ $models[$i] ?? '' }}">
+                                    <input type="text" name="model[]" class="form-input" placeholder="Enter machine model" value="{{ $models[$i] ?? '' }}">
                                 </div>
                                 <div>
                                     <div class="label-sm">Quantity</div>
-                                    <input type="number" min="1" name="quantity[]" class="form-input" placeholder="1" value="{{ $quantities[$i] ?? 1 }}">
+                                    <input type="number" min="1" name="quantity[]" class="form-input" placeholder="Enter quantity" value="{{ $quantities[$i] ?? 1 }}">
                                 </div>
                                 <div>
                                     <div class="label-sm">Capacity</div>
-                                    <input type="text" name="capacity[]" class="form-input" placeholder="e.g. 3 Ton" value="{{ $capacities[$i] ?? '' }}">
+                                    <input type="text" name="capacity[]" class="form-input" placeholder="e.g. 3 Ton, 20 HP" value="{{ $capacities[$i] ?? '' }}">
                                 </div>
                             </div>
 
@@ -667,7 +921,7 @@
                         <label for="night_shift_support">
                             <div>
                                 <div class="toggle-title">Night Shift Support</div>
-                                <div class="toggle-sub">Available after hours?</div>
+                                <div class="toggle-sub">Available after working hours?</div>
                             </div>
                             <div class="toggle-ui"></div>
                         </label>
@@ -721,6 +975,7 @@
             </div>
 
             <div class="card-box">
+                <div class="section-divider"></div>
                 <div class="card-head">
                     <div class="card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                     <div class="card-title-wrap">
@@ -808,19 +1063,19 @@
             <div class="machine-grid">
                 <div>
                     <div class="label-sm">Brand</div>
-                    <input type="text" name="brand[]" class="form-input" placeholder="e.g. JCB, TATA">
+                    <input type="text" name="brand[]" class="form-input" placeholder="Enter brand name">
                 </div>
                 <div>
                     <div class="label-sm">Model</div>
-                    <input type="text" name="model[]" class="form-input" placeholder="e.g. 3DX">
+                    <input type="text" name="model[]" class="form-input" placeholder="Enter machine model">
                 </div>
                 <div>
                     <div class="label-sm">Quantity</div>
-                    <input type="number" min="1" name="quantity[]" class="form-input" placeholder="1" value="1">
+                    <input type="number" min="1" name="quantity[]" class="form-input" placeholder="Enter quantity" value="1">
                 </div>
                 <div>
                     <div class="label-sm">Capacity</div>
-                    <input type="text" name="capacity[]" class="form-input" placeholder="e.g. 3 Ton">
+                    <input type="text" name="capacity[]" class="form-input" placeholder="e.g. 3 Ton, 20 HP">
                 </div>
             </div>
             <button type="button" class="remove-machine">Remove</button>

@@ -27,44 +27,44 @@ use App\Http\Controllers\WeldingFabricationController;
 
 
 //vendor
-Route::domain('vendor.constructkaro.in')->group(function () {
-    Route::get('/', function () {
+// Route::domain('vendor.constructkaro.in')->group(function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
 
-Route::get('/vendor/boq-form', [VendorBoqProfileController::class, 'create'])->name('vendor.boq.form');
-Route::post('/vendor/boq-form', [VendorBoqProfileController::class, 'store'])->name('vendor.boq.store');
-Route::get('/vendor/categories', [VendorCategoryController::class, 'index'])->name('vendor.categories');
-Route::get('/vendor/category/{slug}', [VendorCategoryController::class, 'showForm'])->name('vendor.category.form');
-Route::post('/vendor/category/{slug}', [VendorCategoryController::class, 'saveForm'])->name('vendor.category.save');
+    Route::get('/vendor/boq-form', [VendorBoqProfileController::class, 'create'])->name('vendor.boq.form');
+    Route::post('/vendor/boq-form', [VendorBoqProfileController::class, 'store'])->name('vendor.boq.store');
+    Route::get('/vendor/categories', [VendorCategoryController::class, 'index'])->name('vendor.categories');
+    Route::get('/vendor/category/{slug}', [VendorCategoryController::class, 'showForm'])->name('vendor.category.form');
+    Route::post('/vendor/category/{slug}', [VendorCategoryController::class, 'saveForm'])->name('vendor.category.save');
 
-Route::get('/login', [VendorAuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [VendorAuthController::class, 'loginSubmit'])->name('login.submit');
+    Route::get('/login', [VendorAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [VendorAuthController::class, 'loginSubmit'])->name('login.submit');
 
-Route::get('/dashboard', [VendorAuthController::class, 'dashboard'])->name('dashboard');
-Route::get('/logout', [VendorAuthController::class, 'logout'])->name('logout');
-Route::post('/vendor/register-submit', [VendorController::class, 'vendorstore'])->name('vendor.register.submit');
+    Route::get('/dashboard', [VendorAuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/logout', [VendorAuthController::class, 'logout'])->name('logout');
+    Route::post('/vendor/register-submit', [VendorController::class, 'vendorstore'])->name('vendor.register.submit');
 
-Route::get('/vendor/password-setup', [VendorController::class, 'showPasswordSetupForm'])->name('vendor.password.setup.form');
-Route::post('/vendor/password-setup', [VendorController::class, 'savePassword'])->name('vendor.password.setup.save');
+    Route::get('/vendor/password-setup', [VendorController::class, 'showPasswordSetupForm'])->name('vendor.password.setup.form');
+    Route::post('/vendor/password-setup', [VendorController::class, 'savePassword'])->name('vendor.password.setup.save');
 
-Route::post('/vendor/check-mobile', [VendorController::class, 'checkMobile'])->name('vendor.check.mobile');
+    Route::post('/vendor/check-mobile', [VendorController::class, 'checkMobile'])->name('vendor.check.mobile');
 
-Route::get('/vendor/login', [VendorController::class, 'showLoginForm'])->name('vendor.login.form');
-Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login.submit');
+    Route::get('/vendor/login', [VendorController::class, 'showLoginForm'])->name('vendor.login.form');
+    Route::post('/vendor/login', [VendorController::class, 'vendorLogin'])->name('vendor.login.submit');
 
-Route::get('/vendor/dashboard', [VendorController::class, 'dashboard'])->name('vendor.dashboard');
+    Route::get('/vendor/dashboard', [VendorController::class, 'dashboard'])->name('vendor.dashboard');
     
-// Route::post('/vendor/send-otp', [VendorAuthController::class, 'sendOtp'])->name('vendor.sendOtp');
-// Route::post('/vendor/verify-otp', [VendorAuthController::class, 'verifyOtp'])->name('vendor.verifyOtp');
+    // Route::post('/vendor/send-otp', [VendorAuthController::class, 'sendOtp'])->name('vendor.sendOtp');
+    // Route::post('/vendor/verify-otp', [VendorAuthController::class, 'verifyOtp'])->name('vendor.verifyOtp');
 
-Route::get('/vendor/dashboard', [VendorAuthController::class, 'vendor_dashboard'])->name('vendor.dashboard');
+    Route::get('/vendor/dashboard', [VendorAuthController::class, 'vendor_dashboard'])->name('vendor.dashboard');
 
-Route::get('/survey/create', [SurveyController::class, 'create'])->name('survey.create');
-Route::post('/survey/store', [SurveyController::class, 'store'])->name('survey.store');
+    Route::get('/survey/create', [SurveyController::class, 'create'])->name('survey.create');
+    Route::post('/survey/store', [SurveyController::class, 'store'])->name('survey.store');
 
- Route::get('/category/na-support-legal', [NaLegalController::class, 'create'])->name('na_legal.create');
+    Route::get('/category/na-support-legal', [NaLegalController::class, 'create'])->name('na_legal.create');
     Route::post('/na-legal/store', [NaLegalController::class, 'store'])->name('na_legal.store');
 
     Route::get('/fabrication-service/create', [FabricationServiceController::class, 'create'])->name('fabrication_service.create');
@@ -93,7 +93,7 @@ Route::post('/survey/store', [SurveyController::class, 'store'])->name('survey.s
 Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
 Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

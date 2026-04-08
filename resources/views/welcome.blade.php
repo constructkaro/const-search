@@ -3,6 +3,11 @@
 @section('title', 'Home Page')
 
 @section('content')
+
+@php
+    $isCustomerLoggedIn = session('customer_logged_in');
+@endphp
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -742,6 +747,7 @@
     <section class="service-cards-section">
         <div class="service-cards-container">
             <div class="service-cards-grid">
+
                 <div class="service-card-item reveal-card">
                     <div class="service-card-image">
                         <img src="{{ asset('images/b1.png') }}" alt="Architect">
@@ -754,10 +760,9 @@
                         </div>
                         <h3 class="service-card-title">Architect</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <!-- <a href="{{route('post')}}" class="service-card-btn">Post Your Requirement</a> -->
-                         <a href="{{ route('post', ['work_type_id' => 2]) }}" class="service-card-btn">
+                        <a href="{{ route('post', ['work_type_id' => 2]) }}" class="service-card-btn">
                             Post Your Requirement
-                        </a>       
+                        </a>
                     </div>
                 </div>
 
@@ -773,10 +778,9 @@
                         </div>
                         <h3 class="service-card-title">Contractor</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <!-- <a href="#" class="service-card-btn">Post Your Requirement</a> -->
-                          <a href="{{ route('post', ['work_type_id' => 1]) }}" class="service-card-btn">
+                        <a href="{{ route('post', ['work_type_id' => 1]) }}" class="service-card-btn">
                             Post Your Requirement
-                        </a> 
+                        </a>
                     </div>
                 </div>
 
@@ -792,12 +796,12 @@
                         </div>
                         <h3 class="service-card-title">Interior Designer</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <!-- <a href="#" class="service-card-btn">Post Your Requirement</a> -->
-                          <a href="{{ route('post', ['work_type_id' => 4]) }}" class="service-card-btn">
+                        <a href="{{ route('post', ['work_type_id' => 4]) }}" class="service-card-btn">
                             Post Your Requirement
-                        </a> 
+                        </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -812,8 +816,10 @@
                     <span class="line-blue"></span>
                 </div>
             </div>
+
             <div class="explore-services-grid">
 
+                @php $surveyUrl = route('customer.survey'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/survey-services.png') }}" alt="Survey Services">
@@ -821,14 +827,15 @@
                     <div class="explore-card-body">
                         <h3>Survey Services</h3>
                         <p>Explore All Categories of Survey Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn orange-btn open-customer-login-modal"
-                        data-redirect="{{ route('customer.survey') }}">
+                        <a href="{{ $isCustomerLoggedIn ? $surveyUrl : 'javascript:void(0)' }}"
+                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $surveyUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $testingUrl = route('customer.testing'); @endphp
                 <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
@@ -836,14 +843,15 @@
                     <div class="explore-card-body">
                         <h3>Testing Services</h3>
                         <p>Explore All Categories of Testing Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn blue-btn open-customer-login-modal"
-                        data-redirect="{{ route('customer.testing') }}">
+                        <a href="{{ $isCustomerLoggedIn ? $testingUrl : 'javascript:void(0)' }}"
+                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $testingUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $boqUrl = route('customer.boq'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ Estimation">
@@ -851,14 +859,15 @@
                     <div class="explore-card-body">
                         <h3>BOQ/Estimation</h3>
                         <p>Explore All Categories of BOQ/Estimation Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn orange-btn open-customer-login-modal"
-                        data-redirect="{{ route('customer.boq') }}">
+                        <a href="{{ $isCustomerLoggedIn ? $boqUrl : 'javascript:void(0)' }}"
+                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $boqUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $facadeUrl = route('customer.facade'); @endphp
                 <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
@@ -866,14 +875,15 @@
                     <div class="explore-card-body">
                         <h3>Facade Services</h3>
                         <p>Explore All Categories of Facade Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn blue-btn open-customer-login-modal"
-                        data-redirect="">
+                        <a href="{{ $isCustomerLoggedIn ? $facadeUrl : 'javascript:void(0)' }}"
+                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $facadeUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $machineryUrl = '#'; @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
@@ -881,14 +891,13 @@
                     <div class="explore-card-body">
                         <h3>Machinery On Hire</h3>
                         <p>Explore All Categories of Machinery On Hire Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn orange-btn open-customer-login-modal"
-                        data-redirect="">
+                        <a href="javascript:void(0)" class="explore-btn orange-btn open-coming-soon-modal">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $structuralAuditUrl = route('customer.structuralaudit'); @endphp
                 <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
@@ -896,14 +905,15 @@
                     <div class="explore-card-body">
                         <h3>Structural Audit</h3>
                         <p>Explore All Categories of Structural Audit Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn blue-btn open-customer-login-modal"
-                        data-redirect="">
+                        <a href="{{ $isCustomerLoggedIn ? $structuralAuditUrl : 'javascript:void(0)' }}"
+                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $structuralAuditUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $legalUrl = route('customer.nasupport'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support and Legal Due Diligence">
@@ -911,14 +921,15 @@
                     <div class="explore-card-body">
                         <h3 class="small-title">NA Support &amp; Legal Due Diligence</h3>
                         <p>Explore All Categories of NA Support &amp; Legal Due Diligence Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn orange-btn open-customer-login-modal"
-                        data-redirect="">
+                        <a href="{{ $isCustomerLoggedIn ? $legalUrl : 'javascript:void(0)' }}"
+                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $legalUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
+                @php $weldingUrl = route('customer.welding_fabrication'); @endphp
                 <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding and Fabrication">
@@ -926,16 +937,15 @@
                     <div class="explore-card-body">
                         <h3>Welding &amp; Fabrication</h3>
                         <p>Explore All Categories of Welding &amp; Fabrication Services</p>
-                        <a href="javascript:void(0)"
-                        class="explore-btn blue-btn open-customer-login-modal"
-                        data-redirect="">
+                        <a href="{{ $isCustomerLoggedIn ? $weldingUrl : 'javascript:void(0)' }}"
+                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $weldingUrl }}">
                             Get Started
                         </a>
                     </div>
                 </div>
 
             </div>
-          
         </div>
     </section>
 </div>
@@ -973,7 +983,27 @@
         </div>
     </div>
 </div>
+<div id="comingSoonModal" class="custom-modal-overlay">
+    <div class="custom-modal-box" style="max-width:420px; text-align:center;">
+        <button type="button" class="custom-modal-close" id="closeComingSoonModal">&times;</button>
 
+        <div class="custom-modal-header">
+            <h3>Coming Soon</h3>
+            <p>This service will be available soon on ConstructKaro.</p>
+        </div>
+
+        <div class="custom-modal-body">
+            <div style="font-size:56px; margin-bottom:12px;">🚧</div>
+            <p style="font-size:14px; color:#666; margin-bottom:18px;">
+                We are working on launching Machinery On Hire services shortly.
+            </p>
+
+            <button type="button" class="modal-btn primary-btn" id="okayComingSoonBtn">
+                Okay
+            </button>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -1112,6 +1142,21 @@
 
     revealItems.forEach((item) => {
         revealObserver.observe(item);
+    });
+</script>
+<script>
+    $(document).on('click', '.open-coming-soon-modal', function () {
+        $('#comingSoonModal').addClass('active');
+    });
+
+    $('#closeComingSoonModal, #okayComingSoonBtn').on('click', function () {
+        $('#comingSoonModal').removeClass('active');
+    });
+
+    $('#comingSoonModal').on('click', function (e) {
+        if (e.target.id === 'comingSoonModal') {
+            $('#comingSoonModal').removeClass('active');
+        }
     });
 </script>
 @endsection

@@ -9,26 +9,22 @@
     :root{
         --ck-bg: #f4f7fb;
         --ck-white: #ffffff;
-
         --ck-navy: #0f173d;
         --ck-navy-2: #1e3766;
         --ck-navy-3: #355c9a;
-
         --ck-orange: #eb7a2f;
         --ck-orange-2: #f39a56;
         --ck-orange-soft: #fff4eb;
-
         --ck-text: #182b49;
         --ck-text-soft: #71829b;
         --ck-muted: #99a6b7;
-
         --ck-line: #e3eaf2;
         --ck-line-dark: #d6dfeb;
-
+        --ck-red: #dc2626;
+        --ck-green: #16a34a;
         --ck-shadow-sm: 0 8px 22px rgba(15, 23, 61, 0.05);
         --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
         --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.20);
-
         --ck-radius-xl: 28px;
         --ck-radius-lg: 20px;
         --ck-radius-md: 16px;
@@ -44,7 +40,7 @@
     }
 
     .audit-page{
-        max-width: 1180px;
+        max-width: 1220px;
         margin: 0 auto;
         padding: 22px 0 36px;
     }
@@ -53,6 +49,65 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+    }
+
+    .top-banner{
+        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
+        border: 1px solid #f2e0d0;
+        border-radius: 26px;
+        box-shadow: var(--ck-shadow-md);
+        padding: 22px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+    }
+
+    .top-banner-left{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .top-banner-icon{
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        box-shadow: 0 16px 32px rgba(235,122,47,0.22);
+        flex-shrink: 0;
+    }
+
+    .top-banner h1{
+        margin: 0;
+        color: var(--ck-navy);
+        font-size: 28px;
+        line-height: 1.2;
+        font-weight: 900;
+    }
+
+    .top-banner p{
+        margin: 6px 0 0;
+        color: var(--ck-text-soft);
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .top-badge{
+        padding: 11px 16px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #f1dfcf;
+        color: var(--ck-orange);
+        font-size: 14px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(235,122,47,0.06);
     }
 
     .step-card{
@@ -76,6 +131,14 @@
         pointer-events: none;
     }
 
+    .section-divider{
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--ck-orange), rgba(235,122,47,0.08));
+        border-radius: 999px;
+        margin-bottom: 24px;
+    }
+
     .step-head{
         display: flex;
         align-items: flex-start;
@@ -86,47 +149,148 @@
     }
 
     .step-badge{
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--ck-navy) 0%, var(--ck-navy-2) 100%);
-        color: #fff;
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #fff4eb 0%, #ffe8d8 100%);
+        color: var(--ck-orange);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 21px;
-        font-weight: 900;
+        font-size: 22px;
         flex-shrink: 0;
-        box-shadow: 0 12px 22px rgba(15, 23, 61, 0.18);
     }
 
     .step-title-wrap h2{
         margin: 0;
-        font-size: 30px;
-        line-height: 1.12;
-        letter-spacing: -.3px;
-        color: var(--ck-navy);
+        font-size: 24px;
+        line-height: 1.15;
+        color: var(--ck-navy-2);
         font-weight: 900;
     }
 
     .step-title-wrap p{
-        margin: 7px 0 0;
+        margin: 6px 0 0;
         color: var(--ck-text-soft);
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
     }
 
-    .section-grid{
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 18px;
+    .field-block + .field-block{
+        margin-top: 24px;
+    }
+
+    .field-label{
+        margin: 0 0 10px;
+        font-size: 16px;
+        color: var(--ck-navy);
+        font-weight: 800;
+    }
+
+    .field-label .req{
+        color: var(--ck-red);
+    }
+
+    .field-help,
+    .field-sub{
+        margin: -2px 0 14px;
+        font-size: 14px;
+        color: var(--ck-text-soft);
+        font-weight: 500;
+    }
+
+    .vendor-bar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:var(--ck-radius-md);
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+    }
+
+    .vendor-value{
+        font-size:16px;
+        font-weight:800;
+        color:var(--ck-navy);
+    }
+
+    .vendor-chip{
+        background:linear-gradient(135deg,var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
+    }
+
+    .project-grid{
+        display:grid;
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+        gap:16px 18px;
+    }
+
+    .project-item input,
+    .card-option input,
+    .chip-option input,
+    .toggle-switch input,
+    .upload-item input[type="file"]{
+        display:none;
+    }
+
+    .project-item label{
+        min-height: 64px;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+        display:flex;
+        align-items:center;
+        gap:14px;
+        padding:14px 16px;
+        cursor:pointer;
+        transition: all .22s ease;
+        font-size:15px;
+        color:var(--ck-text);
+        font-weight:700;
+        line-height:1.4;
+    }
+
+    .project-item label::before{
+        content:"";
+        width:20px;
+        height:20px;
+        border-radius:6px;
+        border:2px solid #c4d0de;
+        background:#fff;
+        flex-shrink:0;
+        transition:.22s ease;
+    }
+
+    .project-item label:hover{
+        transform: translateY(-2px);
+        box-shadow: var(--ck-shadow-sm);
+        border-color:#c7d3e4;
+    }
+
+    .project-item input:checked + label{
+        border-color:var(--ck-orange);
+        background:linear-gradient(180deg,#fffaf6 0%,#fff2e9 100%);
+        box-shadow:0 10px 18px rgba(235,122,47,0.08);
+    }
+
+    .project-item input:checked + label::before{
+        background:linear-gradient(135deg,var(--ck-orange) 0%,var(--ck-orange-2) 100%);
+        border-color:var(--ck-orange);
+        box-shadow: inset 0 0 0 4px #fff;
     }
 
     .structure-grid{
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 18px;
-        max-width: 780px;
+        max-width: 820px;
     }
 
     .chip-grid{
@@ -139,31 +303,6 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 20px 24px;
-    }
-
-    .field-block + .field-block{
-        margin-top: 22px;
-    }
-
-    .field-label{
-        margin: 0 0 10px;
-        font-size: 16px;
-        color: var(--ck-navy);
-        font-weight: 800;
-    }
-
-    .field-help{
-        margin: 4px 0 0;
-        font-size: 13px;
-        color: var(--ck-text-soft);
-        font-weight: 500;
-    }
-
-    .card-option input,
-    .chip-option input,
-    .toggle-switch input,
-    .upload-item input[type="file"]{
-        display: none;
     }
 
     .card-option label{
@@ -307,6 +446,12 @@
         transition: all .22s ease;
     }
 
+    .form-input::placeholder,
+    .form-textarea::placeholder{
+        color:#9aa7b8;
+        font-weight:500;
+    }
+
     .form-select,
     .form-input{
         height: 60px;
@@ -391,7 +536,7 @@
 
     .upload-grid{
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 18px 24px;
     }
 
@@ -494,7 +639,7 @@
     }
 
     .text-danger{
-        color: #dc2626;
+        color: var(--ck-red);
         font-size: 12px;
         margin-top: 8px;
         display: block;
@@ -525,19 +670,15 @@
     }
 
     @media (max-width: 1100px){
-        .section-grid{
-            grid-template-columns: repeat(3, minmax(0, 1fr));
+        .project-grid,
+        .upload-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
 
     @media (max-width: 992px){
-        .form-grid-2,
-        .upload-grid{
+        .form-grid-2{
             grid-template-columns: 1fr;
-        }
-
-        .section-grid{
-            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .structure-grid{
@@ -550,21 +691,32 @@
             padding: 12px 0 22px;
         }
 
+        .top-banner{
+            padding: 18px 16px;
+            border-radius: 20px;
+        }
+
+        .top-banner h1{
+            font-size: 22px;
+        }
+
         .step-card{
             padding: 18px 16px;
             border-radius: 20px;
         }
 
         .step-title-wrap h2{
-            font-size: 22px;
+            font-size: 20px;
         }
 
-        .step-title-wrap p{
-            font-size: 14px;
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .section-grid,
-        .structure-grid{
+        .project-grid,
+        .structure-grid,
+        .upload-grid{
             grid-template-columns: 1fr;
         }
 
@@ -579,6 +731,38 @@
         }
     }
 </style>
+
+@php
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+
+    $structureTypes = [
+        ['name' => 'RCC', 'icon' => 'fa-solid fa-table-cells-large'],
+        ['name' => 'Steel', 'icon' => 'fa-solid fa-compass-drafting'],
+        ['name' => 'Foundation', 'icon' => 'fa-solid fa-grip-lines'],
+    ];
+
+    $auditTypes = [
+        ['name' => 'Structural Stability Audit', 'icon' => 'fa-regular fa-shield'],
+        ['name' => 'Old / Dilapidated Building Audit', 'icon' => 'fa-solid fa-triangle-exclamation'],
+        ['name' => 'Pre-Purchase Structural Audit', 'icon' => 'fa-solid fa-magnifying-glass'],
+        ['name' => 'Post-Fire Structural Audit', 'icon' => 'fa-solid fa-fire-flame-curved'],
+        ['name' => 'Post-Earthquake / Post-Disaster Audit', 'icon' => 'fa-solid fa-wave-square'],
+        ['name' => 'Crack & Distress Assessment Audit', 'icon' => 'fa-solid fa-magnifying-glass-plus'],
+    ];
+
+    $deliverables = [
+        ['name' => 'Visual Inspection', 'icon' => 'fa-regular fa-eye'],
+        ['name' => 'NDT / Testing', 'icon' => 'fa-solid fa-expand'],
+        ['name' => 'Structural Assessment', 'icon' => 'fa-regular fa-clipboard'],
+        ['name' => 'Stability Certificate', 'icon' => 'fa-regular fa-file-lines'],
+        ['name' => 'Repair Recommendation', 'icon' => 'fa-solid fa-wrench'],
+        ['name' => 'Repair & Rehabilitation Design', 'icon' => 'fa-solid fa-drafting-compass'],
+        ['name' => 'Retrofitting / Strengthening Design', 'icon' => 'fa-solid fa-hard-hat'],
+        ['name' => 'Tender / BOQ / Specification Support', 'icon' => 'fa-regular fa-file-lines'],
+        ['name' => 'Repair Supervision / QAQC', 'icon' => 'fa-regular fa-circle-check'],
+    ];
+@endphp
 
 <div class="audit-page">
     <div class="audit-stack">
@@ -601,70 +785,80 @@
             </div>
         @endif
 
+        <div class="top-banner">
+            <div class="top-banner-left">
+                <div class="top-banner-icon">
+                    <i class="fa-solid fa-building-shield"></i>
+                </div>
+                <div>
+                    <h1>Join as a Structural Audit Partner</h1>
+                    <p>Show your structural audit expertise, service coverage, and technical capabilities to receive quality project enquiries.</p>
+                </div>
+            </div>
+            <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
+        </div>
+
         <form action="{{ route('structural_audit.store') }}" method="POST" enctype="multipart/form-data" id="structuralAuditForm">
             @csrf
 
-            <!-- Step 3 -->
             <div class="step-card">
                 <div class="step-head">
-                  
+                    <div class="step-badge"><i class="fa-solid fa-layer-group"></i></div>
                     <div class="step-title-wrap">
                         <h2>Asset Type Expertise</h2>
                         <p>Select all asset types you have experience with</p>
                     </div>
                 </div>
 
-                @php
-                    $assetTypes = [
-                        ['name' => 'Residential', 'icon' => 'fa-solid fa-house'],
-                        ['name' => 'Commercial', 'icon' => 'fa-solid fa-building'],
-                        ['name' => 'Industrial', 'icon' => 'fa-solid fa-industry'],
-                        ['name' => 'Housing Society', 'icon' => 'fa-solid fa-building-user'],
-                        ['name' => 'Infrastructure', 'icon' => 'fa-solid fa-landmark'],
-                    ];
-                    $oldAssets = old('asset_types', []);
-                @endphp
-
-                <div class="section-grid">
-                    @foreach($assetTypes as $index => $item)
-                        <div class="card-option">
-                            <input type="checkbox" id="asset_{{ $index }}" name="asset_types[]" value="{{ $item['name'] }}" {{ in_array($item['name'], $oldAssets) ? 'checked' : '' }}>
-                            <label for="asset_{{ $index }}">
-                                <div class="card-icon"><i class="{{ $item['icon'] }}"></i></div>
-                                <div class="card-text">{{ $item['name'] }}</div>
-                            </label>
-                        </div>
-                    @endforeach
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Structural Audit' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Structural Audit' }}</div>
+                    </div>
                 </div>
 
-                @error('asset_types')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
+
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="project-item">
+                                <input
+                                    type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
+                    </div>
+
+                    @error('project_types')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
 
-            <!-- Step 4 -->
             <div class="step-card">
+                <div class="section-divider"></div>
                 <div class="step-head">
-                    
+                    <div class="step-badge"><i class="fa-solid fa-diagram-project"></i></div>
                     <div class="step-title-wrap">
                         <h2>Structure Type Expertise</h2>
                         <p>Types of structures you specialize in</p>
                     </div>
                 </div>
 
-                @php
-                    $structureTypes = [
-                        ['name' => 'RCC', 'icon' => 'fa-solid fa-table-cells-large'],
-                        ['name' => 'Steel', 'icon' => 'fa-solid fa-compass-drafting'],
-                        ['name' => 'Foundation', 'icon' => 'fa-solid fa-grip-lines'],
-                    ];
-                    $oldStructures = old('structure_types', []);
-                @endphp
-
                 <div class="structure-grid">
                     @foreach($structureTypes as $index => $item)
                         <div class="card-option">
-                            <input type="checkbox" id="structure_{{ $index }}" name="structure_types[]" value="{{ $item['name'] }}" {{ in_array($item['name'], $oldStructures) ? 'checked' : '' }}>
+                            <input type="checkbox" id="structure_{{ $index }}" name="structure_types[]" value="{{ $item['name'] }}" {{ in_array($item['name'], old('structure_types', [])) ? 'checked' : '' }}>
                             <label for="structure_{{ $index }}">
                                 <div class="card-icon"><i class="{{ $item['icon'] }}"></i></div>
                                 <div class="card-text">{{ $item['name'] }}</div>
@@ -678,32 +872,20 @@
                 @enderror
             </div>
 
-            <!-- Step 5 -->
             <div class="step-card">
+                <div class="section-divider"></div>
                 <div class="step-head">
-                   
+                    <div class="step-badge"><i class="fa-solid fa-list-check"></i></div>
                     <div class="step-title-wrap">
                         <h2>Audit Type Expertise</h2>
                         <p>Select all audit types you can perform</p>
                     </div>
                 </div>
 
-                @php
-                    $auditTypes = [
-                        ['name' => 'Structural Stability Audit', 'icon' => 'fa-regular fa-shield'],
-                        ['name' => 'Old / Dilapidated Building Audit', 'icon' => 'fa-solid fa-triangle-exclamation'],
-                        ['name' => 'Pre-Purchase Structural Audit', 'icon' => 'fa-solid fa-magnifying-glass'],
-                        ['name' => 'Post-Fire Structural Audit', 'icon' => 'fa-solid fa-fire-flame-curved'],
-                        ['name' => 'Post-Earthquake / Post-Disaster Audit', 'icon' => 'fa-solid fa-wave-square'],
-                        ['name' => 'Crack & Distress Assessment Audit', 'icon' => 'fa-solid fa-magnifying-glass-plus'],
-                    ];
-                    $oldAuditTypes = old('audit_types', []);
-                @endphp
-
                 <div class="chip-grid">
                     @foreach($auditTypes as $index => $item)
                         <div class="chip-option">
-                            <input type="checkbox" id="audit_{{ $index }}" name="audit_types[]" value="{{ $item['name'] }}" {{ in_array($item['name'], $oldAuditTypes) ? 'checked' : '' }}>
+                            <input type="checkbox" id="audit_{{ $index }}" name="audit_types[]" value="{{ $item['name'] }}" {{ in_array($item['name'], old('audit_types', [])) ? 'checked' : '' }}>
                             <label for="audit_{{ $index }}">
                                 <i class="{{ $item['icon'] }}"></i>
                                 <span>{{ $item['name'] }}</span>
@@ -717,35 +899,20 @@
                 @enderror
             </div>
 
-            <!-- Step 6 -->
             <div class="step-card">
+                <div class="section-divider"></div>
                 <div class="step-head">
-                   
+                    <div class="step-badge"><i class="fa-solid fa-screwdriver-wrench"></i></div>
                     <div class="step-title-wrap">
                         <h2>Service Scope / Deliverables</h2>
                         <p>What services and deliverables can you provide?</p>
                     </div>
                 </div>
 
-                @php
-                    $deliverables = [
-                        ['name' => 'Visual Inspection', 'icon' => 'fa-regular fa-eye'],
-                        ['name' => 'NDT / Testing', 'icon' => 'fa-solid fa-expand'],
-                        ['name' => 'Structural Assessment', 'icon' => 'fa-regular fa-clipboard'],
-                        ['name' => 'Stability Certificate', 'icon' => 'fa-regular fa-file-lines'],
-                        ['name' => 'Repair Recommendation', 'icon' => 'fa-solid fa-wrench'],
-                        ['name' => 'Repair & Rehabilitation Design', 'icon' => 'fa-solid fa-drafting-compass'],
-                        ['name' => 'Retrofitting / Strengthening Design', 'icon' => 'fa-solid fa-hard-hat'],
-                        ['name' => 'Tender / BOQ / Specification Support', 'icon' => 'fa-regular fa-file-lines'],
-                        ['name' => 'Repair Supervision / QAQC', 'icon' => 'fa-regular fa-circle-check'],
-                    ];
-                    $oldDeliverables = old('deliverables', []);
-                @endphp
-
                 <div class="chip-grid">
                     @foreach($deliverables as $index => $item)
                         <div class="chip-option">
-                            <input type="checkbox" id="deliverable_{{ $index }}" name="deliverables[]" value="{{ $item['name'] }}" {{ in_array($item['name'], $oldDeliverables) ? 'checked' : '' }}>
+                            <input type="checkbox" id="deliverable_{{ $index }}" name="deliverables[]" value="{{ $item['name'] }}" {{ in_array($item['name'], old('deliverables', [])) ? 'checked' : '' }}>
                             <label for="deliverable_{{ $index }}">
                                 <i class="{{ $item['icon'] }}"></i>
                                 <span>{{ $item['name'] }}</span>
@@ -759,10 +926,10 @@
                 @enderror
             </div>
 
-            <!-- Step 7 -->
             <div class="step-card">
+                <div class="section-divider"></div>
                 <div class="step-head">
-                    
+                    <div class="step-badge"><i class="fa-solid fa-briefcase"></i></div>
                     <div class="step-title-wrap">
                         <h2>Technical & Business Information</h2>
                         <p>Operational and compliance details</p>
@@ -773,7 +940,7 @@
                     <div class="field-block">
                         <label class="field-label">Team Size</label>
                         <select class="form-select" name="team_size">
-                            <option value="">Select range</option>
+                            <option value="">Select team size</option>
                             <option value="1-5" {{ old('team_size') == '1-5' ? 'selected' : '' }}>1-5</option>
                             <option value="6-10" {{ old('team_size') == '6-10' ? 'selected' : '' }}>6-10</option>
                             <option value="11-25" {{ old('team_size') == '11-25' ? 'selected' : '' }}>11-25</option>
@@ -785,7 +952,7 @@
                     <div class="field-block">
                         <label class="field-label">Minimum Project Value Accepted</label>
                         <select class="form-select" name="minimum_project_value">
-                            <option value="">Select range</option>
+                            <option value="">Select project value</option>
                             <option value="Below 50K" {{ old('minimum_project_value') == 'Below 50K' ? 'selected' : '' }}>Below 50K</option>
                             <option value="50K - 1L" {{ old('minimum_project_value') == '50K - 1L' ? 'selected' : '' }}>50K - 1L</option>
                             <option value="1L - 5L" {{ old('minimum_project_value') == '1L - 5L' ? 'selected' : '' }}>1L - 5L</option>
@@ -822,12 +989,12 @@
 
                     <div class="field-block">
                         <label class="field-label">GST Number</label>
-                        <input type="text" class="form-input" name="gst_number" placeholder="e.g. 27AXXXX1234X1Z5" value="{{ old('gst_number') }}">
+                        <input type="text" class="form-input" name="gst_number" placeholder="Enter GST number" value="{{ old('gst_number') }}">
                     </div>
 
                     <div class="field-block">
                         <label class="field-label">PAN Number</label>
-                        <input type="text" class="form-input" name="pan_number" placeholder="e.g. ABCDE1234F" value="{{ old('pan_number') }}">
+                        <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number" value="{{ old('pan_number') }}">
                     </div>
 
                     <div class="field-block" style="grid-column: 1 / -1;">
@@ -849,7 +1016,7 @@
                         <div class="upload-item" id="certificate_wrap">
                             <div class="upload-title">Upload Certificate</div>
                             <label for="certificate_file" class="upload-box">
-                                <div class="upload-icon">☁️</div>
+                                <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                                 <div class="upload-text">Click to upload PDF, JPG, PNG</div>
                             </label>
                             <input type="file" id="certificate_file" name="certificate_file">
@@ -859,7 +1026,7 @@
                         <div class="upload-item" id="company_profile_wrap">
                             <div class="upload-title">Upload Company Profile</div>
                             <label for="company_profile_file" class="upload-box">
-                                <div class="upload-icon">☁️</div>
+                                <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                                 <div class="upload-text">Click to upload PDF, DOC</div>
                             </label>
                             <input type="file" id="company_profile_file" name="company_profile_file">
@@ -869,7 +1036,7 @@
                         <div class="upload-item" id="logo_wrap">
                             <div class="upload-title">Upload Logo</div>
                             <label for="logo_file" class="upload-box">
-                                <div class="upload-icon">☁️</div>
+                                <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                                 <div class="upload-text">Click to upload JPG, PNG, SVG</div>
                             </label>
                             <input type="file" id="logo_file" name="logo_file">
@@ -879,10 +1046,10 @@
                 </div>
             </div>
 
-            <!-- Step 8 -->
             <div class="step-card">
+                <div class="section-divider"></div>
                 <div class="step-head">
-                    <div class="step-badge">8</div>
+                    <div class="step-badge"><i class="fa-solid fa-pen"></i></div>
                     <div class="step-title-wrap">
                         <h2>Final Details</h2>
                         <p>Tell us more about your services</p>
@@ -896,15 +1063,14 @@
 
                 <div class="field-block">
                     <label class="field-label">Major Cities Covered</label>
-                    <input type="text" class="form-input" name="major_cities_covered" placeholder="e.g. Mumbai, Delhi, Pune, Ahmedabad" value="{{ old('major_cities_covered') }}">
+                    <input type="text" class="form-input" name="major_cities_covered" placeholder="e.g. Mumbai, Pune, Navi Mumbai, Thane" value="{{ old('major_cities_covered') }}">
                 </div>
             </div>
 
-            <!-- Submit -->
             <div class="submit-bar">
                 <button type="submit" class="submit-btn">
                     <i class="fa-regular fa-paper-plane"></i>
-                    <span>Submit Vendor Profile</span>
+                    <span>Submit Structural Audit Profile</span>
                 </button>
                 <div class="submit-note">
                     By submitting, you agree to ConstructKaro's vendor terms and verification process.

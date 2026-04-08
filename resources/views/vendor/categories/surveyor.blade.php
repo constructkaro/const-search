@@ -1,59 +1,66 @@
 @extends('vendor.layouts.vapp')
 
-@section('title', 'Survey Provider Form')
-@section('page_title', 'Survey Services Provider Form')
+@section('title', 'Interior Designer Registration Form')
+@section('page_title', 'Interior Designer Registration Form')
 
 @section('content')
 
 <style>
     :root{
-        --bg: #f4f7fb;
-        --white: #ffffff;
-        --text: #18263a;
-        --text-soft: #6b7a90;
-        --line: #e6edf5;
-        --line-dark: #d7e0ea;
-        --primary: #ff6a00;
-        --primary-2: #ff8533;
-        --primary-soft: #fff4ec;
-        --green: #22c55e;
-        --shadow-1: 0 10px 30px rgba(15, 23, 42, 0.05);
-        --shadow-2: 0 18px 45px rgba(15, 23, 42, 0.08);
-        --shadow-3: 0 22px 55px rgba(255, 106, 0, 0.14);
-        --radius-xl: 30px;
-        --radius-lg: 22px;
-        --radius-md: 18px;
-        --radius-sm: 14px;
+        --ck-bg: #f4f7fb;
+        --ck-white: #ffffff;
+        --ck-navy: #0f173d;
+        --ck-navy-2: #1e3766;
+        --ck-navy-3: #355c9a;
+        --ck-orange: #eb7a2f;
+        --ck-orange-2: #f39a56;
+        --ck-orange-soft: #fff4eb;
+        --ck-text: #182b49;
+        --ck-text-soft: #71829b;
+        --ck-muted: #99a6b7;
+        --ck-line: #e3eaf2;
+        --ck-line-dark: #d6dfeb;
+        --ck-red: #ef4444;
+        --ck-green: #16a34a;
+        --ck-shadow-sm: 0 8px 22px rgba(15, 23, 61, 0.05);
+        --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
+        --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.18);
+        --ck-radius-xl: 28px;
+        --ck-radius-lg: 22px;
+        --ck-radius-md: 16px;
+        --ck-radius-sm: 14px;
     }
 
     body{
         background:
-            radial-gradient(circle at top right, rgba(255,106,0,0.05), transparent 18%),
-            linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+            linear-gradient(rgba(15, 23, 61, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15, 23, 61, 0.03) 1px, transparent 1px),
+            linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
+        background-size: 56px 56px, 56px 56px, auto;
     }
 
-    .survey-page{
-        max-width: 1180px;
+    .vendor-page{
+        max-width: 1280px;
         margin: 0 auto;
-        padding: 16px 0 36px;
+        padding: 18px 0 34px;
     }
 
-    .page-stack{
+    .vendor-stack{
         display: flex;
         flex-direction: column;
-        gap: 26px;
+        gap: 24px;
     }
 
     .top-banner{
-        background: linear-gradient(135deg, #ffffff 0%, #fff8f3 100%);
-        border: 1px solid #f4dfcf;
-        border-radius: 28px;
-        padding: 24px 28px;
-        box-shadow: var(--shadow-1);
+        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
+        border: 1px solid #f2e0d0;
+        border-radius: 26px;
+        box-shadow: var(--ck-shadow-md);
+        padding: 22px 24px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        align-items: center;
+        gap: 18px;
         flex-wrap: wrap;
     }
 
@@ -66,823 +73,903 @@
     .top-banner-icon{
         width: 62px;
         height: 62px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #ff6a00 0%, #ff8a3d 100%);
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
         color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 26px;
-        box-shadow: 0 14px 28px rgba(255,106,0,0.20);
+        font-size: 24px;
+        box-shadow: 0 16px 32px rgba(235,122,47,0.22);
         flex-shrink: 0;
     }
 
     .top-banner h1{
         margin: 0;
+        color: var(--ck-navy);
         font-size: 26px;
         line-height: 1.2;
-        color: var(--text);
         font-weight: 900;
     }
 
     .top-banner p{
         margin: 6px 0 0;
-        color: var(--text-soft);
+        color: var(--ck-text-soft);
         font-size: 14px;
         font-weight: 500;
     }
 
     .top-badge{
-        background: rgba(255,255,255,0.9);
-        border: 1px solid #f4dfcf;
-        color: var(--primary);
-        padding: 12px 16px;
+        padding: 11px 16px;
         border-radius: 999px;
-        font-weight: 800;
+        background: #fff;
+        border: 1px solid #f1dfcf;
+        color: var(--ck-orange);
         font-size: 14px;
-        box-shadow: 0 8px 18px rgba(255,106,0,0.06);
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(235,122,47,0.06);
     }
 
-    .form-card{
+    .section-card{
         background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-        border: 1px solid #e7edf4;
-        border-radius: var(--radius-xl);
-        padding: 30px;
-        box-shadow: var(--shadow-2);
+        border: 1px solid var(--ck-line);
+        border-radius: var(--ck-radius-xl);
+        box-shadow: var(--ck-shadow-md);
+        padding: 28px 26px 30px;
         position: relative;
         overflow: hidden;
     }
 
-    .form-card::before{
+    .section-card::before{
         content: "";
         position: absolute;
-        top: 0;
-        right: 0;
+        right: -80px;
+        top: -80px;
         width: 220px;
         height: 220px;
-        background: radial-gradient(circle, rgba(255,106,0,0.05) 0%, transparent 70%);
-        pointer-events: none;
+        background: radial-gradient(circle, rgba(235,122,47,0.05) 0%, transparent 72%);
+    }
+
+    .section-divider{
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--ck-orange), rgba(235,122,47,0.10));
+        border-radius: 999px;
+        margin-bottom: 24px;
     }
 
     .section-head{
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 16px;
-        margin-bottom: 22px;
+        margin-bottom: 24px;
         position: relative;
         z-index: 2;
     }
 
-    .section-icon{
+    .section-badge{
         width: 54px;
         height: 54px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #fff2e8 0%, #ffe5d2 100%);
-        border: 1px solid #ffd7bd;
-        color: var(--primary);
+        border-radius: 18px;
+        background: linear-gradient(135deg, #fff4eb 0%, #ffe8d8 100%);
+        color: var(--ck-orange);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 21px;
+        font-size: 22px;
         flex-shrink: 0;
     }
 
-    .section-text h2{
+    .section-title-wrap h2{
         margin: 0;
-        color: var(--text);
         font-size: 22px;
+        line-height: 1.15;
+        color: var(--ck-navy-2);
         font-weight: 900;
     }
 
-    .section-text p{
-        margin: 5px 0 0;
-        color: var(--text-soft);
-        font-size: 14px;
+    .section-title-wrap p{
+        margin: 6px 0 0;
+        color: var(--ck-text-soft);
+        font-size: 15px;
         font-weight: 500;
     }
 
-    .divider{
-        border: none;
-        border-top: 1px solid var(--line);
-        margin: 0 0 24px;
+    .field-block + .field-block{
+        margin-top: 24px;
     }
 
-    .field-title{
-        color: var(--text);
-        font-size: 17px;
+    .field-label{
+        margin: 0 0 10px;
+        font-size: 16px;
+        color: var(--ck-navy);
         font-weight: 800;
-        margin-bottom: 8px;
     }
 
-    .field-note{
-        color: var(--text-soft);
+    .field-label .req{
+        color: var(--ck-red);
+    }
+
+    .field-sub{
+        margin: -2px 0 14px;
         font-size: 14px;
-        margin-bottom: 18px;
+        color: var(--ck-text-soft);
         font-weight: 500;
     }
 
-    .survey-grid{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: 18px;
-        margin-bottom: 34px;
-    }
-
-    .survey-option input{
-        display: none;
-    }
-
-    .survey-option label{
-        min-height: 148px;
-        border: 1.5px solid #dbe3ec;
-        border-radius: 22px;
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        text-align: center;
-        padding: 20px 16px;
-        cursor: pointer;
-        transition: all 0.24s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .survey-option label::after{
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255,106,0,0.06), transparent 50%);
-        opacity: 0;
-        transition: 0.24s ease;
-    }
-
-    .survey-option label i{
-        font-size: 34px;
-        color: #7f8ca0;
-        transition: 0.24s ease;
-        position: relative;
-        z-index: 2;
-    }
-
-    .survey-option label span{
-        color: var(--text);
-        font-size: 18px;
-        font-weight: 800;
-        line-height: 1.35;
-        position: relative;
-        z-index: 2;
-    }
-
-    .survey-option label:hover{
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-1);
-        border-color: #ced8e4;
-    }
-
-    .survey-option label:hover::after{
-        opacity: 1;
-    }
-
-    .survey-option input:checked + label{
-        border-color: var(--primary);
-        background: linear-gradient(180deg, #fffaf6 0%, #fff0e6 100%);
-        box-shadow: 0 18px 32px rgba(255,106,0,0.10);
-    }
-
-    .survey-option input:checked + label i{
-        color: var(--primary);
-        transform: scale(1.05);
-    }
-
-    .survey-option input:checked + label::before{
-        content: "\f00c";
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        box-shadow: 0 10px 18px rgba(255,106,0,0.20);
-        z-index: 3;
-    }
-
-    .capabilities-card{
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
-        border: 1px solid #e8eef5;
-        border-radius: 24px;
-        overflow: hidden;
-    }
-
-    .capability-row{
+    .vendor-bar{
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 18px;
-        padding: 22px 24px;
-        border-bottom: 1px solid #edf2f7;
-        transition: 0.22s ease;
+        gap: 16px;
+        padding: 16px 18px;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
     }
 
-    .capability-row:last-child{
-        border-bottom: none;
+    .vendor-value{
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--ck-navy);
     }
 
-    .capability-row:hover{
-        background: #fcfdff;
+    .vendor-chip{
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        color: #fff;
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
     }
 
-    .capability-left{
+    .project-grid{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px 18px;
+    }
+
+    .check-card input[type="checkbox"]{
+        display: none;
+    }
+
+    .check-card label{
+        min-height: 60px;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
         display: flex;
         align-items: center;
         gap: 14px;
-    }
-
-    .capability-icon{
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        background: #f5f8fc;
-        border: 1px solid #e6edf5;
-        color: #7b8aa0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: 0.22s ease;
         font-size: 15px;
-        flex-shrink: 0;
+        color: var(--ck-text);
+        font-weight: 700;
+        line-height: 1.4;
     }
 
-    .capability-left span{
-        color: var(--text);
-        font-size: 17px;
+    .check-card label::before{
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-radius: 6px;
+        border: 2px solid #c4d0de;
+        background: #fff;
+        flex-shrink: 0;
+        transition: 0.22s ease;
+    }
+
+    .check-card input:checked + label{
+        border-color: #f1c7ad;
+        background: linear-gradient(180deg, #fffaf6 0%, #fff2e9 100%);
+        box-shadow: 0 10px 18px rgba(235,122,47,0.07);
+    }
+
+    .check-card input:checked + label::before{
+        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+        border-color: var(--ck-orange);
+        box-shadow: inset 0 0 0 4px #fff;
+    }
+
+    .form-grid-2{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 24px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea{
+        width: 100%;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: #fff;
+        color: var(--ck-text);
+        font-size: 15px;
+        padding: 0 18px;
+        outline: none;
+        transition: .22s ease;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder{
+        color: #9aa7b8;
+        font-weight: 500;
+    }
+
+    .form-input,
+    .form-select{
+        height: 58px;
+    }
+
+    .form-textarea{
+        min-height: 120px;
+        resize: vertical;
+        padding: 16px 18px;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus{
+        border-color: var(--ck-orange);
+        box-shadow: 0 0 0 4px rgba(235,122,47,0.08);
+    }
+
+    .form-input.is-invalid,
+    .form-select.is-invalid,
+    .form-textarea.is-invalid{
+        border-color: var(--ck-red);
+        box-shadow: 0 0 0 4px rgba(239,68,68,0.08);
+    }
+
+    .error-text{
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--ck-red);
         font-weight: 600;
     }
 
-    .switch{
-        position: relative;
-        width: 72px;
-        height: 40px;
-        flex-shrink: 0;
-        display: inline-block;
-    }
-
-    .switch input{
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider{
-        position: absolute;
-        inset: 0;
-        background: #cfd6df;
-        border-radius: 999px;
-        cursor: pointer;
-        transition: 0.25s ease;
-    }
-
-    .slider:before{
-        content: "";
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        left: 5px;
-        top: 5px;
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        transition: 0.25s ease;
-    }
-
-    .switch input:checked + .slider{
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-        box-shadow: 0 10px 22px rgba(255,106,0,0.18);
-    }
-
-    .switch input:checked + .slider:before{
-        transform: translateX(32px);
-    }
-
-    .upload-grid{
+    .upload-grid-2{
         display: grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: 18px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 20px;
     }
 
-    .upload-item input[type="file"]{
+    .upload-title{
+        margin: 0 0 8px;
+        font-size: 15px;
+        color: var(--ck-navy);
+        font-weight: 800;
+    }
+
+    .upload-input{
         display: none;
     }
 
     .upload-box{
-        min-height: 190px;
-        border: 2px dashed #d7e0ea;
-        border-radius: 24px;
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfd 100%);
+        min-height: 96px;
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: var(--ck-radius-md);
+        background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 12px;
-        text-align: center;
-        padding: 22px;
+        gap: 16px;
+        padding: 16px;
         cursor: pointer;
-        transition: all 0.24s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .upload-box::after{
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, rgba(255,106,0,0.05), transparent 50%);
-        opacity: 0;
-        transition: 0.24s ease;
-    }
-
-    .upload-icon{
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        background: #f6f9fc;
-        border: 1px solid #e6edf5;
-        color: #7b8aa0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-        position: relative;
-        z-index: 2;
-    }
-
-    .upload-box h4{
-        margin: 0;
-        color: var(--text);
-        font-size: 18px;
-        font-weight: 800;
-        line-height: 1.35;
-        position: relative;
-        z-index: 2;
-    }
-
-    .upload-box p{
-        margin: 0;
-        color: var(--text-soft);
-        font-size: 14px;
-        font-weight: 500;
-        position: relative;
-        z-index: 2;
+        transition: 0.22s ease;
     }
 
     .upload-box:hover{
-        transform: translateY(-4px);
-        border-color: #ffc79f;
-        background: linear-gradient(180deg, #fffdfb 0%, #fff7f1 100%);
-        box-shadow: var(--shadow-1);
+        border-color: #f1c19e;
+        box-shadow: 0 10px 22px rgba(235,122,47,0.08);
     }
 
-    .upload-box:hover::after{
-        opacity: 1;
-    }
-
-    .upload-item.active .upload-box{
-        border-color: var(--primary);
-        background: linear-gradient(180deg, #fffaf6 0%, #fff1e8 100%);
-        box-shadow: 0 18px 32px rgba(255,106,0,0.10);
-    }
-
-    .upload-item.active .upload-icon{
-        background: linear-gradient(135deg, #fff0e4 0%, #ffe1cf 100%);
-        border-color: #ffd0b3;
-        color: var(--primary);
-    }
-
-    .file-name{
-        margin-top: 10px;
-        text-align: center;
-        color: var(--primary);
-        font-size: 13px;
-        font-weight: 800;
-        word-break: break-word;
-    }
-
-    .submit-wrap{
-        margin-top: 2px;
-    }
-
-    .submit-btn{
-        width: 100%;
-        min-height: 86px;
-        border: none;
-        border-radius: 24px;
-        background: linear-gradient(135deg, #ff5d00 0%, #ff7b20 100%);
-        color: #fff;
-        font-size: 22px;
-        font-weight: 900;
-        letter-spacing: 0.2px;
-        box-shadow: var(--shadow-3);
-        transition: all 0.25s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .submit-btn::before{
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -120%;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-        transition: 0.65s ease;
-    }
-
-    .submit-btn:hover{
-        transform: translateY(-2px);
-        box-shadow: 0 26px 44px rgba(255,106,0,0.28);
-    }
-
-    .submit-btn:hover::before{
-        left: 130%;
-    }
-
-    .trust-row{
+    .upload-icon{
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #f6f7fb;
+        color: var(--ck-orange);
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .upload-main{
+        font-size: 16px;
+        color: var(--ck-navy);
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .upload-note{
+        font-size: 13px;
+        color: var(--ck-text-soft);
+        font-weight: 500;
+    }
+
+    .file-name{
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--ck-green);
+        font-weight: 700;
+        word-break: break-word;
+    }
+
+    .photo-grid{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .photo-card{
+        border: 1px solid var(--ck-line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 14px;
+        box-shadow: var(--ck-shadow-sm);
+    }
+
+    .photo-preview{
+        width: 100%;
+        height: 220px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #f5f7fb;
+        border: 1px solid var(--ck-line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .photo-preview img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
+
+    .photo-preview .placeholder{
+        color: var(--ck-muted);
+        font-weight: 700;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .submit-bar{
+        background: linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 100%);
+        border: 1px solid var(--ck-line);
+        border-radius: 24px;
+        box-shadow: var(--ck-shadow-md);
+        padding: 18px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 18px;
         flex-wrap: wrap;
-        margin-top: 2px;
     }
 
-    .trust-pill{
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 18px;
-        border-radius: 999px;
-        background: rgba(255,255,255,0.82);
-        border: 1px solid #e6edf5;
-        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
-        color: var(--text-soft);
-        font-size: 15px;
-        font-weight: 700;
+  
+
+    .submit-btn {
+    min-width: 324px;
+    height: 58px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: var(--ck-shadow-lg);
+    transition: .22s;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+    .submit-btn:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 22px 42px rgba(235,122,47,0.24);
     }
 
-    .trust-pill i{
-        color: var(--green);
-        font-size: 17px;
+    .submit-note{
+        max-width: 500px;
+        color: var(--ck-text-soft);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
     }
 
-    .alert-success{
-        background: #ecfdf3;
-        color: #027a48;
-        border: 1px solid #abefc6;
-        padding: 14px 16px;
-        border-radius: 16px;
-        font-weight: 700;
-        box-shadow: 0 10px 20px rgba(2,122,72,0.06);
+    @media (max-width: 1200px){
+        .project-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .photo-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
-    .alert-error{
-        background: #fef2f2;
-        color: #b91c1c;
-        border: 1px solid #fecaca;
-        padding: 14px 16px;
-        border-radius: 16px;
-        font-weight: 700;
-        box-shadow: 0 10px 20px rgba(185,28,28,0.05);
-    }
+    @media (max-width: 992px){
+        .form-grid-2,
+        .upload-grid-2,
+        .photo-grid{
+            grid-template-columns: 1fr;
+        }
 
-    .text-danger{
-        color: #dc2626;
-        font-size: 13px;
-        margin-top: 8px;
-        display: block;
-        font-weight: 700;
-    }
+        .project-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
 
-    @media (max-width: 1100px){
-        .survey-grid,
-        .upload-grid{
-            grid-template-columns: repeat(2, minmax(0,1fr));
+        .submit-btn{
+            width: 100%;
+            min-width: 100%;
         }
     }
 
     @media (max-width: 768px){
-        .survey-page{
-            padding: 12px 0 26px;
+        .vendor-page{
+            padding: 12px 0 22px;
         }
 
-        .top-banner,
-        .form-card{
-            padding: 20px 16px;
-            border-radius: 22px;
+        .top-banner{
+            padding: 18px 16px;
+            border-radius: 20px;
         }
 
         .top-banner h1{
             font-size: 22px;
         }
 
-        .section-text h2{
+        .top-banner-left{
+            align-items: flex-start;
+        }
+
+        .section-card{
+            padding: 18px 16px 22px;
+            border-radius: 20px;
+        }
+
+        .section-head{
+            gap: 12px;
+        }
+
+        .section-badge{
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
             font-size: 20px;
         }
 
-        .survey-grid,
-        .upload-grid{
+        .section-title-wrap h2{
+            font-size: 20px;
+        }
+
+        .vendor-bar{
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .project-grid{
             grid-template-columns: 1fr;
         }
 
-        .capability-row{
-            padding: 18px 14px;
-        }
-
-        .capability-left span{
-            font-size: 15px;
+        .submit-bar{
+            padding: 16px;
         }
 
         .submit-btn{
-            min-height: 72px;
-            border-radius: 20px;
-            font-size: 19px;
-        }
-
-        .trust-row{
-            justify-content: flex-start;
-        }
-
-        .trust-pill{
-            width: 100%;
-            justify-content: center;
+            height: 62px;
+            font-size: 16px;
         }
     }
 </style>
 
-<div class="survey-page">
-    <div class="page-stack">
+@php
+    $workType = $workType ?? null;
+    $projectTypes = $projectTypes ?? collect();
+@endphp
 
-        @if(session('success'))
-            <div class="alert-success">{{ session('success') }}</div>
-        @endif
+<form action="{{ route('interior.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-        @if(session('error'))
-            <div class="alert-error">{{ session('error') }}</div>
-        @endif
+    <div class="vendor-page">
+        <div class="vendor-stack">
 
-        <div class="top-banner">
-            <div class="top-banner-left">
-                <div class="top-banner-icon">
-                    <i class="fa-solid fa-map-location-dot"></i>
+            <div class="top-banner">
+                <div class="top-banner-left">
+                    <div class="top-banner-icon">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                    <div>
+                        <h1>Join as an Interior Designer Partner</h1>
+                        <p>Complete your profile, upload your documents, and start getting matched with relevant interior projects.</p>
+                    </div>
                 </div>
-                <div>
-                    <h1>Join as a Survey Services Partner</h1>
-                    <p>Complete your professional details and upload verification documents to start receiving quality leads.</p>
-                </div>
+                <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
             </div>
-            <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
-        </div>
 
-        <form action="{{ route('survey.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <div class="form-card">
+            <div class="section-card">
                 <div class="section-head">
-                    <div class="section-icon">
-                        <i class="fa-solid fa-crosshairs"></i>
-                    </div>
-                    <div class="section-text">
-                        <h2>Professional Details</h2>
-                        <p>Select your survey services and capabilities</p>
+                    <div class="section-badge"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="section-title-wrap">
+                        <h2>Business & Work Details</h2>
+                        <p>Select your interior specialization and project expertise</p>
                     </div>
                 </div>
 
-                <hr class="divider">
-
-                <div class="field-title">Type of Survey Offered</div>
-                <div class="field-note">You can select multiple services</div>
-
-                @php
-                    $surveyTypes = [
-                        ['name' => 'Land Demarcation', 'icon' => 'fa-solid fa-border-all'],
-                        ['name' => 'Topographic Survey', 'icon' => 'fa-solid fa-mountain'],
-                        ['name' => 'Layout Survey', 'icon' => 'fa-regular fa-window-restore'],
-                        ['name' => 'Road Survey', 'icon' => 'fa-solid fa-road'],
-                        ['name' => 'Drone Survey', 'icon' => 'fa-solid fa-helicopter'],
-                        ['name' => 'Boundary Survey', 'icon' => 'fa-regular fa-square'],
-                    ];
-                    $oldSurveyTypes = old('survey_types', []);
-                @endphp
-
-                <div class="survey-grid">
-                    @foreach($surveyTypes as $index => $type)
-                        <div class="survey-option">
-                            <input
-                                type="checkbox"
-                                id="survey_type_{{ $index }}"
-                                name="survey_types[]"
-                                value="{{ $type['name'] }}"
-                                {{ in_array($type['name'], $oldSurveyTypes) ? 'checked' : '' }}
-                            >
-                            <label for="survey_type_{{ $index }}">
-                                <i class="{{ $type['icon'] }}"></i>
-                                <span>{{ $type['name'] }}</span>
-                            </label>
-                        </div>
-                    @endforeach
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Interiors' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Interiors' }}</div>
+                    </div>
                 </div>
 
-                @error('survey_types')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
 
-                <div class="field-title" style="margin-bottom: 14px;">Capabilities</div>
-
-                <div class="capabilities-card">
-                    <div class="capability-row">
-                        <div class="capability-left">
-                            <div class="capability-icon"><i class="fa-solid fa-award"></i></div>
-                            <span>Licensed / Certified Surveyor</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" name="licensed_certified" value="1" {{ old('licensed_certified') ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="check-card">
+                                <input
+                                    type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                >
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
                     </div>
 
-                    <div class="capability-row">
-                        <div class="capability-left">
-                            <div class="capability-icon"><i class="fa-solid fa-stamp"></i></div>
-                            <span>Can provide stamped drawings</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" name="stamped_drawings" value="1" {{ old('stamped_drawings') ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-
-                    <div class="capability-row">
-                        <div class="capability-left">
-                            <div class="capability-icon"><i class="fa-solid fa-file-lines"></i></div>
-                            <span>Report format available</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" name="report_format_available" value="1" {{ old('report_format_available') ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-
-                    <div class="capability-row">
-                        <div class="capability-left">
-                            <div class="capability-icon"><i class="fa-solid fa-landmark"></i></div>
-                            <span>Land record coordination support</span>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" name="land_record_support" value="1" {{ old('land_record_support') ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
+                    @error('project_types')
+                        <div class="error-text">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
-            <div class="form-card">
+            <div class="section-card">
+                <div class="section-divider"></div>
+
                 <div class="section-head">
-                    <div class="section-icon">
-                        <i class="fa-regular fa-file-arrow-up"></i>
-                    </div>
-                    <div class="section-text">
-                        <h2>Upload Documents</h2>
-                        <p>Upload your verification documents and previous project photos</p>
+                    <div class="section-badge"><i class="fa-solid fa-building"></i></div>
+                    <div class="section-title-wrap">
+                        <h2>Basic Business Information</h2>
+                        <p>Studio overview and operating details</p>
                     </div>
                 </div>
 
-                <hr class="divider">
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Years of Experience <span class="req">*</span></div>
+                        <select class="form-select @error('experience_years') is-invalid @enderror" name="experience_years">
+                            <option value="">Select experience</option>
+                            <option value="10+ Years" {{ old('experience_years') == '10+ Years' ? 'selected' : '' }}>10+ Years</option>
+                            <option value="5-10 Years" {{ old('experience_years') == '5-10 Years' ? 'selected' : '' }}>5-10 Years</option>
+                            <option value="2-5 Years" {{ old('experience_years') == '2-5 Years' ? 'selected' : '' }}>2-5 Years</option>
+                            <option value="0-2 Years" {{ old('experience_years') == '0-2 Years' ? 'selected' : '' }}>0-2 Years</option>
+                        </select>
+                        @error('experience_years')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <div class="upload-grid">
-                    <div class="upload-item" id="gst_wrap">
-                        <label for="gst_certificate" class="upload-box">
+                    <div>
+                        <div class="field-label">Team Size <span class="req">*</span></div>
+                        <select class="form-select @error('team_size') is-invalid @enderror" name="team_size">
+                            <option value="">Select team size</option>
+                            <option value="1-5 people" {{ old('team_size') == '1-5 people' ? 'selected' : '' }}>1-5 people</option>
+                            <option value="6-20 people" {{ old('team_size') == '6-20 people' ? 'selected' : '' }}>6-20 people</option>
+                            <option value="21-50 people" {{ old('team_size') == '21-50 people' ? 'selected' : '' }}>21-50 people</option>
+                            <option value="50+ people" {{ old('team_size') == '50+ people' ? 'selected' : '' }}>50+ people</option>
+                        </select>
+                        @error('team_size')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">State <span class="req">*</span></div>
+                        <select class="form-select @error('state') is-invalid @enderror" name="state">
+                            <option value="">Select state</option>
+                            <option value="Maharashtra" {{ old('state') == 'Maharashtra' ? 'selected' : '' }}>Maharashtra</option>
+                        </select>
+                        @error('state')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Region <span class="req">*</span></div>
+                        <select class="form-select @error('region') is-invalid @enderror" name="region">
+                            <option value="">Select region</option>
+                            <option value="Mumbai" {{ old('region') == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
+                            <option value="Navi Mumbai" {{ old('region') == 'Navi Mumbai' ? 'selected' : '' }}>Navi Mumbai</option>
+                            <option value="Raigad" {{ old('region') == 'Raigad' ? 'selected' : '' }}>Raigad</option>
+                            <option value="Thane" {{ old('region') == 'Thane' ? 'selected' : '' }}>Thane</option>
+                            <option value="Pune" {{ old('region') == 'Pune' ? 'selected' : '' }}>Pune</option>
+                        </select>
+                        @error('region')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" placeholder="Enter city name">
+                        @error('city')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Minimum Project Value Handled (₹) <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('minimum_project_value') is-invalid @enderror" name="minimum_project_value" value="{{ old('minimum_project_value') }}" placeholder="Enter minimum project value">
+                        @error('minimum_project_value')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge"><i class="fa-solid fa-id-card"></i></div>
+                    <div class="section-title-wrap">
+                        <h2>Studio & Compliance Details</h2>
+                        <p>Firm details, contact information and registrations</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Studio / Firm Name <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" placeholder="Enter studio or firm name">
+                        @error('company_name')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Type of Entity <span class="req">*</span></div>
+                        <select class="form-select @error('entity_type') is-invalid @enderror" name="entity_type">
+                            <option value="">Select entity type</option>
+                            <option value="Proprietorship" {{ old('entity_type') == 'Proprietorship' ? 'selected' : '' }}>Proprietorship</option>
+                            <option value="Partnership" {{ old('entity_type') == 'Partnership' ? 'selected' : '' }}>Partnership</option>
+                            <option value="Pvt Ltd" {{ old('entity_type') == 'Pvt Ltd' ? 'selected' : '' }}>Pvt Ltd</option>
+                            <option value="LLP" {{ old('entity_type') == 'LLP' ? 'selected' : '' }}>LLP</option>
+                            <option value="Freelancer" {{ old('entity_type') == 'Freelancer' ? 'selected' : '' }}>Freelancer</option>
+                        </select>
+                        @error('entity_type')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">Registered Office Address <span class="req">*</span></div>
+                        <textarea class="form-textarea @error('registered_address') is-invalid @enderror" name="registered_address" placeholder="Enter complete registered office address">{{ old('registered_address') }}</textarea>
+                        @error('registered_address')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Principal Designer Name <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('contact_person_name') is-invalid @enderror" name="contact_person_name" value="{{ old('contact_person_name') }}" placeholder="Enter principal designer name">
+                        @error('contact_person_name')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Designation <span class="req">*</span></div>
+                        <input type="text" class="form-input @error('contact_person_designation') is-invalid @enderror" name="contact_person_designation" value="{{ old('contact_person_designation', 'Interior Designer') }}" placeholder="Enter designation">
+                        @error('contact_person_designation')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">PAN Number</div>
+                        <input type="text" class="form-input @error('pan_number') is-invalid @enderror" name="pan_number" value="{{ old('pan_number') }}" placeholder="Enter PAN number">
+                        @error('pan_number')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">GST Number</div>
+                        <input type="text" class="form-input @error('gst_number') is-invalid @enderror" name="gst_number" value="{{ old('gst_number') }}" placeholder="Enter GST number">
+                        @error('gst_number')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Design Specialization</div>
+                        <input type="text" class="form-input @error('specialization') is-invalid @enderror" name="specialization" value="{{ old('specialization') }}" placeholder="e.g. Modern, Luxury, Minimal, Commercial">
+                        @error('specialization')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Website / Portfolio Link</div>
+                        <input type="text" class="form-input @error('website') is-invalid @enderror" name="website" value="{{ old('website') }}" placeholder="Enter website or portfolio URL">
+                        @error('website')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge"><i class="fa-solid fa-file-arrow-up"></i></div>
+                    <div class="section-title-wrap">
+                        <h2>Documents & Portfolio</h2>
+                        <p>Upload company documents, brochure and portfolio images</p>
+                    </div>
+                </div>
+
+                <div class="upload-grid-2">
+                    <div>
+                        <div class="upload-title">PAN Card <span class="req">*</span></div>
+                        <input type="file" class="upload-input" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
+                        <label class="upload-box" for="pan_card">
+                            <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
+                            <div>
+                                <div class="upload-main">Upload PAN Card</div>
+                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                            </div>
+                        </label>
+                        <div class="file-name" id="pan_card_name"></div>
+                        @error('pan_card')
+                            <div class="error-text">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="upload-title">GST Certificate</div>
+                        <input type="file" class="upload-input" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                        <label class="upload-box" for="gst_certificate">
                             <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <h4>GST Certificate</h4>
-                            <p>Click to upload document</p>
+                            <div>
+                                <div class="upload-main">Upload GST Certificate</div>
+                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                            </div>
                         </label>
-                        <input type="file" name="gst_certificate" id="gst_certificate">
                         <div class="file-name" id="gst_certificate_name"></div>
                         @error('gst_certificate')
-                            <small class="text-danger">{{ $message }}</small>
+                            <div class="error-text">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="upload-item" id="aadhar_wrap">
-                        <label for="aadhar_card" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-credit-card"></i></div>
-                            <h4>Aadhaar Card</h4>
-                            <p>Click to upload document</p>
-                        </label>
-                        <input type="file" name="aadhar_card" id="aadhar_card">
-                        <div class="file-name" id="aadhar_card_name"></div>
-                        @error('aadhar_card')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="upload-item" id="company_wrap">
-                        <label for="company_profile" class="upload-box">
+                    <div>
+                        <div class="upload-title">Company Profile / Brochure <span class="req">*</span></div>
+                        <input type="file" class="upload-input" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+                        <label class="upload-box" for="company_profile">
                             <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
-                            <h4>Company Profile</h4>
-                            <p>Click to upload document</p>
+                            <div>
+                                <div class="upload-main">Upload Brochure</div>
+                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                            </div>
                         </label>
-                        <input type="file" name="company_profile" id="company_profile">
                         <div class="file-name" id="company_profile_name"></div>
                         @error('company_profile')
-                            <small class="text-danger">{{ $message }}</small>
+                            <div class="error-text">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <div class="upload-item" id="license_wrap">
-                        <label for="license_certificate" class="upload-box">
-                            <div class="upload-icon"><i class="fa-solid fa-award"></i></div>
-                            <h4>License / Certificate</h4>
-                            <p>Click to upload document</p>
+                    <div>
+                        <div class="upload-title">Client Testimonial / Work Completion Docs</div>
+                        <input type="file" class="upload-input" id="supporting_documents" name="supporting_documents" accept=".pdf,.jpg,.jpeg,.png">
+                        <label class="upload-box" for="supporting_documents">
+                            <div class="upload-icon"><i class="fa-regular fa-file-circle-check"></i></div>
+                            <div>
+                                <div class="upload-main">Upload Supporting Documents</div>
+                                <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                            </div>
                         </label>
-                        <input type="file" name="license_certificate" id="license_certificate">
-                        <div class="file-name" id="license_certificate_name"></div>
-                        @error('license_certificate')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <div class="upload-item" id="project_wrap">
-                        <label for="previous_project_photos" class="upload-box">
-                            <div class="upload-icon"><i class="fa-regular fa-image"></i></div>
-                            <h4>Previous Project Photos</h4>
-                            <p>Click to upload multiple photos</p>
-                        </label>
-                        <input type="file" name="previous_project_photos[]" id="previous_project_photos" multiple>
-                        <div class="file-name" id="previous_project_photos_name"></div>
-                        @error('previous_project_photos')
-                            <small class="text-danger">{{ $message }}</small>
+                        <div class="file-name" id="supporting_documents_name"></div>
+                        @error('supporting_documents')
+                            <div class="error-text">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
+
+                <div class="field-block">
+                    <div class="field-label">Portfolio Images</div>
+
+                    <div class="photo-grid">
+                        @for($i = 1; $i <= 3; $i++)
+                            <div class="photo-card">
+                                <input type="file" class="upload-input portfolio-image-input" id="portfolio_image_{{ $i }}" name="portfolio_images[]" accept=".jpg,.jpeg,.png">
+                                <label for="portfolio_image_{{ $i }}" class="photo-preview">
+                                    <img id="portfolio_preview_{{ $i }}" src="" alt="Portfolio Preview {{ $i }}">
+                                    <div class="placeholder" id="portfolio_placeholder_{{ $i }}">Upload Interior Project {{ $i }}</div>
+                                </label>
+                            </div>
+                        @endfor
+                    </div>
+
+                    @error('portfolio_images')
+                        <div class="error-text">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
-            <div class="submit-wrap">
-                <button type="submit" class="submit-btn">Register as Survey Partner</button>
-            </div>
+            <div class="submit-bar">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span>Submit Interior Designer Profile</span>
+                </button>
 
-            <div class="trust-row">
-                <div class="trust-pill">
-                    <i class="fa-regular fa-circle-check"></i>
-                    <span>Verified Leads</span>
-                </div>
-                <div class="trust-pill">
-                    <i class="fa-solid fa-bolt"></i>
-                    <span>Fast Project Allocation</span>
-                </div>
-                <div class="trust-pill">
-                    <i class="fa-solid fa-rocket"></i>
-                    <span>Easy Onboarding</span>
+                <div class="submit-note">
+                    By submitting, you agree to ConstructKaro’s designer verification and project lead matching process.
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 
 <script>
-    function bindFilePreview(inputId, outputId, wrapperId) {
+    function bindFileName(inputId, nameId) {
         const input = document.getElementById(inputId);
-        const output = document.getElementById(outputId);
-        const wrapper = document.getElementById(wrapperId);
+        const nameBox = document.getElementById(nameId);
 
-        if (!input || !output || !wrapper) return;
-
-        input.addEventListener('change', function () {
-            if (this.files && this.files.length > 0) {
-                output.textContent = this.files.length === 1
-                    ? this.files[0].name
-                    : this.files.length + ' files selected';
-                wrapper.classList.add('active');
-            } else {
-                output.textContent = '';
-                wrapper.classList.remove('active');
-            }
-        });
+        if (input && nameBox) {
+            input.addEventListener('change', function () {
+                nameBox.textContent = this.files.length ? this.files[0].name : '';
+            });
+        }
     }
 
-    bindFilePreview('gst_certificate', 'gst_certificate_name', 'gst_wrap');
-    bindFilePreview('aadhar_card', 'aadhar_card_name', 'aadhar_wrap');
-    bindFilePreview('company_profile', 'company_profile_name', 'company_wrap');
-    bindFilePreview('license_certificate', 'license_certificate_name', 'license_wrap');
-    bindFilePreview('previous_project_photos', 'previous_project_photos_name', 'project_wrap');
+    bindFileName('pan_card', 'pan_card_name');
+    bindFileName('gst_certificate', 'gst_certificate_name');
+    bindFileName('company_profile', 'company_profile_name');
+    bindFileName('supporting_documents', 'supporting_documents_name');
+
+    document.querySelectorAll('.portfolio-image-input').forEach(function(input, index) {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const imageNumber = index + 1;
+            const preview = document.getElementById('portfolio_preview_' + imageNumber);
+            const placeholder = document.getElementById('portfolio_placeholder_' + imageNumber);
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 </script>
 
 @endsection

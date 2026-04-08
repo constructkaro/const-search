@@ -82,15 +82,31 @@
         gap: 16px;
     }
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logo a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    max-height: 74px;
+    width: auto;
+    display: block;
+}
+
 </style>
 <header class="vendor-header">
     <div class="container header-container">
-        <div class="logo-wrap">
-            <a href="{{ route('vendor') }}" class="logo-link">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-helmet-safety"></i>
-                </div>
-                <span class="logo-text">ConstructKaro</span>
+        <div class="logo">
+              <a href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro">
             </a>
         </div>
 

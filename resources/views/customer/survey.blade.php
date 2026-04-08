@@ -480,18 +480,12 @@ a.survey-card-btn:hover{
             <li>Architects</li>
         </ul>
 
-        <!-- <a href="javascript:void(0)" 
-   class="survey-card-btn blue-btn open-survey-booking-modal survey-card-btn orange-btn"
-   data-service="Survey Services"
-   data-package="Standard Plan">
-   Book Standard Survey
-</a> -->
-<a href="javascript:void(0)" 
-   class="survey-card-btn blue-btn open-survey-booking-modal"
-   data-service="Survey Services"
-   data-package="Standard Plan">
-   Book Standard Survey
-</a>
+        <a href="javascript:void(0)" 
+        class="survey-card-btn blue-btn open-survey-booking-modal"
+        data-service="Survey Services"
+        data-package="Standard Plan">
+        Book Standard Survey
+        </a>
     </div>
 
     <!-- ADVANCED -->
@@ -568,15 +562,15 @@ a.survey-card-btn:hover{
             <div class="booking-form-group full-width">
                 <label>Land Area</label>
                <div class="booking-land-area-wrap">
-    <input type="text" name="land_area" id="booking_land_area" placeholder="Enter your Approx Land Area">
-    <select name="area_unit" id="booking_area_unit">
-        <option value="">Unit</option>
-        <option value="sqft">Sq.ft</option>
-        <option value="sqmt">Sq.m</option>
-        <option value="acre">Acre</option>
-        <option value="guntha">Guntha</option>
-    </select>
-</div>
+                    <input type="text" name="land_area" id="booking_land_area" placeholder="Enter your Approx Land Area">
+                    <select name="area_unit" id="booking_area_unit">
+                        <option value="">Unit</option>
+                        <option value="sqft">Sq.ft</option>
+                        <option value="sqmt">Sq.m</option>
+                        <option value="acre">Acre</option>
+                        <option value="guntha">Guntha</option>
+                    </select>
+                </div>
                 <small class="error-text" id="error_land_area"></small>
                 <small class="error-text" id="error_area_unit"></small>
             </div>
