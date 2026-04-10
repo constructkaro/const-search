@@ -27,8 +27,8 @@ use App\Http\Controllers\WeldingFabricationController;
 
 
 //vendor
-// Route::domain('vendor.constructkaro.in')->group(function () {
-    Route::get('/vendor', function () {
+Route::domain('vendor.constructkaro.in')->group(function () {
+    Route::get('/', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -93,7 +93,7 @@ use App\Http\Controllers\WeldingFabricationController;
 Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
 Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-// });
+});
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

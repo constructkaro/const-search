@@ -781,7 +781,8 @@
                                     <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link">View Uploaded MSME</a>
+                            <a href="#" class="uploaded-link" id="msme_link" target="_blank" style="display:none;">View MSME</a>
+                            <!-- <a href="#" class="uploaded-link">View Uploaded MSME</a> -->
                         </div>
                     </div>
                 </div>
@@ -910,6 +911,7 @@
         });
     }
 
+    setupFilePreview('msme_certificate', 'msme_link');
     setupFilePreview('pan_card', 'pan_card_link');
     setupFilePreview('gst_certificate', 'gst_certificate_link');
     setupFilePreview('aadhaar_card', 'aadhaar_card_link');
