@@ -27,8 +27,9 @@ use App\Http\Controllers\WeldingFabricationController;
 
 
 //vendor
-Route::domain('vendor.constructkaro.in')->group(function () {
-    Route::get('/', function () {
+// Route::domain('vendor.constructkaro.in')->group(function () {
+    // Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -93,7 +94,7 @@ Route::domain('vendor.constructkaro.in')->group(function () {
 Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
 Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -103,9 +104,7 @@ Route::post('/customer/verify-otp', [CustomerController::class, 'verifyOtp'])->n
 Route::get('/customer/survey', [CustomerController::class, 'surveyPage'])->name('customer.survey');
 Route::get('/customer/testing', [CustomerController::class, 'testingPage'])->name('customer.testing');
 
-
 Route::get('/customer/boq', [CustomerController::class, 'boqPage'])->name('customer.boq');
-
 
 Route::post('/customer/survey-booking/save', [CustomerController::class, 'saveSurveyBooking'])->name('customer.survey.booking.save');
 Route::get('/customer/logout', [CustomerController::class, 'logout'])->name('customer.logout');

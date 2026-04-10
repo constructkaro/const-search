@@ -16,6 +16,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 40px;
+     align-items: stretch;
     padding: 60px 20px;
     flex-wrap: wrap;
 }
@@ -28,6 +29,9 @@ body {
     padding: 40px 25px 30px;
     box-shadow: -4px 6px 10px rgba(0,0,0,0.18);
     overflow: visible;
+
+    display: flex;
+    flex-direction: column; /* IMPORTANT */
 }
 
 /* Badge */
@@ -53,6 +57,7 @@ body {
     list-style: none;
     padding: 0;
     margin: 18px 0 25px 0;
+    flex-grow: 1;
 }
 
 .list li {
@@ -96,7 +101,7 @@ a.survey-card-btn:hover {
 
 .button-wrap {
     text-align: center;
-    margin-top: 25px;
+    margin-top: auto;
 }
 
 /* Theme Colors */
@@ -340,6 +345,7 @@ textarea.form-control {
 
     .card {
         width: 100%;
+         height: 100%;
         max-width: 360px;
     }
 

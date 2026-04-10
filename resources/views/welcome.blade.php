@@ -300,23 +300,23 @@
         background: linear-gradient(180deg, #3d8dd4, #1c5f9d);
     }
 
-    .explore-services-section {
+    .explore-services-section{
         padding: 50px 0 30px;
         background: #f4f4f4;
     }
 
-    .explore-services-container {
+    .explore-services-container{
         width: 92%;
         max-width: 1320px;
         margin: 0 auto;
     }
 
-    .explore-services-heading {
+    .explore-services-heading{
         text-align: center;
         margin-bottom: 34px;
     }
 
-    .explore-services-heading h2 {
+    .explore-services-heading h2{
         margin: 0;
         color: #222;
         font-size: 34px;
@@ -324,7 +324,7 @@
         line-height: 1.2;
     }
 
-    .heading-line {
+    .heading-line{
         display: flex;
         justify-content: center;
         align-items: center;
@@ -332,29 +332,29 @@
         margin-top: 10px;
     }
 
-    .heading-line span {
+    .heading-line span{
         display: block;
         height: 3px;
         border-radius: 20px;
     }
 
-    .line-orange {
+    .line-orange{
         width: 88px;
         background: #e97827;
     }
 
-    .line-blue {
+    .line-blue{
         width: 126px;
         background: #2f78bf;
     }
 
-    .explore-services-grid {
+    .explore-services-grid{
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 28px;
     }
 
-    .explore-card {
+    .explore-card{
         background: #fff;
         border-radius: 20px;
         overflow: hidden;
@@ -362,60 +362,60 @@
         transition: 0.3s ease;
     }
 
-    .explore-card:hover {
+    .explore-card:hover{
         transform: translateY(-6px);
     }
 
-    .orange-card {
+    .orange-card{
         border: 2px solid #ea7a27;
     }
 
-    .blue-card {
+    .blue-card{
         border: 2px solid #2f78bf;
     }
 
-    .explore-card-image {
+    .explore-card-image{
         width: 100%;
         height: 170px;
         overflow: hidden;
         border-bottom: 1px solid #d7d7d7;
     }
 
-    .explore-card-image img {
+    .explore-card-image img{
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
     }
 
-    .explore-card-body {
+    .explore-card-body{
         padding: 14px 16px 18px;
         text-align: center;
         background: #fff;
     }
 
-    .explore-card-body h3 {
+    .explore-card-body h3{
         margin: 0 0 10px;
         font-size: 18px;
         font-weight: 800;
         line-height: 1.2;
     }
 
-    .orange-card h3 {
+    .orange-card h3{
         color: #e97827;
     }
 
-    .blue-card h3 {
+    .blue-card h3{
         color: #2f78bf;
     }
 
-    .explore-card-body h3.small-title {
+    .explore-card-body h3.small-title{
         font-size: 14px;
         line-height: 1.25;
         letter-spacing: -0.2px;
     }
 
-    .explore-card-body p {
+    .explore-card-body p{
         margin: 0 0 14px;
         color: #333;
         font-size: 12px;
@@ -423,7 +423,7 @@
         min-height: 34px;
     }
 
-    .explore-btn {
+    .explore-btn{
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -440,18 +440,201 @@
         cursor: pointer;
     }
 
-    .explore-btn:hover {
+    .explore-btn:hover{
         transform: translateY(-2px);
     }
 
-    .orange-btn {
+    .orange-btn{
         background: linear-gradient(180deg, #ef8a39 0%, #df7122 100%);
     }
 
-    .blue-btn {
+    .blue-btn{
         background: linear-gradient(180deg, #3485cd 0%, #206eb4 100%);
     }
 
+    /* Upcoming */
+    .upcoming-services-section{
+        padding: 70px 0 60px;
+        background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .upcoming-services-section::before,
+    .upcoming-services-section::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 120px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .upcoming-services-section::before{
+        top: 0;
+        background: linear-gradient(to bottom, rgba(247,247,247,1), rgba(247,247,247,0));
+    }
+
+    .upcoming-services-section::after{
+        bottom: 0;
+        background: linear-gradient(to top, rgba(236,236,236,1), rgba(236,236,236,0));
+    }
+
+    .upcoming-services-container{
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .upcoming-services-heading{
+        text-align: center;
+        margin-bottom: 34px;
+        padding: 0 20px;
+    }
+
+    .upcoming-services-heading h2{
+        margin: 0;
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1.15;
+        color: #1f1f1f;
+        letter-spacing: -0.5px;
+    }
+
+    .upcoming-heading-line{
+        width: 220px;
+        height: 4px;
+        margin: 14px auto 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ef7d2d 0%, #2f78bf 100%);
+    }
+
+    .upcoming-auto-scroll-wrap{
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        padding: 8px 0;
+    }
+
+    .upcoming-auto-scroll-track{
+        display: flex;
+        align-items: stretch;
+        gap: 24px;
+        width: max-content;
+        animation: upcomingAutoScroll 30s linear infinite;
+        will-change: transform;
+    }
+
+    .upcoming-auto-scroll-wrap:hover .upcoming-auto-scroll-track{
+        animation-play-state: paused;
+    }
+
+    @keyframes upcomingAutoScroll{
+        0%{
+            transform: translateX(0);
+        }
+        100%{
+            transform: translateX(-50%);
+        }
+    }
+
+    .upcoming-card{
+        width: 390px;
+        min-width: 390px;
+        background: #ffffff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        position: relative;
+    }
+
+    .upcoming-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+    }
+
+    .upcoming-card.orange-border{
+        border: 2px solid #ef7d2d;
+    }
+
+    .upcoming-card.blue-border{
+        border: 2px solid #2f78bf;
+    }
+
+    .upcoming-badge{
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(17, 24, 39, 0.86);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+    }
+
+    .upcoming-card-image{
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .upcoming-card-image::after{
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.10), rgba(0,0,0,0.02));
+    }
+
+    .upcoming-card-image img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+    }
+
+    .upcoming-card:hover .upcoming-card-image img{
+        transform: scale(1.06);
+    }
+
+    .upcoming-card-body{
+        background: #ffffff;
+        padding: 22px 18px 24px;
+        text-align: center;
+    }
+
+    .upcoming-card-body h3{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1.25;
+        letter-spacing: -0.2px;
+    }
+
+    .upcoming-card.orange-border .upcoming-card-body h3{
+        color: #ef7d2d;
+    }
+
+    .upcoming-card.blue-border .upcoming-card-body h3{
+        color: #2f78bf;
+    }
+
+    .upcoming-card-body p{
+        margin: 8px 0 0;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #666;
+    }
+
+    /* Modals */
     .custom-modal-overlay{
         position: fixed;
         inset: 0;
@@ -610,12 +793,33 @@
             grid-template-columns: repeat(2, 1fr);
         }
 
-        .explore-services-grid {
+        .explore-services-grid{
             grid-template-columns: repeat(2, 1fr);
         }
 
-        .explore-services-heading h2 {
+        .explore-services-heading h2{
             font-size: 30px;
+        }
+
+        .upcoming-services-section{
+            padding: 56px 0 46px;
+        }
+
+        .upcoming-services-heading h2{
+            font-size: 34px;
+        }
+
+        .upcoming-card{
+            width: 320px;
+            min-width: 320px;
+        }
+
+        .upcoming-card-image{
+            height: 210px;
+        }
+
+        .upcoming-card-body h3{
+            font-size: 20px;
         }
     }
 
@@ -670,18 +874,62 @@
             height: 230px;
         }
 
-        .explore-services-grid {
+        .explore-services-grid{
             grid-template-columns: 1fr;
         }
 
-        .explore-card {
+        .explore-card{
             max-width: 360px;
             margin: 0 auto;
             width: 100%;
         }
 
-        .explore-services-heading h2 {
+        .explore-services-heading h2{
             font-size: 26px;
+        }
+
+        .upcoming-services-section{
+            padding: 44px 0 34px;
+        }
+
+        .upcoming-services-heading{
+            margin-bottom: 24px;
+        }
+
+        .upcoming-services-heading h2{
+            font-size: 28px;
+        }
+
+        .upcoming-heading-line{
+            width: 160px;
+            height: 3px;
+        }
+
+        .upcoming-auto-scroll-track{
+            gap: 16px;
+            animation-duration: 22s;
+        }
+
+        .upcoming-card{
+            width: 270px;
+            min-width: 270px;
+            border-radius: 18px;
+        }
+
+        .upcoming-card-image{
+            height: 180px;
+        }
+
+        .upcoming-card-body{
+            padding: 16px 12px 18px;
+        }
+
+        .upcoming-card-body h3{
+            font-size: 18px;
+        }
+
+        .upcoming-card-body p{
+            font-size: 12px;
         }
     }
 
@@ -703,6 +951,151 @@
             min-width: 100%;
         }
     }
+
+    .faq-section{
+    padding: 70px 0 60px;
+    background: #e9e9e9;
+}
+
+.faq-container{
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.faq-heading{
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.faq-heading h2{
+    margin: 0;
+    color: #1f1f1f;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.faq-heading-line{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    margin-top: 12px;
+}
+
+.faq-line-orange{
+    width: 110px;
+    height: 3px;
+    background: #e97827;
+    border-radius: 20px 0 0 20px;
+}
+
+.faq-line-blue{
+    width: 110px;
+    height: 3px;
+    background: #2f78bf;
+    border-radius: 0 20px 20px 0;
+}
+
+.faq-accordion{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faq-item{
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.faq-item.active{
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.faq-question{
+    width: 100%;
+    border: none;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    padding: 22px 26px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #111;
+    cursor: pointer;
+}
+
+.faq-question span:first-child{
+    flex: 1;
+    line-height: 1.4;
+}
+
+.faq-icon{
+    font-size: 26px;
+    font-weight: 700;
+    color: #1f67ab;
+    min-width: 24px;
+    text-align: center;
+}
+
+.faq-answer{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    background: #ffffff;
+}
+
+.faq-item.active .faq-answer{
+    max-height: 300px;
+}
+
+.faq-answer p{
+    margin: 0;
+    padding: 0 26px 22px;
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+@media (max-width: 767px){
+    .faq-section{
+        padding: 50px 0 40px;
+    }
+
+    .faq-container{
+        width: 92%;
+    }
+
+    .faq-heading h2{
+        font-size: 26px;
+    }
+
+    .faq-line-orange,
+    .faq-line-blue{
+        width: 75px;
+    }
+
+    .faq-question{
+        padding: 18px 16px;
+        font-size: 16px;
+    }
+
+    .faq-answer p{
+        padding: 0 16px 18px;
+        font-size: 14px;
+    }
+
+    .faq-icon{
+        font-size: 22px;
+    }
+}
 </style>
 
 <div class="home-page">
@@ -760,9 +1153,7 @@
                         </div>
                         <h3 class="service-card-title">Architect</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <a href="{{ route('post', ['work_type_id' => 2]) }}" class="service-card-btn">
-                            Post Your Requirement
-                        </a>
+                        <a href="{{ route('post', ['work_type_id' => 2]) }}" class="service-card-btn">Post Your Requirement</a>
                     </div>
                 </div>
 
@@ -778,9 +1169,7 @@
                         </div>
                         <h3 class="service-card-title">Contractor</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <a href="{{ route('post', ['work_type_id' => 1]) }}" class="service-card-btn">
-                            Post Your Requirement
-                        </a>
+                        <a href="{{ route('post', ['work_type_id' => 1]) }}" class="service-card-btn">Post Your Requirement</a>
                     </div>
                 </div>
 
@@ -796,9 +1185,7 @@
                         </div>
                         <h3 class="service-card-title">Interior Designer</h3>
                         <p class="service-card-text">Post your requirements and get your quote within 24 hours.</p>
-                        <a href="{{ route('post', ['work_type_id' => 4]) }}" class="service-card-btn">
-                            Post Your Requirement
-                        </a>
+                        <a href="{{ route('post', ['work_type_id' => 4]) }}" class="service-card-btn">Post Your Requirement</a>
                     </div>
                 </div>
 
@@ -808,7 +1195,6 @@
 
     <section class="explore-services-section">
         <div class="explore-services-container">
-
             <div class="explore-services-heading">
                 <h2>Explore More Services</h2>
                 <div class="heading-line">
@@ -854,7 +1240,7 @@
                 @php $boqUrl = route('customer.boq'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ Estimation">
+                        <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ/Estimation">
                     </div>
                     <div class="explore-card-body">
                         <h3>BOQ/Estimation</h3>
@@ -867,89 +1253,227 @@
                     </div>
                 </div>
 
-                @php $facadeUrl = route('customer.facade'); @endphp
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Facade Services</h3>
-                        <p>Explore All Categories of Facade Services</p>
-                        <a href="{{ $isCustomerLoggedIn ? $facadeUrl : 'javascript:void(0)' }}"
-                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
-                           data-redirect="{{ $facadeUrl }}">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
-
-                @php $machineryUrl = '#'; @endphp
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Machinery On Hire</h3>
-                        <p>Explore All Categories of Machinery On Hire Services</p>
-                        <a href="javascript:void(0)" class="explore-btn orange-btn open-coming-soon-modal">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
-
-                @php $structuralAuditUrl = route('customer.structuralaudit'); @endphp
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Structural Audit</h3>
-                        <p>Explore All Categories of Structural Audit Services</p>
-                        <a href="{{ $isCustomerLoggedIn ? $structuralAuditUrl : 'javascript:void(0)' }}"
-                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
-                           data-redirect="{{ $structuralAuditUrl }}">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
-
-                @php $legalUrl = route('customer.nasupport'); @endphp
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support and Legal Due Diligence">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3 class="small-title">NA Support &amp; Legal Due Diligence</h3>
-                        <p>Explore All Categories of NA Support &amp; Legal Due Diligence Services</p>
-                        <a href="{{ $isCustomerLoggedIn ? $legalUrl : 'javascript:void(0)' }}"
-                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
-                           data-redirect="{{ $legalUrl }}">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
-
-                @php $weldingUrl = route('customer.welding_fabrication'); @endphp
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding and Fabrication">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Welding &amp; Fabrication</h3>
-                        <p>Explore All Categories of Welding &amp; Fabrication Services</p>
-                        <a href="{{ $isCustomerLoggedIn ? $weldingUrl : 'javascript:void(0)' }}"
-                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
-                           data-redirect="{{ $weldingUrl }}">
-                            Get Started
-                        </a>
-                    </div>
-                </div>
+               
 
             </div>
         </div>
     </section>
+
+    <section class="upcoming-services-section">
+        <div class="upcoming-services-container">
+            <div class="upcoming-services-heading">
+                <h2>Our Upcoming Services</h2>
+                <div class="upcoming-heading-line"></div>
+            </div>
+
+            <div class="upcoming-auto-scroll-wrap">
+                <div class="upcoming-auto-scroll-track">
+
+                    <div class="upcoming-card orange-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support & Legal Due Diligence">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>NA Support & Legal Due Diligence</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding & Fabrication">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Welding & Fabrication</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Structural Audit</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card orange-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Machinery On Hire</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Facade Services</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate for loop -->
+                    <div class="upcoming-card orange-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/legal-due-diligence.png') }}" alt="NA Support & Legal Due Diligence">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>NA Support & Legal Due Diligence</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/welding-fabrication.png') }}" alt="Welding & Fabrication">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Welding & Fabrication</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Structural Audit</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card orange-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/machinery-on-hire.png') }}" alt="Machinery On Hire">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Machinery On Hire</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-card blue-border">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/facade-services.png') }}" alt="Facade Services">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>Facade Services</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+<section class="faq-section">
+    <div class="faq-container">
+        <div class="faq-heading">
+            <h2>Frequently Asked Questions (FAQs)</h2>
+            <div class="faq-heading-line">
+                <span class="faq-line-orange"></span>
+                <span class="faq-line-blue"></span>
+            </div>
+        </div>
+
+        <div class="faq-accordion">
+
+            <div class="faq-item active">
+                <button class="faq-question" type="button">
+                    <span>1. How does ConstructKaro work?</span>
+                    <span class="faq-icon">−</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                       ConstructKaro works by helping customers find the right construction-related service provider based on their project needs. You submit your requirement, our team reviews the details, and then we connect you with suitable professionals or service partners. This process helps simplify your search and makes it easier to move forward with your construction project.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span>2. What construction services are available in Navi Mumbai?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                       ConstructKaro offers a wide range of construction services in Navi Mumbai, including contractors, architects, interior designers, survey services, BOQ and estimation, testing services, structural audit, façade services, welding and fabrication, and NA Support & legal due diligence. You can choose the service you need and submit your project details directly through our platform.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span>3. Which areas does ConstructKaro serve in Maharashtra?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        ConstructKaro serves major locations in Maharashtra, including Mumbai, Navi Mumbai, Raigad, Thane, and Pune. Service availability may vary depending on the project type and requirement.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span>4. How can I hire an architect in Pune through ConstructKaro?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        To hire an architect in Pune through ConstructKaro, you need to fill out your requirement form with your project details. Once we receive your request, our team reviews your requirement and contacts you to understand your needs better. Based on your project scope, we connect you with a suitable architect for design and planning support.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span>5. Can I get a BOQ and cost estimation for my project in Raigad?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                       Yes, ConstructKaro provides BOQ and cost estimation services in Raigad for residential, commercial, and other construction projects. Our team helps you get a detailed quantity and cost estimate so you can understand your budget better before starting the work. This service is useful for planning, quotation comparison, and project execution.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" type="button">
+                    <span>6. Can I hire interior designers through ConstructKaro in Mumbai and Pune?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                    Yes, ConstructKaro helps customers connect with interior designers in Mumbai, Pune, and nearby service areas based on project requirements.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 </div>
 
+<!-- Customer Login Modal -->
 <div id="customerLoginOtpModal" class="custom-modal-overlay">
     <div class="custom-modal-box">
         <button type="button" class="custom-modal-close" id="closeCustomerLoginModal">&times;</button>
@@ -983,6 +1507,8 @@
         </div>
     </div>
 </div>
+
+<!-- Coming Soon Modal -->
 <div id="comingSoonModal" class="custom-modal-overlay">
     <div class="custom-modal-box" style="max-width:420px; text-align:center;">
         <button type="button" class="custom-modal-close" id="closeComingSoonModal">&times;</button>
@@ -995,7 +1521,7 @@
         <div class="custom-modal-body">
             <div style="font-size:56px; margin-bottom:12px;">🚧</div>
             <p style="font-size:14px; color:#666; margin-bottom:18px;">
-                We are working on launching Machinery On Hire services shortly.
+                We are working on launching this service shortly.
             </p>
 
             <button type="button" class="modal-btn primary-btn" id="okayComingSoonBtn">
@@ -1004,8 +1530,8 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -1039,112 +1565,6 @@
         }
     });
 
-    $('#customerSendOtpBtn').on('click', function () {
-        let mobile = $('#customer_mobile_number').val();
-
-        $('#customer_mobile_error').text('');
-        $('#customer_otp_error').text('');
-        $('#customer_otp_success_msg').text('');
-
-        $.ajax({
-            url: "{{ route('customer.send.otp') }}",
-            type: "POST",
-            data: {
-                mobile: mobile
-            },
-            success: function (response) {
-                if (response.status) {
-                    $('#customerOtpSection').show();
-                    $('#customerVerifyOtpBtn').show();
-                    $('#customerSendOtpBtn').hide();
-                    $('#customer_otp_success_msg').text(response.message);
-                } else {
-                    $('#customer_mobile_error').text(response.message);
-                }
-            },
-            error: function (xhr) {
-                if (xhr.responseJSON) {
-                    if (xhr.responseJSON.errors && xhr.responseJSON.errors.mobile) {
-                        $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
-                    } else if (xhr.responseJSON.message) {
-                        $('#customer_mobile_error').text(xhr.responseJSON.message);
-                    }
-                }
-            }
-        });
-    });
-
-    $('#customerVerifyOtpBtn').on('click', function () {
-        let mobile = $('#customer_mobile_number').val();
-        let otp = $('#customer_otp_code').val();
-        let redirectUrl = $('#customer_redirect_url').val();
-
-        $('#customer_mobile_error').text('');
-        $('#customer_otp_error').text('');
-
-        $.ajax({
-            url: "{{ route('customer.verify.otp') }}",
-            type: "POST",
-            data: {
-                mobile: mobile,
-                otp: otp,
-                redirect_url: redirectUrl
-            },
-            success: function (response) {
-                if (response.status) {
-                    window.location.href = response.redirect;
-                } else {
-                    $('#customer_otp_error').text(response.message);
-                }
-            },
-            error: function (xhr) {
-                if (xhr.responseJSON) {
-                    if (xhr.responseJSON.errors) {
-                        if (xhr.responseJSON.errors.mobile) {
-                            $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
-                        }
-                        if (xhr.responseJSON.errors.otp) {
-                            $('#customer_otp_error').text(xhr.responseJSON.errors.otp[0]);
-                        }
-                    } else if (xhr.responseJSON.message) {
-                        $('#customer_otp_error').text(xhr.responseJSON.message);
-                    }
-                }
-            }
-        });
-    });
-</script>
-
-<script>
-    function toggleHeroResize() {
-        if (window.scrollY > 60) {
-            document.body.classList.add('hero-scrolled');
-        } else {
-            document.body.classList.remove('hero-scrolled');
-        }
-    }
-
-    window.addEventListener('scroll', toggleHeroResize);
-    window.addEventListener('load', toggleHeroResize);
-    window.addEventListener('resize', toggleHeroResize);
-
-    const revealItems = document.querySelectorAll('.reveal-card');
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('show');
-            }
-        });
-    }, {
-        threshold: 0.2
-    });
-
-    revealItems.forEach((item) => {
-        revealObserver.observe(item);
-    });
-</script>
-<script>
     $(document).on('click', '.open-coming-soon-modal', function () {
         $('#comingSoonModal').addClass('active');
     });
@@ -1158,5 +1578,48 @@
             $('#comingSoonModal').removeClass('active');
         }
     });
+
+    // Optional reveal animation
+    $(window).on('scroll load', function () {
+        $('.reveal-card').each(function () {
+            let top = $(this).offset().top;
+            let windowBottom = $(window).scrollTop() + $(window).height() - 60;
+
+            if (windowBottom > top) {
+                $(this).addClass('show');
+            }
+        });
+    });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const button = item.querySelector('.faq-question');
+        const icon = item.querySelector('.faq-icon');
+
+        button.addEventListener('click', function () {
+            const isActive = item.classList.contains('active');
+
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove('active');
+                otherItem.querySelector('.faq-icon').textContent = '+';
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+                icon.textContent = '−';
+            }
+        });
+    });
+});
+</script>
+<script 
+      type="text/javascript"
+      src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"
+      id="aisensy-wa-widget"
+      widget-id="aabcqe"
+    >
+    </script>
 @endsection
