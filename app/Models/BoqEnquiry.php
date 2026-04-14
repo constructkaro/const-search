@@ -23,4 +23,10 @@ class BoqEnquiry extends Model
         'drawing_file',
         'additional_details',
     ];
+
+
+    public function trackings()
+{
+    return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
+}
 }

@@ -24,7 +24,55 @@ use App\Http\Controllers\NaSupportController;
 use App\Http\Controllers\FacadeEnquiryController;
 use App\Http\Controllers\StructuralAuditEnquiryController;
 use App\Http\Controllers\WeldingFabricationController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Customer\OrderTrackingController;
+use App\Http\Controllers\Admin\TrackingTemplateController;
 
+/*
+|--------------------------------------------------------------------------
+| Admin Login
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/contractor', [OrderController::class, 'contractorOrders'])->name('orders.contractor');
+    Route::get('/orders/interior', [OrderController::class, 'interiorOrders'])->name('orders.interior');
+    Route::get('/orders/survey', [OrderController::class, 'surveyOrders'])->name('orders.survey');
+    Route::get('/orders/testing', [OrderController::class, 'testingOrders'])->name('orders.testing');
+    Route::get('/orders/boq', [OrderController::class, 'boqOrders'])->name('orders.boq');
+
+      Route::get('/tracking-templates', [TrackingTemplateController::class, 'index'])->name('tracking_templates.index');
+    Route::post('/tracking-templates/store', [TrackingTemplateController::class, 'store'])->name('tracking_templates.store');
+    Route::post('/tracking-templates/update/{id}', [TrackingTemplateController::class, 'update'])->name('tracking_templates.update');
+    Route::post('/tracking-templates/delete/{id}', [TrackingTemplateController::class, 'delete'])->name('tracking_templates.delete');
+
+     Route::get('/order-tracking', [TrackingTemplateController::class, 'adminOrders'])->name('order_tracking.index');
+    Route::post('/order-tracking/assign', [TrackingTemplateController::class, 'assignTemplate'])->name('order_tracking.assign');
+
+    Route::get('/order-tracking/{service_key}/{source_id}', [TrackingTemplateController::class, 'manageSteps'])
+        ->name('order_tracking.steps');
+
+    Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])
+        ->name('order_tracking.step_update');
+    // Route::get('/order-tracking', [TrackingTemplateController::class, 'adminOrders'])->name('order_tracking.index');
+    // Route::post('/order-tracking/assign', [TrackingTemplateController::class, 'assignTemplate'])->name('order_tracking.assign');
+    // Route::get('/order-tracking/{service_key}/{source_id}', [TrackingTemplateController::class, 'manageSteps'])->name('order_tracking.steps');
+    // Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])->name('order_tracking.step_update');
+});
+
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
+
+
+});
 
 //vendor
 Route::domain('vendor.constructkaro.in')->group(function () {
@@ -128,6 +176,19 @@ Route::post('/welding-fabrication/store', [WeldingFabricationController::class, 
 
 
 Route::get('/post', [CustomerController::class, 'post'])->name('post');
+
+// Route::get('/ordertrack', [CustomerController::class, 'ordertrack'])->name('ordertrack');
+// Route::get('/order-track/{type}/{id}', [CustomerController::class, 'ordertrack'])->name('ordertrack');
+// Route::get('/order-track/{order}', [OrderTrackingController::class, 'show'])->name('ordertrack.show');
+// Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
+// Route::get('/myorder/track/{service_key}/{source_id}', [MyOrderController::class, 'track'])
+//     ->name('myorder.track');
+Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
+Route::get('/myorder/track/{service_key}/{source_id}', [CustomerController::class, 'track'])->name('myorder.track');
+
+// Route::get('/order-track/{service}/{id}', [CustomerController::class, 'orderTrack'])->name('ordertrack.show');
+
+// Route::get('/order-track/{service}/{id}', [OrderTrackingController::class, 'show'])->name('ordertrack.show');
 
 Route::post('/save-post', [CustomerController::class, 'savepost'])->name('save.post');
 Route::get('/get-project-types/{workType}', [CustomerController::class, 'getProjectTypes']);

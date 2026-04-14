@@ -19,4 +19,10 @@ class TestingEnquiry extends Model
         'required_testing_type',
         'additional_details',
     ];
+
+
+    public function trackings()
+{
+    return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
+}
 }

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Session;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Twilio\Rest\Client;
+use App\Models\OrderTracking;
+use App\Models\OrderTrackingStep;
+use Illuminate\Support\Collection;
 
 use Throwable;
 
@@ -69,68 +72,6 @@ class CustomerController extends Controller
     }
 
 
-    // public function verifyOtp(Request $request)
-    // {
-    //     try {
-    //         $request->validate([
-    //             'mobile' => ['required', 'digits:10'],
-    //             'otp' => ['required', 'digits_between:4,10'],
-    //             'redirect_url' => ['nullable', 'string'],
-    //         ]);
-    //     } catch (\Illuminate\Validation\ValidationException $e) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Validation failed.',
-    //             'errors' => $e->errors(),
-    //         ], 422);
-    //     }
-
-    //     $mobile = '+91' . $request->mobile;
-
-    //     try {
-    //         $check = $this->twilio->verify->v2
-    //             ->services($this->verifySid)
-    //             ->verificationChecks
-    //             ->create([
-    //                 'to' => $mobile,
-    //                 'code' => $request->otp,
-    //             ]);
-
-    //         if ($check->status !== 'approved') {
-    //             return response()->json([
-    //                 'status' => false,
-    //                 'message' => 'Invalid or expired OTP.',
-    //             ], 422);
-    //         }
-
-    //         $customer = \App\Models\Customer::firstOrCreate(
-    //             ['mobile' => $request->mobile],
-    //             [
-    //                 'name' => null,
-    //                 'email' => null,
-    //             ]
-    //         );
-
-    //         session([
-    //             'customer_id' => $customer->id,
-    //             'customer_name' => $customer->name,
-    //             'customer_mobile' => $customer->mobile,
-    //             'customer_logged_in' => true,
-    //         ]);
-
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'Login successful.',
-    //             'redirect' => $request->redirect_url ?: route('customer.survey'),
-    //         ]);
-    //     } catch (\Throwable $e) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'OTP verification failed.',
-    //             'error' => $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
  
 public function verifyOtp(Request $request)
 {
@@ -339,157 +280,149 @@ public function verifyOtp(Request $request)
         return view('customer.welding-fabrication');
     }
 
-    // public function post(Request $request){
-    //     $work_types = DB::table('work_types')->get();
-    //     $states = DB::table('state')->orderBy('name')->get();
-    //       $budget_range = DB::table('budget_range')->get();
-    //       $unit = DB::table('cust_unit')->get();
-    //        $selectedWorkType = $request->work_type_id;
+   
+    public function post(Request $request)
+    {
+        $work_types   = DB::table('work_types')->get();
+        $states       = DB::table('state')->orderBy('name')->get();
+        $budget_range = DB::table('budget_range')->get();
+        $unit         = DB::table('cust_unit')->get();
 
-    //     return view('customer.post',compact('work_types','states','budget_range','unit','selectedWorkType'));
-    // }
-public function post(Request $request)
-{
-    $work_types   = DB::table('work_types')->get();
-    $states       = DB::table('state')->orderBy('name')->get();
-    $budget_range = DB::table('budget_range')->get();
-    $unit         = DB::table('cust_unit')->get();
+        $selectedWorkTypeId = $request->work_type_id;
 
-    $selectedWorkTypeId = $request->work_type_id;
+        return view('customer.post', compact(
+            'work_types',
+            'states',
+            'budget_range',
+            'unit',
+            'selectedWorkTypeId'
+        ));
+    }
+        
+    public function savepost(Request $request)
+    {
+        $customer_id = session('customer_id');
 
-    return view('customer.post', compact(
-        'work_types',
-        'states',
-        'budget_range',
-        'unit',
-        'selectedWorkTypeId'
-    ));
-}
-    
-public function savepost(Request $request)
-{
-    $customer_id = session('customer_id');
+        $request->validate([
+            'title'           => 'required|string|max:255',
+            'work_type_id'    => 'required|integer',
+            'work_subtype_id' => 'required|integer',
+            'city'            => 'required|string|max:255',
+            'budget'          => 'required',
+            'contact_name'    => 'required|string|max:255',
+            'mobile'          => 'required|string|max:20',
+            'email'           => 'required|email|max:255',
+            'description'     => 'required|string',
+            'area'            => 'required|string|max:255',
+            'unit'            => 'nullable',
+            'pincode'         => 'nullable|string|max:20',
+        ]);
 
-    $request->validate([
-        'title'           => 'required|string|max:255',
-        'work_type_id'    => 'required|integer',
-        'work_subtype_id' => 'required|integer',
-        'city'            => 'required|string|max:255',
-        'budget'          => 'required',
-        'contact_name'    => 'required|string|max:255',
-        'mobile'          => 'required|string|max:20',
-        'email'           => 'required|email|max:255',
-        'description'     => 'required|string',
-        'area'            => 'required|string|max:255',
-        'unit'            => 'nullable',
-        'pincode'         => 'nullable|string|max:20',
-    ]);
+        /*
+        |--------------------------------------------------------------------------
+        | If customer not logged in -> store post in session and ask OTP
+        |--------------------------------------------------------------------------
+        */
+        if (!$customer_id) {
 
-    /*
-    |--------------------------------------------------------------------------
-    | If customer not logged in -> store post in session and ask OTP
-    |--------------------------------------------------------------------------
-    */
-    if (!$customer_id) {
+            Session::put('pending_post', $request->except(['_token', 'files']));
 
-        Session::put('pending_post', $request->except(['_token', 'files']));
+            $tempFiles = [];
 
-        $tempFiles = [];
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    $name = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
+                    $destination = public_path('uploads/temp_posts');
+                    if (!file_exists($destination)) {
+                        mkdir($destination, 0777, true);
+                    }
+
+                    $file->move($destination, $name);
+                    $tempFiles[] = $name;
+                }
+            }
+
+            Session::put('pending_post_files', $tempFiles);
+
+            return response()->json([
+                'status'  => 'otp_required',
+                'message' => 'Please verify your mobile number with OTP.'
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Post limit check
+        |--------------------------------------------------------------------------
+        */
+        $postCount = DB::table('posts')
+            ->where('user_id', $customer_id)
+            ->count();
+
+        if ($postCount >= 3) {
+            return response()->json([
+                'status'  => 'payment_required',
+                'message' => 'You have reached your free post limit.'
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Prepare post data
+        |--------------------------------------------------------------------------
+        */
+        $data = [
+            'user_id'         => $customer_id,
+            'title'           => $request->title,
+            'work_type_id'    => $request->work_type_id,
+            'work_subtype_id' => $request->work_subtype_id,
+        
+            'city'            => $request->city,
+            'pincode'         => $request->pincode,
+            'budget_id'       => $request->budget,
+            'contact_name'    => $request->contact_name,
+            'mobile'          => $request->mobile,
+            'email'           => $request->email,
+            'description'     => $request->description,
+            'area'            => $request->area,
+            'unit_id'         => $request->unit,
+            'post_verify'     => 0,
+            'get_vendor'      => 0,
+            'created_at'      => now(),
+            'updated_at'      => now(),
+        ];
+
+        /*
+        |--------------------------------------------------------------------------
+        | Upload files
+        |--------------------------------------------------------------------------
+        */
         if ($request->hasFile('files')) {
+            $fileNames = [];
+
             foreach ($request->file('files') as $file) {
                 $name = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-                $destination = public_path('uploads/temp_posts');
+                $destination = public_path('uploads/posts');
                 if (!file_exists($destination)) {
                     mkdir($destination, 0777, true);
                 }
 
                 $file->move($destination, $name);
-                $tempFiles[] = $name;
-            }
-        }
-
-        Session::put('pending_post_files', $tempFiles);
-
-        return response()->json([
-            'status'  => 'otp_required',
-            'message' => 'Please verify your mobile number with OTP.'
-        ]);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Post limit check
-    |--------------------------------------------------------------------------
-    */
-    $postCount = DB::table('posts')
-        ->where('user_id', $customer_id)
-        ->count();
-
-    if ($postCount >= 3) {
-        return response()->json([
-            'status'  => 'payment_required',
-            'message' => 'You have reached your free post limit.'
-        ]);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Prepare post data
-    |--------------------------------------------------------------------------
-    */
-    $data = [
-        'user_id'         => $customer_id,
-        'title'           => $request->title,
-        'work_type_id'    => $request->work_type_id,
-        'work_subtype_id' => $request->work_subtype_id,
-      
-        'city'            => $request->city,
-        'pincode'         => $request->pincode,
-        'budget_id'       => $request->budget,
-        'contact_name'    => $request->contact_name,
-        'mobile'          => $request->mobile,
-        'email'           => $request->email,
-        'description'     => $request->description,
-        'area'            => $request->area,
-        'unit_id'         => $request->unit,
-        'post_verify'     => 0,
-        'get_vendor'      => 0,
-        'created_at'      => now(),
-        'updated_at'      => now(),
-    ];
-
-    /*
-    |--------------------------------------------------------------------------
-    | Upload files
-    |--------------------------------------------------------------------------
-    */
-    if ($request->hasFile('files')) {
-        $fileNames = [];
-
-        foreach ($request->file('files') as $file) {
-            $name = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            $destination = public_path('uploads/posts');
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                $fileNames[] = $name;
             }
 
-            $file->move($destination, $name);
-            $fileNames[] = $name;
+            $data['files'] = json_encode($fileNames);
         }
 
-        $data['files'] = json_encode($fileNames);
+        DB::table('posts')->insert($data);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Project Posted Successfully',
+        ]);
     }
-
-    DB::table('posts')->insert($data);
-
-    return response()->json([
-        'status'  => 'success',
-        'message' => 'Project Posted Successfully',
-    ]);
-}
     public function getProjectTypes($workTypeId)
     {
          $subtypes = DB::table('work_subtypes')
@@ -499,15 +432,341 @@ public function savepost(Request $request)
     }
 
  
-    public function logout()
-{
-    session()->forget([
-        'customer_id',
-        'customer_name',
-        'customer_mobile',
-        'customer_logged_in',
-    ]);
+// public function myorder()
+// {
+//     $customerId = session('customer_id');
 
-    return redirect('/')->with('success', 'Logged out successfully.');
+//     if (!$customerId) {
+//         return redirect()->back()->with('error', 'Customer session not found.');
+//     }
+
+//     // Survey Bookings
+//     $surveyBookings = DB::table('survey_bookings')
+//         ->where('customer_id', $customerId)
+//         ->get()
+//         ->map(function ($item) {
+//             return (object) [
+//                 'id' => $item->id,
+//                 'type' => 'Survey Booking',
+//                 'service_key' => 'survey',
+//                 'service_name' => $item->service_name ?? 'Survey Service',
+//                 'title' => $item->service_name ?? 'Survey Service',
+//                 'location' => $item->full_address ?? '-',
+//                 'scope' => trim(($item->land_area ?? '-') . ' ' . ($item->area_unit ?? '')),
+//                 'description' => $item->description ?? '-',
+//                 'created_at' => $item->created_at,
+//                 'raw_data' => $item,
+//             ];
+//         });
+
+//     // Testing Enquiries
+//     $testingEnquiries = DB::table('testing_enquiries')
+//         ->where('customer_id', $customerId)
+//         ->get()
+//         ->map(function ($item) {
+//             $location = collect([
+//                 $item->house_building_name ?? null,
+//                 $item->road_area_colony ?? null,
+//                 $item->city ?? null,
+//                 $item->pincode ?? null,
+//             ])->filter()->implode(', ');
+
+//             return (object) [
+//                 'id' => $item->id,
+//                 'type' => 'Testing Enquiry',
+//                 'service_key' => 'testing',
+//                 'service_name' => $item->service_name ?? 'Testing Service',
+//                 'title' => $item->project_name ?? $item->service_name ?? 'Testing Service',
+//                 'location' => $location ?: '-',
+//                 'scope' => $item->required_testing_type ?? '-',
+//                 'description' => $item->additional_details ?? '-',
+//                 'created_at' => $item->created_at,
+//                 'raw_data' => $item,
+//             ];
+//         });
+
+//     // BOQ Enquiries
+//     $boqEnquiries = DB::table('boq_enquiries')
+//         ->where('customer_id', $customerId)
+//         ->get()
+//         ->map(function ($item) {
+//             $location = collect([
+//                 $item->house_building_name ?? null,
+//                 $item->road_area_colony ?? null,
+//                 $item->city ?? null,
+//                 $item->pincode ?? null,
+//             ])->filter()->implode(', ');
+
+//             return (object) [
+//                 'id' => $item->id,
+//                 'type' => 'BOQ Enquiry',
+//                 'service_key' => 'boq',
+//                 'service_name' => $item->service_name ?? 'BOQ / Estimation',
+//                 'title' => $item->project_name ?? $item->service_name ?? 'BOQ / Estimation',
+//                 'location' => $location ?: '-',
+//                 'scope' => $item->project_type ?? '-',
+//                 'description' => $item->additional_details ?? '-',
+//                 'created_at' => $item->created_at,
+//                 'raw_data' => $item,
+//             ];
+//         });
+
+//     // Example: Contractor Bookings
+//     $contractorBookings = DB::table('contractor_providers')
+//         ->where('customer_id', $customerId)
+//         ->get()
+//         ->map(function ($item) {
+//             $location = collect([
+//                 $item->house_building_name ?? null,
+//                 $item->road_area_colony ?? null,
+//                 $item->city ?? null,
+//                 $item->pincode ?? null,
+//             ])->filter()->implode(', ');
+
+//             return (object) [
+//                 'id' => $item->id,
+//                 'type' => 'Contractor Booking',
+//                 'service_key' => 'contractor',
+//                 'service_name' => $item->service_name ?? 'Contractor Service',
+//                 'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
+//                 'location' => $location ?: '-',
+//                 'scope' => $item->project_type ?? '-',
+//                 'description' => $item->additional_details ?? '-',
+//                 'created_at' => $item->created_at,
+//                 'raw_data' => $item,
+//             ];
+//         });
+
+//     // Example: Interior Bookings
+//     $interiorBookings = DB::table('interior_providers')
+//         ->where('customer_id', $customerId)
+//         ->get()
+//         ->map(function ($item) {
+//             $location = collect([
+//                 $item->house_building_name ?? null,
+//                 $item->road_area_colony ?? null,
+//                 $item->city ?? null,
+//                 $item->pincode ?? null,
+//             ])->filter()->implode(', ');
+
+//             return (object) [
+//                 'id' => $item->id,
+//                 'type' => 'Interior Booking',
+//                 'service_key' => 'interior',
+//                 'service_name' => $item->service_name ?? 'Interior Service',
+//                 'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
+//                 'location' => $location ?: '-',
+//                 'scope' => $item->project_type ?? '-',
+//                 'description' => $item->additional_details ?? '-',
+//                 'created_at' => $item->created_at,
+//                 'raw_data' => $item,
+//             ];
+//         });
+
+//     $allOrders = collect()
+//         ->concat($surveyBookings)
+//         ->concat($testingEnquiries)
+//         ->concat($boqEnquiries)
+//         ->concat($contractorBookings)
+//         ->concat($interiorBookings)
+//         ->sortByDesc('created_at')
+//         ->values();
+
+//     return view('customer.myorder', compact('allOrders'));
+// }
+
+
+ public function myorder()
+    {
+        $customerId = session('customer_id');
+
+        if (!$customerId) {
+            return redirect()->back()->with('error', 'Customer session not found.');
+        }
+
+        $surveyBookings = DB::table('survey_bookings')
+            ->where('customer_id', $customerId)
+            ->get()
+            ->map(function ($item) {
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'Survey Booking',
+                    'service_key' => 'survey',
+                    'service_name' => $item->service_name ?? 'Survey Service',
+                    'title' => $item->service_name ?? 'Survey Service',
+                    'location' => $item->full_address ?? '-',
+                    'scope' => trim(($item->land_area ?? '-') . ' ' . ($item->area_unit ?? '')),
+                    'description' => $item->description ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
+        $testingEnquiries = DB::table('testing_enquiries')
+            ->where('customer_id', $customerId)
+            ->get()
+            ->map(function ($item) {
+                $location = collect([
+                    $item->house_building_name ?? null,
+                    $item->road_area_colony ?? null,
+                    $item->city ?? null,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'Testing Enquiry',
+                    'service_key' => 'testing',
+                    'service_name' => $item->service_name ?? 'Testing Service',
+                    'title' => $item->project_name ?? $item->service_name ?? 'Testing Service',
+                    'location' => $location ?: '-',
+                    'scope' => $item->required_testing_type ?? '-',
+                    'description' => $item->additional_details ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
+        $boqEnquiries = DB::table('boq_enquiries')
+            ->where('customer_id', $customerId)
+            ->get()
+            ->map(function ($item) {
+                $location = collect([
+                    $item->house_building_name ?? null,
+                    $item->road_area_colony ?? null,
+                    $item->city ?? null,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'BOQ Enquiry',
+                    'service_key' => 'boq',
+                    'service_name' => $item->service_name ?? 'BOQ / Estimation',
+                    'title' => $item->project_name ?? $item->service_name ?? 'BOQ / Estimation',
+                    'location' => $location ?: '-',
+                    'scope' => $item->project_type ?? '-',
+                    'description' => $item->additional_details ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
+        $contractorBookings = DB::table('contractor_providers')
+            ->where('customer_id', $customerId)
+            ->get()
+            ->map(function ($item) {
+                $location = collect([
+                    $item->house_building_name ?? null,
+                    $item->road_area_colony ?? null,
+                    $item->city ?? null,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'Contractor Booking',
+                    'service_key' => 'contractor',
+                    'service_name' => $item->service_name ?? 'Contractor Service',
+                    'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
+                    'location' => $location ?: '-',
+                    'scope' => $item->project_type ?? '-',
+                    'description' => $item->additional_details ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
+        $interiorBookings = DB::table('interior_providers')
+            ->where('customer_id', $customerId)
+            ->get()
+            ->map(function ($item) {
+                $location = collect([
+                    $item->house_building_name ?? null,
+                    $item->road_area_colony ?? null,
+                    $item->city ?? null,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'Interior Booking',
+                    'service_key' => 'interior',
+                    'service_name' => $item->service_name ?? 'Interior Service',
+                    'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
+                    'location' => $location ?: '-',
+                    'scope' => $item->project_type ?? '-',
+                    'description' => $item->additional_details ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
+        $allOrders = collect()
+            ->concat($surveyBookings)
+            ->concat($testingEnquiries)
+            ->concat($boqEnquiries)
+            ->concat($contractorBookings)
+            ->concat($interiorBookings)
+            ->sortByDesc('created_at')
+            ->values();
+
+        return view('customer.myorder', compact('allOrders'));
+    }
+
+    public function track($service_key, $source_id)
+    {
+        $tracking = OrderTracking::where('service_key', $service_key)
+            ->where('source_id', $source_id)
+            ->first();
+
+        if (!$tracking) {
+            return redirect()->back()->with('error', 'Tracking template not assigned by admin yet.');
+        }
+
+        $trackingSteps = OrderTrackingStep::where('order_tracking_id', $tracking->id)
+            ->orderBy('tab_type')
+            ->orderBy('step_order')
+            ->get();
+
+        return view('customer.order_track', compact('tracking', 'trackingSteps'));
+    }
+  
+public function orderTrack($service, $id)
+{
+    // dd($id);
+    $orderSteps = DB::table('tracking_templates')
+        ->where('service_key', $service)
+        ->where('tab_type', 'order')
+        ->orderBy('step_order')
+        ->get();
+
+    $executionSteps = DB::table('tracking_templates')
+        ->where('service_key', $service)
+        ->where('tab_type', 'execution')
+        ->orderBy('step_order')
+        ->get();
+
+    return view('customer.dynamic-order-track', compact(
+        'service',
+        'id',
+        'orderSteps',
+        'executionSteps'
+    ));
 }
+        
+    public function logout()
+    {
+        session()->forget([
+            'customer_id',
+            'customer_name',
+            'customer_mobile',
+            'customer_logged_in',
+        ]);
+
+        return redirect('/')->with('success', 'Logged out successfully.');
+    }
+
+
+
 }

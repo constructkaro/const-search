@@ -39,4 +39,10 @@ class InteriorProvider extends Model
     protected $casts = [
         'project_types' => 'array',
     ];
+
+
+   public function trackings()
+{
+    return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
+}
 }

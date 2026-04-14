@@ -16,6 +16,5 @@
     </main>
 
     @include('vendor.partials.footer')
-
 </body>
 </html>

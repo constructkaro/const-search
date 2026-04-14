@@ -107,32 +107,8 @@ body {
 .header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-shrink: 0;
-}
-
-.btn-glow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    padding: 0 22px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #ff9348 0%, #e56a1f 100%);
-    box-shadow:
-        inset 0 1px 3px rgba(255,255,255,0.35),
-        0 8px 18px rgba(229,106,31,0.28);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.btn-glow:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(180deg, #ffa25d 0%, #dc5f14 100%);
 }
 
 .header-login-btn {
@@ -151,46 +127,88 @@ body {
     white-space: nowrap;
 }
 
-.customer-login-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #fff;
-    border: 1px solid #e3e3e3;
-    border-radius: 999px;
-    padding: 8px 10px 8px 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.contact-link {
+    text-decoration: none;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s ease;
 }
 
-.customer-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
+.contact-link:hover {
+    color: #f37021;
 }
 
-.customer-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1f2329;
+.customer-dropdown-wrap {
+    position: relative;
 }
 
-.customer-mobile {
-    font-size: 12px;
-    color: #666;
-}
-
-.logout-btn {
+.customer-profile-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+    color: #fff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 36px;
-    padding: 0 14px;
-    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(223,113,34,0.22);
+    transition: 0.3s ease;
+    padding: 0;
+}
+
+.customer-profile-btn:hover {
+    transform: translateY(-1px);
+}
+
+.customer-profile-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.customer-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 170px;
+    background: #fff;
+    border: 2px solid #2d9cff;
+    border-radius: 6px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+    overflow: hidden;
+    display: none;
+    z-index: 99999;
+}
+
+.customer-dropdown-menu.show {
+    display: block;
+}
+
+.customer-dropdown-menu a,
+.customer-dropdown-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    background: #fff;
+    border: none;
     text-decoration: none;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    background: linear-gradient(180deg,#f08b39 0%, #df7122 100%);
+    color: #111827;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    line-height: 1.3;
+}
+
+.customer-dropdown-menu a:hover,
+.customer-dropdown-menu button:hover {
+    background: #f7f7f7;
+}
+
+.customer-dropdown-menu form {
+    margin: 0;
 }
 
 .menu-toggle {
@@ -232,24 +250,10 @@ body {
         font-size: 15px;
     }
 
-    .btn-glow,
     .header-login-btn {
         min-height: 44px;
         font-size: 13px;
         padding: 0 16px;
-    }
-
-    .customer-login-box {
-        padding: 7px 8px 7px 12px;
-        gap: 10px;
-    }
-
-    .customer-name {
-        font-size: 13px;
-    }
-
-    .customer-mobile {
-        font-size: 11px;
     }
 }
 
@@ -257,14 +261,6 @@ body {
 @media (max-width: 991px) {
     .nav-menu {
         display: none;
-    }
-
-    .header-right .btn-glow {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: inline-flex;
     }
 
     .header-wrapper {
@@ -323,43 +319,48 @@ body {
         gap: 10px;
     }
 
-    .mobile-header-actions .btn-glow,
-    .mobile-header-actions .header-login-btn,
-    .mobile-header-actions .logout-btn {
+    .mobile-header-actions .header-login-btn {
         width: 100%;
         justify-content: center;
     }
 
     .mobile-customer-box {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
+        flex-direction: column;
+        gap: 10px;
         border: 1px solid #e3e3e3;
         border-radius: 16px;
         padding: 12px 14px;
         background: #fff;
     }
 
-    .mobile-customer-left {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .mobile-customer-left .customer-name {
+    .mobile-customer-box a,
+    .mobile-customer-box button {
+        text-decoration: none;
+        border: none;
+        background: #fff;
+        text-align: left;
+        padding: 10px 0;
+        color: #1f2937;
         font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
     }
 
-    .mobile-customer-left .customer-mobile {
-        font-size: 12px;
+    .mobile-customer-box form {
+        margin: 0;
+    }
+
+    .menu-toggle {
+        display: inline-flex;
     }
 
     .header-right {
         gap: 10px;
     }
 
-    .customer-login-box {
+    .customer-dropdown-wrap,
+    .contact-link.desktop-only {
         display: none;
     }
 }
@@ -416,19 +417,23 @@ body {
         </nav>
 
         <div class="header-right">
-
             @if(session('customer_logged_in'))
-                <div class="customer-login-box">
-                    <div class="customer-info">
-                        <div class="customer-name">
-                            {{ session('customer_name') ?: 'Mobile User' }}
-                        </div>
-                        <div class="customer-mobile">
-                            {{ session('customer_mobile') }}
-                        </div>
-                    </div>
+               
+                <div class="customer-dropdown-wrap">
+                    <button type="button" class="customer-profile-btn" id="customerProfileBtn" aria-label="Customer Menu">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/>
+                        </svg>
+                    </button>
 
-                    <a href="{{ route('customer.logout') }}" class="logout-btn">Logout</a>
+                    <div class="customer-dropdown-menu" id="customerDropdownMenu">
+                        <a href="{{route('myorder')}}">My Orders</a>
+                        <a href="">My Profile</a>
+
+                        <form method="GET" action="{{ route('customer.logout') }}">
+                            <button type="submit">Log Out</button>
+                        </form>
+                    </div>
                 </div>
             @else
                 <a href="javascript:void(0)" class="header-login-btn open-customer-login-modal">
@@ -448,7 +453,6 @@ body {
 
     <div class="mobile-menu-panel" id="mobileMenuPanel">
         <div class="mobile-menu-inner">
-
             <nav class="mobile-nav">
                 <a href="{{ url('/') }}" class="active">Home</a>
                 <a href="#">About Us</a>
@@ -458,14 +462,14 @@ body {
             </nav>
 
             <div class="mobile-header-actions">
-              
                 @if(session('customer_logged_in'))
                     <div class="mobile-customer-box">
-                        <div class="mobile-customer-left">
-                            <div class="customer-name">{{ session('customer_name') ?: 'Mobile User' }}</div>
-                            <div class="customer-mobile">{{ session('customer_mobile') }}</div>
-                        </div>
-                        <a href="{{ route('customer.logout') }}" class="logout-btn">Logout</a>
+                        <a href="">My Orders</a>
+                        <a href="">My Profile</a>
+
+                        <form method="GET" action="{{ route('customer.logout') }}">
+                            <button type="submit">Log Out</button>
+                        </form>
                     </div>
                 @else
                     <a href="javascript:void(0)" class="header-login-btn open-customer-login-modal">
@@ -473,7 +477,6 @@ body {
                     </a>
                 @endif
             </div>
-
         </div>
     </div>
 </header>
@@ -490,19 +493,34 @@ window.addEventListener("scroll", function () {
 
 const menuToggleBtn = document.getElementById("menuToggleBtn");
 const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+const customerProfileBtn = document.getElementById("customerProfileBtn");
+const customerDropdownMenu = document.getElementById("customerDropdownMenu");
 
 if (menuToggleBtn && mobileMenuPanel) {
-    menuToggleBtn.addEventListener("click", function () {
+    menuToggleBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
         mobileMenuPanel.classList.toggle("active");
     });
+}
 
-    document.addEventListener("click", function (e) {
-        if (
-            !mobileMenuPanel.contains(e.target) &&
-            !menuToggleBtn.contains(e.target)
-        ) {
-            mobileMenuPanel.classList.remove("active");
-        }
+if (customerProfileBtn && customerDropdownMenu) {
+    customerProfileBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        customerDropdownMenu.classList.toggle("show");
     });
 }
+
+document.addEventListener("click", function (e) {
+    if (mobileMenuPanel && menuToggleBtn) {
+        if (!mobileMenuPanel.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+            mobileMenuPanel.classList.remove("active");
+        }
+    }
+
+    if (customerDropdownMenu && customerProfileBtn) {
+        if (!customerDropdownMenu.contains(e.target) && !customerProfileBtn.contains(e.target)) {
+            customerDropdownMenu.classList.remove("show");
+        }
+    }
+});
 </script>

@@ -33,4 +33,9 @@ class SurveyorProvider extends Model
     protected $casts = [
         'survey_types' => 'array',
     ];
+
+ public function trackings()
+{
+    return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
+}
 }
