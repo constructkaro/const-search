@@ -19,6 +19,7 @@ public function vendorstore(Request $request)
         'email' => 'required|email|max:255|unique:vendor_register,email',
         'company_name' => 'required|string|max:255',
         'city' => 'required|string|max:255',
+        'Area' => 'required|string',
         'pincode' => 'required|digits:6',
         'business_address' => 'required|string|max:500',
         'business_entity' => 'required|string|max:255',
@@ -32,6 +33,7 @@ public function vendorstore(Request $request)
     DB::table('vendor_register')->insert([
         'full_name' => $validated['full_name'],
         'mobile' => $validated['mobile'],
+        'Area'  =>$validated['Area'],
         'email' => $validated['email'],
         'company_name' => $validated['company_name'],
         'city' => $validated['city'],
@@ -46,5 +48,9 @@ public function vendorstore(Request $request)
     return redirect()->back()->with('success', 'Vendor registered successfully. Please login.');
 }
 
+
+public function test(){
+    return view('test');
+}
 
 }

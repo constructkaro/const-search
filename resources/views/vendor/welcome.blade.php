@@ -963,112 +963,6 @@
     </div>
 </section>
 
-<!-- <div id="vendorRegisterModal" class="vendor-modal {{ $errors->any() ? 'show' : '' }}">
-    <div class="vendor-modal-box vendor-register-modal-box">
-        <button type="button" class="vendor-modal-close" id="closeVendorModal">&times;</button>
-
-        <div class="register-card">
-            <div class="register-head">
-                <h2>Basic Details</h2>
-                <p>Tell us about yourself and your business</p>
-            </div>
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-error">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <form action="{{ route('vendor.register.submit') }}" method="POST" class="register-form-grid">
-                @csrf
-
-                <div class="form-group">
-                    <label>Full Name <span>*</span></label>
-                    <input type="text" name="full_name" placeholder="Enter your full name" value="{{ old('full_name') }}" required>
-                    @error('full_name')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Mobile Number <span>*</span></label>
-                    <input type="text" name="mobile" placeholder="10-digit mobile" maxlength="10" value="{{ old('mobile') }}" required>
-                    @error('mobile')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Email <span>*</span></label>
-                    <input type="email" name="email" placeholder="you@example.com" value="{{ old('email') }}" required>
-                    @error('email')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Company / Firm Name <span>*</span></label>
-                    <input type="text" name="company_name" placeholder="Your business name" value="{{ old('company_name') }}" required>
-                    @error('company_name')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>City <span>*</span></label>
-                    <input type="text" name="city" placeholder="Enter city" value="{{ old('city') }}" required>
-                    @error('city')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Pincode <span>*</span></label>
-                    <input type="text" name="pincode" placeholder="Enter pincode" maxlength="6" value="{{ old('pincode') }}" required>
-                    @error('pincode')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group full-row">
-                    <label>Business Address <span>*</span></label>
-                    <input type="text" name="business_address" placeholder="Full address" value="{{ old('business_address') }}" required>
-                    @error('business_address')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label>Type of Business Entity <span>*</span></label>
-                    <select name="business_entity" required>
-                        <option value="">Select</option>
-                        <option value="Individual" {{ old('business_entity') == 'Individual' ? 'selected' : '' }}>Individual</option>
-                        <option value="Proprietorship" {{ old('business_entity') == 'Proprietorship' ? 'selected' : '' }}>Proprietorship</option>
-                        <option value="Partnership" {{ old('business_entity') == 'Partnership' ? 'selected' : '' }}>Partnership</option>
-                        <option value="Pvt Ltd" {{ old('business_entity') == 'Pvt Ltd' ? 'selected' : '' }}>Pvt Ltd</option>
-                        <option value="LLP" {{ old('business_entity') == 'LLP' ? 'selected' : '' }}>LLP</option>
-                        <option value="Other" {{ old('business_entity') == 'Other' ? 'selected' : '' }}>Other</option>
-                    </select>
-                    @error('business_entity')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-
-                <div class="form-submit full-row">
-                    <button type="submit" class="continue-btn">
-                        Continue <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
 <div id="vendorRegisterModal" class="vendor-modal {{ $errors->any() ? 'show' : '' }}">
     <div class="vendor-modal-box vendor-register-modal-box">
         <button type="button" class="vendor-modal-close" id="closeVendorModal">&times;</button>
@@ -1134,6 +1028,15 @@
                     @enderror
                 </div>
 
+                 <div class="form-group">
+                    <label>Area <span>*</span></label>
+                    <input type="text" name="Area" placeholder="Enter Area" value="{{ old('Area') }}" required>
+                    @error('Area')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+
                 <div class="form-group">
                     <label>Pincode <span>*</span></label>
                     <input type="text" name="pincode" placeholder="Enter pincode" maxlength="6" value="{{ old('pincode') }}" required>
@@ -1141,6 +1044,7 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                 
 
                 <div class="form-group full-row">
                     <label>Business Address <span>*</span></label>
@@ -1221,28 +1125,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const openVendorModal = document.getElementById('openVendorModal');
-    const closeVendorModal = document.getElementById('closeVendorModal');
-    const vendorRegisterModal = document.getElementById('vendorRegisterModal');
 
-    openVendorModal.addEventListener('click', function () {
-        vendorRegisterModal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    });
-
-    closeVendorModal.addEventListener('click', function () {
-        vendorRegisterModal.classList.remove('show');
-        document.body.style.overflow = '';
-    });
-
-    window.addEventListener('click', function (e) {
-        if (e.target === vendorRegisterModal) {
-            vendorRegisterModal.classList.remove('show');
-            document.body.style.overflow = '';
-        }
-    });
-});
-</script> -->
 @endsection

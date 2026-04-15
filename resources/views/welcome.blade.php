@@ -1068,26 +1068,8 @@
     z-index: 9998;
 }
 
-/* Chat widget bubble */
-.grid-layout #button:not(.sidebar){
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 95px !important;   /* move this above WhatsApp */
-    z-index: 9999 !important;
-    inset: auto !important;
-    width: auto !important;
-    height: auto !important;
-    transform-origin: right bottom;
-}
 
-/* Chat widget label */
-.grid-layout .widgetLabel{
-    position: fixed !important;
-    right: 90px !important;
-    bottom: 108px !important;  /* align with chat bubble */
-    top: auto !important;
-    z-index: 10000 !important;
-}
+
 
 @media (max-width: 767px){
     .floating-chatbot-btn{
@@ -1095,15 +1077,7 @@
         bottom: 16px;
     }
 
-    .grid-layout #button:not(.sidebar){
-        right: 14px !important;
-        bottom: 82px !important;
-    }
-
-    .grid-layout .widgetLabel{
-        right: 78px !important;
-        bottom: 94px !important;
-    }
+   
 }
 </style>
 
@@ -1435,13 +1409,13 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//code.tidio.co/fi6ihkvtowtmsmkipuyc3vxfybpel3na.js" async></script>
-<script 
+<!-- <script 
       type="text/javascript"
       src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"
       id="aisensy-wa-widget"
       widget-id="aabcqe"
     >
-    </script>
+    </script> -->
 <script>
     $.ajaxSetup({
         headers: {

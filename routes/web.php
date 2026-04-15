@@ -30,6 +30,9 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Customer\OrderTrackingController;
 use App\Http\Controllers\Admin\TrackingTemplateController;
 
+Route::get('/test', [VendorController::class, 'test'])->name('test');
+
+
 /*
 |--------------------------------------------------------------------------
 | Admin Login
