@@ -1,187 +1,364 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>LocationIQ Map (Final Working)</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-<style>
-body { margin:0; font-family: Arial; }
-#map { height: 100vh; }
-
-.panel {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 320px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    z-index: 1000;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #16a34a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.address-box { font-size: 14px; margin-bottom: 10px; }
-
-.suggestions {
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.suggestion {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-}
-
-.suggestion:hover { background: #f1f5f9; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proper Current Location</title>
+    <style>
+        *{
+            box-sizing:border-box;
+        }
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#f5f7fb;
+            color:#1c2c3e;
+            padding:30px 15px;
+        }
+        .container{
+            max-width:900px;
+            margin:0 auto;
+        }
+        .card{
+            background:#fff;
+            border-radius:18px;
+            padding:30px;
+            box-shadow:0 12px 30px rgba(0,0,0,0.08);
+        }
+        h1{
+            margin:0 0 10px;
+            font-size:28px;
+        }
+        p{
+            margin:0 0 20px;
+            color:#667085;
+            line-height:1.6;
+        }
+        .btn{
+            background:#f25c05;
+            color:#fff;
+            border:none;
+            border-radius:10px;
+            padding:14px 24px;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+        }
+        .btn:hover{
+            background:#d94f04;
+        }
+        .status, .result{
+            margin-top:20px;
+            padding:16px;
+            border-radius:12px;
+        }
+        .status{
+            background:#fff7ed;
+            border:1px solid #fed7aa;
+            color:#9a3412;
+        }
+        .result{
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            display:none;
+        }
+        .row{
+            margin-bottom:12px;
+            line-height:1.7;
+        }
+        .row strong{
+            display:inline-block;
+            min-width:180px;
+        }
+        .field{
+            margin-top:20px;
+        }
+        .field label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:600;
+        }
+        .field input, .field textarea{
+            width:100%;
+            border:1px solid #d0d5dd;
+            border-radius:10px;
+            padding:12px 14px;
+            font-size:15px;
+            outline:none;
+        }
+        .field textarea{
+            min-height:120px;
+            resize:vertical;
+        }
+        .json-box{
+            margin-top:20px;
+            background:#111827;
+            color:#e5e7eb;
+            padding:18px;
+            border-radius:12px;
+            font-size:14px;
+            line-height:1.6;
+            white-space:pre-wrap;
+            word-break:break-word;
+            display:none;
+        }
+        .actions{
+            margin-top:16px;
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+        .btn-secondary{
+            background:#1c2c3e;
+        }
+        .btn-secondary:hover{
+            background:#162332;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <div class="card">
+            <h1>Get Proper Current Location</h1>
+            <p>
+                Best result comes on mobile with GPS turned on. This will fetch your best current coordinates,
+                full location details, and a proper address you can edit before saving.
+            </p>
 
-<div class="panel">
-    <button onclick="getLocation()">📍 Get My Location</button>
-    <div class="address-box" id="mainAddress"></div>
-    <div class="suggestions" id="suggestions"></div>
-</div>
+            <button type="button" class="btn" onclick="getProperLocation()">Use Current Location</button>
 
-<div id="map"></div>
+            <div class="status" id="statusBox">Waiting for location...</div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+            <div class="result" id="resultBox">
+                <div class="row"><strong>Latitude:</strong> <span id="showLat">-</span></div>
+                <div class="row"><strong>Longitude:</strong> <span id="showLong">-</span></div>
+                <div class="row"><strong>Accuracy:</strong> <span id="showAccuracy">-</span></div>
+                <div class="row"><strong>Proper Address:</strong> <span id="showAddress">-</span></div>
+                <div class="row"><strong>Raw Address:</strong> <span id="showRawAddress">-</span></div>
+            </div>
 
-<script>
-const API_KEY = "pk.6197f43f0d700a7a395b3f88f31537d3"; // 🔴 PUT YOUR KEY HERE
+            <div class="field">
+                <label for="finalAddress">Editable Final Address</label>
+                <input type="text" id="finalAddress" placeholder="Final address will come here">
+            </div>
 
-let map = L.map('map').setView([20, 78], 5);
-let marker;
+            <div class="field">
+                <label for="jsonOutput">Final JSON Object</label>
+                <textarea id="jsonOutput" readonly></textarea>
+            </div>
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" onclick="copyAddress()">Copy Address</button>
+                <button type="button" class="btn btn-secondary" onclick="copyJson()">Copy JSON</button>
+            </div>
 
-// 📍 GET LOCATION
-function getLocation() {
-    navigator.geolocation.getCurrentPosition(async (pos) => {
+            <div class="json-box" id="prettyJsonBox"></div>
+        </div>
+    </div>
 
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
+    <script>
+        let watchId = null;
+        let bestPosition = null;
+        let finalLocationObject = null;
 
-        map.setView([lat, lon], 17);
+        function getProperLocation() {
+            const statusBox = document.getElementById("statusBox");
+            const resultBox = document.getElementById("resultBox");
+            const prettyJsonBox = document.getElementById("prettyJsonBox");
+            const jsonOutput = document.getElementById("jsonOutput");
 
-        if (marker) map.removeLayer(marker);
-        marker = L.marker([lat, lon]).addTo(map);
+            resultBox.style.display = "none";
+            prettyJsonBox.style.display = "none";
+            jsonOutput.value = "";
+            document.getElementById("finalAddress").value = "";
+            finalLocationObject = null;
 
-        try {
-            // 🔥 CORRECT API URL
-            const res = await fetch(
-                `https://api.locationiq.com/v1/reverse?key=${API_KEY}&lat=${lat}&lon=${lon}&format=json`
-            );
-
-            if (!res.ok) {
-                throw new Error("API Error: " + res.status);
+            if (!navigator.geolocation) {
+                statusBox.innerHTML = "Geolocation is not supported by this browser.";
+                return;
             }
 
-            const data = await res.json();
+            statusBox.innerHTML = "Getting accurate current location... please wait 8 to 12 seconds.";
+            bestPosition = null;
 
-            const address = formatAddress(data.address, data.display_name);
+            watchId = navigator.geolocation.watchPosition(
+                function(position) {
+                    const accuracy = position.coords.accuracy;
 
-            // popup
-            marker.bindPopup(`
-                <b>${address}</b><br>
-                Lat: ${lat}<br>
-                Lng: ${lon}
-            `).openPopup();
+                    if (!bestPosition || accuracy < bestPosition.coords.accuracy) {
+                        bestPosition = position;
+                    }
 
-            document.getElementById("mainAddress").innerHTML =
-                `<b>Main Address:</b><br>${address}`;
+                    statusBox.innerHTML = `
+                        Improving accuracy...<br>
+                        Latitude: ${position.coords.latitude}<br>
+                        Longitude: ${position.coords.longitude}<br>
+                        Accuracy: ${Math.round(accuracy)} meters
+                    `;
+                },
+                function(error) {
+                    let msg = "Location error.";
+                    if (error.code === 1) msg = "Location permission denied.";
+                    if (error.code === 2) msg = "Location unavailable.";
+                    if (error.code === 3) msg = "Location request timed out.";
+                    statusBox.innerHTML = msg;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                }
+            );
 
-            // 🔥 SEARCH OPTIONS
-            loadSuggestions(lat, lon);
+            setTimeout(async function() {
+                if (watchId !== null) {
+                    navigator.geolocation.clearWatch(watchId);
+                }
 
-        } catch (error) {
-            console.error(error);
+                if (!bestPosition) {
+                    statusBox.innerHTML = "Unable to get current location.";
+                    return;
+                }
 
-            // fallback
-            marker.bindPopup("Address not found").openPopup();
-            document.getElementById("mainAddress").innerHTML =
-                "<b>Error:</b> Failed to fetch address";
+                await fetchFullLocation(bestPosition);
+            }, 10000);
         }
 
-    });
-}
+        async function fetchFullLocation(position) {
+            const statusBox = document.getElementById("statusBox");
+            const resultBox = document.getElementById("resultBox");
+            const prettyJsonBox = document.getElementById("prettyJsonBox");
+            const jsonOutput = document.getElementById("jsonOutput");
 
-// 🔥 FORMAT ADDRESS SAFELY
-function formatAddress(a, fallback) {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
 
-    if (!a) return fallback || "Address not available";
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}&addressdetails=1&zoom=18`
+                );
 
-    const area =
-        a.suburb ||
-        a.neighbourhood ||
-        a.residential ||
-        "";
+                const osmData = await response.json();
+                const a = osmData.address || {};
 
-    const city =
-        a.city ||
-        a.town ||
-        a.village ||
-        "";
+                const properAddress = buildProperAddress(a, osmData.display_name);
+                const cityName = a.city || a.town || a.village || "";
+                const stateName = a.state || "";
 
-    const state = a.state || "";
-    const country = a.country || "India";
+                finalLocationObject = {
+                    city_key: null,
+                    cityKey: generateCityKey(cityName, stateName),
+                    customerId: "",
+                    countryKey: (a.country_code || "in").toUpperCase() === "IN" ? "IND" : (a.country_code || "").toUpperCase(),
+                    address: properAddress,
+                    homescreenAddress: {
+                        ucAddress: {},
+                        placeId: "",
+                        address: properAddress,
+                        formattedAddress: properAddress
+                    },
+                    locationDetails: {
+                        lat: lat,
+                        long: long
+                    },
+                    lat: lat,
+                    long: long,
+                    placeId: "",
+                    visibleBottomTabs: [],
+                    pincode: a.postcode || "",
+                    accuracy: accuracy,
+                    rawDisplayName: osmData.display_name || "",
+                    reverseGeocodeData: osmData
+                };
 
-    return (
-        [area, city, state, country].filter(Boolean).join(", ") ||
-        fallback
-    );
-}
+                document.getElementById("showLat").innerText = lat;
+                document.getElementById("showLong").innerText = long;
+                document.getElementById("showAccuracy").innerText = Math.round(accuracy) + " meters";
+                document.getElementById("showAddress").innerText = properAddress;
+                document.getElementById("showRawAddress").innerText = osmData.display_name || "-";
+                document.getElementById("finalAddress").value = properAddress;
 
-// 🔥 LOAD SUGGESTIONS
-async function loadSuggestions(lat, lon) {
-    try {
-        const res = await fetch(
-            `https://api.locationiq.com/v1/search?key=${API_KEY}&q=${lat},${lon}&format=json`
-        );
+                jsonOutput.value = JSON.stringify(finalLocationObject);
+                prettyJsonBox.innerText = JSON.stringify(finalLocationObject, null, 4);
 
-        if (!res.ok) return;
+                resultBox.style.display = "block";
+                prettyJsonBox.style.display = "block";
+                statusBox.innerHTML = "Proper location fetched successfully.";
+            } catch (error) {
+                statusBox.innerHTML = "Failed to fetch full location details.";
+                console.error(error);
+            }
+        }
 
-        const list = await res.json();
+        function buildProperAddress(addressParts, fallbackDisplayName) {
+            const locality =
+                addressParts.suburb ||
+                addressParts.neighbourhood ||
+                addressParts.hamlet ||
+                addressParts.quarter ||
+                addressParts.residential ||
+                addressParts.city_district ||
+                "";
 
-        const box = document.getElementById("suggestions");
-        box.innerHTML = "<b>Other Options:</b>";
+            const road = addressParts.road || "";
+            const city =
+                addressParts.city ||
+                addressParts.town ||
+                addressParts.village ||
+                "";
 
-        list.slice(0,5).forEach(item => {
-            const div = document.createElement("div");
-            div.className = "suggestion";
-            div.innerText = item.display_name;
+            const state = addressParts.state || "";
+            const postcode = addressParts.postcode || "";
+            const country = addressParts.country || "India";
 
-            div.onclick = () => {
-                marker.bindPopup(`<b>${item.display_name}</b>`).openPopup();
-                document.getElementById("mainAddress").innerHTML =
-                    "<b>Selected:</b><br>" + item.display_name;
-            };
+            const parts = [];
 
-            box.appendChild(div);
-        });
+            if (road && road !== locality && road !== city) parts.push(road);
+            if (locality && locality !== city) parts.push(locality);
+            if (city) parts.push(city);
+            if (state) parts.push(state);
 
-    } catch (e) {
-        console.log("Suggestion error");
-    }
-}
-</script>
+            let address = parts.join(", ");
 
+            if (postcode) {
+                address += (address ? " " : "") + postcode;
+            }
+
+            if (country) {
+                address += (address ? ", " : "") + country;
+            }
+
+            return address || fallbackDisplayName || "";
+        }
+
+        function generateCityKey(city, state) {
+            const citySlug = slugify(city || "unknown");
+            const stateSlug = slugify(state || "unknown");
+            return `city_${citySlug}_(${stateSlug})_v2`;
+        }
+
+        function slugify(text) {
+            return String(text)
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, "_")
+                .replace(/[^\w_()]/g, "");
+        }
+
+        function copyAddress() {
+            const value = document.getElementById("finalAddress").value;
+            if (!value) return;
+            navigator.clipboard.writeText(value);
+            alert("Address copied");
+        }
+
+        function copyJson() {
+            const value = document.getElementById("jsonOutput").value;
+            if (!value) return;
+            navigator.clipboard.writeText(value);
+            alert("JSON copied");
+        }
+    </script>
 </body>
 </html>
