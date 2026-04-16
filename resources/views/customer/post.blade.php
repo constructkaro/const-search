@@ -362,15 +362,15 @@ body{
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-briefcase"></i></div>
                                   
-                                  <select class="form-select-custom" id="work_type" name="work_type_id">
-    <option value="">Select Vendor Type</option>
-    @foreach($work_types as $worktype)
-        <option value="{{ $worktype->id }}"
-            {{ ((string)($selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
-            {{ $worktype->work_type }}
-        </option>
-    @endforeach
-</select>
+                                  <select class="form-select-custom" id="work_type" name="work_type_id" disabled>
+                                    <option value="">Select Vendor Type</option>
+                                    @foreach($work_types as $worktype)
+                                        <option value="{{ $worktype->id }}"
+                                            {{ ((string)($selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
+                                            {{ $worktype->work_type }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 </div>
                             </div>
 

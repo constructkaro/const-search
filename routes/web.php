@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Customer\OrderTrackingController;
 use App\Http\Controllers\Admin\TrackingTemplateController;
 
+use App\Http\Controllers\HomeController;
+
 Route::get('/test', [VendorController::class, 'test'])->name('test');
 
 
@@ -78,9 +80,9 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 });
 
 //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
+    // Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -145,7 +147,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
 Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -195,6 +197,13 @@ Route::get('/myorder/track/{service_key}/{source_id}', [CustomerController::clas
 
 Route::post('/save-post', [CustomerController::class, 'savepost'])->name('save.post');
 Route::get('/get-project-types/{workType}', [CustomerController::class, 'getProjectTypes']);
+
+Route::get('help-center', [HomeController::class, 'helpcenter'])->name('helpcenter');
+Route::post('/help-center/callback-submit', [HomeController::class, 'submitCallback'])
+    ->name('help.callback.submit');
+
+    
+Route::get('knowledge-hub', [HomeController::class, 'knowledgehub'])->name('knowledgehub');
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);
 

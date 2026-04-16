@@ -209,7 +209,7 @@
             <div class="footer-col">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Help Center</a></li>
+                    <li><a href="{{route('helpcenter')}}">Help Center</a></li>
                     <li><a href="#">Terms &amp; Conditions</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                 </ul>

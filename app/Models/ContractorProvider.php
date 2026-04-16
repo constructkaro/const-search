@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContractorProvider extends Model
 {
+    protected $table ='contractor_providers';
     protected $fillable = [
+        'customerId',
         'project_types',
         'experience_years',
         'team_size',
-        'pincode',
         'city',
         'minimum_project_value',
         'company_name',
@@ -39,7 +40,6 @@ class ContractorProvider extends Model
     protected $casts = [
         'project_types' => 'array',
     ];
-
 
     public function trackings()
     {

@@ -1,3 +1,5 @@
+
+
 <style>
 body {
     margin: 0;
@@ -411,7 +413,7 @@ body {
                 <li><a href="{{ url('/') }}" class="active">Home</a></li>
                 <li><a href="#">About Us</a></li>
                 <li><a href="#">Services</a></li>
-                <li><a href="#">Knowledge Hub</a></li>
+                <li><a href="{{route('knowledgehub')}}">Knowledge Hub</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
         </nav>
@@ -457,7 +459,7 @@ body {
                 <a href="{{ url('/') }}" class="active">Home</a>
                 <a href="#">About Us</a>
                 <a href="#">Services</a>
-                <a href="#">Knowledge Hub</a>
+                <a href="{{route('knowledgehub')}}">Knowledge Hub</a>
                 <a href="#">Contact</a>
             </nav>
 
