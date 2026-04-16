@@ -40,4 +40,61 @@ class HomeController extends Controller
     public function knowledgehub(){
         return view('main.knowledgehub');
     }
+
+
+    public function constructioneduction(){
+        return view('main.constructioneduction');
+    }
+
+    public function constwork(){
+          return view('main.constwork');
+        
+    }
+
+    public function surveyservicesstep(){
+         return view('main.surveyservicesstep');
+    }
+
+    public function testingservicessteps(){
+        return view('main.testingservicessteps');
+    }
+
+    public function nasupportsteps(){
+        return view('main.nsandlegalsteps');
+    }
+
+    public function boqservicessteps(){
+        return view('main.boqservicessteps');
+
+        
+    }
+
+    public function facadeservicesteps(){
+        return view('main.facadeservicesteps'); 
+    }
+
+    public function interiordesignersteps(){
+        return view('main.interiordesignersteps'); 
+    }
+
+    public function structuralauditsteps(){
+        return view('main.structuralauditsteps'); 
+    }
+
+    public function weldingandfabricationsteps(){
+         return view('main.weldingandfabricationsteps');
+    }
+
+    public function architectsteps(){
+        return view('main.architectsteps');
+        
+    }
+
+    public function contractorsteps(){
+        return view('main.contractorsteps');
+        
+    }
+
+    
+    
 }

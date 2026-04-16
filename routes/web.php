@@ -80,9 +80,9 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 });
 
 //vendor
-// Route::domain('vendor.constructkaro.com')->group(function () {
-    // Route::get('/', function () {
-    Route::get('/vendor', function () {
+Route::domain('vendor.constructkaro.com')->group(function () {
+    Route::get('/', function () {
+    // Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -147,7 +147,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
 Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-// });
+});
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -204,6 +204,29 @@ Route::post('/help-center/callback-submit', [HomeController::class, 'submitCallb
 
     
 Route::get('knowledge-hub', [HomeController::class, 'knowledgehub'])->name('knowledgehub');
+Route::get('construction-eduction', [HomeController::class, 'constructioneduction'])->name('constructioneduction');
+
+Route::get('constructkaro-work', [HomeController::class, 'constwork'])->name('constwork');
+
+Route::get('survey-services-step', [HomeController::class, 'surveyservicesstep'])->name('surveyservicesstep');
+Route::get('testing-services-steps', [HomeController::class, 'testingservicessteps'])->name('testingservicessteps');
+
+
+Route::get('na-legal-supportsteps', [HomeController::class, 'nasupportsteps'])->name('nasupportsteps');
+
+Route::get('boq-services-supportsteps', [HomeController::class, 'boqservicessteps'])->name('boqservicessteps');
+Route::get('facade-service-supportsteps', [HomeController::class, 'facadeservicesteps'])->name('facadeservicesteps');
+
+
+Route::get('interior-designer-supportsteps', [HomeController::class, 'interiordesignersteps'])->name('interiordesignersteps');
+
+Route::get('structural-audit-supportsteps', [HomeController::class, 'structuralauditsteps'])->name('structuralauditsteps');
+Route::get('welding-and-fabrication-supportsteps', [HomeController::class, 'weldingandfabricationsteps'])->name('weldingandfabricationsteps');
+
+Route::get('architect-supportsteps', [HomeController::class, 'architectsteps'])->name('architectsteps');
+Route::get('contractor-supportsteps', [HomeController::class, 'contractorsteps'])->name('contractorsteps');
+
+
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);
 

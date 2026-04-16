@@ -280,11 +280,11 @@
             </div>
 
             <div class="topics-grid">
-                <a href="#" class="topic-image-card">
+                <a href="{{route('constructioneduction')}}" class="topic-image-card">
                     <img src="{{ asset('images/topics/construction-education.png') }}" alt="Construction Education">
                 </a>
 
-                <a href="#" class="topic-image-card">
+                <a href="{{route('constwork')}}" class="topic-image-card">
                     <img src="{{ asset('images/topics/how-constructkaro-works.png') }}" alt="How ConstructKaro Works">
                 </a>
 
