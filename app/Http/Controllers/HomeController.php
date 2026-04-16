@@ -95,6 +95,9 @@ class HomeController extends Controller
         
     }
 
+    public function chooserightcontractor(){
+        return view('main.chooserightcontractor');
+    }
     
     
 }

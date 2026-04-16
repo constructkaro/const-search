@@ -226,6 +226,8 @@ Route::get('welding-and-fabrication-supportsteps', [HomeController::class, 'weld
 Route::get('architect-supportsteps', [HomeController::class, 'architectsteps'])->name('architectsteps');
 Route::get('contractor-supportsteps', [HomeController::class, 'contractorsteps'])->name('contractorsteps');
 
+Route::get('choose-right-contractor', [HomeController::class, 'chooserightcontractor'])->name('chooserightcontractor');
+
 
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);

@@ -20,6 +20,7 @@ class ContractorProvider extends Model
         'contact_person_designation',
         'contact_person_name',
         'pan_number',
+        'pincode',
         'tan_number',
         'esic_number',
         'pf_number',

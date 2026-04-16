@@ -97,21 +97,21 @@ class ContractorController extends Controller
         //     'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:4096',
         // ]);
         $request->validate([
-    'project_types' => 'required|array',
-    'company_name' => 'required|string|max:255',
-    'msme_registered' => 'required',
-
-    'msme_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'pan_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'aadhaar_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'company_profile' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'pf_doc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'esic_doc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-    'work_photo_1' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
-    'work_photo_2' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
-    'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
-]);
+            'project_types' => 'required|array',
+            'company_name' => 'required|string|max:255',
+            'msme_registered' => 'required',
+            'pincode' => 'required',
+            'msme_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'pan_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'aadhaar_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'company_profile' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'pf_doc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'esic_doc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+            'work_photo_1' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
+            'work_photo_2' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
+            'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
+        ]);
 
         $msme = $request->msme_registered === 'on' ? 'Yes' : $request->msme_registered;
 
@@ -162,7 +162,7 @@ class ContractorController extends Controller
             'team_size' => $request->team_size,
             'city' => $request->city,
             'minimum_project_value' => $request->minimum_project_value,
-
+            'pincode' => $request->pincode,
             'company_name' => $request->company_name,
             'entity_type' => $request->entity_type,
             'registered_address' => $request->registered_address,
