@@ -411,7 +411,7 @@ body {
         <nav class="nav-menu">
             <ul>
                 <li><a href="{{ url('/') }}" class="active">Home</a></li>
-                <li><a href="#">About Us</a></li>
+                <li><a href="{{route('aboutus')}}">About Us</a></li>
                 <li><a href="#">Services</a></li>
                 <li><a href="{{route('knowledgehub')}}">Knowledge Hub</a></li>
                 <li><a href="#">Contact</a></li>

@@ -228,6 +228,15 @@ Route::get('contractor-supportsteps', [HomeController::class, 'contractorsteps']
 
 Route::get('choose-right-contractor', [HomeController::class, 'chooserightcontractor'])->name('chooserightcontractor');
 
+Route::get('construction-article', [HomeController::class, 'constructionarticle'])->name('constructionarticle');
+
+Route::get('different-consultant', [HomeController::class, 'differentconsultant'])->name('differentconsultant');
+
+Route::get('blogs-insights', [HomeController::class, 'blogsinsights'])->name('blogsinsights');
+Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])->name('blogsinsightspage');
+
+
+Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
 
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);

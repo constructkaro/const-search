@@ -288,7 +288,7 @@
                     <img src="{{ asset('images/topics/how-constructkaro-works.png') }}" alt="How ConstructKaro Works">
                 </a>
 
-                <a href="#" class="topic-image-card">
+                <a href="{{route('blogsinsights')}}" class="topic-image-card">
                     <img src="{{ asset('images/topics/blogs-insights.png') }}" alt="Blogs & Insights">
                 </a>
 
@@ -311,15 +311,15 @@
             </div>
 
             <div class="featured-image-grid">
-                <a href="#" class="featured-image-card">
+                <a href="{{route('chooserightcontractor')}}" class="featured-image-card">
                     <img src="{{ asset('images/topics/contractor-guide.png') }}" alt="Contractor Article">
                 </a>
 
-                <a href="#" class="featured-image-card">
+                <a href="{{route('constructionarticle')}}" class="featured-image-card">
                     <img src="{{ asset('images/topics/cost-breakdown.png') }}" alt="Construction Cost Article">
                 </a>
 
-                <a href="#" class="featured-image-card">
+                <a href="{{route('differentconsultant')}}" class="featured-image-card">
                     <img src="{{ asset('images/topics/professional-difference.png') }}" alt="Professional Roles Article">
                 </a>
             </div>

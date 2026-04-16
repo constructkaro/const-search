@@ -99,5 +99,23 @@ class HomeController extends Controller
         return view('main.chooserightcontractor');
     }
     
+    public function constructionarticle(){
+        return view('main.constructionarticle');
+    }
+
+    public function differentconsultant(){
+        return view('main.differentconsultant');
+    }
+
+    public function blogsinsights(){
+        return view('main.blogsinsights');
+    }
     
+    public function blogsinsightspage(){
+        return view('main.blogsinsightspage');
+    }
+
+    public function aboutus(){
+        return view('main.aboutus');
+    }
 }
