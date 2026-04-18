@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorBoqProfile extends Model
 {
+    protected $table ='boq_providers';
     protected $fillable = [
         'vendor_id',
         'project_types_handled',

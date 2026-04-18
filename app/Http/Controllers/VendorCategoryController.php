@@ -73,7 +73,7 @@ class VendorCategoryController extends Controller
             'architect' => 'architect_providers',
             'interior-designer' => 'vendor_interior_designer_details',
             'surveyor' => 'surveyor_providers',
-            'boq-estimation-expert' => 'boq_enquiries',
+            'boq-estimation-expert' => 'boq_providers',
             'testing-lab-agency' => 'testing_lab_agency_providers',
             // 'structural-auditor-engineer' => 'vendor_structural_auditor_details',
             // 'machinery-provider' => 'vendor_machinery_provider_details',
