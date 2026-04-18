@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Customer\OrderTrackingController;
 use App\Http\Controllers\Admin\TrackingTemplateController;
+use App\Http\Controllers\TestingController;
 
 use App\Http\Controllers\HomeController;
 
@@ -80,9 +81,9 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 });
 
 //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
+    // Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -144,10 +145,13 @@ Route::domain('vendor.constructkaro.com')->group(function () {
     Route::post('/architect/store', [ArchitectController::class, 'store'])->name('architect.store');
 
 
-Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
+    Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
 
-Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
-});
+    Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
+
+    Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
+
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -237,6 +241,13 @@ Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])-
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
+Route::get('our-baground', [HomeController::class, 'ourbaround'])->name('ourbaround');
+
+Route::get('about-who-me', [HomeController::class, 'aboutwhome'])->name('aboutwhome');
+Route::get('core-problem', [HomeController::class, 'coreproblem'])->name('coreproblem');
+
+Route::get('canstructkaro-different', [HomeController::class, 'canstructkarodifferent'])->name('canstructkarodifferent');
+
 
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);

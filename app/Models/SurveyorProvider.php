@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SurveyorProvider extends Model
 {
+    protected $table = 'surveyor_providers';
+
     protected $fillable = [
-        'survey_types',
+        'vendor_id',
+        'project_types',
         'experience_years',
         'team_size',
-        'state',
-        'region',
+        'pincode',
+        'minimum_project_value',
         'city',
         'company_name',
         'entity_type',
@@ -27,15 +30,16 @@ class SurveyorProvider extends Model
         'company_profile',
         'license_certificate',
         'previous_project_photos',
+        'pan_card',
         'status',
     ];
 
     protected $casts = [
-        'survey_types' => 'array',
+        'project_types' => 'array',
     ];
 
- public function trackings()
-{
-    return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
-}
+    public function trackings()
+    {
+        return $this->morphMany(\App\Models\OrderTracking::class, 'trackable');
+    }
 }

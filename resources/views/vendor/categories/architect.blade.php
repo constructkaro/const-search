@@ -1,9 +1,4 @@
-@extends('vendor.layouts.vapp')
-
-@section('title', 'Architect Registration Form')
-@section('page_title', 'Architect Registration Form')
-
-@section('content')
+@extends('vendor.layouts.vapp') @section('title', 'Architect Registration Form') @section('page_title', 'Architect Registration Form') @section('content')
 
 <style>
     :root{
@@ -541,229 +536,430 @@
             grid-template-columns: 1fr;
         }
     }
-</style>
 
+    .radio-group {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.radio-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.radio-pill input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.radio-pill label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--ck-navy);
+    font-weight: 700;
+}
+
+.radio-pill label::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #b7c3d4;
+    display: inline-block;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.radio-pill input[type="radio"]:checked + label::before {
+    border-color: #f25c05;
+    background: radial-gradient(circle at center, #f25c05 45%, #fff 46%);
+}
+</style>
+@php
+$selectedProjects = json_decode($existingData->project_types ?? '[]', true);
+@endphp
 <div class="vendor-page">
     <div class="vendor-stack">
-    <form action="{{ route('architect.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-        <div class="section-card">
-            <div class="section-head">
-                <div class="section-badge"><i class="fa-solid fa-compass-drafting"></i></div>
-                <div class="section-title-wrap">
-                    <h2>Business & Work Details</h2>
-                    <p>Select your architectural specialization and project expertise</p>
+        <form action="{{ route('architect.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="section-card">
+                <div class="section-head">
+                    <div class="section-badge"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <div class="section-title-wrap">
+                        <h2>Business & Work Details</h2>
+                        <p>Select your architectural specialization and project expertise</p>
+                    </div>
+                </div>
+
+                @php $workType = $workType ?? null; $projectTypes = $projectTypes ?? collect(); @endphp
+
+                <div class="field-block">
+                    <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
+                    <div class="vendor-bar">
+                        <div class="vendor-value">{{ $workType->work_type ?? 'Vendor' }}</div>
+                        <div class="vendor-chip">{{ $workType->work_type ?? 'Vendor' }}</div>
+                    </div>
+                </div>
+
+                <div class="field-block">
+                    <div class="field-label">Project Type <span class="req">*</span></div>
+                    <div class="field-sub">Select all project types you have experience in</div>
+
+                   <div class="project-grid">
+    @forelse($projectTypes as $index => $type)
+        <div class="check-card">
+            <input type="checkbox"
+                   id="project_type_{{ $index }}"
+                   name="project_types[]"
+                   value="{{ $type }}"
+                   {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
+            <label for="project_type_{{ $index }}">{{ $type }}</label>
+        </div>
+    @empty
+        <p style="color:red; font-weight:600;">No project types found.</p>
+    @endforelse
+</div>
                 </div>
             </div>
 
-            @php
-                $workType = $workType ?? null;
-                $projectTypes = $projectTypes ?? collect();
-            @endphp
+            {{-- SECTION 2 --}}
+            <div class="section-card">
+                <div class="section-divider"></div>
 
-            <div class="field-block">
-                <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
-                <div class="vendor-bar">
-                    <div class="vendor-value">{{ $workType->work_type ?? 'Vendor' }}</div>
-                    <div class="vendor-chip">{{ $workType->work_type ?? 'Vendor' }}</div>
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Basic Business Information</h2>
+                        <p>Company overview and operating details</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="field-block">
-                <div class="field-label">Project Type <span class="req">*</span></div>
-                <div class="field-sub">Select all project types you have experience in</div>
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Years of Experience <span class="req">*</span></div>
+                        <select class="form-select" name="experience_years">
+                            <option value="" selected disabled>Select years of experience</option>
+                            @foreach($experienceYears as $experience)
+                            <option value="{{ $experience->id }}" {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
+                                {{ $experience->experiance }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <div class="project-grid">
-                    @forelse($projectTypes as $index => $type)
-                        <div class="check-card">
-                            <input
-                                type="checkbox"
-                                id="project_type_{{ $index }}"
-                                name="project_types[]"
-                                value="{{ $type }}"
-                                {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
-                            >
-                            <label for="project_type_{{ $index }}">{{ $type }}</label>
-                        </div>
-                    @empty
-                        <p style="color:red; font-weight:600;">No project types found.</p>
-                    @endforelse
-                </div>
-            </div>
-        </div>
+                    <div>
+                        <div class="field-label">Team Size <span class="req">*</span></div>
+                        <select class="form-select" name="team_size">
+                            <option value="" selected disabled>Select team size</option>
+                            @foreach($team_size as $team)
+                            <option value="{{ $team->id }}"  {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                                {{ $team->team_size }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-      {{-- SECTION 2 --}}
-<div class="section-card">
-    <div class="section-divider"></div>
 
-    <div class="section-head">
-        <div class="section-badge">
-            <i class="fa-solid fa-building"></i>
-        </div>
-        <div class="section-title-wrap">
-            <h2>Basic Business Information</h2>
-            <p>Company overview and operating details</p>
-        </div>
-    </div>
 
-    <div class="form-grid-2">
-        <div>
-            <div class="field-label">Years of Experience <span class="req">*</span></div>
-            <select class="form-select" name="experience_years">
-                <option value="" selected disabled>Select years of experience</option>
-                @foreach($experienceYears as $experience)
-                    <option value="{{ $experience->id }}">
-                        {{ $experience->experiance }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <div class="field-label">Team Size <span class="req">*</span></div>
-            <select class="form-select" name="team_size">
-                <option value="" selected disabled>Select team size</option>
-                @foreach($team_size as $team)
-                    <option value="{{ $team->id }}">
-                        {{ $team->team_size }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        
-
-        <div>
+                    <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="city" placeholder="Enter city">
-
+                        <input type="text" name="city" class="form-input"
+                               value="{{ old('city', $existingData->city ?? '') }}">
                     </div>
 
-         <div>
+                    <div>
                         <div class="field-label">Pincode <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode">
+                        
+                        <input type="text" class="form-input" name="pincode" class="form-control"
+                               value="{{ old('pincode', $existingData->pincode ?? '') }}">
 
                     </div>
 
-        <div>
-            <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-            <input type="text" class="form-input" name="minimum_project_value" placeholder="Enter minimum project value">
-        </div>
-    </div>
-</div>
-
-{{-- SECTION 3 --}}
-<div class="section-card">
-    <div class="section-divider"></div>
-
-    <div class="section-head">
-        <div class="section-badge">
-            <i class="fa-solid fa-id-card"></i>
-        </div>
-        <div class="section-title-wrap">
-            <h2>Company & Compliance Details</h2>
-            <p>Legal, statutory and contact information</p>
-        </div>
-    </div>
-
-    <div class="form-grid-2">
-        <div>
-            <div class="field-label">Company Name <span class="req">*</span></div>
-            <input type="text" class="form-input" name="company_name" placeholder="Enter company name">
-        </div>
-
-        <div>
-            <div class="field-label">Type of Entity <span class="req">*</span></div>
-            <select class="form-select" name="entity_type">
-                <option value="" selected disabled>Select entity type</option>
-                @foreach($entity_type as $entity)
-                    <option value="{{ $entity->id }}">
-                        {{ $entity->entity_type }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div style="grid-column: 1 / -1;">
-            <div class="field-label">Registered Office Address <span class="req">*</span></div>
-            <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address"></textarea>
-        </div>
-
-        <div>
-            <div class="field-label">Contact Person Designation <span class="req">*</span></div>
-            <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter contact person designation">
-        </div>
-
-        <div>
-            <div class="field-label">Contact Person Name</div>
-            <input type="text" class="form-input" name="contact_person_name" placeholder="Enter contact person name">
-        </div>
-
-        <div>
-            <div class="field-label">PAN Number</div>
-            <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number">
-        </div>
-
-        <div>
-            <div class="field-label">TAN Number</div>
-            <input type="text" class="form-input" name="tan_number" placeholder="Enter TAN number">
-        </div>
-
-        <div>
-            <div class="field-label">ESIC Number</div>
-            <input type="text" class="form-input" name="esic_number" placeholder="Enter ESIC number">
-        </div>
-
-        <div>
-            <div class="field-label">PF No</div>
-            <input type="text" class="form-input" name="pf_number" placeholder="Enter PF number">
-        </div>
-
-        <div style="grid-column: 1 / -1;">
-            <div class="field-label">MSME/Udyam Registered <span class="req">*</span></div>
-            <div class="radio-group">
-                <div class="radio-pill">
-                    <input type="radio" id="msme_yes" name="msme_registered" value="Yes">
-                    <label for="msme_yes">Yes</label>
-                </div>
-                <div class="radio-pill">
-                    <input type="radio" id="msme_no" name="msme_registered" value="No">
-                    <label for="msme_no">No</label>
-                </div>
-            </div>
-        </div>
-
-       <div style="grid-column: 1 / -1;">
-            <div class="field-label">Upload MSME/Udyam Certificate</div>
-            <div class="upload-box-wrap">
-                <input type="file" id="msme_certificate" name="msme_certificate" accept=".pdf,.jpg,.jpeg,.png">
-                
-                <label for="msme_certificate" class="upload-box">
-                    <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
-                    <div class="upload-content">
-                        <div class="upload-main">Upload MSME/Udyam Certificate</div>
-                        <div class="upload-note file-name">PDF, JPG, PNG up to 20MB</div>
+                    <div>
+                        <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
+                          <input type="number" step="0.01" name="minimum_project_value" class="form-input"
+                               value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}">
                     </div>
-                </label>
-
-                <a href="#" class="uploaded-link" id="msme_certificate_link" target="_blank" style="display:none;">
-                    View Uploaded MSME
-                </a>
+                </div>
             </div>
-        </div>
+
+            {{-- SECTION 3 --}}
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Company & Compliance Details</h2>
+                        <p>Legal, statutory and contact information</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Company Name <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="company_name" placeholder="Enter company name" value="{{ old('company_name', $existingData->company_name ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">Type of Entity <span class="req">*</span></div>
+                         <select class="form-select" name="entity_type">
+                            <option value="" selected disabled>Select entity type</option>
+                            @foreach($entity_type as $entity)
+                                <option value="{{ $entity->id }}" {{ old('entity_type', $existingData->entity_type ?? '') == $entity->id ? 'selected' : '' }}>
+                                    {{ $entity->entity_type }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">Registered Office Address <span class="req">*</span></div>
+                        <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
+                    </div>
+
+                    <div>
+                        <div class="field-label">Contact Person Designation <span class="req">*</span></div>
+                        <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter contact person designation"
+                        value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">Contact Person Name</div>
+                        <input type="text" class="form-input" name="contact_person_name" placeholder="Enter contact person name"
+                        value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">PAN Number</div>
+                        <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number"
+                        value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">TAN Number</div>
+                        <input type="text" class="form-input" name="tan_number" placeholder="Enter TAN number"
+                        value="{{ old('tan_number', $existingData->tan_number ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">ESIC Number</div>
+                        <input type="text" class="form-input" name="esic_number" placeholder="Enter ESIC number"
+                         value="{{ old('esic_number', $existingData->esic_number ?? '') }}">
+                    </div>
+
+                    <div>
+                        <div class="field-label">PF No</div>
+                        <input type="text" class="form-input" name="pf_number" placeholder="Enter PF number"
+                        value="{{ old('pf_number', $existingData->pf_number ?? '') }}">
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">MSME/Udyam Registered <span style="color:red;">*</span></div>
+
+<div class="radio-group">
+    <div class="radio-pill">
+        <input type="radio"
+               id="msme_yes"
+               name="msme_registered"
+               value="Yes"
+               {{ old('msme_registered', $existingData->msme_registered ?? '') == 'Yes' ? 'checked' : '' }}>
+        <label for="msme_yes">Yes</label>
+    </div>
+
+    <div class="radio-pill">
+        <input type="radio"
+               id="msme_no"
+               name="msme_registered"
+               value="No"
+               {{ old('msme_registered', $existingData->msme_registered ?? '') == 'No' ? 'checked' : '' }}>
+        <label for="msme_no">No</label>
     </div>
 </div>
 
-        {{-- SUBMIT --}}
-        <div class="submit-bar">
-            <button type="submit" class="submit-btn">
-                <i class="fa-regular fa-paper-plane"></i>
-                <span>Submit Contractor Profile</span>
-            </button>
-            <div class="submit-note">
-                By submitting, you agree to ConstructKaro’s vendor verification process and project lead matching system.
+@error('msme_registered')
+    <div class="text-danger" style="margin-top:8px;">{{ $message }}</div>
+@enderror
+                    </div>
+
+                    <div style="grid-column: 1 / -1;">
+                        <div class="field-label">Upload MSME/Udyam Certificate</div>
+
+                        <div class="upload-box-wrap">
+                            <input type="file"
+                                id="msme_certificate"
+                                name="msme_certificate"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                style="display: none;">
+
+                            <label for="msme_certificate" class="upload-box">
+                                <div class="upload-icon">
+                                    <i class="fa-regular fa-award"></i>
+                                </div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Upload MSME/Udyam Certificate</div>
+                                    <div class="upload-note file-name" id="msme_certificate_name">
+                                        PDF, JPG, PNG up to 20MB
+                                    </div>
+                                </div>
+                            </label>
+
+                            @if(!empty($existingData->msme_certificate))
+                                <a href="{{ asset('storage/' . $existingData->msme_certificate) }}"
+                                class="uploaded-link"
+                                id="msme_certificate_link"
+                                target="_blank"
+                                style="display:inline-block;">
+                                    View Uploaded MSME
+                                </a>
+                            @else
+                                <a href="#"
+                                class="uploaded-link"
+                                id="msme_certificate_link"
+                                target="_blank"
+                                style="display:none;">
+                                    View Uploaded MSME
+                                </a>
+                            @endif
+
+                            @error('msme_certificate')
+                                <div class="text-danger" style="margin-top:8px; font-size:13px;">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="section-card">
+                <div class="section-divider"></div>
+
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Documents & Work Proof</h2>
+                        <p>Upload legal documents, company profile and work completion evidence</p>
+                    </div>
+                </div>
+                <div class="upload-grid-2">
+                    <div>
+                        <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="pan_card" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">PAN Card</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a> @if(!empty($existingData->pan_card))
+                            
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
+                                    View PAN Certificate
+                                </a>
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="gst_certificate" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">GST Certificate</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a> @if(!empty($existingData->gst_certificate))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
+                                        View GST Certificate
+                                    </a>
+                            </div>
+                            @endif
+
+                            
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Aadhaar Card <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="aadhaar_card" name="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="aadhaar_card" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Aadhaar Card</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a> @if(!empty($existingData->aadhaar_card))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
+                                        View Adhar Certificate
+                                    </a>
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="company_profile" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Company Profile</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a> @if(!empty($existingData->company_profile))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
+                                        View Company Profile
+                                    </a>
+                            </div>
+                            @endif
+
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- SUBMIT --}}
+            <div class="submit-bar">
+                <button type="submit" class="submit-btn">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span>Submit Contractor Profile</span>
+                </button>
+                <div class="submit-note">
+                    By submitting, you agree to ConstructKaro’s vendor verification process and project lead matching system.
+                </div>
+            </div>
     </div>
     </form>
 </div>
@@ -802,4 +998,5 @@
 
     setupFilePreview('msme_certificate', 'msme_certificate_link');
 </script>
+
 @endsection

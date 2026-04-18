@@ -574,13 +574,7 @@
                 </div>
             </div>
 
-            <div class="boq-progress">
-                <span>Profile Progress</span>
-                <div class="boq-progress-bar">
-                    <div class="boq-progress-fill"></div>
-                </div>
-                <span>75%</span>
-            </div>
+            
         </div>
     </div>
 

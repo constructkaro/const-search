@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class VendorCategoryController extends Controller
 {
     public function index()
     {
+        $vendorId = session('vendor_id');
+        // dd($vendorId);
         $categories = [
             ['name' => 'Contractor', 'slug' => 'contractor', 'icon' => 'fa-regular fa-building'],
             ['name' => 'Architect', 'slug' => 'architect', 'icon' => 'fa-regular fa-compass'],
@@ -16,31 +19,38 @@ class VendorCategoryController extends Controller
             ['name' => 'Surveyor', 'slug' => 'surveyor', 'icon' => 'fa-solid fa-location-dot'],
             ['name' => 'BOQ / Estimation Expert', 'slug' => 'boq-estimation-expert', 'icon' => 'fa-solid fa-calculator'],
             ['name' => 'Testing Lab / Agency', 'slug' => 'testing-lab-agency', 'icon' => 'fa-solid fa-flask'],
-            ['name' => 'Structural Auditor / Engineer', 'slug' => 'structural-auditor-engineer', 'icon' => 'fa-solid fa-shield-halved'],
-            ['name' => 'Machinery Provider', 'slug' => 'machinery-provider', 'icon' => 'fa-solid fa-truck'],
-            ['name' => 'Facade Specialist', 'slug' => 'facade-services', 'icon' => 'fa-solid fa-border-all'],
-            ['name' => 'Welding & Fabrication', 'slug' => 'welding-fabrication', 'icon' => 'fa-solid fa-fire-flame-curved'],
-            ['name' => 'Legal / NA Support', 'slug' => 'legal-na-support', 'icon' => 'fa-solid fa-scale-balanced'],
+            // ['name' => 'Structural Auditor / Engineer', 'slug' => 'structural-auditor-engineer', 'icon' => 'fa-solid fa-shield-halved'],
+            // ['name' => 'Machinery Provider', 'slug' => 'machinery-provider', 'icon' => 'fa-solid fa-truck'],
+            // ['name' => 'Facade Specialist', 'slug' => 'facade-services', 'icon' => 'fa-solid fa-border-all'],
+            // ['name' => 'Welding & Fabrication', 'slug' => 'welding-fabrication', 'icon' => 'fa-solid fa-fire-flame-curved'],
+            // ['name' => 'Legal / NA Support', 'slug' => 'legal-na-support', 'icon' => 'fa-solid fa-scale-balanced'],
         ];
 
         return view('vendor.categories.index', compact('categories'));
     }
 
+    
+    
     public function showForm($slug)
     {
+        $vendorId = session('vendor_id');
+
+        if (!$vendorId) {
+            return redirect()->route('login')->with('error', 'Please login first.');
+        }
+
         $slugToWorkType = [
             'contractor' => 'Contractor',
             'architect' => 'Architect',
             'interior-designer' => 'Interiors',
-           
             'surveyor' => 'Surveyor',
             'boq-estimation-expert' => 'BOQ / Estimation Expert',
             'testing-lab-agency' => 'Testing Lab / Agency',
-            'structural-auditor-engineer' => 'Structural Auditor / Engineer',
-            'machinery-provider' => 'Machinery Provider',
-            'facade-services' => 'Facade Specialist',
-            'welding-fabrication' => 'Welding & Fabrication',
-            'legal-na-support' => 'Legal / NA Support',
+            // 'structural-auditor-engineer' => 'Structural Auditor / Engineer',
+            // 'machinery-provider' => 'Machinery Provider',
+            // 'facade-services' => 'Facade Specialist',
+            // 'welding-fabrication' => 'Welding & Fabrication',
+            // 'legal-na-support' => 'Legal / NA Support',
         ];
 
         $slugToView = [
@@ -50,11 +60,26 @@ class VendorCategoryController extends Controller
             'surveyor' => 'vendor.categories.surveyor',
             'boq-estimation-expert' => 'vendor.categories.boq-estimation-expert',
             'testing-lab-agency' => 'vendor.categories.testing-lab-agency',
-            'structural-auditor-engineer' => 'vendor.categories.structural-audit-professional',
-            'machinery-provider' => 'vendor.categories.machinery-provider',
-            'facade-services' => 'vendor.categories.facade-services',
-            'welding-fabrication' => 'vendor.categories.welding-fabrication',
-            'legal-na-support' => 'vendor.categories.legal-na-support',
+            // 'structural-auditor-engineer' => 'vendor.categories.structural-audit-professional',
+            // 'machinery-provider' => 'vendor.categories.machinery-provider',
+            // 'facade-services' => 'vendor.categories.facade-services',
+            // 'welding-fabrication' => 'vendor.categories.welding-fabrication',
+            // 'legal-na-support' => 'vendor.categories.legal-na-support',
+        ];
+
+        /* map slug to table name */
+        $slugToTable = [
+            'contractor' => 'contractor_providers',
+            'architect' => 'architect_providers',
+            'interior-designer' => 'vendor_interior_designer_details',
+            'surveyor' => 'surveyor_providers',
+            'boq-estimation-expert' => 'boq_enquiries',
+            'testing-lab-agency' => 'testing_lab_agency_providers',
+            // 'structural-auditor-engineer' => 'vendor_structural_auditor_details',
+            // 'machinery-provider' => 'vendor_machinery_provider_details',
+            // 'facade-services' => 'vendor_facade_services_details',
+            // 'welding-fabrication' => 'vendor_welding_fabrication_details',
+            // 'legal-na-support' => 'vendor_legal_na_support_details',
         ];
 
         if (!isset($slugToView[$slug])) {
@@ -62,11 +87,11 @@ class VendorCategoryController extends Controller
         }
 
         $workTypeName = $slugToWorkType[$slug] ?? null;
-        $exp_year=DB::table('experience_years')->get();
+
+        $exp_year = DB::table('experience_years')->get();
         $team_size = DB::table('team_size')->get();
         $entity_type = DB::table('entity_type')->get();
 
-        // dd($exp_year);
         $workType = null;
         $projectTypes = collect();
 
@@ -83,15 +108,30 @@ class VendorCategoryController extends Controller
             }
         }
 
+        /* fetch logged-in vendor basic details */
+        $vendor = DB::table('vendor_register')
+            ->where('id', $vendorId)
+            ->first();
+
+        /* fetch existing form data if already saved */
+        $existingData = null;
+
+        if (isset($slugToTable[$slug])) {
+            $existingData = DB::table($slugToTable[$slug])
+                ->where('vendor_id', $vendorId)
+                ->first();
+        }
+        // dd($existingData);
         return view($slugToView[$slug], [
             'workType' => $workType,
             'projectTypes' => $projectTypes,
             'experienceYears' => $exp_year,
-            'team_size' =>$team_size,
-            'entity_type' =>$entity_type
+            'team_size' => $team_size,
+            'entity_type' => $entity_type,
+            'vendor' => $vendor,
+            'existingData' => $existingData,
         ]);
     }
-
     public function saveForm(Request $request, $slug)
     {
         return redirect()->back()->with('success', ucfirst(str_replace('-', ' ', $slug)) . ' form submitted successfully.');

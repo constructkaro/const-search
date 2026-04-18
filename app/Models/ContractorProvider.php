@@ -8,7 +8,7 @@ class ContractorProvider extends Model
 {
     protected $table ='contractor_providers';
     protected $fillable = [
-        'customerId',
+        'vendor_id',
         'project_types',
         'experience_years',
         'team_size',

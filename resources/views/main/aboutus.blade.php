@@ -41,18 +41,18 @@
     .about-image-card {
         border-radius: 18px;
         overflow: hidden;
-        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-        background: #fff;
+        /* box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        background: #fff; */
         transition: all 0.35s ease;
     }
 
-    .about-image-card.blue-border {
+    /* .about-image-card.blue-border {
         border-left: 5px solid #2b78d0;
-    }
+    } */
 
-    .about-image-card.orange-border {
+    /* .about-image-card.orange-border {
         border-right: 5px solid #f25c05;
-    }
+    } */
 
     .about-image-card img {
         width: 100%;
@@ -291,18 +291,17 @@
     .team-photo {
         border-radius: 18px;
         overflow: hidden;
-        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-        background: #fff;
+       
         transition: all 0.35s ease;
     }
 
-    .team-photo.blue-border {
+    /* .team-photo.blue-border {
         border-left: 5px solid #2b78d0;
     }
 
     .team-photo.orange-border {
         border-right: 5px solid #f25c05;
-    }
+    } */
 
     .team-photo img {
         width: 100%;
@@ -481,13 +480,46 @@
     filter: grayscale(0%);
     transform: scale(1.02);
 }
+
+
+.image-box {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #e9edf3;
+    box-shadow: 0 10px 28px rgba(28, 44, 62, 0.10);
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    filter: grayscale(100%);
+}
+
+.team-group-image {
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.team-group-image img {
+    object-fit: contain !important;
+    object-position: center !important;
+}
 </style>
 
 <section class="about-page">
     <div class="about-container">
 
         <!-- Who We Are -->
-        <div class="about-section">
+        <!-- <div class="about-section">
             <div class="about-block">
                 <div class="about-image-card blue-border">
                     <img src="{{ asset('images/about/1.png') }}" alt="Who We Are">
@@ -502,7 +534,27 @@
                         ConstructKaro is a <strong>construction services and execution platform in India</strong>
                         that provides a <strong>structured and guided way to start and complete construction projects.</strong>
                     </p>
-                    <a href="#" class="about-btn">Learn more about Who we Are</a>
+                    <a href="{{route('aboutwhome')}}" class="about-btn">Learn more about Who we Are</a>
+                </div>
+            </div>
+        </div> -->
+        <div class="about-section">
+            <div class="about-block">
+                <div class="about-image-card blue-border team-photo-card">
+                    <img src="{{ asset('images/about/1.png') }}" alt="Who We Are" class="team-photo-fit">
+                </div>
+
+                <div class="about-content">
+                    <h2 class="about-title">Who we Are:</h2>
+                    <div class="about-line">
+                        <span class="blue"></span>
+                        <span class="orange"></span>
+                    </div>
+                    <p>
+                        ConstructKaro is a <strong>construction services and execution platform in India</strong>
+                        that provides a <strong>structured and guided way to start and complete construction projects.</strong>
+                    </p>
+                    <a href="{{ route('aboutwhome') }}" class="about-btn">Learn more about Who we Are</a>
                 </div>
             </div>
         </div>
@@ -522,7 +574,7 @@
                         range of projects including residential, commercial, interior, estimation,
                         site coordination, and vendor execution work.
                     </p>
-                    <a href="#" class="about-btn orange">Learn more about Our Background:</a>
+                    <a href="{{route('ourbaround')}}" class="about-btn orange">Learn more about Our Background:</a>
                 </div>
                 <div class="about-image-card orange-border">
                     <img src="{{ asset('images/about/2.png') }}" alt="Our Background">
@@ -547,7 +599,7 @@
                         Customers often do not know whom to contact first, how to plan properly,
                         and how to move from requirement to execution in the right sequence.
                     </p>
-                    <a href="#" class="about-btn">Learn more about Core Problem</a>
+                    <a href="{{route('coreproblem')}}" class="about-btn">Learn more about Core Problem</a>
                 </div>
             </div>
         </div>
@@ -604,7 +656,7 @@
                         <strong>lead generation, listings, or vendor directories.</strong>
                         ConstructKaro is different because it provides structured project execution support.
                     </p>
-                    <a href="#" class="about-btn orange">Learn more about How ConstructKaro is Different</a>
+                    <a href="{{route('canstructkarodifferent')}}" class="about-btn orange">Learn more about How ConstructKaro is Different</a>
                 </div>
                 <div class="about-image-card orange-border">
                     <img src="{{ asset('images/about/4.png') }}" alt="How ConstructKaro is Different">

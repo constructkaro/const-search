@@ -118,4 +118,20 @@ class HomeController extends Controller
     public function aboutus(){
         return view('main.aboutus');
     }
+
+    public function aboutwhome(){
+        return view('main.aboutwhome');
+    }
+
+    public function ourbaround(){
+        return view('main.ourbaround');
+    }
+
+    public function coreproblem(){
+        return view('main.coreproblem');
+    }
+
+    public function canstructkarodifferent(){
+        return view('main.canstructkarodifferent');
+    }
 }
