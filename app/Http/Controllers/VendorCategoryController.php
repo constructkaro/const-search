@@ -71,7 +71,7 @@ class VendorCategoryController extends Controller
         $slugToTable = [
             'contractor' => 'contractor_providers',
             'architect' => 'architect_providers',
-            'interior-designer' => 'vendor_interior_designer_details',
+            'interior-designer' => 'interior_providers',
             'surveyor' => 'surveyor_providers',
             'boq-estimation-expert' => 'boq_providers',
             'testing-lab-agency' => 'testing_lab_agency_providers',

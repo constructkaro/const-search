@@ -612,20 +612,20 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     <div class="field-label">Project Type <span class="req">*</span></div>
                     <div class="field-sub">Select all project types you have experience in</div>
 
-                   <div class="project-grid">
-    @forelse($projectTypes as $index => $type)
-        <div class="check-card">
-            <input type="checkbox"
-                   id="project_type_{{ $index }}"
-                   name="project_types[]"
-                   value="{{ $type }}"
-                   {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
-            <label for="project_type_{{ $index }}">{{ $type }}</label>
-        </div>
-    @empty
-        <p style="color:red; font-weight:600;">No project types found.</p>
-    @endforelse
-</div>
+                    <div class="project-grid">
+                        @forelse($projectTypes as $index => $type)
+                            <div class="check-card">
+                                <input type="checkbox"
+                                    id="project_type_{{ $index }}"
+                                    name="project_types[]"
+                                    value="{{ $type }}"
+                                    {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
+                                <label for="project_type_{{ $index }}">{{ $type }}</label>
+                            </div>
+                        @empty
+                            <p style="color:red; font-weight:600;">No project types found.</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
 
@@ -768,29 +768,29 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">MSME/Udyam Registered <span style="color:red;">*</span></div>
 
-<div class="radio-group">
-    <div class="radio-pill">
-        <input type="radio"
-               id="msme_yes"
-               name="msme_registered"
-               value="Yes"
-               {{ old('msme_registered', $existingData->msme_registered ?? '') == 'Yes' ? 'checked' : '' }}>
-        <label for="msme_yes">Yes</label>
-    </div>
+                        <div class="radio-group">
+                            <div class="radio-pill">
+                                <input type="radio"
+                                    id="msme_yes"
+                                    name="msme_registered"
+                                    value="Yes"
+                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'Yes' ? 'checked' : '' }}>
+                                <label for="msme_yes">Yes</label>
+                            </div>
 
-    <div class="radio-pill">
-        <input type="radio"
-               id="msme_no"
-               name="msme_registered"
-               value="No"
-               {{ old('msme_registered', $existingData->msme_registered ?? '') == 'No' ? 'checked' : '' }}>
-        <label for="msme_no">No</label>
-    </div>
-</div>
+                            <div class="radio-pill">
+                                <input type="radio"
+                                    id="msme_no"
+                                    name="msme_registered"
+                                    value="No"
+                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'No' ? 'checked' : '' }}>
+                                <label for="msme_no">No</label>
+                            </div>
+                        </div>
 
-@error('msme_registered')
-    <div class="text-danger" style="margin-top:8px;">{{ $message }}</div>
-@enderror
+                        @error('msme_registered')
+                            <div class="text-danger" style="margin-top:8px;">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div style="grid-column: 1 / -1;">

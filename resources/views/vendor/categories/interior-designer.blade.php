@@ -515,11 +515,7 @@
 </style>
 
 @php
-    $workType = $workType ?? null;
-    $projectTypes = $projectTypes ?? collect();
-    $experienceYears = $experienceYears ?? collect();
-    $team_size = $team_size ?? collect();
-    $entity_type = $entity_type ?? collect();
+$selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 @endphp
 
 <form action="{{ route('interior.store') }}" method="POST" enctype="multipart/form-data">
@@ -553,13 +549,11 @@
                     <div class="project-grid">
                         @forelse($projectTypes as $index => $type)
                             <div class="check-card">
-                                <input
-                                    type="checkbox"
+                                <input type="checkbox"
                                     id="project_type_{{ $index }}"
                                     name="project_types[]"
                                     value="{{ $type }}"
-                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
-                                >
+                                    {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
                         @empty
@@ -588,56 +582,50 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
+                      
                         <select class="form-select @error('experience_years') is-invalid @enderror" name="experience_years">
-                            <option value="" disabled {{ old('experience_years') ? '' : 'selected' }}>Select years of experience</option>
+                            <option value="" disabled {{ old('experience_years', $existingData->experience_years ?? '') == '' ? 'selected' : '' }}>
+                                Select years of experience
+                            </option>
+
                             @foreach($experienceYears as $experience)
-                                <option value="{{ $experience->id }}" {{ old('experience_years') == $experience->id ? 'selected' : '' }}>
+                                <option value="{{ $experience->id }}"
+                                    {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
                                     {{ $experience->experiance ?? $experience->experience }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('experience_years')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       
                     </div>
 
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
-                        <select class="form-select @error('team_size') is-invalid @enderror" name="team_size">
-                            <option value="" disabled {{ old('team_size') ? '' : 'selected' }}>Select team size</option>
+                         <select class="form-select" name="team_size">
+                            <option value="" selected disabled>Select team size</option>
                             @foreach($team_size as $team)
-                                <option value="{{ $team->id }}" {{ old('team_size') == $team->id ? 'selected' : '' }}>
-                                    {{ $team->team_size }}
-                                </option>
+                            <option value="{{ $team->id }}"  {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                                {{ $team->team_size }}
+                            </option>
                             @endforeach
                         </select>
-                        @error('team_size')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
                     </div>
 
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('city') is-invalid @enderror" name="city" value="{{ old('city') }}" placeholder="Enter city">
-                        @error('city')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                         <input type="text" name="city" class="form-input"
+                               value="{{ old('city', $existingData->city ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Pincode <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('pincode') is-invalid @enderror" name="pincode" value="{{ old('pincode') }}" placeholder="Enter pincode">
-                        @error('pincode')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <input type="text" class="form-input" name="pincode" class="form-control"
+                               value="{{ old('pincode', $existingData->pincode ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Minimum Project Value Handled (₹) <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('minimum_project_value') is-invalid @enderror" name="minimum_project_value" value="{{ old('minimum_project_value') }}" placeholder="e.g. 200000">
-                        @error('minimum_project_value')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <input type="number" step="0.01" name="minimum_project_value" class="form-input"
+                               value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}">
                     </div>
                 </div>
             </div>
@@ -657,197 +645,154 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Studio / Firm Name <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" placeholder="Enter studio or firm name">
-                        @error('company_name')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-input" name="company_name" placeholder="Enter company name" value="{{ old('company_name', $existingData->company_name ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Type of Entity <span class="req">*</span></div>
-                        <select class="form-select @error('entity_type') is-invalid @enderror" name="entity_type">
-                            <option value="" disabled {{ old('entity_type') ? '' : 'selected' }}>Select entity type</option>
+                         <select class="form-select" name="entity_type">
+                            <option value="" selected disabled>Select entity type</option>
                             @foreach($entity_type as $entity)
-                                <option value="{{ $entity->id }}" {{ old('entity_type') == $entity->id ? 'selected' : '' }}>
+                                <option value="{{ $entity->id }}" {{ old('entity_type', $existingData->entity_type ?? '') == $entity->id ? 'selected' : '' }}>
                                     {{ $entity->entity_type }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('entity_type')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
                     </div>
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                        <textarea class="form-textarea @error('registered_address') is-invalid @enderror" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address') }}</textarea>
-                        @error('registered_address')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                        <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
                     </div>
 
                     <div>
                         <div class="field-label">Principal Designer Name <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('contact_person_name') is-invalid @enderror" name="contact_person_name" value="{{ old('contact_person_name') }}" placeholder="Enter principal designer name">
-                        @error('contact_person_name')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                         <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter contact person designation"
+                        value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
                     </div>
 
-                    <div>
-                        <div class="field-label">Designation <span class="req">*</span></div>
-                        <input type="text" class="form-input @error('contact_person_designation') is-invalid @enderror" name="contact_person_designation" value="{{ old('contact_person_designation', 'Interior Designer') }}" placeholder="Enter designation">
-                        @error('contact_person_designation')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
+                   
                     <div>
                         <div class="field-label">PAN Number</div>
-                        <input type="text" class="form-input @error('pan_number') is-invalid @enderror" name="pan_number" value="{{ old('pan_number') }}" placeholder="Enter PAN number">
-                        @error('pan_number')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                        <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number"
+                        value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">GST Number</div>
-                        <input type="text" class="form-input @error('gst_number') is-invalid @enderror" name="gst_number" value="{{ old('gst_number') }}" placeholder="Enter GST number">
-                        @error('gst_number')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
+                       <input type="text" class="form-input" name="gst_number" placeholder="Enter PAN number"
+                        value="{{ old('gst_number', $existingData->gst_number ?? '') }}">
                     </div>
 
-                    <div>
-                        <div class="field-label">Design Specialization</div>
-                        <input type="text" class="form-input @error('specialization') is-invalid @enderror" name="specialization" value="{{ old('specialization') }}" placeholder="e.g. Modern, Luxury, Minimal, Commercial">
-                        @error('specialization')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="field-label">Website / Portfolio Link</div>
-                        <input type="text" class="form-input @error('website') is-invalid @enderror" name="website" value="{{ old('website') }}" placeholder="Enter website or portfolio link">
-                        @error('website')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
                 </div>
             </div>
 
             {{-- Documents & Portfolio --}}
-            <div class="section-card">
+           <div class="section-card">
                 <div class="section-divider"></div>
 
                 <div class="section-head">
-                    <div class="section-badge"><i class="fa-solid fa-file-arrow-up"></i></div>
+                    <div class="section-badge">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
                     <div class="section-title-wrap">
-                        <h2>Documents & Portfolio</h2>
-                        <p>Upload company documents, brochure and portfolio images</p>
+                        <h2>Documents & Work Proof</h2>
+                        <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
-
                 <div class="upload-grid-2">
                     <div>
-                        <div class="upload-title">PAN Card <span class="req">*</span></div>
+                        <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
                         <div class="upload-box-wrap">
-                            <input type="file" class="upload-input" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
-                            <label class="upload-box" for="pan_card">
+                            <input type="file" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="pan_card" class="upload-box">
                                 <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
-                                <div>
-                                    <div class="upload-main">Upload PAN Card</div>
-                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                <div class="upload-content">
+                                    <div class="upload-main">PAN Card</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View File</a>
-                            <div class="file-name" id="pan_card_name"></div>
-                        </div>
-                        @error('pan_card')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="upload-title">GST Certificate</div>
-                        <div class="upload-box-wrap">
-                            <input type="file" class="upload-input" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
-                            <label class="upload-box" for="gst_certificate">
-                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
-                                <div>
-                                    <div class="upload-main">Upload GST Certificate</div>
-                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                                </div>
-                            </label>
-                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View File</a>
-                            <div class="file-name" id="gst_certificate_name"></div>
-                        </div>
-                        @error('gst_certificate')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="upload-title">Company Profile / Brochure <span class="req">*</span></div>
-                        <div class="upload-box-wrap">
-                            <input type="file" class="upload-input" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
-                            <label class="upload-box" for="company_profile">
-                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
-                                <div>
-                                    <div class="upload-main">Upload Brochure</div>
-                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                                </div>
-                            </label>
-                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View File</a>
-                            <div class="file-name" id="company_profile_name"></div>
-                        </div>
-                        @error('company_profile')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <div class="upload-title">Client Testimonial / Work Completion Docs</div>
-                        <div class="upload-box-wrap">
-                            <input type="file" class="upload-input" id="supporting_documents" name="supporting_documents" accept=".pdf,.jpg,.jpeg,.png">
-                            <label class="upload-box" for="supporting_documents">
-                                <div class="upload-icon"><i class="fa-regular fa-file-circle-check"></i></div>
-                                <div>
-                                    <div class="upload-main">Upload Supporting Documents</div>
-                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
-                                </div>
-                            </label>
-                            <a href="#" class="uploaded-link" id="supporting_documents_link" target="_blank" style="display:none;">View File</a>
-                            <div class="file-name" id="supporting_documents_name"></div>
-                        </div>
-                        @error('supporting_documents')
-                            <div class="error-text">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="field-block">
-                    <div class="field-label">Portfolio Images</div>
-
-                    <div class="photo-grid">
-                        @for($i = 1; $i <= 3; $i++)
-                            <div class="photo-card">
-                                <input type="file" class="upload-input portfolio-image-input" id="portfolio_image_{{ $i }}" name="portfolio_images[]" accept=".jpg,.jpeg,.png">
-
-                                <label for="portfolio_image_{{ $i }}" class="photo-preview">
-                                    <img id="portfolio_preview_{{ $i }}" src="" alt="Portfolio Preview {{ $i }}">
-                                    <div class="placeholder" id="portfolio_placeholder_{{ $i }}">Interior Project {{ $i }}</div>
-                                </label>
-
-                                <a href="#" class="uploaded-link" id="portfolio_link_{{ $i }}" target="_blank" style="display:none;">View Image</a>
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a> @if(!empty($existingData->pan_card))
+                            
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
+                                    View PAN Certificate
+                                </a>
                             </div>
-                        @endfor
+                            @endif
+
+                        </div>
                     </div>
 
-                    @error('portfolio_images')
-                        <div class="error-text">{{ $message }}</div>
-                    @enderror
+                    <div>
+                        <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="gst_certificate" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">GST Certificate</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a> @if(!empty($existingData->gst_certificate))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
+                                        View GST Certificate
+                                    </a>
+                            </div>
+                            @endif
+
+                            
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Aadhaar Card <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="aadhaar_card" name="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="aadhaar_card" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Aadhaar Card</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a> @if(!empty($existingData->aadhaar_card))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
+                                        View Adhar Certificate
+                                    </a>
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
+                        <div class="upload-box-wrap">
+                            <input type="file" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="company_profile" class="upload-box">
+                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
+                                <div class="upload-content">
+                                    <div class="upload-main">Company Profile</div>
+                                    <div class="upload-note file-name">Choose and upload file</div>
+                                </div>
+                            </label>
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a> @if(!empty($existingData->company_profile))
+                            <div>
+                                <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
+                                        View Company Profile
+                                    </a>
+                            </div>
+                            @endif
+
+                            
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             {{-- Submit --}}
