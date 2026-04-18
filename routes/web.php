@@ -130,7 +130,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 
     Route::get('/category/machinery-provider', [MachineryProviderController::class, 'create'])->name('machinery_provider.create');
     Route::post('/machinery-provider/store', [MachineryProviderController::class, 'store'])->name('machinery_provider.store');
-        Route::get('/category/facade-services', [FacadeServicesController::class, 'create'])->name('facade_services.create');
+    Route::get('/category/facade-services', [FacadeServicesController::class, 'create'])->name('facade_services.create');
     Route::post('/facade-services/store', [FacadeServicesController::class, 'store'])->name('facade_services.store');
      // Contractor
     Route::get('/category/contractor', [ContractorController::class, 'create'])->name('contractor.create');
