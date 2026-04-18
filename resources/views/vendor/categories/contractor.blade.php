@@ -808,8 +808,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                             </div>
                             @endif
 
-                            <input type="file" name="msme_certificate">
-                            <!-- <a href="#" class="uploaded-link">View Uploaded MSME</a> -->
                         </div>
                     </div>
                 </div>
@@ -850,7 +848,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                             </div>
                             @endif
 
-                            <input type="file" name="pan_card">
                         </div>
                     </div>
 
@@ -874,7 +871,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                 </div>
                             @endif
 
-                            <input type="file" name="gst_certificate">
                         </div>
                     </div>
 
@@ -898,7 +894,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                 </div>
                             @endif
 
-                            <input type="file" name="aadhaar_card">
                         </div>
                     </div>
 
@@ -922,7 +917,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                 </div>
                             @endif
 
-                            <input type="file" name="company_profile">
                         </div>
                     </div>
                 </div>
