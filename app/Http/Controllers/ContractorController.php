@@ -56,19 +56,19 @@ class ContractorController extends Controller
         'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
     ]);
 
-    dd(
-    $request->all(),
-    $request->hasFile('msme_certificate'),
-    $request->hasFile('pan_card'),
-    $request->hasFile('gst_certificate'),
-    $request->hasFile('aadhaar_card'),
-    $request->hasFile('company_profile'),
-    $request->hasFile('pf_doc'),
-    $request->hasFile('esic_doc'),
-    $request->hasFile('work_photo_1'),
-    $request->hasFile('work_photo_2'),
-    $request->hasFile('work_photo_3')
-);
+//     dd(
+//     $request->all(),
+//     $request->hasFile('msme_certificate'),
+//     $request->hasFile('pan_card'),
+//     $request->hasFile('gst_certificate'),
+//     $request->hasFile('aadhaar_card'),
+//     $request->hasFile('company_profile'),
+//     $request->hasFile('pf_doc'),
+//     $request->hasFile('esic_doc'),
+//     $request->hasFile('work_photo_1'),
+//     $request->hasFile('work_photo_2'),
+//     $request->hasFile('work_photo_3')
+// );
     $existing = ContractorProvider::where('vendor_id', $vendorId)->first();
 
     $msme = $request->msme_registered === 'on' ? 'Yes' : $request->msme_registered;
