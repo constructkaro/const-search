@@ -265,18 +265,18 @@
             <div class="checkbox-grid">
                 @php
                     $projectTypes = ['Residential', 'Commercial', 'Industrial', 'Infrastructure', 'Interior', 'Renovation'];
-                    $oldProjectTypes = old('project_types_handled', []);
+                    $oldProjectTypes = old('project_types', []);
                 @endphp
 
                 @foreach($projectTypes as $type)
                     <label class="check-card">
-                        <input type="checkbox" name="project_types_handled[]" value="{{ $type }}"
+                        <input type="checkbox" name="project_types[]" value="{{ $type }}"
                             {{ in_array($type, $oldProjectTypes) ? 'checked' : '' }}>
                         <span>{{ $type }}</span>
                     </label>
                 @endforeach
             </div>
-            @error('project_types_handled')
+            @error('project_types')
                 <small class="text-danger">{{ $message }}</small>
             @enderror
 

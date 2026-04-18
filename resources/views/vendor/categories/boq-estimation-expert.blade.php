@@ -552,6 +552,14 @@
     $projectTypes = $projectTypes ?? collect();
     $turnaroundTimes = ['2 Days', '3 Days', '5 Days', '7 Days', '10 Days', '10+ Days'];
 @endphp
+@php
+    $selectedProjectTypes = old('project_types', $existingData->project_types ?? []);
+    if (is_string($selectedProjectTypes)) {
+        $selectedProjectTypes = json_decode($selectedProjectTypes, true) ?? [];
+    }
+
+    $selectedTurnaround = old('boq_turnaround_time', $existingData->boq_turnaround_time ?? '');
+@endphp
 
 <div class="boq-page">
 
@@ -614,7 +622,7 @@
                                 id="project_type_{{ $index }}"
                                 name="project_types[]"
                                 value="{{ $type }}"
-                                {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                {{ in_array($type, $selectedProjectTypes) ? 'checked' : '' }}
                             >
                             <label for="project_type_{{ $index }}">{{ $type }}</label>
                         </div>
@@ -623,9 +631,7 @@
                     @endforelse
                 </div>
 
-                @error('project_types')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+               
             </div>
 
             <div class="field-block">
@@ -640,16 +646,14 @@
                                 id="time_{{ $loop->index }}"
                                 name="boq_turnaround_time"
                                 value="{{ $time }}"
-                                {{ old('boq_turnaround_time') == $time ? 'checked' : '' }}
+                               {{ $selectedTurnaround == $time ? 'checked' : '' }}
                             >
                             <label for="time_{{ $loop->index }}">{{ $time }}</label>
                         </div>
                     @endforeach
                 </div>
 
-                @error('boq_turnaround_time')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+              
             </div>
         </div>
 
@@ -677,10 +681,13 @@
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
                         <input type="file" name="gst_certificate" id="gst_certificate">
                         <div class="file-note" id="gst_certificate_name"></div>
+                        @if(!empty($existingData->gst_certificate))
+    <div class="mt-2">
+        <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">View uploaded GST Certificate</a>
+    </div>
+@endif
                     </div>
-                    @error('gst_certificate')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                  
                 </div>
 
                 <div class="upload-col">
@@ -693,10 +700,13 @@
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
                         <input type="file" name="aadhar_card" id="aadhar_card">
                         <div class="file-note" id="aadhar_card_name"></div>
+                        @if(!empty($existingData->aadhar_card))
+    <div class="mt-2">
+        <a href="{{ asset('storage/' . $existingData->aadhar_card) }}" target="_blank">View uploaded Aadhaar Card</a>
+    </div>
+@endif
                     </div>
-                    @error('aadhar_card')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                  
                 </div>
 
                 <div class="upload-col">
@@ -709,10 +719,13 @@
                         <p>Accepted: PDF preferred<br>Maximum file size: 10MB</p>
                         <input type="file" name="company_profile" id="company_profile">
                         <div class="file-note" id="company_profile_name"></div>
+                        @if(!empty($existingData->company_profile))
+    <div class="mt-2">
+        <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">View uploaded Company Profile</a>
+    </div>
+@endif
                     </div>
-                    @error('company_profile')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                  
                 </div>
             </div>
 

@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class VendorBoqProfile extends Model
 {
-    protected $table ='boq_providers';
+    protected $table = 'boq_providers';
+
     protected $fillable = [
         'vendor_id',
-        'project_types_handled',
+        'project_types',
         'boq_turnaround_time',
         'gst_certificate',
         'aadhar_card',
@@ -17,6 +18,6 @@ class VendorBoqProfile extends Model
     ];
 
     protected $casts = [
-        'project_types_handled' => 'array',
+        'project_types' => 'array',
     ];
 }
