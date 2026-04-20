@@ -6,14 +6,140 @@
 @section('content')
 
 @php
-    $services = old('services', isset($existingData->services) ? json_decode($existingData->services, true) : []);
-    $serviceMode = old('service_mode', isset($existingData->service_mode) ? json_decode($existingData->service_mode, true) : []);
-    $labPhotos = isset($existingData->lab_photos) ? json_decode($existingData->lab_photos, true) : [];
+    $data = $existingData ?? null;
 
-    $labType = old('lab_type', $existingData->lab_type ?? '');
-    $certification = old('certification', $existingData->certification ?? '');
-    $samplePickup = old('sample_pickup_available', $existingData->sample_pickup_available ?? 0);
+    $services = old('services');
+    if (is_null($services)) {
+        $services = $data && !empty($data->services) ? json_decode($data->services, true) : [];
+    }
+    $services = is_array($services) ? $services : [];
+
+    foreach ($services as $key => $value) {
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            $services[$key] = is_array($decoded) ? $decoded : [$value];
+        } elseif (!is_array($value)) {
+            $services[$key] = [];
+        }
+    }
+
+    $serviceMode = old('service_mode');
+    if (is_null($serviceMode)) {
+        $serviceMode = $data && !empty($data->service_mode) ? json_decode($data->service_mode, true) : [];
+    }
+    $serviceMode = is_array($serviceMode) ? $serviceMode : [];
+
+    $labPhotos = $data && !empty($data->lab_photos) ? json_decode($data->lab_photos, true) : [];
+    $labPhotos = is_array($labPhotos) ? $labPhotos : [];
+
+    $labType = old('lab_type', $data->lab_type ?? '');
+    $certification = old('certification', $data->certification ?? '');
+    $samplePickup = old('sample_pickup_available', $data->sample_pickup_available ?? 0);
+
+    $serviceOptions = [
+        'soil_testing_reports' => [
+            'title' => 'Soil Testing Reports',
+            'icon' => 'fa-mountain',
+            'options' => [
+                'Soil Bearing Capacity Test',
+                'Soil Classification Test',
+                'Field Density Test',
+            ],
+        ],
+        'concrete_testing_reports' => [
+            'title' => 'Concrete Testing Reports',
+            'icon' => 'fa-cube',
+            'options' => [
+                'Cube Compressive Strength',
+                'Core Cutting Test',
+                'Slump Test',
+            ],
+        ],
+        'aggregate_testing' => [
+            'title' => 'Aggregate Testing',
+            'icon' => 'fa-layer-group',
+            'options' => [
+                'Sieve Analysis',
+                'Impact Test',
+                'Crushing Value Test',
+            ],
+        ],
+        'sand_testing' => [
+            'title' => 'Sand Testing',
+            'icon' => 'fa-water',
+            'options' => [
+                'Silt Content Test',
+                'Fineness Modulus',
+                'Bulking of Sand',
+            ],
+        ],
+        'brick_block_testing' => [
+            'title' => 'Brick / Block Testing',
+            'icon' => 'fa-building',
+            'options' => [
+                'Compressive Strength',
+                'Water Absorption Test',
+                'Dimension Check',
+            ],
+        ],
+        'cement_testing' => [
+            'title' => 'Cement Testing',
+            'icon' => 'fa-box-open',
+            'options' => [
+                'Consistency Test',
+                'Setting Time Test',
+                'Soundness Test',
+            ],
+        ],
+        'steel_testing' => [
+            'title' => 'Steel Testing',
+            'icon' => 'fa-bars-progress',
+            'options' => [
+                'Tensile Strength Test',
+                'Bend / Re-bend Test',
+                'Elongation Test',
+            ],
+        ],
+        'water_testing' => [
+            'title' => 'Water Testing',
+            'icon' => 'fa-droplet',
+            'options' => [
+                'pH Test',
+                'Chloride Test',
+                'Sulphate Test',
+            ],
+        ],
+        'bitumen_testing' => [
+            'title' => 'Bitumen Testing',
+            'icon' => 'fa-temperature-half',
+            'options' => [
+                'Penetration Test',
+                'Softening Point Test',
+                'Ductility Test',
+            ],
+        ],
+        'road_pavement_testing' => [
+            'title' => 'Road / Pavement Testing',
+            'icon' => 'fa-road',
+            'options' => [
+                'CBR Test',
+                'Compaction Test',
+                'Road Core Test',
+            ],
+        ],
+        'ndt_testing' => [
+            'title' => 'NDT Testing',
+            'icon' => 'fa-expand',
+            'options' => [
+                'Rebound Hammer Test',
+                'UPV Test',
+                'Half Cell Potential',
+            ],
+        ],
+    ];
 @endphp
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
     :root{
@@ -29,12 +155,10 @@
         --green:#12b76a;
         --purple-soft:#f4efff;
         --shadow:0 10px 30px rgba(16, 24, 40, 0.06);
-        --radius-xl:26px;
-        --radius-lg:18px;
-        --radius-md:14px;
     }
 
     .testing-wrap{ max-width:1320px; margin:0 auto; }
+
     .form-section-card{
         background:var(--white);
         border:1px solid #edf1f7;
@@ -43,13 +167,17 @@
         padding:34px;
         margin-bottom:28px;
     }
+
     .section-head{ display:flex; align-items:flex-start; gap:16px; margin-bottom:28px; }
+
     .section-icon{
         width:56px; height:56px; border-radius:16px; display:flex; align-items:center;
         justify-content:center; font-size:24px; flex-shrink:0;
     }
+
     .section-icon.green{ background:var(--green-soft); color:var(--green); }
     .section-icon.purple{ background:var(--purple-soft); color:#7c3aed; }
+
     .section-head h2{ margin:0; font-size:34px; line-height:1.1; color:var(--primary); font-weight:800; }
     .section-head p{ margin:8px 0 0; color:#8a97a8; font-size:18px; font-weight:500; }
 
@@ -88,17 +216,11 @@
         flex:1;
     }
 
-    .service-select{
-        width:100%;
-        height:50px;
-        border:1px solid #dbe3ee;
-        border-radius:14px;
-        padding:0 16px;
-        background:#fff;
-        color:#344054;
-        font-size:14px;
+    .service-hint{
+        margin-top:8px;
+        font-size:12px;
+        color:#94a3b8;
         font-weight:600;
-        outline:none;
     }
 
     .divider{ height:1px; background:#eef2f7; margin:34px 0 28px; }
@@ -149,6 +271,7 @@
 
     .switch{ position:relative; width:58px; height:32px; flex-shrink:0; }
     .switch input{ display:none; }
+
     .slider{
         position:absolute;
         inset:0;
@@ -157,6 +280,7 @@
         cursor:pointer;
         transition:.25s ease;
     }
+
     .slider:before{
         content:'';
         position:absolute;
@@ -169,9 +293,11 @@
         transition:.25s ease;
         box-shadow:0 3px 8px rgba(0,0,0,0.15);
     }
+
     .switch input:checked + .slider{
         background:linear-gradient(135deg, #ff8a00, #ff5a00);
     }
+
     .switch input:checked + .slider:before{
         transform:translateX(26px);
     }
@@ -219,7 +345,21 @@
         word-break:break-word;
     }
 
-    .file-name:hover{ text-decoration:underline; }
+    .existing-file-box{
+        margin-top:10px;
+        padding:10px 12px;
+        background:#f8fafc;
+        border:1px solid #e2e8f0;
+        border-radius:12px;
+    }
+
+    .existing-file-box a{
+        color:#0f172a;
+        font-size:13px;
+        font-weight:700;
+        text-decoration:none;
+        word-break:break-all;
+    }
 
     .footer-actions{
         display:flex;
@@ -254,20 +394,74 @@
         cursor:pointer;
     }
 
-    .existing-file-box{
-        margin-top:10px;
-        padding:10px 12px;
-        background:#f8fafc;
-        border:1px solid #e2e8f0;
-        border-radius:12px;
+    .text-danger{
+        color:#dc2626;
+        font-size:12px;
+        margin-top:6px;
+        display:block;
+        font-weight:600;
     }
 
-    .existing-file-box a{
-        color:#0f172a;
-        font-size:13px;
-        font-weight:700;
-        text-decoration:none;
-        word-break:break-all;
+    .select2-container{
+        width:100% !important;
+    }
+
+    .select2-container--default .select2-selection--multiple{
+        min-height:50px;
+        border:1px solid #dbe3ee !important;
+        border-radius:14px !important;
+        padding:6px 10px !important;
+        background:#fff !important;
+        display:flex !important;
+        align-items:center;
+        gap:6px;
+    }
+
+    .select2-container--default.select2-container--focus .select2-selection--multiple{
+        border-color:#ff8a24 !important;
+        box-shadow:0 0 0 3px rgba(255, 106, 0, 0.08);
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice{
+        background:#fff3eb !important;
+        border:1px solid #ffd5bf !important;
+        color:#d35400 !important;
+        border-radius:10px !important;
+        padding:4px 10px !important;
+        font-size:12px !important;
+        font-weight:700 !important;
+        margin-top:4px !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+        color:#d35400 !important;
+        margin-right:6px !important;
+        border:none !important;
+    }
+
+    .select2-dropdown{
+        border:1px solid #e5e7eb !important;
+        border-radius:14px !important;
+        overflow:hidden;
+        box-shadow:0 12px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .select2-search--dropdown .select2-search__field{
+        border:1px solid #dbe3ee !important;
+        border-radius:10px !important;
+        padding:10px 12px !important;
+        outline:none !important;
+    }
+
+    .select2-results__option{
+        padding:10px 14px !important;
+        font-size:14px !important;
+        font-weight:600 !important;
+    }
+
+    .select2-results__option--highlighted[aria-selected]{
+        background:#fff4ec !important;
+        color:#f25c05 !important;
     }
 
     @media (max-width:1100px){
@@ -292,150 +486,28 @@
             </div>
 
             <div class="service-grid">
+                @foreach($serviceOptions as $field => $config)
+                    <div class="service-card">
+                        <div class="service-top">
+                            <i class="fa-solid {{ $config['icon'] }}"></i>
+                            <div class="service-title">{{ $config['title'] }}</div>
+                        </div>
 
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-mountain"></i>
-                        <div class="service-title">Soil Testing Reports</div>
+                        <select class="service-select-multi"
+                                name="services[{{ $field }}][]"
+                                multiple="multiple"
+                                data-placeholder="Select service type">
+                            @foreach($config['options'] as $option)
+                                <option value="{{ $option }}"
+                                    {{ in_array($option, $services[$field] ?? []) ? 'selected' : '' }}>
+                                    {{ $option }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <div class="service-hint">You can select multiple options</div>
                     </div>
-                    <select class="service-select" name="services[soil_testing_reports]">
-                        <option value="">Select service type</option>
-                        <option value="Soil Bearing Capacity Test" {{ ($services['soil_testing_reports'] ?? '') == 'Soil Bearing Capacity Test' ? 'selected' : '' }}>Soil Bearing Capacity Test</option>
-                        <option value="Soil Classification Test" {{ ($services['soil_testing_reports'] ?? '') == 'Soil Classification Test' ? 'selected' : '' }}>Soil Classification Test</option>
-                        <option value="Field Density Test" {{ ($services['soil_testing_reports'] ?? '') == 'Field Density Test' ? 'selected' : '' }}>Field Density Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-cube"></i>
-                        <div class="service-title">Concrete Testing Reports</div>
-                    </div>
-                    <select class="service-select" name="services[concrete_testing_reports]">
-                        <option value="">Select service type</option>
-                        <option value="Cube Compressive Strength" {{ ($services['concrete_testing_reports'] ?? '') == 'Cube Compressive Strength' ? 'selected' : '' }}>Cube Compressive Strength</option>
-                        <option value="Core Cutting Test" {{ ($services['concrete_testing_reports'] ?? '') == 'Core Cutting Test' ? 'selected' : '' }}>Core Cutting Test</option>
-                        <option value="Slump Test" {{ ($services['concrete_testing_reports'] ?? '') == 'Slump Test' ? 'selected' : '' }}>Slump Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <div class="service-title">Aggregate Testing</div>
-                    </div>
-                    <select class="service-select" name="services[aggregate_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Sieve Analysis" {{ ($services['aggregate_testing'] ?? '') == 'Sieve Analysis' ? 'selected' : '' }}>Sieve Analysis</option>
-                        <option value="Impact Test" {{ ($services['aggregate_testing'] ?? '') == 'Impact Test' ? 'selected' : '' }}>Impact Test</option>
-                        <option value="Crushing Value Test" {{ ($services['aggregate_testing'] ?? '') == 'Crushing Value Test' ? 'selected' : '' }}>Crushing Value Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-water"></i>
-                        <div class="service-title">Sand Testing</div>
-                    </div>
-                    <select class="service-select" name="services[sand_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Silt Content Test" {{ ($services['sand_testing'] ?? '') == 'Silt Content Test' ? 'selected' : '' }}>Silt Content Test</option>
-                        <option value="Fineness Modulus" {{ ($services['sand_testing'] ?? '') == 'Fineness Modulus' ? 'selected' : '' }}>Fineness Modulus</option>
-                        <option value="Bulking of Sand" {{ ($services['sand_testing'] ?? '') == 'Bulking of Sand' ? 'selected' : '' }}>Bulking of Sand</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-building"></i>
-                        <div class="service-title">Brick / Block Testing</div>
-                    </div>
-                    <select class="service-select" name="services[brick_block_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Compressive Strength" {{ ($services['brick_block_testing'] ?? '') == 'Compressive Strength' ? 'selected' : '' }}>Compressive Strength</option>
-                        <option value="Water Absorption Test" {{ ($services['brick_block_testing'] ?? '') == 'Water Absorption Test' ? 'selected' : '' }}>Water Absorption Test</option>
-                        <option value="Dimension Check" {{ ($services['brick_block_testing'] ?? '') == 'Dimension Check' ? 'selected' : '' }}>Dimension Check</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-box-open"></i>
-                        <div class="service-title">Cement Testing</div>
-                    </div>
-                    <select class="service-select" name="services[cement_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Consistency Test" {{ ($services['cement_testing'] ?? '') == 'Consistency Test' ? 'selected' : '' }}>Consistency Test</option>
-                        <option value="Setting Time Test" {{ ($services['cement_testing'] ?? '') == 'Setting Time Test' ? 'selected' : '' }}>Setting Time Test</option>
-                        <option value="Soundness Test" {{ ($services['cement_testing'] ?? '') == 'Soundness Test' ? 'selected' : '' }}>Soundness Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-bars-progress"></i>
-                        <div class="service-title">Steel Testing</div>
-                    </div>
-                    <select class="service-select" name="services[steel_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Tensile Strength Test" {{ ($services['steel_testing'] ?? '') == 'Tensile Strength Test' ? 'selected' : '' }}>Tensile Strength Test</option>
-                        <option value="Bend / Re-bend Test" {{ ($services['steel_testing'] ?? '') == 'Bend / Re-bend Test' ? 'selected' : '' }}>Bend / Re-bend Test</option>
-                        <option value="Elongation Test" {{ ($services['steel_testing'] ?? '') == 'Elongation Test' ? 'selected' : '' }}>Elongation Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-droplet"></i>
-                        <div class="service-title">Water Testing</div>
-                    </div>
-                    <select class="service-select" name="services[water_testing]">
-                        <option value="">Select service type</option>
-                        <option value="pH Test" {{ ($services['water_testing'] ?? '') == 'pH Test' ? 'selected' : '' }}>pH Test</option>
-                        <option value="Chloride Test" {{ ($services['water_testing'] ?? '') == 'Chloride Test' ? 'selected' : '' }}>Chloride Test</option>
-                        <option value="Sulphate Test" {{ ($services['water_testing'] ?? '') == 'Sulphate Test' ? 'selected' : '' }}>Sulphate Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-temperature-half"></i>
-                        <div class="service-title">Bitumen Testing</div>
-                    </div>
-                    <select class="service-select" name="services[bitumen_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Penetration Test" {{ ($services['bitumen_testing'] ?? '') == 'Penetration Test' ? 'selected' : '' }}>Penetration Test</option>
-                        <option value="Softening Point Test" {{ ($services['bitumen_testing'] ?? '') == 'Softening Point Test' ? 'selected' : '' }}>Softening Point Test</option>
-                        <option value="Ductility Test" {{ ($services['bitumen_testing'] ?? '') == 'Ductility Test' ? 'selected' : '' }}>Ductility Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-road"></i>
-                        <div class="service-title">Road / Pavement Testing</div>
-                    </div>
-                    <select class="service-select" name="services[road_pavement_testing]">
-                        <option value="">Select service type</option>
-                        <option value="CBR Test" {{ ($services['road_pavement_testing'] ?? '') == 'CBR Test' ? 'selected' : '' }}>CBR Test</option>
-                        <option value="Compaction Test" {{ ($services['road_pavement_testing'] ?? '') == 'Compaction Test' ? 'selected' : '' }}>Compaction Test</option>
-                        <option value="Road Core Test" {{ ($services['road_pavement_testing'] ?? '') == 'Road Core Test' ? 'selected' : '' }}>Road Core Test</option>
-                    </select>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-top">
-                        <i class="fa-solid fa-expand"></i>
-                        <div class="service-title">NDT Testing</div>
-                    </div>
-                    <select class="service-select" name="services[ndt_testing]">
-                        <option value="">Select service type</option>
-                        <option value="Rebound Hammer Test" {{ ($services['ndt_testing'] ?? '') == 'Rebound Hammer Test' ? 'selected' : '' }}>Rebound Hammer Test</option>
-                        <option value="UPV Test" {{ ($services['ndt_testing'] ?? '') == 'UPV Test' ? 'selected' : '' }}>UPV Test</option>
-                        <option value="Half Cell Potential" {{ ($services['ndt_testing'] ?? '') == 'Half Cell Potential' ? 'selected' : '' }}>Half Cell Potential</option>
-                    </select>
-                </div>
-
+                @endforeach
             </div>
 
             <div class="divider"></div>
@@ -493,6 +565,7 @@
                     <div class="toggle-row">
                         <div class="label">Enable sample pickup service</div>
                         <label class="switch">
+                            <input type="hidden" name="sample_pickup_available" value="0">
                             <input type="checkbox" name="sample_pickup_available" value="1" {{ $samplePickup ? 'checked' : '' }}>
                             <span class="slider"></span>
                         </label>
@@ -521,14 +594,12 @@
                         <h4>GST Certificate</h4>
                         <p>Click to upload</p>
                     </label>
-                    @if(!empty($existingData->gst_certificate))
+                    @if(!empty($data?->gst_certificate))
                         <div class="existing-file-box">
-                            <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">
-                                View Existing GST Certificate
-                            </a>
+                            <a href="{{ asset('storage/' . $data->gst_certificate) }}" target="_blank">View Existing GST Certificate</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name file-link" id="gst_certificate_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="gst_certificate_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -538,14 +609,12 @@
                         <h4>Aadhaar Card</h4>
                         <p>Click to upload</p>
                     </label>
-                    @if(!empty($existingData->aadhaar_card))
+                    @if(!empty($data?->aadhaar_card))
                         <div class="existing-file-box">
-                            <a href="{{ asset('storage/' . $existingData->aadhaar_card) }}" target="_blank">
-                                View Existing Aadhaar Card
-                            </a>
+                            <a href="{{ asset('storage/' . $data->aadhaar_card) }}" target="_blank">View Existing Aadhaar Card</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name file-link" id="aadhaar_card_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="aadhaar_card_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -555,14 +624,12 @@
                         <h4>Company Profile</h4>
                         <p>Click to upload</p>
                     </label>
-                    @if(!empty($existingData->company_profile))
+                    @if(!empty($data?->company_profile))
                         <div class="existing-file-box">
-                            <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">
-                                View Existing Company Profile
-                            </a>
+                            <a href="{{ asset('storage/' . $data->company_profile) }}" target="_blank">View Existing Company Profile</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name file-link" id="company_profile_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="company_profile_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -572,14 +639,12 @@
                         <h4>NABL Certificate</h4>
                         <p>Click to upload</p>
                     </label>
-                    @if(!empty($existingData->nabl_certificate))
+                    @if(!empty($data?->nabl_certificate))
                         <div class="existing-file-box">
-                            <a href="{{ asset('storage/' . $existingData->nabl_certificate) }}" target="_blank">
-                                View Existing NABL Certificate
-                            </a>
+                            <a href="{{ asset('storage/' . $data->nabl_certificate) }}" target="_blank">View Existing NABL Certificate</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name file-link" id="nabl_certificate_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="nabl_certificate_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -602,7 +667,7 @@
                         </div>
                     @endif
 
-                    <a href="#" class="file-name file-link" id="lab_photos_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="lab_photos_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -612,14 +677,14 @@
                         <h4>Accreditation Certificate</h4>
                         <p>Click to upload</p>
                     </label>
-                    @if(!empty($existingData->accreditation_certificate))
+                    @if(!empty($data?->accreditation_certificate))
                         <div class="existing-file-box">
-                            <a href="{{ asset('storage/' . $existingData->accreditation_certificate) }}" target="_blank">
+                            <a href="{{ asset('storage/' . $data->accreditation_certificate) }}" target="_blank">
                                 View Existing Accreditation Certificate
                             </a>
                         </div>
                     @endif
-                    <a href="#" class="file-name file-link" id="accreditation_certificate_name" target="_blank" style="display:none;"></a>
+                    <a href="#" class="file-name" id="accreditation_certificate_name" style="display:none;"></a>
                 </div>
 
             </div>
@@ -637,38 +702,56 @@
     </form>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
-    function bindFilePreview(inputId, fileNameId) {
-        const input = document.getElementById(inputId);
-        const fileNameBox = document.getElementById(fileNameId);
-
-        if (!input || !fileNameBox) return;
-
-        input.addEventListener('change', function () {
-            if (this.files.length > 0) {
-                const file = this.files[0];
-                const fileUrl = URL.createObjectURL(file);
-
-                fileNameBox.textContent = this.files.length > 1
-                    ? `${this.files.length} files selected`
-                    : file.name;
-
-                fileNameBox.href = fileUrl;
-                fileNameBox.style.display = 'inline-block';
-                fileNameBox.setAttribute('target', '_blank');
-            } else {
-                fileNameBox.textContent = '';
-                fileNameBox.href = '#';
-                fileNameBox.style.display = 'none';
-            }
+    $(document).ready(function () {
+        $('.service-select-multi').select2({
+            placeholder: function () {
+                return $(this).data('placeholder');
+            },
+            allowClear: true,
+            width: '100%',
+            closeOnSelect: false
         });
-    }
 
-    bindFilePreview('gst_certificate', 'gst_certificate_name');
-    bindFilePreview('aadhaar_card', 'aadhaar_card_name');
-    bindFilePreview('company_profile', 'company_profile_name');
-    bindFilePreview('nabl_certificate', 'nabl_certificate_name');
-    bindFilePreview('lab_photos', 'lab_photos_name');
-    bindFilePreview('accreditation_certificate', 'accreditation_certificate_name');
+        function bindFilePreview(inputId, fileNameId) {
+            const input = document.getElementById(inputId);
+            const fileNameBox = document.getElementById(fileNameId);
+
+            if (!input || !fileNameBox) return;
+
+            input.addEventListener('change', function () {
+                if (this.files.length > 0) {
+                    fileNameBox.textContent = this.files.length > 1
+                        ? `${this.files.length} files selected`
+                        : this.files[0].name;
+
+                    fileNameBox.style.display = 'inline-block';
+
+                    const label = this.closest('.upload-box')?.querySelector('.upload-label');
+                    if (label) {
+                        label.classList.add('active');
+                    }
+                } else {
+                    fileNameBox.textContent = '';
+                    fileNameBox.style.display = 'none';
+
+                    const label = this.closest('.upload-box')?.querySelector('.upload-label');
+                    if (label) {
+                        label.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        bindFilePreview('gst_certificate', 'gst_certificate_name');
+        bindFilePreview('aadhaar_card', 'aadhaar_card_name');
+        bindFilePreview('company_profile', 'company_profile_name');
+        bindFilePreview('nabl_certificate', 'nabl_certificate_name');
+        bindFilePreview('lab_photos', 'lab_photos_name');
+        bindFilePreview('accreditation_certificate', 'accreditation_certificate_name');
+    });
 </script>
 @endsection

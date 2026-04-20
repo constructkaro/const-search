@@ -613,42 +613,42 @@
                         </select>
                     </div>
 
-                  @php
-    $selectedCityId = old('city_id', $existingData->city_id ?? '');
+                    @php
+                        $selectedCityId = old('city_id', $existingData->city_id ?? '');
 
-    $selectedAreaIds = old('area_ids', isset($existingData->area_ids) ? json_decode($existingData->area_ids, true) : []);
-    $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
+                        $selectedAreaIds = old('area_ids', isset($existingData->area_ids) ? json_decode($existingData->area_ids, true) : []);
+                        $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
 
-    $savedPincodes = old('pincode', $existingData->pincode ?? '');
-@endphp
+                        $savedPincodes = old('pincode', $existingData->pincode ?? '');
+                    @endphp
 
-<div>
-    <div class="field-label">City <span class="req">*</span></div>
-    <select class="form-select" name="city_id" id="city_id">
-        <option value="">Select City</option>
-        @foreach($cities as $city)
-            <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
-                {{ $city->name }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                    <div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <select class="form-select" name="city_id" id="city_id">
+                            <option value="">Select City</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                    {{ $city->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-<div>
-    <div class="field-label">Area <span class="req">*</span></div>
-    <select class="form-select" name="area_ids[]" id="area_id" multiple="multiple"></select>
-</div>
+                    <div>
+                        <div class="field-label">Area <span class="req">*</span></div>
+                        <select class="form-select" name="area_ids[]" id="area_id" multiple="multiple"></select>
+                    </div>
 
-<div>
-    <div class="field-label">Pincode <span class="req">*</span></div>
-    <textarea
-        class="form-textarea"
-        id="pincode_id"
-        name="pincode"
-        readonly
-        placeholder="Selected area pincodes will appear here"
-    >{{ $savedPincodes }}</textarea>
-</div>
+                    <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <textarea
+                            class="form-textarea"
+                            id="pincode_id"
+                            name="pincode"
+                            readonly
+                            placeholder="Selected area pincodes will appear here"
+                        >{{ $savedPincodes }}</textarea>
+                    </div>
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
                         <input

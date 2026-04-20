@@ -5,6 +5,7 @@
 
 @section('content')
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     :root{
         --ck-bg: #f4f7fb;
@@ -623,6 +624,112 @@
         margin-top: 4px;
         word-break: break-word;
     }
+
+    .form-input,
+.form-select,
+.form-textarea,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+    width: 100% !important;
+    border: 2px solid #dbe4f0 !important;
+    border-radius: 22px !important;
+    background: #fff !important;
+    color: #243b64 !important;
+    font-size: 18px !important;
+    box-shadow: none !important;
+    transition: all 0.25s ease;
+}
+
+.form-input,
+.form-select,
+.select2-container--default .select2-selection--single {
+    height: 78px !important;
+    padding: 0 24px !important;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus,
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #c8d5e6 !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.05) !important;
+    outline: none !important;
+}
+
+.form-textarea {
+    min-height: 150px;
+    padding: 24px !important;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #243b64 !important;
+    line-height: 74px !important;
+    padding-left: 0 !important;
+    padding-right: 36px !important;
+    font-size: 18px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #9aa6b2 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 78px !important;
+    right: 18px !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    min-height: 78px !important;
+    padding: 12px 18px !important;
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: #eef4ff !important;
+    border: 1px solid #c7d7f7 !important;
+    color: #243b64 !important;
+    border-radius: 999px !important;
+    padding: 6px 12px !important;
+    font-size: 15px !important;
+    margin: 0 !important;
+}
+
+.select2-dropdown {
+    border: 1px solid #dbe4f0 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.select2-results__option {
+    padding: 12px 16px !important;
+    font-size: 16px !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #172554 !important;
+    color: #fff !important;
+}
 </style>
 @php
 $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
@@ -728,7 +835,7 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     </div>
 
             
-                    <div>
+                    <!-- <div>
                         <div class="field-label">City <span class="req">*</span></div>
                          <input type="text" class="form-input" name="city" placeholder="Enter city" value="{{ old('city', $existingData->city ?? '') }}">
                        
@@ -739,6 +846,47 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                         <div class="field-label">Pincode <span class="req">*</span></div>
                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode" value="{{ old('pincode', $existingData->pincode ?? '') }}">
 
+                    </div> -->
+
+                    @php
+                        $selectedCityId = old('city_id', $existingData->city_id ?? '');
+
+                        $selectedAreaIds = old('area_ids');
+                        if (!$selectedAreaIds) {
+                            $selectedAreaIds = !empty($existingData->area_ids)
+                                ? json_decode($existingData->area_ids, true)
+                                : [];
+                        }
+                        $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
+
+                        $savedPincodes = old('pincode', $existingData->pincode ?? '');
+                    @endphp
+                    <div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <select class="form-select" name="city_id" id="city_id">
+                            <option value="">Select City</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                    {{ $city->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <div class="field-label">Area <span class="req">*</span></div>
+                        <select class="form-select" name="area_ids[]" id="area_id" multiple="multiple"></select>
+                    </div>
+
+                    <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <textarea
+                            class="form-textarea"
+                            id="pincode_id"
+                            name="pincode"
+                            readonly
+                            placeholder="Selected area pincodes will appear here"
+                        >{{ $savedPincodes }}</textarea>
                     </div>
 
                     <div>
@@ -935,7 +1083,14 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
         </div>
     </div>
 </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<script>
+    let selectedCityId = @json($selectedCityId);
+    let selectedAreaIds = @json($selectedAreaIds);
+    let savedPincodes = @json($savedPincodes);
+</script>
 <script>
     function bindFileName(inputId, nameId) {
         const input = document.getElementById(inputId);
@@ -972,5 +1127,84 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
         });
     });
 </script>
+<script>
+$(document).ready(function () {
 
+    let selectedCityId = @json($selectedCityId);
+    let selectedAreaIds = @json($selectedAreaIds);
+
+    $('#city_id').select2({
+        placeholder: 'Select City',
+        width: '100%'
+    });
+
+    $('#area_id').select2({
+        placeholder: 'Select Area',
+        width: '100%',
+        closeOnSelect: false
+    });
+
+    function loadAreas(cityId, selectedAreas = []) {
+        $('#area_id').html('');
+
+        if (!cityId) {
+            $('#area_id').trigger('change');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                let options = '';
+
+                $.each(data, function (index, area) {
+                    let isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
+                    options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
+                });
+
+                $('#area_id').html(options).trigger('change');
+
+                if (selectedAreas.length > 0) {
+                    loadPincodes(selectedAreas);
+                }
+            }
+        });
+    }
+
+    function loadPincodes(areaIds) {
+        if (!areaIds || areaIds.length === 0) {
+            $('#pincode_id').val('');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('get.pincodes') }}",
+            type: 'GET',
+            dataType: 'json',
+            data: { area_ids: areaIds },
+            success: function (data) {
+                let uniquePincodes = [...new Set(data)];
+                $('#pincode_id').val(uniquePincodes.join(', '));
+            }
+        });
+    }
+
+    $('#city_id').on('change', function () {
+        let cityId = $(this).val();
+        $('#pincode_id').val('');
+        loadAreas(cityId, []);
+    });
+
+    $('#area_id').on('change', function () {
+        let areaIds = $(this).val();
+        loadPincodes(areaIds);
+    });
+
+    if (selectedCityId) {
+        loadAreas(selectedCityId, selectedAreaIds);
+    }
+});
+</script>
 @endsection

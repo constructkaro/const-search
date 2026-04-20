@@ -13,9 +13,8 @@ class InteriorProvider extends Model
         'project_types',
         'experience_years',
         'team_size',
-        'state',
-        'region',
-        'city',
+        'city_id',
+        'area_ids',
         'pincode',
         'minimum_project_value',
 
@@ -27,9 +26,7 @@ class InteriorProvider extends Model
 
         'pan_number',
         'gst_number',
-        'specialization',
-        'website',
-
+     
         'pan_card',
         'gst_certificate',
         'company_profile',
@@ -41,6 +38,7 @@ class InteriorProvider extends Model
 
     protected $casts = [
         'project_types' => 'array',
+        'area_ids' => 'array',
     ];
 
     public function trackings()

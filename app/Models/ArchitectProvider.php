@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArchitectProvider extends Model
 {
-    protected $table='architect_providers';
+    protected $table = 'architect_providers';
+
     protected $fillable = [
         'vendor_id',
         'project_types',
         'experience_years',
         'team_size',
-        // 'state',
         'aadhaar_card',
-        'city',
+        'city_id',
+        'area_ids',
+        'pincode',
         'minimum_project_value',
         'company_name',
         'entity_type',
@@ -23,9 +25,9 @@ class ArchitectProvider extends Model
         'contact_person_designation',
         'pan_number',
         'tan_number',
-        // 'gst_number',
-        // 'coa_number',
-        // 'website',
+        'gst_number',
+        'coa_number',
+        'website',
         'pan_card',
         'gst_certificate',
         'esic_number',
@@ -42,5 +44,6 @@ class ArchitectProvider extends Model
 
     protected $casts = [
         'project_types' => 'array',
+        'area_ids' => 'array',
     ];
 }

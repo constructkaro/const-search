@@ -113,9 +113,9 @@ public function store(Request $request)
         'experience_years' => 'required',
         'team_size' => 'required',
         'minimum_project_value' => 'required',
-        'city' => 'required',
+        'city_id' => 'required',
         'pincode' => 'required',
-
+        'area_ids'=> 'required',
         'company_name' => 'required',
         'entity_type' => 'required',
         'registered_address' => 'required',
@@ -140,7 +140,8 @@ public function store(Request $request)
     $provider->team_size = $validated['team_size'];
     $provider->minimum_project_value = $validated['minimum_project_value'];
     $provider->pincode = $validated['pincode'];
-    $provider->city = $validated['city'];
+    $provider->city_id = $validated['city_id'];
+    $provider->area_ids = $validated['area_ids'];
 
     $provider->company_name = $validated['company_name'];
     $provider->entity_type = $validated['entity_type'];

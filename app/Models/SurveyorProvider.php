@@ -15,7 +15,7 @@ class SurveyorProvider extends Model
         'team_size',
         'pincode',
         'minimum_project_value',
-        'city',
+        'city_id','area_ids','pincode',
         'company_name',
         'entity_type',
         'registered_address',

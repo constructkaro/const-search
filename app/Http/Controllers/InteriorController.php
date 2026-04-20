@@ -104,7 +104,7 @@ class InteriorController extends Controller
 
     //     return back()->with('success', 'Data saved successfully');
     // }
-    public function store(Request $request)
+ public function store(Request $request)
 {
     $vendorId = session('vendor_id');
 
@@ -115,11 +115,16 @@ class InteriorController extends Controller
     $request->validate([
         'project_types' => 'required|array',
         'project_types.*' => 'string',
+        'experience_years' => 'nullable',
+        'team_size' => 'nullable',
         'company_name' => 'required|string',
         'minimum_project_value' => 'required',
         'registered_address' => 'required|string',
-        'contact_person_name' => 'required|string',
-
+        'contact_person_name' => 'nullable|string',
+        'contact_person_designation' => 'nullable|string',
+        'city_id' => 'required',
+        'area_ids' => 'required|array',
+        'pincode' => 'required',
         'pan_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'gst_certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         'company_profile' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
@@ -175,7 +180,8 @@ class InteriorController extends Controller
             'project_types' => $request->project_types,
             'experience_years' => $request->experience_years,
             'team_size' => $request->team_size,
-            'city' => $request->city,
+            'city_id' => $request->city_id,
+            'area_ids' => $request->area_ids,
             'pincode' => $request->pincode,
             'minimum_project_value' => $request->minimum_project_value,
 
@@ -187,7 +193,7 @@ class InteriorController extends Controller
 
             'pan_number' => $request->pan_number,
             'gst_number' => $request->gst_number,
-
+         
             'pan_card' => $panCardPath,
             'gst_certificate' => $gstCertificatePath,
             'company_profile' => $companyProfilePath,
