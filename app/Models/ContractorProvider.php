@@ -12,7 +12,7 @@ class ContractorProvider extends Model
         'project_types',
         'experience_years',
         'team_size',
-        'city',
+        'city_id','area_ids',
         'minimum_project_value',
         'company_name',
         'entity_type',

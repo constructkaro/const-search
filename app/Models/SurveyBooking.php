@@ -13,7 +13,7 @@ class SurveyBooking extends Model
         'full_name',
         'mobile',
         'email',
-        'full_address',
+      
         'land_area',
         'area_unit',
         'description',

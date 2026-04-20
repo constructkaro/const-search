@@ -5,37 +5,28 @@
 
 @section('content')
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     :root{
         --ck-bg: #f4f7fb;
         --ck-white: #ffffff;
-
         --ck-navy: #0f173d;
         --ck-navy-2: #1e3766;
-        --ck-navy-3: #355c9a;
-
         --ck-orange: #eb7a2f;
         --ck-orange-2: #f39a56;
         --ck-orange-soft: #fff4eb;
-
         --ck-text: #182b49;
         --ck-text-soft: #71829b;
-        --ck-muted: #99a6b7;
-
         --ck-line: #e3eaf2;
         --ck-line-dark: #d6dfeb;
-
-        --ck-green: #22c55e;
         --ck-red: #ef4444;
-
         --ck-shadow-sm: 0 8px 22px rgba(15, 23, 61, 0.05);
         --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
         --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.20);
-
         --ck-radius-xl: 28px;
         --ck-radius-lg: 20px;
         --ck-radius-md: 16px;
-        --ck-radius-sm: 14px;
     }
 
     body{
@@ -106,7 +97,6 @@
         margin: 0;
         font-size: 22px;
         line-height: 1.15;
-        letter-spacing: -.2px;
         color: var(--ck-navy-2);
         font-weight: 900;
     }
@@ -144,12 +134,6 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 18px 28px;
-    }
-
-    .form-grid-1{
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
     }
 
     .form-input,
@@ -254,12 +238,6 @@
         transition: .22s ease;
     }
 
-    .check-card label:hover{
-        transform: translateY(-1px);
-        box-shadow: var(--ck-shadow-sm);
-        border-color: #c6d3e4;
-    }
-
     .check-card input:checked + label{
         border-color: #f3c6aa;
         background: linear-gradient(180deg, #fffaf6 0%, #fff2e9 100%);
@@ -335,11 +313,6 @@
         box-shadow: var(--ck-shadow-sm);
     }
 
-    .upload-box.active{
-        border-color: var(--ck-orange);
-        background: linear-gradient(180deg, #fffaf6 0%, #fff2e9 100%);
-    }
-
     .upload-icon{
         width: 48px;
         height: 48px;
@@ -371,85 +344,15 @@
     }
 
     .uploaded-link{
+        display: none;
         margin-top: 8px;
-        display: inline-block;
-        font-size: 13px;
-        font-weight: 700;
-        color: #2563eb;
+        color: #0d6efd;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .uploaded-link:hover{
         text-decoration: underline;
-    }
-
-    .photo-grid{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 22px;
-    }
-
-    .photo-card{
-        border: 1px solid var(--ck-line);
-        border-radius: 18px;
-        background: #fff;
-        padding: 14px;
-        box-shadow: var(--ck-shadow-sm);
-    }
-
-    .photo-preview{
-        width: 100%;
-        height: 220px;
-        border-radius: 14px;
-        overflow: hidden;
-        background: #f5f7fb;
-        border: 1px solid var(--ck-line);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .photo-preview img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .photo-actions{
-        margin-top: 12px;
-    }
-
-    .photo-link{
-        display: inline-block;
-        margin-bottom: 12px;
-        color: #2563eb;
-        font-size: 13px;
-        font-weight: 800;
-        text-decoration: underline;
-    }
-
-    .replace-row{
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0;
-        border: 1.5px solid var(--ck-line-dark);
-        border-radius: 14px;
-        overflow: hidden;
-    }
-
-    .replace-btn{
-        border: none;
-        background: #fff4eb;
-        color: var(--ck-navy);
-        padding: 0 16px;
-        font-size: 14px;
-        font-weight: 800;
-        min-height: 46px;
-    }
-
-    .replace-row input[type="file"]{
-        display: block !important;
-        width: 100%;
-        border: none;
-        padding: 10px 12px;
-        font-size: 14px;
-        background: #fff;
     }
 
     .submit-bar{
@@ -482,11 +385,6 @@
         transition: .22s ease;
     }
 
-    .submit-btn:hover{
-        transform: translateY(-2px);
-        box-shadow: 0 22px 40px rgba(235,122,47,0.24);
-    }
-
     .submit-note{
         max-width: 480px;
         color: var(--ck-text-soft);
@@ -503,17 +401,83 @@
         margin-bottom: 24px;
     }
 
-    @media (max-width: 1200px){
-        .photo-grid{
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+    /* Select2 */
+    .select2-container{
+        width: 100% !important;
+    }
+
+    .select2-container .select2-selection--single{
+        height: 58px !important;
+        border: 1.5px solid var(--ck-line-dark) !important;
+        border-radius: var(--ck-radius-md) !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0 18px !important;
+        background: #fff !important;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered{
+        color: var(--ck-text) !important;
+        line-height: 56px !important;
+        padding-left: 0 !important;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__arrow{
+        height: 56px !important;
+        right: 12px !important;
+    }
+
+    .select2-container .select2-selection--multiple{
+        min-height: 58px !important;
+        border: 1.5px solid var(--ck-line-dark) !important;
+        border-radius: var(--ck-radius-md) !important;
+        background: #fff !important;
+        padding: 7px 12px !important;
+    }
+
+    .select2-container .select2-selection--multiple .select2-selection__rendered{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .select2-container .select2-selection--multiple .select2-selection__choice{
+        background: #eef4ff !important;
+        border: 1px solid #c7d8ff !important;
+        color: #10204f !important;
+        border-radius: 999px !important;
+        padding: 4px 10px !important;
+        font-size: 14px !important;
+        margin-top: 3px !important;
+    }
+
+    .select2-container .select2-selection--multiple .select2-selection__choice__remove{
+        color: #10204f !important;
+        margin-right: 6px !important;
+        border-right: none !important;
+    }
+
+    .select2-dropdown{
+        border: 1px solid var(--ck-line-dark) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+    }
+
+    .select2-results__option{
+        padding: 10px 14px !important;
+    }
+
+    .select2-results__option--highlighted{
+        background: var(--ck-navy) !important;
+        color: #fff !important;
     }
 
     @media (max-width: 992px){
         .form-grid-2,
         .project-grid,
-        .upload-grid-2,
-        .photo-grid{
+        .upload-grid-2{
             grid-template-columns: 1fr;
         }
 
@@ -542,48 +506,18 @@
         }
     }
 </style>
-<style>
-    .uploaded-link {
-        display: none;
-        margin-top: 8px;
-        color: #0d6efd;
-        font-weight: 600;
-        text-decoration: none;
-    }
 
-    .uploaded-link:hover {
-        text-decoration: underline;
-    }
-
-    .upload-box-wrap input[type="file"] {
-        display: none;
-    }
-
-    .upload-box {
-        cursor: pointer;
-        border: 1px dashed #cfd4dc;
-        border-radius: 12px;
-        padding: 16px;
-        display: block;
-        background: #fff;
-    }
-
-    .upload-note.file-name {
-        font-size: 13px;
-        color: #6c757d;
-        margin-top: 4px;
-        word-break: break-word;
-    }
-</style>
 @php
-$selectedProjects = json_decode($existingData->project_types ?? '[]', true);
+    $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 @endphp
+
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
+
     @if(session('success'))
-    <div style="background:#d1fae5; color:#065f46; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
-        {{ session('success') }}
-    </div>
+        <div style="background:#d1fae5; color:#065f46; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
+            {{ session('success') }}
+        </div>
     @endif
 
     @if($errors->any())
@@ -595,10 +529,10 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
             </ul>
         </div>
     @endif
+
     <div class="contractor-page">
         <div class="contractor-stack">
 
-            {{-- SECTION 1 --}}
             <div class="section-card">
                 <div class="section-head">
                     <div class="section-badge">
@@ -610,7 +544,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     </div>
                 </div>
 
-            
                 <div class="field-block">
                     <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
                     <div class="vendor-bar">
@@ -630,8 +563,8 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     type="checkbox"
                                     id="project_type_{{ $index }}"
                                     name="project_types[]"
-                                    value="{{ $type }}" {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
-                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
                                 >
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
@@ -642,7 +575,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                 </div>
             </div>
 
-            {{-- SECTION 2 --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
@@ -660,7 +592,7 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
                         <select class="form-select" name="experience_years" id="experience_years">
-                            <option value="" selected disabled>Select years of experience</option>
+                            <option value="" disabled selected>Select years of experience</option>
                             @foreach($experienceYears as $experience)
                                 <option value="{{ $experience->id }}" {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
                                     {{ $experience->experiance }}
@@ -672,8 +604,8 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
                         <select class="form-select" name="team_size">
-                            <option value="" selected disabled>Select team size</option>
-                             @foreach($team_size as $team)
+                            <option value="" disabled selected>Select team size</option>
+                            @foreach($team_size as $team)
                                 <option value="{{ $team->id }}" {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
                                     {{ $team->team_size }}
                                 </option>
@@ -681,28 +613,55 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                         </select>
                     </div>
 
-                    
-                    <div>
-                        <div class="field-label">City <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="city" placeholder="Enter city" value="{{ old('city', $existingData->city ?? '') }}">
+                  @php
+    $selectedCityId = old('city_id', $existingData->city_id ?? '');
 
-                    </div>
+    $selectedAreaIds = old('area_ids', isset($existingData->area_ids) ? json_decode($existingData->area_ids, true) : []);
+    $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
 
-                     <div>
-                        <div class="field-label">Pincode <span class="req">*</span></div> 
-                        <input type="text" class="form-input" name="pincode" placeholder="Enter pincode" value="{{ old('pincode', $existingData->pincode ?? '') }}">
+    $savedPincodes = old('pincode', $existingData->pincode ?? '');
+@endphp
 
-                    </div>
+<div>
+    <div class="field-label">City <span class="req">*</span></div>
+    <select class="form-select" name="city_id" id="city_id">
+        <option value="">Select City</option>
+        @foreach($cities as $city)
+            <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                {{ $city->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
+<div>
+    <div class="field-label">Area <span class="req">*</span></div>
+    <select class="form-select" name="area_ids[]" id="area_id" multiple="multiple"></select>
+</div>
+
+<div>
+    <div class="field-label">Pincode <span class="req">*</span></div>
+    <textarea
+        class="form-textarea"
+        id="pincode_id"
+        name="pincode"
+        readonly
+        placeholder="Selected area pincodes will appear here"
+    >{{ $savedPincodes }}</textarea>
+</div>
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                      
-                         <input type="text" class="form-input" name="minimum_project_value" value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}" placeholder="Enter minimum project value">
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="minimum_project_value"
+                            value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
+                            placeholder="Enter minimum project value"
+                        >
                     </div>
                 </div>
             </div>
 
-            {{-- SECTION 3 --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
@@ -725,7 +684,7 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     <div>
                         <div class="field-label">Type of Entity <span class="req">*</span></div>
                         <select class="form-select" name="entity_type">
-                            <option value="" selected disabled>Select entity type</option>
+                            <option value="" disabled selected>Select entity type</option>
                             @foreach($entity_type as $entity)
                                 <option value="{{ $entity->id }}" {{ old('entity_type', $existingData->entity_type ?? '') == $entity->id ? 'selected' : '' }}>
                                     {{ $entity->entity_type }}
@@ -736,42 +695,37 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                       
-                         <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
+                        <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
                     </div>
 
                     <div>
                         <div class="field-label">Contact Person Designation <span class="req">*</span></div>
-                         <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter designation" value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
+                        <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter designation" value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Contact Person Name</div>
-                        
-                         <input type="text" class="form-input" name="contact_person_name" value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}" placeholder="Enter contact person name">
+                        <input type="text" class="form-input" name="contact_person_name" value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}" placeholder="Enter contact person name">
                     </div>
 
                     <div>
                         <div class="field-label">PAN Number</div>
-                      
-                         <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number" value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
+                        <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number" value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">TAN Number</div>
-                      
-                         <input type="text" class="form-input" name="tan_number" placeholder="Enter TAN number" value="{{ old('tan_number', $existingData->tan_number ?? '') }}">
+                        <input type="text" class="form-input" name="tan_number" placeholder="Enter TAN number" value="{{ old('tan_number', $existingData->tan_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">ESIC Number</div>
-                        
-                         <input type="text" class="form-input" name="esic_number" placeholder="Enter ESIC number" value="{{ old('esic_number', $existingData->esic_number ?? '') }}">
+                        <input type="text" class="form-input" name="esic_number" placeholder="Enter ESIC number" value="{{ old('esic_number', $existingData->esic_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">PF No</div>
-                         <input type="text" class="form-input" name="pf_number" placeholder="Enter PF number" value="{{ old('pf_number', $existingData->pf_number ?? '') }}">
+                        <input type="text" class="form-input" name="pf_number" placeholder="Enter PF number" value="{{ old('pf_number', $existingData->pf_number ?? '') }}">
                     </div>
 
                     <div style="grid-column: 1 / -1;">
@@ -796,24 +750,20 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                 <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Upload MSME/Udyam Certificate</div>
-                                    <div class="upload-note">PDF, JPG, PNG up to 20MB</div>
+                                    <div class="upload-note file-name">PDF, JPG, PNG up to 20MB</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="msme_link" target="_blank" style="display:none;">View MSME</a>
+                            <a href="#" class="uploaded-link" id="msme_link" target="_blank">View MSME</a>
                             @if(!empty($existingData->msme_certificate))
-                            <div>
-                                <a href="{{ asset('storage/'.$existingData->msme_certificate) }}" target="_blank">
-                                    View MSME Certificate
-                                </a>
-                            </div>
+                                <div>
+                                    <a href="{{ asset('storage/'.$existingData->msme_certificate) }}" target="_blank">View MSME Certificate</a>
+                                </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- SECTION 4 --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
@@ -826,6 +776,7 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
+
                 <div class="upload-grid-2">
                     <div>
                         <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
@@ -838,16 +789,12 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a>
-                             
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank">View PAN</a>
                             @if(!empty($existingData->pan_card))
-                            <div>
-                                <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
-                                    View PAN Certificate
-                                </a>
-                            </div>
+                                <div>
+                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">View PAN Certificate</a>
+                                </div>
                             @endif
-
                         </div>
                     </div>
 
@@ -862,15 +809,12 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a>
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank">View GST</a>
                             @if(!empty($existingData->gst_certificate))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
-                                        View GST Certificate
-                                    </a>
+                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">View GST Certificate</a>
                                 </div>
                             @endif
-
                         </div>
                     </div>
 
@@ -885,15 +829,12 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a>
+                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank">View Aadhaar</a>
                             @if(!empty($existingData->aadhaar_card))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
-                                        View Adhar Certificate
-                                    </a>
+                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">View Aadhaar Certificate</a>
                                 </div>
                             @endif
-
                         </div>
                     </div>
 
@@ -908,22 +849,17 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a>
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank">View Certificate</a>
                             @if(!empty($existingData->company_profile))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
-                                        View Company Profile
-                                    </a>
+                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">View Company Profile</a>
                                 </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
-               
             </div>
 
-            {{-- SUBMIT --}}
             <div class="submit-bar">
                 <button type="submit" class="submit-btn">
                     <i class="fa-regular fa-paper-plane"></i>
@@ -936,6 +872,9 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
         </div>
     </div>
 </form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     function setupFilePreview(inputId, linkId) {
@@ -950,7 +889,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 
             if (file) {
                 const fileURL = URL.createObjectURL(file);
-
                 link.href = fileURL;
                 link.style.display = 'inline-block';
                 link.textContent = 'View File';
@@ -974,5 +912,165 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
     setupFilePreview('gst_certificate', 'gst_certificate_link');
     setupFilePreview('aadhaar_card', 'aadhaar_card_link');
     setupFilePreview('company_profile', 'company_profile_link');
+
+
+</script>
+<script>
+// $(document).ready(function () {
+
+//     let pincodeRequest = null;
+
+//     $('#city_id').select2({
+//         placeholder: 'Select City',
+//         width: '100%'
+//     });
+
+//     $('#area_id').select2({
+//         placeholder: 'Select Area',
+//         width: '100%',
+//         closeOnSelect: false
+//     });
+
+//     // Load areas based on city
+//     $('#city_id').on('change', function () {
+//         let cityId = $(this).val();
+
+//         $('#area_id').empty().trigger('change');
+//         $('#pincode_id').val('');
+
+//         if (cityId) {
+//             $.ajax({
+//                 url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
+//                 type: 'GET',
+//                 dataType: 'json',
+//                 success: function (data) {
+//                     let options = '';
+
+//                     $.each(data, function (index, area) {
+//                         options += `<option value="${area.id}">${area.name}</option>`;
+//                     });
+
+//                     $('#area_id').html(options).trigger('change');
+//                 },
+//                 error: function (xhr) {
+//                     console.log(xhr.responseText);
+//                 }
+//             });
+//         }
+//     });
+
+//     // Load pincodes based on selected areas
+//     $('#area_id').on('change', function () {
+//         let areaIds = $(this).val();
+
+//         $('#pincode_id').val('');
+
+//         if (pincodeRequest) {
+//             pincodeRequest.abort();
+//         }
+
+//         if (areaIds && areaIds.length > 0) {
+//             pincodeRequest = $.ajax({
+//                 url: "{{ route('get.pincodes') }}",
+//                 type: 'GET',
+//                 dataType: 'json',
+//                 data: {
+//                     area_ids: areaIds
+//                 },
+//                 success: function (data) {
+//                     let uniquePincodes = [...new Set(data)];
+//                     $('#pincode_id').val(uniquePincodes.join(', '));
+//                 },
+//                 error: function (xhr, status) {
+//                     if (status !== 'abort') {
+//                         console.log(xhr.responseText);
+//                     }
+//                 }
+//             });
+//         }
+//     });
+
+// });
+
+</script>
+<script>
+$(document).ready(function () {
+
+    let selectedCityId = @json($selectedCityId);
+    let selectedAreaIds = @json($selectedAreaIds);
+
+    $('#city_id').select2({
+        placeholder: 'Select City',
+        width: '100%'
+    });
+
+    $('#area_id').select2({
+        placeholder: 'Select Area',
+        width: '100%',
+        closeOnSelect: false
+    });
+
+    function loadAreas(cityId, selectedAreas = []) {
+        $('#area_id').html('');
+
+        if (!cityId) {
+            $('#area_id').trigger('change');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                let options = '';
+
+                $.each(data, function (index, area) {
+                    let isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
+                    options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
+                });
+
+                $('#area_id').html(options).trigger('change');
+
+                if (selectedAreas.length > 0) {
+                    loadPincodes(selectedAreas);
+                }
+            }
+        });
+    }
+
+    function loadPincodes(areaIds) {
+        if (!areaIds || areaIds.length === 0) {
+            $('#pincode_id').val('');
+            return;
+        }
+
+        $.ajax({
+            url: "{{ route('get.pincodes') }}",
+            type: 'GET',
+            dataType: 'json',
+            data: { area_ids: areaIds },
+            success: function (data) {
+                let uniquePincodes = [...new Set(data)];
+                $('#pincode_id').val(uniquePincodes.join(', '));
+            }
+        });
+    }
+
+    $('#city_id').on('change', function () {
+        let cityId = $(this).val();
+        $('#pincode_id').val('');
+        loadAreas(cityId, []);
+    });
+
+    $('#area_id').on('change', function () {
+        let areaIds = $(this).val();
+        loadPincodes(areaIds);
+    });
+
+    if (selectedCityId) {
+        loadAreas(selectedCityId, selectedAreaIds);
+    }
+});
 </script>
 @endsection

@@ -121,6 +121,10 @@ class VendorCategoryController extends Controller
                 ->where('vendor_id', $vendorId)
                 ->first();
         }
+
+
+            $cities = DB::table('city')->orderBy('name', 'asc')->get();
+// dd($cities);
         // dd($existingData);
         return view($slugToView[$slug], [
             'workType' => $workType,
@@ -130,10 +134,71 @@ class VendorCategoryController extends Controller
             'entity_type' => $entity_type,
             'vendor' => $vendor,
             'existingData' => $existingData,
+            'cities' => $cities
         ]);
     }
     public function saveForm(Request $request, $slug)
     {
         return redirect()->back()->with('success', ucfirst(str_replace('-', ' ', $slug)) . ' form submitted successfully.');
     }
+
+public function getAreas($city_id)
+{
+    $areas = DB::table('area')
+        ->where('city_id', $city_id)
+        ->orderBy('name', 'asc')
+        ->select('id', 'name')
+        ->get();
+
+    return response()->json($areas);
+}
+
+public function getPincodes(Request $request)
+{
+    $areaIds = $request->input('area_ids', []);
+
+    // make sure always array
+    if (!is_array($areaIds)) {
+        $areaIds = [$areaIds];
+    }
+
+    // remove empty values
+    $areaIds = array_filter($areaIds);
+
+    if (empty($areaIds)) {
+        return response()->json([]);
+    }
+
+    $pincodes = DB::table('pincodes')
+        ->whereIn('area_id', $areaIds)
+        ->orderBy('pincode', 'asc')
+        ->pluck('pincode')
+        ->unique()
+        ->values();
+
+    return response()->json($pincodes);
+}
+
+// public function getPincodes(Request $request)
+// {
+//     $areaIds = $request->get('area_ids', []);
+
+//     if (!is_array($areaIds)) {
+//         $areaIds = [$areaIds];
+//     }
+
+//     $areaIds = array_filter($areaIds);
+
+//     if (empty($areaIds)) {
+//         return response()->json([]);
+//     }
+
+//     $pincodes = DB::table('pincodes')
+//         ->whereIn('area_id', $areaIds)
+//         ->select('id', 'area_id', 'pincode')
+//         ->orderBy('pincode', 'asc')
+//         ->get();
+
+//     return response()->json($pincodes);
+// }
 }

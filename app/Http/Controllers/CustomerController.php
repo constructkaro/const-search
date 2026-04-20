@@ -214,7 +214,7 @@ public function verifyOtp(Request $request)
             'full_name'     => ['required', 'string', 'max:255'],
             'mobile'        => ['required', 'digits:10'],
             'email'         => ['nullable', 'email', 'max:255'],
-            'full_address'  => ['required', 'string'],
+            // 'full_address'  => ['required', 'string'],
             'land_area'     => ['nullable', 'string', 'max:255'],
             'area_unit'     => ['nullable', 'string', 'max:50'],
             'description'   => ['nullable', 'string'],

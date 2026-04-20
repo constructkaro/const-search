@@ -81,9 +81,9 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 });
 
 //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
+    // Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -151,7 +151,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 
     Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
 
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -184,6 +184,11 @@ Route::get('/customer/welding-fabrication', [CustomerController::class, 'welding
 Route::post('/welding-fabrication/store', [WeldingFabricationController::class, 'store'])->name('welding.fabrication.store');
 
 
+Route::get('/get-areas/{city_id}', [VendorCategoryController::class, 'getAreas'])->name('get.areas');
+Route::get('/get-pincodes', [VendorCategoryController::class, 'getPincodes'])->name('get.pincodes');
+
+// Route::get('/get-areas/{city_id}', [VendorCategoryController::class, 'getAreas'])->name('get.areas');
+// Route::get('/get-pincodes', [VendorCategoryController::class, 'getPincodes'])->name('get.pincodes');
 Route::get('/post', [CustomerController::class, 'post'])->name('post');
 
 // Route::get('/ordertrack', [CustomerController::class, 'ordertrack'])->name('ordertrack');
