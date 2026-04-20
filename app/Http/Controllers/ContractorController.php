@@ -269,6 +269,8 @@ class ContractorController extends Controller
         'status' => 'pending',
     ];
 
+
+    
     if ($existing) {
         $existing->update($data);
         return back()->with('success', 'Data updated successfully');
