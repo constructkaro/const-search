@@ -507,9 +507,11 @@
     }
 </style>
 
+
 @php
     $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 @endphp
+
 
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -553,6 +555,24 @@
                 </div>
 
                 <div class="field-block">
+    <div class="field-label">Project Type <span class="req">*</span></div>
+    <div class="field-sub">Select all project types you have experience in</div>
+    <div class="project-grid">
+        @forelse($projectTypes as $index => $type)
+            <div class="check-card">
+                <input type="checkbox"
+                    id="project_type_{{ $index }}"
+                    name="project_types[]"
+                    value="{{ $type }}"
+                    {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
+                <label for="project_type_{{ $index }}">{{ $type }}</label>
+            </div>
+        @empty
+            <p style="color:red; font-weight:600;">No project types found.</p>
+        @endforelse
+    </div>
+</div>
+                <!-- <div class="field-block">
                     <div class="field-label">Project Type <span class="req">*</span></div>
                     <div class="field-sub">Select all project types you have experience in</div>
                     <div class="project-grid">
@@ -569,7 +589,7 @@
                             <p style="color:red; font-weight:600;">No project types found.</p>
                         @endforelse
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="section-card">
@@ -610,14 +630,19 @@
                         </select>
                     </div>
 
-                    @php
-                        $selectedCityId = old('city_id', $existingData->city_id ?? '');
+                 @php
+                    $selectedCityId = old('city_id', $existingData->city_id ?? '');
 
-                        $selectedAreaIds = old('area_ids', isset($existingData->area_ids) ? json_decode($existingData->area_ids, true) : []);
-                        $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
+                    $selectedAreaIds = old('area_ids');
+                    if (!$selectedAreaIds) {
+                        $selectedAreaIds = !empty($existingData->area_ids)
+                            ? json_decode($existingData->area_ids, true)
+                            : [];
+                    }
+                    $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
 
-                        $savedPincodes = old('pincode', $existingData->pincode ?? '');
-                    @endphp
+                    $savedPincodes = old('pincode', $existingData->pincode ?? '');
+                @endphp
 
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
