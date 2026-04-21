@@ -508,7 +508,7 @@
 </style>
 
 @php
-    $selectedProjects = json_decode(json_decode($existingData->project_types ?? '[]', true), true);
+    $selectedProjects = $existingData->project_types ?? [];
 @endphp
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -551,24 +551,24 @@
                     </div>
                 </div>
 
-                <div class="field-block">
-                    <div class="field-label">Project Type <span class="req">*</span></div>
-                    <div class="field-sub">Select all project types you have experience in</div>
-                    <div class="project-grid">
-                        @forelse($projectTypes as $index => $type)
-                            <div class="check-card">
-                                <input type="checkbox"
-                                    id="project_type_{{ $index }}"
-                                    name="project_types[]"
-                                    value="{{ $type }}"
-                                    {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
-                                <label for="project_type_{{ $index }}">{{ $type }}</label>
-                            </div>
-                        @empty
-                            <p style="color:red; font-weight:600;">No project types found.</p>
-                        @endforelse
-                    </div>
-                </div>
+               <div class="field-block">
+    <div class="field-label">Project Type <span class="req">*</span></div>
+    <div class="field-sub">Select all project types you have experience in</div>
+    <div class="project-grid">
+        @forelse($projectTypes as $index => $type)
+            <div class="check-card">
+                <input type="checkbox"
+                    id="project_type_{{ $index }}"
+                    name="project_types[]"
+                    value="{{ $type }}"
+                    {{ collect($selectedProjects)->contains($type) ? 'checked' : '' }}>
+                <label for="project_type_{{ $index }}">{{ $type }}</label>
+            </div>
+        @empty
+            <p style="color:red; font-weight:600;">No project types found.</p>
+        @endforelse
+    </div>
+</div>
             </div>
 
             <div class="section-card">

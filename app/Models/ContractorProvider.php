@@ -38,8 +38,12 @@ class ContractorProvider extends Model
         'status',
     ];
 
+    // protected $casts = [
+    //     'project_types' => 'array',
+    // ];
     protected $casts = [
         'project_types' => 'array',
+        'area_ids' => 'array',
     ];
 
     public function trackings()
