@@ -731,8 +731,9 @@
     color: #fff !important;
 }
 </style>
+
 @php
-$selectedProjects = json_decode($existingData->project_types ?? '[]', true);
+    $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 @endphp
 
 <form action="{{ route('surveyor.store') }}" method="POST" enctype="multipart/form-data">
@@ -782,8 +783,8 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                                     type="checkbox"
                                     id="project_type_{{ $index }}"
                                     name="project_types[]"
-                                    value="{{ $type }}" {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
-                                    {{ in_array($type, old('project_types', [])) ? 'checked' : '' }}
+                                    value="{{ $type }}"
+                                    {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
                                 >
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
@@ -835,18 +836,6 @@ $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
                     </div>
 
             
-                    <!-- <div>
-                        <div class="field-label">City <span class="req">*</span></div>
-                         <input type="text" class="form-input" name="city" placeholder="Enter city" value="{{ old('city', $existingData->city ?? '') }}">
-                       
-                    </div>
-
-                    
-                    <div>
-                        <div class="field-label">Pincode <span class="req">*</span></div>
-                       <input type="text" class="form-input" name="pincode" placeholder="Enter pincode" value="{{ old('pincode', $existingData->pincode ?? '') }}">
-
-                    </div> -->
 
                     @php
                         $selectedCityId = old('city_id', $existingData->city_id ?? '');

@@ -100,10 +100,10 @@ Route::middleware(['auth', 'role:super_admin'])
 //     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 // });
 
-//vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// //vendor
+// Route::domain('vendor.constructkaro.com')->group(function () {
+//     Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -171,7 +171,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 
     Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
 // 
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

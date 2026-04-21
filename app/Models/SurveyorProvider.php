@@ -35,8 +35,9 @@ class SurveyorProvider extends Model
     ];
 
     protected $casts = [
-        'project_types' => 'array',
-    ];
+    'project_types' => 'array',
+    'area_ids' => 'array', // ✅ ADD THIS
+];
 
     public function trackings()
     {
