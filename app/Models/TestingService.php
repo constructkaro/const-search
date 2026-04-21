@@ -16,8 +16,8 @@ class TestingService extends Model
         'minimum_project_value',
         'pincode',
         'services',
-        'experience_years',
         'team_size',
+        'experience_years',
         'lab_type',
         'certification',
         'service_mode',
@@ -36,5 +36,6 @@ class TestingService extends Model
         'service_mode' => 'array',
         'area_ids' => 'array',
         'lab_photos' => 'array',
+        'sample_pickup_available' => 'boolean',
     ];
 }

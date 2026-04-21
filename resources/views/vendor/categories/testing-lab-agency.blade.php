@@ -8,9 +8,36 @@
 @php
     $data = $existingData ?? null;
 
+    function safe_json_array($value) {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (blank($value)) {
+            return [];
+        }
+
+        $decoded = json_decode($value, true);
+
+        if (json_last_error() === JSON_ERROR_NONE) {
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+
+            if (is_string($decoded)) {
+                $decodedAgain = json_decode($decoded, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decodedAgain)) {
+                    return $decodedAgain;
+                }
+            }
+        }
+
+        return [];
+    }
+
     $services = old('services');
     if (is_null($services)) {
-        $services = $data && !empty($data->services) ? json_decode($data->services, true) : [];
+        $services = safe_json_array($data->services ?? []);
     }
     $services = is_array($services) ? $services : [];
 
@@ -25,11 +52,11 @@
 
     $serviceMode = old('service_mode');
     if (is_null($serviceMode)) {
-        $serviceMode = $data && !empty($data->service_mode) ? json_decode($data->service_mode, true) : [];
+        $serviceMode = safe_json_array($data->service_mode ?? []);
     }
     $serviceMode = is_array($serviceMode) ? $serviceMode : [];
 
-    $labPhotos = $data && !empty($data->lab_photos) ? json_decode($data->lab_photos, true) : [];
+    $labPhotos = safe_json_array($data->lab_photos ?? []);
     $labPhotos = is_array($labPhotos) ? $labPhotos : [];
 
     $labType = old('lab_type', $data->lab_type ?? '');
@@ -37,9 +64,10 @@
     $samplePickup = old('sample_pickup_available', $data->sample_pickup_available ?? 0);
 
     $selectedCityId = old('city_id', $data->city_id ?? '');
-    $selectedAreaIds = old('area_ids', $data->area_ids ?? []);
-    if (is_string($selectedAreaIds)) {
-        $selectedAreaIds = json_decode($selectedAreaIds, true) ?? [];
+
+    $selectedAreaIds = old('area_ids');
+    if (is_null($selectedAreaIds)) {
+        $selectedAreaIds = safe_json_array($data->area_ids ?? []);
     }
     $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
 
@@ -229,7 +257,6 @@
         border:1px solid var(--line);
         border-radius:20px;
         padding:18px;
-        transition:.25s ease;
     }
 
     .service-top{
@@ -291,7 +318,6 @@
         border-radius:16px;
         background:#fff;
         cursor:pointer;
-        transition:.2s ease;
         font-weight:700;
         color:#2d3748;
     }
@@ -387,7 +413,6 @@
         text-align:center;
         gap:10px;
         cursor:pointer;
-        transition:.25s ease;
         padding:20px;
     }
 
@@ -517,35 +542,11 @@
         margin-top:4px !important;
     }
 
-    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
-        color:#d35400 !important;
-        margin-right:6px !important;
-        border:none !important;
-    }
-
     .select2-dropdown{
         border:1px solid #e5e7eb !important;
         border-radius:14px !important;
         overflow:hidden;
         box-shadow:0 12px 30px rgba(15, 23, 42, 0.12);
-    }
-
-    .select2-search--dropdown .select2-search__field{
-        border:1px solid #dbe3ee !important;
-        border-radius:10px !important;
-        padding:10px 12px !important;
-        outline:none !important;
-    }
-
-    .select2-results__option{
-        padding:10px 14px !important;
-        font-size:14px !important;
-        font-weight:600 !important;
-    }
-
-    .select2-results__option--highlighted[aria-selected]{
-        background:#fff4ec !important;
-        color:#f25c05 !important;
     }
 
     @media (max-width:1100px){
@@ -588,14 +589,12 @@
                                 </option>
                             @endforeach
                         </select>
-
-                        <div class="service-hint">You can select multiple options</div>
                     </div>
                 @endforeach
             </div>
+        </div>
 
-            <div class="divider"></div>
-
+        <div class="form-section-card">
             <div class="sub-head">Additional Details</div>
 
             <div class="details-grid">
@@ -680,9 +679,6 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('experience_years')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
@@ -695,9 +691,6 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('team_size')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
@@ -710,17 +703,11 @@
                             </option>
                         @endforeach
                     </select>
-                    @error('city_id')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
                     <div class="field-label">Area <span class="req">*</span></div>
                     <select class="form-select" name="area_ids[]" id="area_id" multiple></select>
-                    @error('area_ids')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
 
                 <div>
@@ -728,11 +715,7 @@
                     <textarea class="form-textarea"
                               id="pincode_id"
                               name="pincode"
-                              readonly
-                              placeholder="Selected area pincodes will appear here">{{ $savedPincodes }}</textarea>
-                    @error('pincode')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                              readonly>{{ $savedPincodes }}</textarea>
                 </div>
 
                 <div>
@@ -742,9 +725,6 @@
                            name="minimum_project_value"
                            value="{{ old('minimum_project_value', $data->minimum_project_value ?? '') }}"
                            placeholder="Enter minimum project value">
-                    @error('minimum_project_value')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
                 </div>
             </div>
         </div>
@@ -773,7 +753,6 @@
                             <a href="{{ asset('storage/' . $data->gst_certificate) }}" target="_blank">View Existing GST Certificate</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name" id="gst_certificate_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -788,7 +767,6 @@
                             <a href="{{ asset('storage/' . $data->aadhaar_card) }}" target="_blank">View Existing Aadhaar Card</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name" id="aadhaar_card_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -803,7 +781,6 @@
                             <a href="{{ asset('storage/' . $data->company_profile) }}" target="_blank">View Existing Company Profile</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name" id="company_profile_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -818,7 +795,6 @@
                             <a href="{{ asset('storage/' . $data->nabl_certificate) }}" target="_blank">View Existing NABL Certificate</a>
                         </div>
                     @endif
-                    <a href="#" class="file-name" id="nabl_certificate_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -840,8 +816,6 @@
                             @endforeach
                         </div>
                     @endif
-
-                    <a href="#" class="file-name" id="lab_photos_name" style="display:none;"></a>
                 </div>
 
                 <div class="upload-box">
@@ -858,7 +832,6 @@
                             </a>
                         </div>
                     @endif
-                    <a href="#" class="file-name" id="accreditation_certificate_name" style="display:none;"></a>
                 </div>
             </div>
 
@@ -903,43 +876,6 @@
             closeOnSelect: false
         });
 
-        function bindFilePreview(inputId, fileNameId) {
-            const input = document.getElementById(inputId);
-            const fileNameBox = document.getElementById(fileNameId);
-
-            if (!input || !fileNameBox) return;
-
-            input.addEventListener('change', function () {
-                const label = this.closest('.upload-box')?.querySelector('.upload-label');
-
-                if (this.files.length > 0) {
-                    fileNameBox.textContent = this.files.length > 1
-                        ? `${this.files.length} files selected`
-                        : this.files[0].name;
-
-                    fileNameBox.style.display = 'inline-block';
-
-                    if (label) {
-                        label.classList.add('active');
-                    }
-                } else {
-                    fileNameBox.textContent = '';
-                    fileNameBox.style.display = 'none';
-
-                    if (label) {
-                        label.classList.remove('active');
-                    }
-                }
-            });
-        }
-
-        bindFilePreview('gst_certificate', 'gst_certificate_name');
-        bindFilePreview('aadhaar_card', 'aadhaar_card_name');
-        bindFilePreview('company_profile', 'company_profile_name');
-        bindFilePreview('nabl_certificate', 'nabl_certificate_name');
-        bindFilePreview('lab_photos', 'lab_photos_name');
-        bindFilePreview('accreditation_certificate', 'accreditation_certificate_name');
-
         function loadAreas(cityId, selectedAreas = []) {
             $('#area_id').html('').trigger('change');
 
@@ -956,7 +892,10 @@
                     let options = '';
 
                     $.each(data, function (index, area) {
-                        const isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
+                        const isSelected =
+                            selectedAreas.includes(area.id.toString()) ||
+                            selectedAreas.includes(area.id);
+
                         options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
                     });
 
@@ -967,10 +906,6 @@
                     } else {
                         $('#pincode_id').val('');
                     }
-                },
-                error: function () {
-                    $('#area_id').html('').trigger('change');
-                    $('#pincode_id').val('');
                 }
             });
         }
@@ -987,13 +922,14 @@
                 dataType: 'json',
                 data: { area_ids: areaIds },
                 success: function (data) {
-                    const uniquePincodes = [...new Set(data)];
+                    let uniquePincodes = [...new Set(data)];
                     $('#pincode_id').val(uniquePincodes.join(', '));
-                },
-                error: function () {
-                    $('#pincode_id').val('');
                 }
             });
+        }
+
+        if (selectedCityId) {
+            loadAreas(selectedCityId, selectedAreaIds);
         }
 
         $('#city_id').on('change', function () {
@@ -1003,10 +939,6 @@
         $('#area_id').on('change', function () {
             loadPincodes($(this).val());
         });
-
-        if (selectedCityId) {
-            loadAreas(selectedCityId, selectedAreaIds);
-        }
     });
 </script>
 
