@@ -290,6 +290,12 @@
                         <span>Projects</span>
                     </a>
 
+                    
+                    <a href="{{ route('admin.allvendors') }}"
+                       class="{{ request()->routeIs('admin.allvendors') ? 'active' : '' }}">
+                        <span>Vendors</span>
+                    </a>
+
                     @php
                         $ordersMenuOpen =
                             request()->routeIs('admin.orders.index') ||
@@ -348,7 +354,7 @@
                         </a>
 
                         
-    <a href="{{ route('admin.order_tracking.index') }}">Order Tracking</a>
+                    <a href="{{ route('admin.order_tracking.index') }}">Order Tracking</a>
 
                     </div>
 

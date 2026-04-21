@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Customer\OrderTrackingController;
 use App\Http\Controllers\Admin\TrackingTemplateController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\HomeController;
 
@@ -74,16 +75,35 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
     // Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])->name('order_tracking.step_update');
 });
 
-Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
+// Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+//     // Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
 
+//     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+//     Route::post('/users/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
+//     Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
 
-});
+// });
+
+Route::middleware(['auth', 'role:super_admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::post('/users/store', [AdminController::class, 'storeUser'])->name('users.store');
+        Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
+
+        Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
+
+       
+    });
+// Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+// });
 
 //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
+    // Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -150,8 +170,8 @@ Route::domain('vendor.constructkaro.com')->group(function () {
     Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
 
     Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
-
-});
+// 
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
 {
@@ -23,9 +24,5 @@ class DashboardController extends Controller
         ));
     }
 
-    public function users()
-    {
-        $users = User::latest()->get();
-        return view('admin.users.index', compact('users'));
-    }
+  
 }
