@@ -15,7 +15,9 @@ class TestingService extends Model
         'area_ids',
         'minimum_project_value',
         'pincode',
-        'services','team_size',
+        'services',
+        'experience_years',
+        'team_size',
         'lab_type',
         'certification',
         'service_mode',
@@ -27,5 +29,12 @@ class TestingService extends Model
         'lab_photos',
         'accreditation_certificate',
         'status',
+    ];
+
+    protected $casts = [
+        'services' => 'array',
+        'service_mode' => 'array',
+        'area_ids' => 'array',
+        'lab_photos' => 'array',
     ];
 }
