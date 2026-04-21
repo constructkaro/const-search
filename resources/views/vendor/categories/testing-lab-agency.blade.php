@@ -36,6 +36,15 @@
     $certification = old('certification', $data->certification ?? '');
     $samplePickup = old('sample_pickup_available', $data->sample_pickup_available ?? 0);
 
+    $selectedCityId = old('city_id', $data->city_id ?? '');
+    $selectedAreaIds = old('area_ids', $data->area_ids ?? []);
+    if (is_string($selectedAreaIds)) {
+        $selectedAreaIds = json_decode($selectedAreaIds, true) ?? [];
+    }
+    $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
+
+    $savedPincodes = old('pincode', $data->pincode ?? '');
+
     $serviceOptions = [
         'soil_testing_reports' => [
             'title' => 'Soil Testing Reports',
@@ -159,7 +168,8 @@
 
     .testing-wrap{ max-width:1320px; margin:0 auto; }
 
-    .form-section-card{
+    .form-section-card,
+    .section-card{
         background:var(--white);
         border:1px solid #edf1f7;
         border-radius:28px;
@@ -168,18 +178,45 @@
         margin-bottom:28px;
     }
 
-    .section-head{ display:flex; align-items:flex-start; gap:16px; margin-bottom:28px; }
+    .section-head{
+        display:flex;
+        align-items:flex-start;
+        gap:16px;
+        margin-bottom:28px;
+    }
 
-    .section-icon{
-        width:56px; height:56px; border-radius:16px; display:flex; align-items:center;
-        justify-content:center; font-size:24px; flex-shrink:0;
+    .section-icon,
+    .section-badge{
+        width:56px;
+        height:56px;
+        border-radius:16px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:24px;
+        flex-shrink:0;
     }
 
     .section-icon.green{ background:var(--green-soft); color:var(--green); }
     .section-icon.purple{ background:var(--purple-soft); color:#7c3aed; }
+    .section-badge{ background:#fff3eb; color:var(--orange-dark); }
 
-    .section-head h2{ margin:0; font-size:34px; line-height:1.1; color:var(--primary); font-weight:800; }
-    .section-head p{ margin:8px 0 0; color:#8a97a8; font-size:18px; font-weight:500; }
+    .section-head h2,
+    .section-title-wrap h2{
+        margin:0;
+        font-size:34px;
+        line-height:1.1;
+        color:var(--primary);
+        font-weight:800;
+    }
+
+    .section-head p,
+    .section-title-wrap p{
+        margin:8px 0 0;
+        color:#8a97a8;
+        font-size:18px;
+        font-weight:500;
+    }
 
     .service-grid{
         display:grid;
@@ -226,13 +263,23 @@
     .divider{ height:1px; background:#eef2f7; margin:34px 0 28px; }
     .sub-head{ font-size:26px; font-weight:800; color:var(--primary); margin-bottom:24px; }
 
-    .details-grid{
+    .details-grid,
+    .form-grid-2{
         display:grid;
         grid-template-columns:repeat(2, minmax(0, 1fr));
         gap:28px;
     }
 
-    .group-title{ font-size:15px; font-weight:800; color:#475467; margin-bottom:14px; }
+    .group-title,
+    .field-label{
+        font-size:15px;
+        font-weight:800;
+        color:#475467;
+        margin-bottom:14px;
+    }
+
+    .field-label .req{ color:#dc2626; }
+
     .option-stack{ display:grid; gap:12px; }
 
     .radio-card, .check-card{
@@ -300,6 +347,24 @@
 
     .switch input:checked + .slider:before{
         transform:translateX(26px);
+    }
+
+    .form-select,
+    .form-input,
+    .form-textarea{
+        width:100%;
+        border:1px solid #dbe3ee;
+        border-radius:14px;
+        background:#fff;
+        color:#111827;
+        font-size:14px;
+        padding:13px 14px;
+        outline:none;
+    }
+
+    .form-textarea{
+        min-height:110px;
+        resize:vertical;
     }
 
     .upload-grid{
@@ -406,6 +471,25 @@
         width:100% !important;
     }
 
+    .select2-container--default .select2-selection--single{
+        height:50px !important;
+        border:1px solid #dbe3ee !important;
+        border-radius:14px !important;
+        background:#fff !important;
+        display:flex !important;
+        align-items:center !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        line-height:48px !important;
+        padding-left:14px !important;
+        color:#24324a !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height:48px !important;
+    }
+
     .select2-container--default .select2-selection--multiple{
         min-height:50px;
         border:1px solid #dbe3ee !important;
@@ -465,7 +549,7 @@
     }
 
     @media (max-width:1100px){
-        .service-grid, .details-grid, .upload-grid{ grid-template-columns:1fr; }
+        .service-grid, .details-grid, .form-grid-2, .upload-grid{ grid-template-columns:1fr; }
         .btn-submit{ min-width:100%; }
     }
 </style>
@@ -495,7 +579,7 @@
 
                         <select class="service-select-multi"
                                 name="services[{{ $field }}][]"
-                                multiple="multiple"
+                                multiple
                                 data-placeholder="Select service type">
                             @foreach($config['options'] as $option)
                                 <option value="{{ $option }}"
@@ -534,12 +618,12 @@
                     <div class="group-title">Service Mode</div>
                     <div class="option-stack">
                         <label class="check-card">
-                            <input type="checkbox" name="service_mode[]" value="field_testing" {{ in_array('field_testing', $serviceMode ?? []) ? 'checked' : '' }}>
+                            <input type="checkbox" name="service_mode[]" value="field_testing" {{ in_array('field_testing', $serviceMode) ? 'checked' : '' }}>
                             <span>Field Testing</span>
                         </label>
 
                         <label class="check-card">
-                            <input type="checkbox" name="service_mode[]" value="lab_testing" {{ in_array('lab_testing', $serviceMode ?? []) ? 'checked' : '' }}>
+                            <input type="checkbox" name="service_mode[]" value="lab_testing" {{ in_array('lab_testing', $serviceMode) ? 'checked' : '' }}>
                             <span>Lab Testing</span>
                         </label>
                     </div>
@@ -574,6 +658,97 @@
             </div>
         </div>
 
+        <div class="section-card">
+            <div class="section-head">
+                <div class="section-badge">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <div class="section-title-wrap">
+                    <h2>Basic Business Information</h2>
+                    <p>Company overview and operating details</p>
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div>
+                    <div class="field-label">Years of Experience <span class="req">*</span></div>
+                    <select class="form-select" name="experience_years" id="experience_years">
+                        <option value="">Select years of experience</option>
+                        @foreach($experienceYears as $experience)
+                            <option value="{{ $experience->id }}" {{ old('experience_years', $data->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
+                                {{ $experience->experiance ?? $experience->experience }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('experience_years')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="field-label">Team Size <span class="req">*</span></div>
+                    <select class="form-select" name="team_size" id="team_size">
+                        <option value="">Select team size</option>
+                        @foreach($team_size as $team)
+                            <option value="{{ $team->id }}" {{ old('team_size', $data->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                                {{ $team->team_size }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('team_size')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="field-label">City <span class="req">*</span></div>
+                    <select class="form-select" name="city_id" id="city_id">
+                        <option value="">Select City</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                {{ $city->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('city_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="field-label">Area <span class="req">*</span></div>
+                    <select class="form-select" name="area_ids[]" id="area_id" multiple></select>
+                    @error('area_ids')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="field-label">Pincode <span class="req">*</span></div>
+                    <textarea class="form-textarea"
+                              id="pincode_id"
+                              name="pincode"
+                              readonly
+                              placeholder="Selected area pincodes will appear here">{{ $savedPincodes }}</textarea>
+                    @error('pincode')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
+                    <input type="text"
+                           class="form-input"
+                           name="minimum_project_value"
+                           value="{{ old('minimum_project_value', $data->minimum_project_value ?? '') }}"
+                           placeholder="Enter minimum project value">
+                    @error('minimum_project_value')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+
         <div class="form-section-card">
             <div class="section-head">
                 <div class="section-icon purple">
@@ -586,7 +761,6 @@
             </div>
 
             <div class="upload-grid">
-
                 <div class="upload-box">
                     <input type="file" id="gst_certificate" name="gst_certificate">
                     <label for="gst_certificate" class="upload-label">
@@ -655,7 +829,7 @@
                         <p>Click to upload</p>
                     </label>
 
-                    @if(!empty($labPhotos) && is_array($labPhotos))
+                    @if(!empty($labPhotos))
                         <div class="existing-file-box">
                             @foreach($labPhotos as $photo)
                                 <div style="margin-bottom:6px;">
@@ -686,7 +860,6 @@
                     @endif
                     <a href="#" class="file-name" id="accreditation_certificate_name" style="display:none;"></a>
                 </div>
-
             </div>
 
             <div class="footer-actions">
@@ -707,11 +880,25 @@
 
 <script>
     $(document).ready(function () {
+        const selectedCityId = @json($selectedCityId);
+        const selectedAreaIds = @json($selectedAreaIds);
+
         $('.service-select-multi').select2({
             placeholder: function () {
                 return $(this).data('placeholder');
             },
             allowClear: true,
+            width: '100%',
+            closeOnSelect: false
+        });
+
+        $('#city_id').select2({
+            placeholder: 'Select City',
+            width: '100%'
+        });
+
+        $('#area_id').select2({
+            placeholder: 'Select Area',
             width: '100%',
             closeOnSelect: false
         });
@@ -723,6 +910,8 @@
             if (!input || !fileNameBox) return;
 
             input.addEventListener('change', function () {
+                const label = this.closest('.upload-box')?.querySelector('.upload-label');
+
                 if (this.files.length > 0) {
                     fileNameBox.textContent = this.files.length > 1
                         ? `${this.files.length} files selected`
@@ -730,7 +919,6 @@
 
                     fileNameBox.style.display = 'inline-block';
 
-                    const label = this.closest('.upload-box')?.querySelector('.upload-label');
                     if (label) {
                         label.classList.add('active');
                     }
@@ -738,7 +926,6 @@
                     fileNameBox.textContent = '';
                     fileNameBox.style.display = 'none';
 
-                    const label = this.closest('.upload-box')?.querySelector('.upload-label');
                     if (label) {
                         label.classList.remove('active');
                     }
@@ -752,6 +939,75 @@
         bindFilePreview('nabl_certificate', 'nabl_certificate_name');
         bindFilePreview('lab_photos', 'lab_photos_name');
         bindFilePreview('accreditation_certificate', 'accreditation_certificate_name');
+
+        function loadAreas(cityId, selectedAreas = []) {
+            $('#area_id').html('').trigger('change');
+
+            if (!cityId) {
+                $('#pincode_id').val('');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    let options = '';
+
+                    $.each(data, function (index, area) {
+                        const isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
+                        options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
+                    });
+
+                    $('#area_id').html(options).trigger('change');
+
+                    if (selectedAreas.length > 0) {
+                        loadPincodes(selectedAreas);
+                    } else {
+                        $('#pincode_id').val('');
+                    }
+                },
+                error: function () {
+                    $('#area_id').html('').trigger('change');
+                    $('#pincode_id').val('');
+                }
+            });
+        }
+
+        function loadPincodes(areaIds) {
+            if (!areaIds || areaIds.length === 0) {
+                $('#pincode_id').val('');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('get.pincodes') }}",
+                type: 'GET',
+                dataType: 'json',
+                data: { area_ids: areaIds },
+                success: function (data) {
+                    const uniquePincodes = [...new Set(data)];
+                    $('#pincode_id').val(uniquePincodes.join(', '));
+                },
+                error: function () {
+                    $('#pincode_id').val('');
+                }
+            });
+        }
+
+        $('#city_id').on('change', function () {
+            loadAreas($(this).val(), []);
+        });
+
+        $('#area_id').on('change', function () {
+            loadPincodes($(this).val());
+        });
+
+        if (selectedCityId) {
+            loadAreas(selectedCityId, selectedAreaIds);
+        }
     });
 </script>
+
 @endsection

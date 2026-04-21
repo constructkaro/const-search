@@ -11,8 +11,11 @@ class TestingService extends Model
     protected $fillable = [
         'vendor_id',
         'company_name',
-        'city',
-        'services',
+        'city_id',
+        'area_ids',
+        'minimum_project_value',
+        'pincode',
+        'services','team_size',
         'lab_type',
         'certification',
         'service_mode',

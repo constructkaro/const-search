@@ -5,11 +5,14 @@
 
 @section('content')
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     :root {
         --ck-dark: #111827;
         --ck-dark-2: #1f2937;
         --ck-text: #374151;
+        --ck-text-soft: #6b7280;
         --ck-muted: #6b7280;
         --ck-border: #e5e7eb;
         --ck-soft: #f8fafc;
@@ -21,15 +24,16 @@
         --ck-success-text: #027a48;
         --ck-success-border: #abefc6;
         --ck-danger: #dc2626;
+        --ck-red: #dc2626;
+        --ck-orange: #ea580c;
+        --ck-navy: #111827;
+        --ck-navy-2: #1f2937;
+        --ck-line-dark: #dbe3ec;
+        --ck-radius-md: 14px;
         --ck-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
-        --ck-shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.12);
-        --ck-radius-xl: 28px;
-        --ck-radius-lg: 22px;
-        --ck-radius-md: 18px;
-        --ck-radius-sm: 14px;
     }
 
-    body{
+    body {
         background:
             linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
@@ -112,40 +116,8 @@
         max-width: 680px;
     }
 
-    .boq-progress {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(255,255,255,0.8);
-        border: 1px solid #fde7c3;
-        border-radius: 999px;
-        padding: 10px 14px;
-        backdrop-filter: blur(6px);
-    }
-
-    .boq-progress span {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--ck-dark);
-        white-space: nowrap;
-    }
-
-    .boq-progress-bar {
-        width: 110px;
-        height: 8px;
-        background: #f3f4f6;
-        border-radius: 999px;
-        overflow: hidden;
-    }
-
-    .boq-progress-fill {
-        width: 75%;
-        height: 100%;
-        background: linear-gradient(90deg, #f59e0b 0%, #ea580c 100%);
-        border-radius: 999px;
-    }
-
-    .boq-card {
+    .boq-card,
+    .section-card {
         background: var(--ck-white);
         border-radius: 26px;
         padding: 30px;
@@ -153,9 +125,11 @@
         border: 1px solid #edf2f7;
         position: relative;
         overflow: hidden;
+        margin-top: 24px;
     }
 
-    .boq-card::after {
+    .boq-card::after,
+    .section-card::after {
         content: "";
         position: absolute;
         left: 0;
@@ -174,13 +148,15 @@
         margin-bottom: 26px;
     }
 
-    .boq-title-wrap {
+    .boq-title-wrap,
+    .section-head {
         display: flex;
         align-items: flex-start;
         gap: 14px;
     }
 
-    .boq-icon {
+    .boq-icon,
+    .section-badge {
         width: 58px;
         height: 58px;
         border-radius: 18px;
@@ -194,7 +170,8 @@
         border: 1px solid #fde7c3;
     }
 
-    .boq-title h2 {
+    .boq-title h2,
+    .section-title-wrap h2 {
         font-size: 22px;
         line-height: 1.2;
         color: var(--ck-dark);
@@ -202,14 +179,17 @@
         font-weight: 800;
     }
 
-    .boq-title p {
+    .boq-title p,
+    .section-title-wrap p {
         margin: 0;
         color: var(--ck-muted);
         font-size: 15px;
     }
 
+  
+
     .field-block + .field-block {
-        margin-top: 28px;
+        margin-top: 24px;
     }
 
     .field-label {
@@ -223,37 +203,70 @@
         color: var(--ck-danger);
     }
 
+    .field-sub,
     .field-subtext {
         font-size: 13px;
         color: var(--ck-muted);
         margin-bottom: 14px;
     }
 
-    .vendor-bar{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:16px;
-        padding:16px 18px;
-        border:1.5px solid var(--ck-border);
-        border-radius:18px;
-        background:linear-gradient(180deg,#ffffff 0%,#fcfcfd 100%);
+    .vendor-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        border: 1.5px solid var(--ck-border);
+        border-radius: 18px;
+        background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%);
     }
 
-    .vendor-value{
-        font-size:16px;
-        font-weight:800;
-        color:var(--ck-dark);
+    .vendor-value {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--ck-dark);
     }
 
-    .vendor-chip{
-        background:linear-gradient(135deg,#f59e0b 0%,#ea580c 100%);
-        color:#fff;
-        padding:9px 14px;
-        border-radius:999px;
-        font-size:13px;
-        font-weight:800;
-        white-space:nowrap;
+    .vendor-chip {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: #fff;
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .form-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .form-select,
+    .form-input,
+    .form-textarea {
+        width: 100%;
+        border: 1px solid #dbe3ec;
+        border-radius: 14px;
+        background: #fff;
+        color: #111827;
+        font-size: 14px;
+        padding: 13px 14px;
+        outline: none;
+        transition: 0.25s ease;
+    }
+
+    .form-select:focus,
+    .form-input:focus,
+    .form-textarea:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.10);
+    }
+
+    .form-textarea {
+        min-height: 110px;
+        resize: vertical;
     }
 
     .project-grid {
@@ -281,7 +294,6 @@
         font-size: 15px;
         font-weight: 700;
         color: #4b5563;
-        position: relative;
     }
 
     .project-item label::before {
@@ -340,12 +352,6 @@
         transition: all 0.25s ease;
     }
 
-    .turnaround-item label:hover {
-        border-color: #f59e0b;
-        box-shadow: 0 8px 18px rgba(245, 158, 11, 0.10);
-        transform: translateY(-1px);
-    }
-
     .turnaround-item input:checked + label {
         background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
         border-color: transparent;
@@ -380,14 +386,6 @@
         justify-content: center;
         gap: 10px;
         transition: all 0.25s ease;
-        position: relative;
-    }
-
-    .upload-box:hover {
-        border-color: #f59e0b;
-        background: linear-gradient(180deg, #fffdf9 0%, #fff7ed 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 14px 28px rgba(245, 158, 11, 0.10);
     }
 
     .upload-icon {
@@ -473,12 +471,10 @@
         cursor: pointer;
         box-shadow: 0 14px 26px rgba(245, 158, 11, 0.22);
         transition: all 0.25s ease;
-        letter-spacing: 0.2px;
     }
 
     .save-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 18px 30px rgba(245, 158, 11, 0.28);
     }
 
     .alert-success {
@@ -486,7 +482,6 @@
         color: var(--ck-success-text);
         padding: 14px 16px;
         border-radius: 16px;
-        margin-bottom: 4px;
         border: 1px solid var(--ck-success-border);
         font-weight: 700;
     }
@@ -494,21 +489,74 @@
     .text-danger {
         color: var(--ck-danger);
         font-size: 13px;
-        margin-top: 8px;
+        margin-top: 6px;
         display: block;
         font-weight: 600;
     }
 
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 52px !important;
+        border: 1.5px solid var(--ck-line-dark) !important;
+        border-radius: var(--ck-radius-md) !important;
+        background: #fff !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        line-height: 50px !important;
+        padding-left: 14px !important;
+        color: var(--ck-text) !important;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__arrow {
+        height: 50px !important;
+        right: 10px !important;
+    }
+
+    .select2-container .select2-selection--multiple {
+        min-height: 52px !important;
+        border: 1.5px solid var(--ck-line-dark) !important;
+        border-radius: var(--ck-radius-md) !important;
+        background: #fff !important;
+        padding: 6px 10px !important;
+    }
+
+    .select2-container .select2-selection--multiple .select2-selection__choice {
+        background: #eef4ff !important;
+        border: 1px solid #c7d8ff !important;
+        color: #10204f !important;
+        border-radius: 999px !important;
+        padding: 4px 10px !important;
+    }
+
+    .select2-dropdown {
+        border: 1px solid var(--ck-line-dark) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+    }
+
+    .select2-results__option--highlighted {
+        background: var(--ck-navy) !important;
+        color: #fff !important;
+    }
+
     @media (max-width: 1100px) {
         .project-grid,
-        .upload-grid {
+        .upload-grid,
+        .form-grid-2 {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @media (max-width: 768px) {
         .boq-hero,
-        .boq-card {
+        .boq-card,
+        .section-card {
             padding: 22px;
             border-radius: 22px;
         }
@@ -517,32 +565,22 @@
             font-size: 22px;
         }
 
-        .boq-card-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .vendor-bar{
+        .boq-card-header,
+        .section-head,
+        .vendor-bar,
+        .form-footer {
             flex-direction: column;
             align-items: flex-start;
         }
 
         .project-grid,
-        .upload-grid {
+        .upload-grid,
+        .form-grid-2 {
             grid-template-columns: 1fr;
-        }
-
-        .form-footer {
-            justify-content: stretch;
         }
 
         .save-btn {
             width: 100%;
-        }
-
-        .boq-progress {
-            width: 100%;
-            justify-content: space-between;
         }
     }
 </style>
@@ -551,14 +589,27 @@
     $workType = $workType ?? null;
     $projectTypes = $projectTypes ?? collect();
     $turnaroundTimes = ['2 Days', '3 Days', '5 Days', '7 Days', '10 Days', '10+ Days'];
-@endphp
-@php
+
     $selectedProjectTypes = old('project_types', $existingData->project_types ?? []);
     if (is_string($selectedProjectTypes)) {
         $selectedProjectTypes = json_decode($selectedProjectTypes, true) ?? [];
     }
+    if (!is_array($selectedProjectTypes)) {
+        $selectedProjectTypes = [];
+    }
 
     $selectedTurnaround = old('boq_turnaround_time', $existingData->boq_turnaround_time ?? '');
+    $selectedCityId = old('city_id', $existingData->city_id ?? '');
+
+    $selectedAreaIds = old('area_ids', $existingData->area_ids ?? []);
+    if (is_string($selectedAreaIds)) {
+        $selectedAreaIds = json_decode($selectedAreaIds, true) ?? [];
+    }
+    if (!is_array($selectedAreaIds)) {
+        $selectedAreaIds = [];
+    }
+
+    $savedPincodes = old('pincode', $existingData->pincode ?? '');
 @endphp
 
 <div class="boq-page">
@@ -581,8 +632,6 @@
                     </p>
                 </div>
             </div>
-
-            
         </div>
     </div>
 
@@ -605,8 +654,8 @@
             <div class="field-block">
                 <div class="field-label">Find Your Construction Vendor <span class="req">*</span></div>
                 <div class="vendor-bar">
-                    <div class="vendor-value">{{ $workType->work_type ?? 'BOQ / Estimation' }}</div>
-                    <div class="vendor-chip">{{ $workType->work_type ?? 'BOQ / Estimation' }}</div>
+                    <div class="vendor-value">{{ $workType->work_type ?? 'BOQ / Estimation Expert' }}</div>
+                    <div class="vendor-chip">{{ $workType->work_type ?? 'BOQ / Estimation Expert' }}</div>
                 </div>
             </div>
 
@@ -617,21 +666,112 @@
                 <div class="project-grid">
                     @forelse($projectTypes as $index => $type)
                         <div class="project-item">
-                            <input
-                                type="checkbox"
-                                id="project_type_{{ $index }}"
-                                name="project_types[]"
-                                value="{{ $type }}"
-                                {{ in_array($type, $selectedProjectTypes) ? 'checked' : '' }}
-                            >
+                            <input type="checkbox"
+                                   id="project_type_{{ $index }}"
+                                   name="project_types[]"
+                                   value="{{ $type }}"
+                                   {{ in_array($type, $selectedProjectTypes) ? 'checked' : '' }}>
                             <label for="project_type_{{ $index }}">{{ $type }}</label>
                         </div>
                     @empty
                         <p style="color:red; font-weight:600;">No project types found.</p>
                     @endforelse
                 </div>
+                @error('project_types')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
 
+            <div class="section-card">
                
+                <div class="section-head">
+                    <div class="section-badge">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div class="section-title-wrap">
+                        <h2>Basic Business Information</h2>
+                        <p>Company overview and operating details</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div>
+                        <div class="field-label">Years of Experience <span class="req">*</span></div>
+                        <select class="form-select" name="experience_years" id="experience_years">
+                            <option value="">Select years of experience</option>
+                            @foreach($experienceYears as $experience)
+                                <option value="{{ $experience->id }}" {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
+                                    {{ $experience->experiance ?? $experience->experience }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('experience_years')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Team Size <span class="req">*</span></div>
+                        <select class="form-select" name="team_size" id="team_size">
+                            <option value="">Select team size</option>
+                            @foreach($team_size as $team)
+                                <option value="{{ $team->id }}" {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                                    {{ $team->team_size }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('team_size')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">City <span class="req">*</span></div>
+                        <select class="form-select" name="city_id" id="city_id">
+                            <option value="">Select City</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                    {{ $city->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('city_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Area <span class="req">*</span></div>
+                        <select class="form-select" name="area_ids[]" id="area_id" multiple></select>
+                        @error('area_ids')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Pincode <span class="req">*</span></div>
+                        <textarea class="form-textarea"
+                                  id="pincode_id"
+                                  name="pincode"
+                                  readonly
+                                  placeholder="Selected area pincodes will appear here">{{ $savedPincodes }}</textarea>
+                        @error('pincode')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
+                        <input type="text"
+                               class="form-input"
+                               name="minimum_project_value"
+                               value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
+                               placeholder="Enter minimum project value">
+                        @error('minimum_project_value')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="field-block">
@@ -641,19 +781,18 @@
                 <div class="turnaround-grid">
                     @foreach($turnaroundTimes as $time)
                         <div class="turnaround-item">
-                            <input
-                                type="radio"
-                                id="time_{{ $loop->index }}"
-                                name="boq_turnaround_time"
-                                value="{{ $time }}"
-                               {{ $selectedTurnaround == $time ? 'checked' : '' }}
-                            >
+                            <input type="radio"
+                                   id="time_{{ $loop->index }}"
+                                   name="boq_turnaround_time"
+                                   value="{{ $time }}"
+                                   {{ $selectedTurnaround == $time ? 'checked' : '' }}>
                             <label for="time_{{ $loop->index }}">{{ $time }}</label>
                         </div>
                     @endforeach
                 </div>
-
-              
+                @error('boq_turnaround_time')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
         </div>
 
@@ -682,12 +821,14 @@
                         <input type="file" name="gst_certificate" id="gst_certificate">
                         <div class="file-note" id="gst_certificate_name"></div>
                         @if(!empty($existingData->gst_certificate))
-    <div class="mt-2">
-        <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">View uploaded GST Certificate</a>
-    </div>
-@endif
+                            <div class="mt-2">
+                                <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">View uploaded GST Certificate</a>
+                            </div>
+                        @endif
                     </div>
-                  
+                    @error('gst_certificate')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="upload-col">
@@ -698,15 +839,17 @@
                         </div>
                         <h4>Upload Aadhaar Card</h4>
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
-                        <input type="file" name="aadhar_card" id="aadhar_card">
-                        <div class="file-note" id="aadhar_card_name"></div>
-                        @if(!empty($existingData->aadhar_card))
-    <div class="mt-2">
-        <a href="{{ asset('storage/' . $existingData->aadhar_card) }}" target="_blank">View uploaded Aadhaar Card</a>
-    </div>
-@endif
+                        <input type="file" name="aadhaar_card" id="aadhaar_card">
+                        <div class="file-note" id="aadhaar_card_name"></div>
+                        @if(!empty($existingData->aadhaar_card))
+                            <div class="mt-2">
+                                <a href="{{ asset('storage/' . $existingData->aadhaar_card) }}" target="_blank">View uploaded Aadhaar Card</a>
+                            </div>
+                        @endif
                     </div>
-                  
+                    @error('aadhaar_card')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="upload-col">
@@ -720,12 +863,14 @@
                         <input type="file" name="company_profile" id="company_profile">
                         <div class="file-note" id="company_profile_name"></div>
                         @if(!empty($existingData->company_profile))
-    <div class="mt-2">
-        <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">View uploaded Company Profile</a>
-    </div>
-@endif
+                            <div class="mt-2">
+                                <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">View uploaded Company Profile</a>
+                            </div>
+                        @endif
                     </div>
-                  
+                    @error('company_profile')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
@@ -739,6 +884,9 @@
     </form>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     function bindFileNamePreview(inputId, outputId) {
         const input = document.getElementById(inputId);
@@ -747,17 +895,99 @@
         if (!input || !output) return;
 
         input.addEventListener('change', function () {
-            if (this.files && this.files.length > 0) {
-                output.textContent = this.files[0].name;
-            } else {
-                output.textContent = '';
-            }
+            output.textContent = this.files && this.files.length ? this.files[0].name : '';
         });
     }
 
     bindFileNamePreview('gst_certificate', 'gst_certificate_name');
-    bindFileNamePreview('aadhar_card', 'aadhar_card_name');
+    bindFileNamePreview('aadhaar_card', 'aadhaar_card_name');
     bindFileNamePreview('company_profile', 'company_profile_name');
+
+    $(document).ready(function () {
+        let selectedCityId = @json($selectedCityId);
+        let selectedAreaIds = @json($selectedAreaIds);
+
+        $('#city_id').select2({
+            placeholder: 'Select City',
+            width: '100%'
+        });
+
+        $('#area_id').select2({
+            placeholder: 'Select Area',
+            width: '100%',
+            closeOnSelect: false
+        });
+
+        function loadAreas(cityId, selectedAreas = []) {
+            $('#area_id').html('').trigger('change');
+
+            if (!cityId) {
+                $('#pincode_id').val('');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    let options = '';
+
+                    $.each(data, function (index, area) {
+                        let isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
+                        options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
+                    });
+
+                    $('#area_id').html(options).trigger('change');
+
+                    if (selectedAreas.length > 0) {
+                        loadPincodes(selectedAreas);
+                    } else {
+                        $('#pincode_id').val('');
+                    }
+                },
+                error: function () {
+                    $('#area_id').html('').trigger('change');
+                    $('#pincode_id').val('');
+                }
+            });
+        }
+
+        function loadPincodes(areaIds) {
+            if (!areaIds || areaIds.length === 0) {
+                $('#pincode_id').val('');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('get.pincodes') }}",
+                type: 'GET',
+                dataType: 'json',
+                data: { area_ids: areaIds },
+                success: function (data) {
+                    let uniquePincodes = [...new Set(data)];
+                    $('#pincode_id').val(uniquePincodes.join(', '));
+                },
+                error: function () {
+                    $('#pincode_id').val('');
+                }
+            });
+        }
+
+        $('#city_id').on('change', function () {
+            let cityId = $(this).val();
+            loadAreas(cityId, []);
+        });
+
+        $('#area_id').on('change', function () {
+            let areaIds = $(this).val();
+            loadPincodes(areaIds);
+        });
+
+        if (selectedCityId) {
+            loadAreas(selectedCityId, selectedAreaIds);
+        }
+    });
 </script>
 
 @endsection

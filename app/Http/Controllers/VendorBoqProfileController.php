@@ -12,122 +12,100 @@ class VendorBoqProfileController extends Controller
         return view('vendor.forms.boq-form');
     }
 
+  
     // public function store(Request $request)
     // {
     //     // dd($request);
     //     $validated = $request->validate([
-    //         'project_types_handled' => 'required|array|min:1',
-    //         'project_types_handled.*' => 'string',
+    //         'project_types' => 'required|array|min:1',
+    //         'project_types.*' => 'string',
     //         'boq_turnaround_time' => 'required|string',
-
-    //         'gst_certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-    //         'aadhar_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-    //         'company_profile' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
-    //     ], [
-    //         'project_types_handled.required' => 'Please select at least one project type.',
-    //         'boq_turnaround_time.required' => 'Please select BOQ turnaround time.',
+    //         'city_id' => 'required',
+    //         'area_ids' => 'required|array',
+    //         'pincode' => 'required',
+    //         'gst_certificate' => 'nullable',
+    //         'aadhar_card' => 'nullable',
+    //         'company_profile' => 'nullable',
     //     ]);
 
-    //     $gstPath = $request->hasFile('gst_certificate')
-    //         ? $request->file('gst_certificate')->store('vendor/boq/gst', 'public')
-    //         : null;
+    //     $vendorId = session('vendor_id');
 
-    //     $aadharPath = $request->hasFile('aadhar_card')
-    //         ? $request->file('aadhar_card')->store('vendor/boq/aadhar', 'public')
-    //         : null;
+    //     // Check vendor id
+    //     if (!$vendorId) {
+    //         return back()->with('error', 'Vendor ID not found in session.');
+    //     }
 
-    //     $companyProfilePath = $request->hasFile('company_profile')
-    //         ? $request->file('company_profile')->store('vendor/boq/company-profile', 'public')
-    //         : null;
+    //     $profile = VendorBoqProfile::where('vendor_id', $vendorId)->first();
 
-    //     VendorBoqProfile::create([
-    //         'vendor_id' => session('vendor_id'), // optional
-    //         'project_types_handled' => $validated['project_types_handled'],
-    //         'boq_turnaround_time' => $validated['boq_turnaround_time'],
-    //         'gst_certificate' => $gstPath,
-    //         'aadhar_card' => $aadharPath,
-    //         'company_profile' => $companyProfilePath,
-    //     ]);
+    //     if (!$profile) {
+    //         $profile = new VendorBoqProfile();
+    //         $profile->vendor_id = $vendorId;
+    //     }
 
-    //     return redirect()->back()->with('success', 'BOQ profile form submitted successfully.');
+    //     $profile->project_types = $validated['project_types'];
+    //     $profile->boq_turnaround_time = $validated['boq_turnaround_time'];
+
+    //     if ($request->hasFile('gst_certificate')) {
+    //         $profile->gst_certificate = $request->file('gst_certificate')->store('vendor/boq/gst', 'public');
+    //     }
+
+    //     if ($request->hasFile('aadhar_card')) {
+    //         $profile->aadhar_card = $request->file('aadhar_card')->store('vendor/boq/aadhar', 'public');
+    //     }
+
+    //     if ($request->hasFile('company_profile')) {
+    //         $profile->company_profile = $request->file('company_profile')->store('vendor/boq/company-profile', 'public');
+    //     }
+
+    //      'city_id' => $request->city_id,
+    //     'area_ids' => $request->area_ids,
+    //     'pincode' => $request->pincode,
+    //     'minimum_project_value' => $request->minimum_project_value,
+    //     $profile->save();
+
+    //     return back()->with('success', 'BOQ profile saved successfully.');
     // }
-
-//     public function store(Request $request)
-// {
-//     // dd($request->all(), $request->file());
-
-//     $validated = $request->validate([
-//         'project_types' => 'required|array|min:1',
-//         'project_types.*' => 'string',
-//         'boq_turnaround_time' => 'required|string',
-
-//         'gst_certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-//         'aadhar_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-//         'company_profile' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
-//     ], [
-//         'project_types.required' => 'Please select at least one project type.',
-//         'boq_turnaround_time.required' => 'Please select BOQ turnaround time.',
-//     ]);
-
-//     $gstPath = $request->hasFile('gst_certificate')
-//         ? $request->file('gst_certificate')->store('vendor/boq/gst', 'public')
-//         : null;
-
-//     $aadharPath = $request->hasFile('aadhar_card')
-//         ? $request->file('aadhar_card')->store('vendor/boq/aadhar', 'public')
-//         : null;
-
-//     $companyProfilePath = $request->hasFile('company_profile')
-//         ? $request->file('company_profile')->store('vendor/boq/company-profile', 'public')
-//         : null;
-
-//     VendorBoqProfile::create([
-//         'vendor_id' => session('vendor_id'),
-//         'project_types' => $validated['project_types'], // map form field to DB column
-//         'boq_turnaround_time' => $validated['boq_turnaround_time'],
-//         'gst_certificate' => $gstPath,
-//         'aadhar_card' => $aadharPath,
-//         'company_profile' => $companyProfilePath,
-//     ]);
-
-//     return redirect()->back()->with('success', 'BOQ profile form submitted successfully.');
-// }
-public function store(Request $request)
+    public function store(Request $request)
 {
-    // dd($request);
     $validated = $request->validate([
-        'project_types' => 'required|array|min:1',
-        'project_types.*' => 'string',
+        'project_types' => 'required|array',
+        
+        'experience_years' => 'required',
+        'team_size' => 'required',
+        'city_id' => 'required',
+        'area_ids' => 'required|array',
+        'pincode' => 'required|string',
+        'minimum_project_value' => 'required',
         'boq_turnaround_time' => 'required|string',
-
-        'gst_certificate' => 'nullable',
-        'aadhar_card' => 'nullable',
-        'company_profile' => 'nullable',
+        'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+        'aadhaar_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+        'company_profile' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
     ]);
 
     $vendorId = session('vendor_id');
 
-    // Check vendor id
     if (!$vendorId) {
         return back()->with('error', 'Vendor ID not found in session.');
     }
 
-    $profile = VendorBoqProfile::where('vendor_id', $vendorId)->first();
+    $profile = VendorBoqProfile::firstOrNew(['vendor_id' => $vendorId]);
 
-    if (!$profile) {
-        $profile = new VendorBoqProfile();
-        $profile->vendor_id = $vendorId;
-    }
-
+    $profile->vendor_id = $vendorId;
     $profile->project_types = $validated['project_types'];
+    $profile->experience_years = $validated['experience_years'];
+    $profile->team_size = $validated['team_size'];
+    $profile->city_id = $validated['city_id'];
+    $profile->area_ids = $validated['area_ids'];
+    $profile->pincode = $validated['pincode'];
+    $profile->minimum_project_value = $validated['minimum_project_value'];
     $profile->boq_turnaround_time = $validated['boq_turnaround_time'];
 
     if ($request->hasFile('gst_certificate')) {
         $profile->gst_certificate = $request->file('gst_certificate')->store('vendor/boq/gst', 'public');
     }
 
-    if ($request->hasFile('aadhar_card')) {
-        $profile->aadhar_card = $request->file('aadhar_card')->store('vendor/boq/aadhar', 'public');
+    if ($request->hasFile('aadhaar_card')) {
+        $profile->aadhaar_card = $request->file('aadhaar_card')->store('vendor/boq/aadhaar', 'public');
     }
 
     if ($request->hasFile('company_profile')) {
