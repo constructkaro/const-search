@@ -1062,7 +1062,7 @@
             <div class="submit-bar">
                 <button type="submit" class="submit-btn">
                     <i class="fa-regular fa-paper-plane"></i>
-                    <span>Submit Interior Designer Profile</span>
+                    <span>Submit Surveyor Profile</span>
                 </button>
 
                 <div class="submit-note">
