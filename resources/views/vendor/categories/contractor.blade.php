@@ -508,9 +508,8 @@
 </style>
 
 @php
-    $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
+    $selectedProjects = json_decode(json_decode($existingData->project_types ?? '[]', true), true);
 @endphp
-
 <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
