@@ -168,13 +168,13 @@ class ContractorController extends Controller
     }
 
     $request->validate([
-        'project_types' => 'required|array',
-        'project_types.*' => 'required|string',
+         'project_types' => 'required|array',
+       
         'company_name' => 'required|string|max:255',
         'msme_registered' => 'required',
         'city_id' => 'required',
         'area_ids' => 'required|array',
-        'area_ids.*' => 'required',
+      
         'pincode' => 'required',
         'msme_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
         'pan_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
@@ -244,11 +244,11 @@ class ContractorController extends Controller
 
     $data = [
         'vendor_id' => $vendorId,
-        'project_types' => json_encode($request->project_types),
+        'project_types' => $request->project_types,
         'experience_years' => $request->experience_years,
         'team_size' => $request->team_size,
         'city_id' => $request->city_id,
-        'area_ids' => json_encode($request->area_ids),
+        'area_ids' => $request->area_ids,
         'minimum_project_value' => $request->minimum_project_value,
         'pincode' => $request->pincode,
         'company_name' => $request->company_name,
