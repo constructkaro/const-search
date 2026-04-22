@@ -53,4 +53,27 @@ public function test(){
     return view('test');
 }
 
+
+public function notifications()
+{
+    $vendorId = session('vendor_id');
+
+    $notifications = DB::table('vendor_project_notifications as vpn')
+        ->join('posts as p', 'vpn.post_id', '=', 'p.id')
+        ->where('vpn.vendor_id', $vendorId)
+        ->select(
+            'vpn.*',
+            'p.title',
+            'p.contact_name',
+            'p.mobile',
+            'p.city',
+            'p.description',
+            'p.files'
+        )
+        ->orderByDesc('vpn.id')
+        ->get();
+
+    return view('vendor.notifications', compact('notifications'));
+}
+
 }

@@ -122,6 +122,9 @@
                                 <option value="">Select Role</option>
                                 <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                                 <option value="super_admin" {{ old('role') == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                                <option value="telecaller" {{ old('role') == 'telecaller' ? 'selected' : '' }}>Telecaller</option>
+                                <option value="engineer" {{ old('role') == 'engineer' ? 'selected' : '' }}>Engineer</option>
+
                             </select>
                         </div>
                     </div>

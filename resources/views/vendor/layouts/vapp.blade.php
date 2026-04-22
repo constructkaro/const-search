@@ -161,6 +161,19 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-menu a .badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 5px 8px;
+    border-radius: 20px;
+}
     </style>
 
     @stack('styles')

@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Panel')</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
@@ -59,6 +62,11 @@
             color: #c9d3de;
         }
 
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
         .sidebar-menu a,
         .sidebar-dropdown-btn {
             display: flex;
@@ -76,6 +84,13 @@
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
+        }
+
+        .sidebar-menu a .menu-left,
+        .sidebar-dropdown-btn .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .sidebar-menu a:hover,
@@ -157,36 +172,6 @@
         .topbar small {
             color: #6b7280;
             font-size: 13px;
-        }
-
-        .page-card {
-            background: #fff;
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-
-        .stat-card {
-            background: #fff;
-            border: none;
-            border-radius: 18px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            padding: 22px;
-            height: 100%;
-        }
-
-        .stat-card h5 {
-            font-size: 15px;
-            color: #6b7280;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .stat-card h2 {
-            font-size: 30px;
-            font-weight: 800;
-            color: #1c2c3e;
-            margin: 0;
         }
 
         .mobile-topbar {
@@ -276,24 +261,52 @@
                 <div class="sidebar-menu">
                     <a href="{{ route('admin.dashboard') }}"
                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <span>Dashboard</span>
+                        <span class="menu-left">
+                            <i class="bi bi-speedometer2"></i>
+                            <span>Dashboard</span>
+                        </span>
                     </a>
 
                     @if(auth()->user()->role === 'super_admin')
                         <a href="{{ route('admin.users.index') }}"
                            class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                            <span>User Management</span>
+                            <span class="menu-left">
+                                <i class="bi bi-people"></i>
+                                <span>User Management</span>
+                            </span>
                         </a>
                     @endif
 
-                    <a href="#">
-                        <span>Projects</span>
+                    <a href="{{ route('admin.allprojects') }}"
+                       class="{{ request()->routeIs('admin.allprojects') ? 'active' : '' }}">
+                        <span class="menu-left">
+                            <i class="bi bi-kanban"></i>
+                            <span>Projects</span>
+                        </span>
                     </a>
 
-                    
+                    <a href="{{ route('admin.engineer-desk.create') }}"
+                       class="{{ request()->routeIs('admin.engineer-desk.*') ? 'active' : '' }}">
+                        <span class="menu-left">
+                            <i class="bi bi-diagram-3-fill"></i>
+                            <span>Engineer Desk Flow</span>
+                        </span>
+                    </a>
+
+                    <a href="{{ route('admin.vendor.strategy') }}"
+                       class="{{ request()->routeIs('admin.vendor.strategy') ? 'active' : '' }}">
+                        <span class="menu-left">
+                            <i class="bi bi-diagram-3"></i>
+                            <span>Vendor Strategy</span>
+                        </span>
+                    </a>
+
                     <a href="{{ route('admin.allvendors') }}"
                        class="{{ request()->routeIs('admin.allvendors') ? 'active' : '' }}">
-                        <span>Vendors</span>
+                        <span class="menu-left">
+                            <i class="bi bi-person-badge"></i>
+                            <span>Vendors</span>
+                        </span>
                     </a>
 
                     @php
@@ -303,7 +316,8 @@
                             request()->routeIs('admin.orders.interior') ||
                             request()->routeIs('admin.orders.survey') ||
                             request()->routeIs('admin.orders.testing') ||
-                            request()->routeIs('admin.orders.boq');
+                            request()->routeIs('admin.orders.boq') ||
+                            request()->routeIs('admin.tracking_templates.*');
                     @endphp
 
                     <button
@@ -312,7 +326,10 @@
                         onclick="toggleOrdersMenu()"
                         id="ordersMenuBtn"
                     >
-                        <span>Orders</span>
+                        <span class="menu-left">
+                            <i class="bi bi-box-seam"></i>
+                            <span>Orders</span>
+                        </span>
                         <span class="dropdown-arrow">▼</span>
                     </button>
 
@@ -347,24 +364,29 @@
                             BOQ Orders
                         </a>
 
-
                         <a href="{{ route('admin.tracking_templates.index') }}"
-                        class="{{ request()->routeIs('admin.tracking_templates.*') ? 'active' : '' }}">
-                            <span>Tracking Templates</span>
+                           class="{{ request()->routeIs('admin.tracking_templates.*') ? 'active' : '' }}">
+                            Tracking Templates
                         </a>
 
-                        
-                    <a href="{{ route('admin.order_tracking.index') }}">Order Tracking</a>
-
+                        <a href="{{ route('admin.order_tracking.index') }}"
+                           class="{{ request()->routeIs('admin.order_tracking.*') ? 'active' : '' }}">
+                            Order Tracking
+                        </a>
                     </div>
 
                     <a href="#">
-                        <span>Settings</span>
+                        <span class="menu-left">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </span>
                     </a>
 
                     <form action="{{ route('admin.logout') }}" method="POST" class="mt-3">
                         @csrf
-                        <button type="submit" class="logout-btn">Logout</button>
+                        <button type="submit" class="logout-btn">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </button>
                     </form>
                 </div>
             </div>
@@ -404,5 +426,6 @@
     }
 </script>
 
+@stack('scripts')
 </body>
 </html>

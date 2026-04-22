@@ -8,12 +8,19 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Hash;
 
+
 class AdminController extends Controller
 {
-      public function users()
+    public function users()
     {
         $users = User::latest()->get();
         return view('admin.users.index',compact('users'));
+    }
+
+    public function allprojects()
+    {
+        
+        return view('admin.project.allprojects');
     }
 
     public function storeUser(Request $request)
@@ -22,7 +29,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:super_admin,admin',
+            'role' => 'required|in:super_admin,admin,telecaller,engineer',
         ]);
 
         User::create([
