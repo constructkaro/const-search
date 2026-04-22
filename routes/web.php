@@ -135,9 +135,9 @@ Route::middleware(['auth', 'role:super_admin'])
 // });
 
 // //vendor
-// Route::domain('vendor.constructkaro.com')->group(function () {
-//     Route::get('/', function () {
-    Route::get('/vendor', function () {
+Route::domain('vendor.constructkaro.com')->group(function () {
+    Route::get('/', function () {
+    // Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -207,7 +207,7 @@ Route::middleware(['auth', 'role:super_admin'])
 
     Route::get('/vendor/notifications', [VendorController::class, 'notifications'])->name('vendor.notifications');
 // 
-// });
+});
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
