@@ -69,6 +69,7 @@ class PostLeadController extends Controller
             'budget_id'       => 'nullable|integer',
             'unit_id'         => 'nullable|integer',
             'files'           => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
+            'add_by'          =>'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -105,6 +106,7 @@ class PostLeadController extends Controller
             'contact_name'    => $request->contact_name,
             'mobile'          => $request->mobile,
             'email'           => $request->email,
+            'add_by'          => $request->add_by,
             'lead_status'     => $request->lead_status,
             'description'     => $request->description,
             'area'            => $request->area,

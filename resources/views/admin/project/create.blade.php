@@ -442,6 +442,10 @@ body{
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-field">
+                                <label>Add By</label>
+                                <input type="text" class="form-control-custom" name="add_by" placeholder="Enter Add By">
+                            </div>
 
                         </div>
                     </div>
