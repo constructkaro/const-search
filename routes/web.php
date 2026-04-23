@@ -91,7 +91,7 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
-         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
+        Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');

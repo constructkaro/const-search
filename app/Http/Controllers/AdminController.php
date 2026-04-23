@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     public function allprojects()
     {
-        
+        dd('test');
         return view('admin.project.allprojects');
     }
 
