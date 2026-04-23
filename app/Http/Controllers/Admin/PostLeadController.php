@@ -394,63 +394,52 @@ public function saveEngineerData(Request $request, $id)
 }
 
 
+// public function vendorStrategy()
+// {
+//     $vendorStrategies = DB::table('engineer_desk')
+//         ->leftJoin('posts', 'engineer_desk.post_id', '=', 'posts.id')
+//         ->select(
+//             'engineer_desk.*',
+//             'posts.title',
+//             'posts.contact_name',
+//             'posts.mobile',
+//             'posts.city_id',
+//             'posts.files'
+//         )
+//         ->orderByDesc('engineer_desk.id')
+//         ->paginate(10);
+// dd($vendorStrategies);
+//     return view('admin.project.vendor_strategy', compact('vendorStrategies'));
+// }
+
 public function vendorStrategy()
 {
     $vendorStrategies = DB::table('engineer_desk')
         ->leftJoin('posts', 'engineer_desk.post_id', '=', 'posts.id')
+        ->leftJoinSub(
+            DB::table('vendor_notification_responses')
+                ->select('post_id', DB::raw('COUNT(*) as accepted_vendor_count'))
+                ->where('is_interested', 1)
+                ->groupBy('post_id'),
+            'accepted_vendors',
+            function ($join) {
+                $join->on('accepted_vendors.post_id', '=', 'engineer_desk.post_id');
+            }
+        )
         ->select(
             'engineer_desk.*',
             'posts.title',
             'posts.contact_name',
             'posts.mobile',
             'posts.city_id',
-            'posts.files'
+            'posts.files',
+            DB::raw('COALESCE(accepted_vendors.accepted_vendor_count, 0) as accepted_vendor_count')
         )
         ->orderByDesc('engineer_desk.id')
         ->paginate(10);
 
     return view('admin.project.vendor_strategy', compact('vendorStrategies'));
 }
-
-// public function getVendorsByPost($postId)
-// {
-//     $post = DB::table('posts')->where('id', $postId)->first();
-
-//     if (!$post) {
-//         return response()->json([
-//             'status' => false,
-//             'html' => '<div class="alert alert-danger mb-0">Project not found.</div>'
-//         ]);
-//     }
-
-//     // $vendors = DB::table('vendor_register')->get(); 
-//     $vendors = DB::table('vendor_register as vr')
-//                 ->join('architect_providers as ap', 'vr.id', '=', 'ap.vendor_id')
-//                 ->select(
-//                     'vr.id',
-//                     'vr.full_name',
-//                     'vr.mobile',
-//                     'vr.email',
-//                     'vr.company_name',
-//                     'vr.city',
-//                     'ap.id as architect_provider_id',
-//                     'ap.project_types',
-//                     'ap.experience_years',
-//                     'ap.team_size',
-//                     'ap.state',
-//                     'ap.region',
-//                     'ap.city_id',
-//                     'ap.area_ids'
-//                 )
-//                 ->get();
-
-//     $html = view('admin.project.partials.vendor_modal_list', compact('vendors', 'post'))->render();
-
-//     return response()->json([
-//         'status' => true,
-//         'html' => $html
-//     ]);
-// }
 public function getVendorsByPost($postId)
 {
     $post = DB::table('posts')->where('id', $postId)->first();

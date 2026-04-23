@@ -53,27 +53,166 @@ public function test(){
     return view('test');
 }
 
-
 public function notifications()
 {
     $vendorId = session('vendor_id');
 
     $notifications = DB::table('vendor_project_notifications as vpn')
         ->join('posts as p', 'vpn.post_id', '=', 'p.id')
+        ->leftJoin('vendor_notification_responses as vr', function ($join) use ($vendorId) {
+            $join->on('vr.notification_id', '=', 'vpn.id')
+                 ->where('vr.vendor_id', '=', $vendorId);
+        })
         ->where('vpn.vendor_id', $vendorId)
         ->select(
             'vpn.*',
             'p.*',
-            // 'p.contact_name',
-            // 'p.mobile',
-            // 'p.city_id',
-            // 'p.description',
-            // 'p.files'
+            'vr.is_interested',
+            'vr.boq_file'
         )
         ->orderByDesc('vpn.id')
         ->get();
-dd($notifications);
+// dd($notifications );
     return view('vendor.notifications', compact('notifications'));
 }
 
+// public function notifications()
+// {
+//     $vendorId = session('vendor_id');
+
+//     $notifications = DB::table('vendor_project_notifications as vpn')
+//         ->join('posts as p', 'vpn.post_id', '=', 'p.id')
+//         ->where('vpn.vendor_id', $vendorId)
+//         ->leftJoin('vendor_notification_responses as vr', function ($join) use ($vendorId) {
+//                 $join->on('vr.notification_id', '=', 'vn.id')
+//                     ->where('vr.vendor_id', '=', $vendorId);
+//             })
+//         ->select(
+//             'vpn.*',
+//             'p.*', 'vr.is_interested',
+//             'vr.boq_file'
+//             // 'p.contact_name',
+//             // 'p.mobile',
+//             // 'p.city_id',
+//             // 'p.description',
+//             // 'p.files'
+//         )
+//         ->where('vpn.vendor_id', $vendorId)
+//         ->orderByDesc('vpn.id')
+//         ->get();
+// // dd($notifications);
+//     return view('vendor.notifications', compact('notifications'));
+// }
+
+// public function notificationResponse(Request $request)
+// {
+//     $request->validate([
+//         'notification_id' => 'required',
+//         'post_id' => 'required',
+//         'is_interested' => 'nullable|in:0,1',
+//         'boq_file' => 'nullable|file|mimes:pdf,xls,xlsx,jpg,jpeg,png|max:5120',
+//     ]);
+
+//     $filePath = null;
+
+//     if ($request->hasFile('boq_file')) {
+//         $filePath = $request->file('boq_file')->store('vendor_boq_files', 'public');
+//     }
+
+//     $exists = DB::table('vendor_notification_responses')
+//     ->where('notification_id', $request->notification_id)
+//     ->where('vendor_id', session('vendor_id'))
+//     ->first();
+
+//     if ($exists) {
+
+//         DB::table('vendor_notification_responses')
+//             ->where('id', $exists->id)
+//             ->update([
+//                 'is_interested' => $request->is_interested ?? 0,
+//                 'boq_file' => $filePath ?? $exists->boq_file,
+//                 'updated_at' => now()
+//             ]);
+
+//     } else {
+
+//         DB::table('vendor_notification_responses')->insert([
+//             'notification_id' => $request->notification_id,
+//             'post_id' => $request->post_id,
+//             'vendor_id' => session('vendor_id'),
+//             'is_interested' => $request->is_interested ?? 0,
+//             'boq_file' => $filePath,
+//             'created_at' => now(),
+//             'updated_at' => now(),
+//         ]);
+//     }
+    
+
+//     return response()->json([
+//         'status' => true,
+//         'message' => 'Your response has been submitted successfully.'
+//     ]);
+// }
+public function notificationResponse(Request $request)
+{
+    
+        $vendorId = session('vendor_id');
+
+        if (!$vendorId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Vendor session expired. Please login again.'
+            ], 401);
+        }
+
+        $request->validate([
+            'notification_id' => 'required|integer',
+            'post_id' => 'required|integer',
+            'is_interested' => 'nullable|in:0,1',
+            'boq_file' => 'nullable|file|mimes:pdf,xls,xlsx,jpg,jpeg,png|max:5120',
+        ]);
+
+        $filePath = null;
+
+        if ($request->hasFile('boq_file')) {
+            $filePath = $request->file('boq_file')->store('vendor_boq_files', 'public');
+        }
+
+        $exists = DB::table('vendor_notification_responses')
+            ->where('notification_id', $request->notification_id)
+            ->where('vendor_id', $vendorId)
+            ->first();
+
+        if ($exists) {
+            DB::table('vendor_notification_responses')
+                ->where('id', $exists->id)
+                ->update([
+                    'post_id'       => $request->post_id,
+                    'is_interested' => $request->is_interested ?? 0,
+                    'boq_file'      => $filePath ?: $exists->boq_file,
+                    'updated_at'    => now(),
+                ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Your response has been updated successfully.'
+            ]);
+        }
+
+        DB::table('vendor_notification_responses')->insert([
+            'notification_id' => $request->notification_id,
+            'post_id'         => $request->post_id,
+            'vendor_id'       => $vendorId,
+            'is_interested'   => $request->is_interested ?? 0,
+            'boq_file'        => $filePath,
+            'created_at'      => now(),
+            'updated_at'      => now(),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Your response has been submitted successfully.'
+        ]);
+
+}
 }

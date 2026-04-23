@@ -236,6 +236,26 @@
         padding:18px 22px;
         border-bottom:none;
     }
+    .status-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.status-chip.accepted{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.status-chip.pending{
+    background:#fff7ed;
+    color:#c2410c;
+}
 
     .vendor-modal .modal-title{
         font-size:20px;
@@ -285,6 +305,7 @@
                         <th>Customer Requirement</th>
                         <th>Service Type</th>
                         <th>File</th>
+                        <th>Vendor Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -326,7 +347,19 @@
                                     <span class="mini-line">No file</span>
                                 @endif
                             </td>
-
+<td>
+    @if(($item->accepted_vendor_count ?? 0) > 0)
+        <span class="status-chip accepted">
+            <i class="bi bi-check-circle-fill"></i>
+            Accepted by Vendor
+        </span>
+    @else
+        <span class="status-chip pending">
+            <i class="bi bi-hourglass-split"></i>
+            Pending
+        </span>
+    @endif
+</td>
                             <td>
                                 <a href="javascript:void(0)"
                                    class="action-btn open-vendors-btn"
