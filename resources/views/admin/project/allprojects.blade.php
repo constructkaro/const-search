@@ -126,9 +126,9 @@
     </div>
 
 </div>
-@endsection
 
-@push('scripts')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     const CSRF_TOKEN = '{{ csrf_token() }}';
 
@@ -225,4 +225,4 @@
     // ── Init ──
     bindStatusDropdowns();
 </script>
-@endpush
+@endsection

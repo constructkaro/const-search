@@ -11,20 +11,24 @@ use Illuminate\Support\Facades\Validator;
 
 class PostLeadController extends Controller
 {
-   
+
+
 
     public function index(Request $request)
     {
-        $query = DB::table('posts')->latest();
+        $query = DB::table('posts')
+            ->leftJoin('city', 'posts.city_id', '=', 'city.id')
+            ->select('posts.*', 'city.name as city_name')
+            ->latest('posts.created_at');
 
         if ($request->filled('search')) {
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                ->orWhere('contact_name', 'like', '%' . $search . '%')
-                ->orWhere('mobile', 'like', '%' . $search . '%')
-                ->orWhere('city', 'like', '%' . $search . '%');
+                $q->where('posts.title', 'like', '%' . $search . '%')
+                ->orWhere('posts.contact_name', 'like', '%' . $search . '%')
+                ->orWhere('posts.mobile', 'like', '%' . $search . '%')
+                ->orWhere('city.name', 'like', '%' . $search . '%');
             });
         }
 
@@ -35,7 +39,7 @@ class PostLeadController extends Controller
         if ($request->ajax()) {
             return view('admin.project.partials.project_table', compact('posts'))->render();
         }
-
+        // dd($posts);
         return view('admin.project.allprojects', compact('posts'));
     }
 
@@ -45,92 +49,114 @@ class PostLeadController extends Controller
         $states       = DB::table('state')->orderBy('name')->get();
         $budget_range = DB::table('budget_range')->get();
         $unit         = DB::table('cust_unit')->get();
-        return view('admin.project.create', compact('work_types','states','budget_range','unit'));
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
+
+        return view('admin.project.create', compact('work_types','states','budget_range','unit','cities'));
     }
 
- 
     public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title'           => 'required|string|max:255',
-            'contact_name'    => 'required|string|max:255',
-            'mobile'          => 'required|string|max:20',
-            'email'           => 'nullable|email|max:255',
-            'state'           => 'nullable|string|max:255',
-            'lead_status'     => 'nullable|in:timepass,exploring,serious',
-            'region'          => 'nullable|string|max:250',
-            'city'            => 'nullable|string|max:250',
-            'pincode'         => 'nullable|string|max:20',
-            'description'     => 'nullable|string',
-            'area'            => 'nullable|string|max:250',
-            'contact_time'    => 'nullable|string|max:250',
-            'work_type_id'    => 'nullable|integer',
-            'work_subtype_id' => 'nullable|integer',
-            'budget_id'       => 'nullable|integer',
-            'unit_id'         => 'nullable|integer',
-            'files'           => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
-            'add_by'          =>'nullable',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'title'           => 'required|string|max:255',
+        'contact_name'    => 'required|string|max:255',
+        'mobile'          => 'required|string|max:20',
+        'email'           => 'nullable|email|max:255',
+        'state'           => 'nullable|string|max:255',
+        'lead_status'     => 'nullable|in:timepass,exploring,serious',
+        'city_id'         => 'nullable|string',
+        'area_ids'        => 'nullable|array',   // ✅ nullable so it doesn't fail if empty
+        'area_ids.*'      => 'integer',           // ✅ each item must be integer
+        'pincode'         => 'nullable|string',
+        'description'     => 'nullable|string',
+        'contact_time'    => 'nullable|string|max:250',
+        'work_type_id'    => 'nullable|integer',
+        'work_subtype_id' => 'nullable|integer',
+        'budget_id'       => 'nullable|integer',
+        'unit_id'         => 'nullable|integer',
+        'files'           => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
+        'add_by'          => 'nullable|string',
+    ]);
 
-        if ($validator->fails()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'status'  => false,
-                    'message' => 'Validation failed.',
-                    'errors'  => $validator->errors()
-                ], 422);
-            }
-
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $filePath = null;
-
-        if ($request->hasFile('files')) {
-            $file = $request->file('files');
-            $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-            $filePath = $file->storeAs('post_files', $fileName, 'public');
-        }
-
-        $insertId = DB::table('posts')->insertGetId([
-            'user_id'         => 0,
-            'title'           => $request->title,
-            'work_subtype_id' => $request->work_subtype_id ?: null,
-            'work_type_id'    => $request->work_type_id ?: null,
-            'state'           => $request->state,
-            'region'          => $request->region,
-            'city'            => $request->city,
-            'budget_id'       => $request->budget ?: null,
-            'contact_name'    => $request->contact_name,
-            'mobile'          => $request->mobile,
-            'email'           => $request->email,
-            'add_by'          => $request->add_by,
-            'lead_status'     => $request->lead_status,
-            'description'     => $request->description,
-            'area'            => $request->area,
-            'files'           => $filePath,
-            'contact_time'    => $request->contact_time,
-            'post_verify'     => 0,
-            'get_vendor'      => 0,
-            'pincode'         => $request->pincode,
-            'unit_id'         => $request->unit ?: null,
-            'created_at'      => now(),
-            'updated_at'      => now(),
-        ]);
-
+    if ($validator->fails()) {
         if ($request->ajax()) {
             return response()->json([
-                'status'  => true,
-                'message' => 'Lead added successfully.',
-                'id'      => $insertId
-            ], 200);
+                'status'  => false,
+                'message' => 'Validation failed.',
+                'errors'  => $validator->errors()
+            ], 422);
         }
 
-    
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
 
+    // ✅ Fix 1: Convert area_ids array → JSON string for DB storage
+    $areaIds = $request->area_ids ?? [];
+    $areaIdsJson = json_encode($areaIds); // stores as: [1, 2, 3]
+
+    // ✅ Fix 2: Handle pincode — it comes as a comma-separated string from readonly input
+    // Just store it as-is (it's already a string like "400701, 400705")
+    $pincode = $request->pincode ?? null;
+
+    // ✅ Fix 3: Handle file upload (supports multiple files)
+    $filePath = null;
+    if ($request->hasFile('files')) {
+        $uploadedFiles = $request->file('files');
+
+        // If multiple files, store all paths as JSON
+        if (is_array($uploadedFiles)) {
+            $paths = [];
+            foreach ($uploadedFiles as $file) {
+                $fileName = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                $paths[]  = $file->storeAs('post_files', $fileName, 'public');
+            }
+            $filePath = json_encode($paths);
+        } else {
+            // Single file
+            $file      = $uploadedFiles;
+            $fileName  = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $filePath  = $file->storeAs('post_files', $fileName, 'public');
+        }
+    }
+
+    $insertId = DB::table('posts')->insertGetId([
+        'user_id'         => 0,
+        'title'           => $request->title,
+        'work_subtype_id' => $request->work_subtype_id ?: null,
+        'work_type_id'    => $request->work_type_id    ?: null,
+        'area_ids'        => $areaIdsJson,              // ✅ Fixed: JSON string not array
+        'city_id'         => $request->city_id,
+        'budget_id'       => $request->budget          ?: null,
+        'contact_name'    => $request->contact_name,
+        'mobile'          => $request->mobile,
+        'email'           => $request->email,
+        'add_by'          => $request->add_by,
+        'lead_status'     => $request->lead_status,
+        'description'     => $request->description,
+        'files'           => $filePath,
+        'contact_time'    => $request->contact_time,
+        'post_verify'     => 0,
+        'get_vendor'      => 0,
+        'pincode'         => $pincode,                  // ✅ Already a string from the readonly input
+        'unit_id'         => $request->unit            ?: null,
+        'created_at'      => now(),
+        'updated_at'      => now(),
+    ]);
+
+    if ($request->ajax()) {
+        return response()->json([
+            'status'  => true,
+            'message' => 'Lead added successfully.',
+            'id'      => $insertId
+        ], 200);
+    }
+
+    return redirect()->route('admin.allprojects')
+        ->with('success', 'Lead created successfully!');
+}
+ 
+   
     public function show($id)
     {
         $post = DB::table('posts')->where('id', $id)->first();

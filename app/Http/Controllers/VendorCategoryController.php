@@ -123,7 +123,7 @@ class VendorCategoryController extends Controller
         }
 
 
-            $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
         // dd($cities);
         // dd($existingData);
         return view($slugToView[$slug], [

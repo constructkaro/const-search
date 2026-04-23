@@ -131,7 +131,7 @@
                         <td><span class="title-text">{{ $post->title ?? '-' }}</span></td>
                         <td>{{ $post->contact_name ?? '-' }}</td>
                         <td>{{ $post->mobile ?? '-' }}</td>
-                        <td><span class="badge-city">{{ $post->city ?? '-' }}</span></td>
+                        <td><span class="badge-city">{{ $post->city_name ?? '-' }}</span></td>
                         <td>
                             <select
                                 class="status-select lead-status-dropdown

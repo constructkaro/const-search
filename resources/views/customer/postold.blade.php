@@ -4,6 +4,7 @@
 
 @section('content')
 
+<!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -105,13 +106,7 @@ body{
     align-items: start;
 }
 
-.form-field,
-.cp-field{
-    width: 100%;
-}
-
-.form-field label,
-.cp-label{
+.form-field label{
     display: block;
     font-size: 15px;
     font-weight: 700;
@@ -119,15 +114,9 @@ body{
     margin-bottom: 8px;
 }
 
-.req{
-    color: #dc2626;
-}
-
 .form-control-custom,
 .form-select-custom,
-.form-textarea-custom,
-.cp-select,
-.cp-input{
+.form-textarea-custom{
     width: 100%;
     min-height: 58px;
     background: #fbfcff;
@@ -148,9 +137,7 @@ body{
 
 .form-control-custom:focus,
 .form-select-custom:focus,
-.form-textarea-custom:focus,
-.cp-select:focus,
-.cp-input:focus{
+.form-textarea-custom:focus{
     border-color: rgba(242,92,5,0.45);
     box-shadow: 0 0 0 4px rgba(242,92,5,0.10);
     background: #fff;
@@ -177,20 +164,6 @@ body{
 .input-group-custom .form-control-custom,
 .input-group-custom .form-select-custom{
     border-radius: 0 16px 16px 0;
-}
-
-.cp-input-wrap{
-    position: relative;
-}
-
-.cp-icon{
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #94a3b8;
-    font-size: 16px;
-    z-index: 2;
 }
 
 .field-hint{
@@ -277,6 +250,12 @@ body{
     flex-wrap: wrap;
 }
 
+.secure-note{
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
 .submit-btn{
     min-width: 230px;
     height: 58px;
@@ -314,59 +293,6 @@ body{
 
 .modal:not(.show){
     display: none;
-}
-
-.select2-container{
-    width: 100% !important;
-}
-
-.select2-container .select2-selection--single,
-.select2-container .select2-selection--multiple{
-    min-height: 58px !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 16px !important;
-    background: #fbfcff !important;
-    padding: 8px 12px !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered{
-    color: #1f2937 !important;
-    line-height: 40px !important;
-    padding-left: 0 !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow{
-    height: 56px !important;
-    right: 10px !important;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__rendered{
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice{
-    background: rgba(242,92,5,0.10) !important;
-    border: 1px solid rgba(242,92,5,0.18) !important;
-    color: var(--orange-dark) !important;
-    border-radius: 999px !important;
-    padding: 4px 10px !important;
-    font-size: 13px !important;
-}
-
-.select2-dropdown{
-    border: 1px solid var(--border) !important;
-    border-radius: 14px !important;
-    overflow: hidden !important;
-}
-
-.select2-search__field{
-    outline: none !important;
 }
 
 @media (max-width: 1200px){
@@ -422,6 +348,7 @@ body{
             </div>
 
             <div class="project-body">
+
                 <form action="{{ route('save.post') }}" method="POST" enctype="multipart/form-data" id="projectPostForm">
                     @csrf
 
@@ -434,18 +361,16 @@ body{
                                 <label>Vendor Type</label>
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-briefcase"></i></div>
-
-                                    <select class="form-select-custom" id="work_type" disabled>
-                                        <option value="">Select Vendor Type</option>
-                                        @foreach($work_types as $worktype)
-                                            <option value="{{ $worktype->id }}"
-                                                {{ ((string)($selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
-                                                {{ $worktype->work_type }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    <input type="hidden" name="work_type_id" id="work_type_hidden" value="{{ $selectedWorkTypeId ?? '' }}">
+                                  
+                                  <select class="form-select-custom" id="work_type" name="work_type_id" disabled>
+                                    <option value="">Select Vendor Type</option>
+                                    @foreach($work_types as $worktype)
+                                        <option value="{{ $worktype->id }}"
+                                            {{ ((string)($selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
+                                            {{ $worktype->work_type }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 </div>
                             </div>
 
@@ -468,28 +393,39 @@ body{
                                 <div class="field-hint">A sample title will appear automatically after project type selection.</div>
                             </div>
 
-                            <div class="cp-field">
-                                <label class="cp-label">City <span class="req">*</span></label>
-                                <select class="cp-select" name="city_id" id="city_id">
-                                    <option value="">Select City</option>
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                    @endforeach
-                                </select>
+                            <!-- <div class="form-field">
+                                <label>City</label>
+                                <input type="text" class="form-control-custom" name="city" placeholder="Enter city">
                             </div>
 
+                            <div class="form-field">
+                                <label>Pincode</label>
+                                <input type="text" class="form-control-custom" name="pincode" placeholder="Enter pincode">
+                            </div> -->
                             <div class="cp-field">
-                                <label class="cp-label">Area <span class="req">*</span></label>
-                                <select name="area_ids[]" id="area_id" multiple="multiple" style="width:100%;"></select>
-                            </div>
+                            <label class="cp-label">City <span class="req">*</span></label>
+                            <select class="cp-select" name="city_id" id="city_id">
+                                <option value="">Select City</option>
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <div class="cp-field">
-                                <label class="cp-label">Pincode</label>
-                                <div class="cp-input-wrap">
-                                    <i class="bi bi-mailbox cp-icon"></i>
-                                    <input type="text" class="cp-input" id="pincode_id" name="pincode" readonly placeholder="Auto-filled from area selection" style="padding-left:42px;">
-                                </div>
+                        <div class="cp-field">
+                            <label class="cp-label">Area <span class="req">*</span></label>
+                            <select name="area_ids[]" id="area_id" multiple="multiple" style="width:100%;">
+                            </select>
+                        </div>
+
+                        <div class="cp-field">
+                            <label class="cp-label">Pincode</label>
+                            <div class="cp-input-wrap">
+                                <i class="bi bi-mailbox cp-icon"></i>
+                                <input type="text" class="cp-input" id="pincode_id" name="pincode" readonly
+                                    placeholder="Auto-filled from area selection" style="padding-left:42px;">
                             </div>
+                        </div>
 
                             <div class="form-field">
                                 <label>Approx Budget (₹)</label>
@@ -517,7 +453,7 @@ body{
                             </div>
 
                             <div class="form-field">
-                                <label>Area / Project Size</label>
+                                <label>Area</label>
                                 <input type="text" class="form-control-custom" name="area" placeholder="e.g. Plot: 2000 sq.ft / Built-up: 1500 sq.ft">
                             </div>
 
@@ -566,10 +502,12 @@ body{
                         </div>
 
                         <div class="form-actions">
+                            
                             <button class="submit-btn" type="submit">Submit Project</button>
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -628,105 +566,45 @@ body{
 <script>
 $(document).ready(function () {
 
-    $('#area_id').select2({
-        placeholder: 'Select Area',
-        allowClear: true
-    });
+    // $('#work_type').on('change', function () {
+    //     let workTypeId = $(this).val();
+    //     let select = $('#work_subtype');
 
-    function loadProjectTypes(workTypeId, selectedSubtypeId = '') {
+    //     select.html('<option value="">Loading...</option>');
+
+    //     if (workTypeId) {
+    //         $.get('/get-project-types/' + workTypeId, function (data) {
+    //             select.html('<option value="">Select Project Type</option>');
+    //             data.forEach(function(item){
+    //                 select.append(`<option value="${item.id}">${item.work_subtype}</option>`);
+    //             });
+    //         });
+    //     } else {
+    //         select.html('<option value="">Select Project Type</option>');
+    //     }
+    // });
+
+     $('#work_type').on('change', function () {
+        let workTypeId = $(this).val();
         let select = $('#work_subtype');
+
         select.html('<option value="">Loading...</option>');
 
         if (workTypeId) {
-            $.ajax({
-                url: '/get-project-types/' + workTypeId,
-                type: 'GET',
-                success: function (data) {
-                    select.html('<option value="">Select Project Type</option>');
-
-                    $.each(data, function(index, item){
-                        let selected = selectedSubtypeId == item.id ? 'selected' : '';
-                        select.append(`<option value="${item.id}" ${selected}>${item.work_subtype}</option>`);
-                    });
-                },
-                error: function () {
-                    select.html('<option value="">Select Project Type</option>');
-                }
+            $.get('/get-project-types/' + workTypeId, function (data) {
+                select.html('<option value="">Select Project Type</option>');
+                data.forEach(function(item){
+                    select.append(`<option value="${item.id}">${item.work_subtype}</option>`);
+                });
             });
         } else {
             select.html('<option value="">Select Project Type</option>');
         }
+    });
+
+    if ($('#work_type').val() !== '') {
+        $('#work_type').trigger('change');
     }
-
-    $('#work_type').on('change', function () {
-        let workTypeId = $(this).val();
-        $('#work_type_hidden').val(workTypeId);
-        loadProjectTypes(workTypeId);
-    });
-
-    let initialWorkTypeId = $('#work_type').val();
-    if (initialWorkTypeId !== '') {
-        loadProjectTypes(initialWorkTypeId, "{{ old('work_subtype_id') }}");
-    }
-
-    $('#work_subtype').on('change', function () {
-        let selectedText = $(this).find('option:selected').text();
-        if ($(this).val()) {
-            $('#project_title').attr('placeholder', selectedText + ' Project');
-        } else {
-            $('#project_title').attr('placeholder', 'e.g. 2BHK Residential Construction, Office Renovation');
-        }
-    });
-
-    $('#city_id').on('change', function () {
-        let cityId = $(this).val();
-
-        $('#area_id').empty().trigger('change');
-        $('#pincode_id').val('');
-
-        if (cityId) {
-            $.ajax({
-              
-                url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
-                type: 'GET',
-                success: function (response) {
-                    $('#area_id').empty();
-
-                    $.each(response, function (index, area) {
-                        $('#area_id').append(
-                            `<option value="${area.id}" data-pincode="${area.pincode ?? ''}">${area.name}</option>`
-                        );
-                    });
-
-                    $('#area_id').trigger('change');
-                },
-                error: function () {
-                    $('#area_id').empty().trigger('change');
-                }
-            });
-        }
-    });
-
-     function loadPincodes(areaIds) {
-        if (!areaIds || !areaIds.length) {
-            $('#pincode_id').val('');
-            return;
-        }
-        $.ajax({
-            url: "{{ route('get.pincodes') }}",
-            type: 'GET',
-            dataType: 'json',
-            data: { area_ids: areaIds },
-            success: function (data) {
-                $('#pincode_id').val([...new Set(data)].join(', '));
-            }
-        });
-    }
-
-    $('#area_id').on('change', function () {
-        loadPincodes($(this).val());
-    });
-
     $('#projectPostForm').on('submit', function (e) {
         e.preventDefault();
 
@@ -743,6 +621,7 @@ $(document).ready(function () {
             success: function (res) {
                 if (res.status === 'otp_required') {
                     $('#otp_mobile').val($('#main_mobile').val());
+
                     let modalEl = document.getElementById('loginRegisterModal');
                     let modal = new bootstrap.Modal(modalEl);
                     modal.show();
@@ -768,16 +647,8 @@ $(document).ready(function () {
                     });
 
                     form.reset();
-                    $('#area_id').empty().trigger('change');
-                    $('#pincode_id').val('');
+                    $('#work_subtype').html('<option value="">Select Project Type</option>');
                     $('#project_title').attr('placeholder', 'e.g. 2BHK Residential Construction, Office Renovation');
-
-                    let currentWorkTypeId = $('#work_type').val();
-                    if (currentWorkTypeId) {
-                        loadProjectTypes(currentWorkTypeId);
-                    } else {
-                        $('#work_subtype').html('<option value="">Select Project Type</option>');
-                    }
                 }
             },
 

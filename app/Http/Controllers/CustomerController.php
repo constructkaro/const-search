@@ -287,6 +287,7 @@ public function verifyOtp(Request $request)
         $states       = DB::table('state')->orderBy('name')->get();
         $budget_range = DB::table('budget_range')->get();
         $unit         = DB::table('cust_unit')->get();
+          $cities = DB::table('city')->orderBy('name', 'asc')->get();
 
         $selectedWorkTypeId = $request->work_type_id;
 
@@ -294,7 +295,7 @@ public function verifyOtp(Request $request)
             'work_types',
             'states',
             'budget_range',
-            'unit',
+            'unit','cities',
             'selectedWorkTypeId'
         ));
     }
@@ -307,15 +308,18 @@ public function verifyOtp(Request $request)
             'title'           => 'required|string|max:255',
             'work_type_id'    => 'required|integer',
             'work_subtype_id' => 'required|integer',
-            'city'            => 'required|string|max:255',
+            'city_id'         => 'nullable|string',
+            'area_ids'        => 'nullable|array',   // ✅ nullable so it doesn't fail if empty
+            'area_ids.*'      => 'integer',           // ✅ each item must be integer
+            'pincode'         => 'nullable|string',
             'budget'          => 'required',
             'contact_name'    => 'required|string|max:255',
             'mobile'          => 'required|string|max:20',
             'email'           => 'required|email|max:255',
             'description'     => 'required|string',
             'area'            => 'required|string|max:255',
-            'unit'            => 'nullable',
-            'pincode'         => 'nullable|string|max:20',
+            'unit'            => 'nullable'
+           
         ]);
 
         /*
@@ -323,6 +327,8 @@ public function verifyOtp(Request $request)
         | If customer not logged in -> store post in session and ask OTP
         |--------------------------------------------------------------------------
         */
+          $pincode = $request->pincode ?? null;
+
         if (!$customer_id) {
 
             Session::put('pending_post', $request->except(['_token', 'files']));
@@ -377,8 +383,9 @@ public function verifyOtp(Request $request)
             'title'           => $request->title,
             'work_type_id'    => $request->work_type_id,
             'work_subtype_id' => $request->work_subtype_id,
-        
-            'city'            => $request->city,
+            'area_ids'        => $areaIdsJson,              // ✅ Fixed: JSON string not array
+            'city_id'         => $request->city_id,
+            // 'city'            => $request->city,
             'pincode'         => $request->pincode,
             'budget_id'       => $request->budget,
             'contact_name'    => $request->contact_name,
