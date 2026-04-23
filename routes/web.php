@@ -81,7 +81,7 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller'])->prefix('admin'
 
 
 
-Route::middleware(['auth', 'role:super_admin'])
+Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
