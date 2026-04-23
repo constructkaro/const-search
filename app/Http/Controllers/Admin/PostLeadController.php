@@ -403,7 +403,7 @@ public function vendorStrategy()
             'posts.title',
             'posts.contact_name',
             'posts.mobile',
-            'posts.city',
+            'posts.city_id',
             'posts.files'
         )
         ->orderByDesc('engineer_desk.id')
