@@ -66,7 +66,7 @@ public function notifications()
             'p.title',
             'p.contact_name',
             'p.mobile',
-            'p.city',
+            'p.city_id',
             'p.description',
             'p.files'
         )

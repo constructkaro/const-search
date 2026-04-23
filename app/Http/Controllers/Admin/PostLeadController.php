@@ -476,8 +476,8 @@ public function getVendorsByPost($postId)
     $providerTables = [
         'Architect'  => 'architect_providers',
         'Contractor' => 'contractor_providers',
-        'Consultant' => 'consultant_providers',
-        'Testing'    => 'testing_providers',
+        // 'Consultant' => 'consultant_providers',
+        'Testing'    => 'testing_lab_agency_providers',
         'Survey'     => 'surveyor_providers',
     ];
 
