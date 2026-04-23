@@ -501,7 +501,7 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
 
      $('#work_type').on('change', function () {
         let workTypeId = $(this).val();
