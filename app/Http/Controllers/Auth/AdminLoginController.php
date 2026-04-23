@@ -27,7 +27,7 @@ class AdminLoginController extends Controller
 
             $user = Auth::user();
 
-            if (in_array($user->role, ['admin', 'super_admin'])) {
+            if (in_array($user->role, ['admin', 'super_admin','telecaller'])) {
                 return redirect()->route('admin.dashboard');
             }
 
