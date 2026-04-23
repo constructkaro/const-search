@@ -63,16 +63,16 @@ public function notifications()
         ->where('vpn.vendor_id', $vendorId)
         ->select(
             'vpn.*',
-            'p.title',
-            'p.contact_name',
-            'p.mobile',
-            'p.city_id',
-            'p.description',
-            'p.files'
+            'p.*',
+            // 'p.contact_name',
+            // 'p.mobile',
+            // 'p.city_id',
+            // 'p.description',
+            // 'p.files'
         )
         ->orderByDesc('vpn.id')
         ->get();
-
+dd($notifications);
     return view('vendor.notifications', compact('notifications'));
 }
 
