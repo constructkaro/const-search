@@ -31,9 +31,9 @@ use App\Http\Controllers\Customer\OrderTrackingController;
 use App\Http\Controllers\Admin\TrackingTemplateController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\AdminController;
-
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/test', [VendorController::class, 'test'])->name('test');
 
@@ -70,31 +70,28 @@ Route::middleware(['auth', 'role:admin,super_admin'])->prefix('admin')->name('ad
 
     Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])
         ->name('order_tracking.step_update');
-    // Route::get('/order-tracking', [TrackingTemplateController::class, 'adminOrders'])->name('order_tracking.index');
-    // Route::post('/order-tracking/assign', [TrackingTemplateController::class, 'assignTemplate'])->name('order_tracking.assign');
-    // Route::get('/order-tracking/{service_key}/{source_id}', [TrackingTemplateController::class, 'manageSteps'])->name('order_tracking.steps');
-    // Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])->name('order_tracking.step_update');
+
+
+    Route::get('/engineer-desk/create', [EngineerDeskController::class, 'create'])->name('engineer-desk.create');
+    Route::post('/engineer-desk/store', [EngineerDeskController::class, 'store'])->name('engineer-desk.store');
+    Route::get('/engineer-desk/{id}/edit', [EngineerDeskController::class, 'edit'])->name('engineer-desk.edit');
+    Route::post('/engineer-desk/{id}/update', [EngineerDeskController::class, 'update'])->name('engineer-desk.update');
+   
 });
 
-Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/users', [DashboardController::class, 'users'])->name('users.index');
 
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::post('/users/store', [AdminController::class, 'storeUser'])->name('admin.users.store');
-    Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
-
-});
 
 Route::middleware(['auth', 'role:super_admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-          Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/users', [AdminController::class, 'users'])->name('users.index');
         Route::post('/users/store', [AdminController::class, 'storeUser'])->name('users.store');
         Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
+
+         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
@@ -107,13 +104,23 @@ Route::middleware(['auth', 'role:super_admin'])
         
         Route::post('/post-leads/{id}/update-status', [PostLeadController::class, 'updateStatus'])->name('post-leads.update-status');
 
-       Route::post('/post-leads/{id}/update-description', [PostLeadController::class, 'updateDescription'])
+        Route::post('/post-leads/{id}/update-description', [PostLeadController::class, 'updateDescription'])
         ->name('post-leads.update-description');
-    });
+
+
+        Route::get('/post-leads/{id}/showdata', [PostLeadController::class, 'showData'])->name('post-leads.showdata');
+        Route::post('/post-leads/{id}/save-engineer-data', [PostLeadController::class, 'saveEngineerData'])->name('post-leads.saveEngineerData');
+
+        Route::get('/vendor-strategy', [PostLeadController::class, 'vendorStrategy'])->name('vendor.strategy');
+
+        Route::get('/vendor-strategy/{postId}/vendors', [PostLeadController::class, 'getVendorsByPost'])
+    ->name('admin.vendor.strategy.vendors');
+
+    Route::post('/admin/assign-vendor', [PostLeadController::class, 'assignVendor'])->name('assign.vendor');
+
     
-Route::middleware(['auth', 'role:super_admin,admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
+    });
+
 
 // //vendor
 Route::domain('vendor.constructkaro.com')->group(function () {
@@ -185,6 +192,8 @@ Route::domain('vendor.constructkaro.com')->group(function () {
     Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
 
     Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
+
+    Route::get('/vendor/notifications', [VendorController::class, 'notifications'])->name('vendor.notifications');
 // 
 });
 
@@ -222,22 +231,11 @@ Route::post('/welding-fabrication/store', [WeldingFabricationController::class, 
 Route::get('/get-areas/{city_id}', [VendorCategoryController::class, 'getAreas'])->name('get.areas');
 Route::get('/get-pincodes', [VendorCategoryController::class, 'getPincodes'])->name('get.pincodes');
 
-// Route::get('/get-areas/{city_id}', [VendorCategoryController::class, 'getAreas'])->name('get.areas');
-// Route::get('/get-pincodes', [VendorCategoryController::class, 'getPincodes'])->name('get.pincodes');
 Route::get('/post', [CustomerController::class, 'post'])->name('post');
 
-// Route::get('/ordertrack', [CustomerController::class, 'ordertrack'])->name('ordertrack');
-// Route::get('/order-track/{type}/{id}', [CustomerController::class, 'ordertrack'])->name('ordertrack');
-// Route::get('/order-track/{order}', [OrderTrackingController::class, 'show'])->name('ordertrack.show');
-// Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
-// Route::get('/myorder/track/{service_key}/{source_id}', [MyOrderController::class, 'track'])
-//     ->name('myorder.track');
+
 Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
 Route::get('/myorder/track/{service_key}/{source_id}', [CustomerController::class, 'track'])->name('myorder.track');
-
-// Route::get('/order-track/{service}/{id}', [CustomerController::class, 'orderTrack'])->name('ordertrack.show');
-
-// Route::get('/order-track/{service}/{id}', [OrderTrackingController::class, 'show'])->name('ordertrack.show');
 
 Route::post('/save-post', [CustomerController::class, 'savepost'])->name('save.post');
 Route::get('/get-project-types/{workType}', [CustomerController::class, 'getProjectTypes']);
@@ -291,6 +289,3 @@ Route::get('canstructkaro-different', [HomeController::class, 'canstructkarodiff
 
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);
-
-Route::get('howwork', [AdminController::class, 'howwork'])->name('howwork');
-
