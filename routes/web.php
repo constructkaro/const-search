@@ -91,7 +91,6 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
-        Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
@@ -123,9 +122,9 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
 
 // //vendor
-// Route::domain('vendor.constructkaro.com')->group(function () {
-//     Route::get('/', function () {
-    Route::get('/vendor', function () {
+Route::domain('vendor.constructkaro.com')->group(function () {
+    Route::get('/', function () {
+    // Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -198,7 +197,7 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
     Route::post('/vendor/notification-response', [VendorController::class, 'notificationResponse'])
     ->name('vendor.notification.response');
 // 
-// });
+});
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

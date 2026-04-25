@@ -347,19 +347,19 @@
                                     <span class="mini-line">No file</span>
                                 @endif
                             </td>
-<td>
-    @if(($item->accepted_vendor_count ?? 0) > 0)
-        <span class="status-chip accepted">
-            <i class="bi bi-check-circle-fill"></i>
-            Accepted by Vendor
-        </span>
-    @else
-        <span class="status-chip pending">
-            <i class="bi bi-hourglass-split"></i>
-            Pending
-        </span>
-    @endif
-</td>
+                            <td>
+                                @if(($item->accepted_vendor_count ?? 0) > 0)
+                                    <span class="status-chip accepted">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Accepted by Vendor
+                                    </span>
+                                @else
+                                    <span class="status-chip pending">
+                                        <i class="bi bi-hourglass-split"></i>
+                                        Pending
+                                    </span>
+                                @endif
+                            </td>
                             <td>
                                 <a href="javascript:void(0)"
                                    class="action-btn open-vendors-btn"

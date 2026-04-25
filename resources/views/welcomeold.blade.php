@@ -64,7 +64,7 @@
         display: flex;
         align-items: center;
         overflow: hidden;
-        background: url('{{ asset('images/banner.png') }}') center center / cover no-repeat;
+        background: url('{{ asset('images/banner.jpg') }}') center center / cover no-repeat;
         transition: height 0.45s ease, min-height 0.45s ease;
     }
 
@@ -182,6 +182,14 @@
 
     .hero-banner input::placeholder{
         color: #b5b5b5;
+    }
+
+    .location-trigger-box{
+        cursor: pointer;
+    }
+
+    .location-trigger-box input{
+        cursor: pointer;
     }
 
     .service-cards-section{
@@ -831,8 +839,9 @@
 
     .floating-chatbot-btn{
         position: fixed;
-        right: 22px;
-        bottom: 90px;
+        right: 20px;
+        bottom: 20px;
+        z-index: 9998;
         height: 54px;
         padding: 0 20px;
         border-radius: 16px;
@@ -846,7 +855,6 @@
         font-size: 18px;
         font-weight: 800;
         box-shadow: 0 12px 28px rgba(32,110,180,0.28);
-        z-index: 9998;
         transition: all 0.3s ease;
         border: 2px solid rgba(255,255,255,0.20);
         white-space: nowrap;
@@ -862,6 +870,218 @@
         transform: translateY(-2px);
         color: #fff !important;
         text-decoration: none !important;
+    }
+
+    .ck-location-modal-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.58);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        padding: 20px;
+    }
+
+    .ck-location-modal-overlay.active{
+        display: flex;
+    }
+
+    .ck-location-modal{
+        width: 100%;
+        max-width: 650px;
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+        animation: ckLocationFade 0.25s ease;
+    }
+
+    @keyframes ckLocationFade{
+        from{
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .ck-location-close{
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
+        font-size: 34px;
+        line-height: 1;
+        cursor: pointer;
+        color: #222;
+        z-index: 3;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .ck-location-search-wrap{
+        margin: 32px 22px 18px;
+        height: 60px;
+        border: 1px solid #dddddd;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+    }
+
+    .ck-location-back-icon{
+        width: 28px;
+        height: 28px;
+        color: #222;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .ck-location-back-icon svg{
+        width: 24px;
+        height: 24px;
+    }
+
+    .ck-location-search-input{
+        width: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .ck-location-search-input::placeholder{
+        color: #9a9a9a;
+    }
+
+    .ck-use-current-location{
+        margin: 0 22px 18px;
+        border: none;
+        background: transparent;
+        color: #6a38ff;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 6px 0;
+    }
+
+    .ck-current-location-icon{
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #6a38ff;
+    }
+
+    .ck-current-location-icon svg{
+        width: 22px;
+        height: 22px;
+    }
+
+    .ck-location-divider{
+        height: 10px;
+        background: #f2f2f2;
+    }
+
+    .ck-location-body{
+        padding: 20px 22px 10px;
+        min-height: 260px;
+        max-height: 420px;
+        overflow-y: auto;
+    }
+
+    .ck-location-heading{
+        margin: 0 0 18px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+    }
+
+    .ck-recent-item,
+    .ck-search-item{
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 16px 0;
+        border-bottom: 1px solid #ececec;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .ck-recent-item:hover,
+    .ck-search-item:hover{
+        background: #fafafa;
+    }
+
+    .ck-recent-icon,
+    .ck-search-icon{
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f2f2f2;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .ck-recent-icon svg,
+    .ck-search-icon svg{
+        width: 18px;
+        height: 18px;
+    }
+
+    .ck-recent-content h4,
+    .ck-search-content h4{
+        margin: 0 0 4px;
+        font-size: 16px;
+        color: #111;
+        font-weight: 600;
+    }
+
+    .ck-recent-content p,
+    .ck-search-content p{
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .ck-location-status{
+        margin-top: 15px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .ck-location-footer{
+        padding: 18px 22px 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+        border-top: 1px solid #ececec;
+        background: #fafafa;
     }
 
     @media (max-width: 1200px){
@@ -1016,7 +1236,7 @@
 
         .floating-chatbot-btn{
             right: 14px;
-            bottom: 82px;
+            bottom: 16px;
             height: 48px;
             padding: 0 16px;
             font-size: 15px;
@@ -1027,6 +1247,34 @@
         .floating-chatbot-btn svg{
             width: 20px;
             height: 20px;
+        }
+
+        .ck-location-modal{
+            max-width: 100%;
+            border-radius: 20px;
+        }
+
+        .ck-location-search-wrap{
+            margin: 22px 14px 14px;
+            height: 54px;
+            padding: 0 14px;
+        }
+
+        .ck-use-current-location{
+            margin: 0 14px 14px;
+            font-size: 15px;
+        }
+
+        .ck-location-body{
+            padding: 18px 14px 10px;
+        }
+
+        .ck-location-close{
+            top: 10px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            font-size: 30px;
         }
     }
 
@@ -1056,99 +1304,9 @@
         .floating-chatbot-btn{
             right: 12px;
             left: auto;
-            bottom: 78px;
+            bottom: 12px;
         }
     }
-
-   /* WhatsApp button */
-.floating-chatbot-btn{
-    position: fixed;
-    right: 20px;
-    bottom: 20px;   /* keep this lower */
-    z-index: 9998;
-}
-
-
-
-
-@media (max-width: 767px){
-    .floating-chatbot-btn{
-        right: 14px;
-        bottom: 16px;
-    }
-
-   
-}
-
-.hero-location-wrap{
-    width: 320px;
-    padding-right: 120px;
-    position: relative;
-}
-
-.hero-location-wrap input{
-    width: 100%;
-    height: 100%;
-    border: 0;
-    outline: none;
-    background: transparent;
-    font-size: 13px;
-    color: #7a7a7a;
-    border-radius: 999px;
-    padding: 0 125px 0 40px;
-}
-
-.hero-location-btn{
-    position: absolute;
-    right: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 38px;
-    border: none;
-    border-radius: 999px;
-    padding: 0 14px;
-    background: linear-gradient(180deg, #f58a3c, #f25c05);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.hero-location-btn:hover{
-    background: linear-gradient(180deg, #ef7f2e, #de5304);
-}
-
-.location-status{
-    margin-top: 14px;
-    display: inline-block;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.5;
-    background: rgba(255,255,255,0.10);
-    color: #fff;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.18);
-    max-width: 520px;
-}
-
-@media (max-width: 767px){
-    .hero-location-wrap{
-        width: 100%;
-        padding-right: 110px;
-    }
-
-    .hero-location-wrap input{
-        padding-right: 115px;
-    }
-
-    .hero-location-btn{
-        height: 34px;
-        font-size: 11px;
-        padding: 0 12px;
-    }
-}
 </style>
 
 <div class="home-page">
@@ -1160,9 +1318,6 @@
                     <h1 class="hero-title">Which services are you<br>looking for today?</h1>
 
                     <div class="hero-search-row">
-                        <div id="locationStatusBox" class="location-status" style="display:none;">
-    Waiting for location...
-</div>
                         <div class="hero-field hero-field-search">
                             <svg class="hero-icon-left" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
@@ -1170,7 +1325,7 @@
                             <input type="text" placeholder="Search for Residential Architect">
                         </div>
 
-                        <div class="hero-field hero-field-location hero-location-wrap">
+                        <div class="hero-field hero-field-location location-trigger-box" id="openLocationModal">
                             <svg class="hero-icon-left" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5A2.5 2.5 0 1112 6a2.5 2.5 0 010 5.5z"/>
                             </svg>
@@ -1178,13 +1333,13 @@
                             <input
                                 type="text"
                                 id="hero_location_input"
-                                placeholder="Select your location"
-                                autocomplete="off"
+                                placeholder="Search location"
+                                readonly
                             >
 
-                            <button type="button" class="hero-location-btn" onclick="getProperLocation()">
-                                Use Current
-                            </button>
+                            <svg class="hero-icon-right" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
                         </div>
 
                         <input type="hidden" id="location_json">
@@ -1313,8 +1468,6 @@
                         </a>
                     </div>
                 </div>
-
-              
 
             </div>
         </div>
@@ -1485,17 +1638,55 @@
     </div>
 </div>
 
+<div id="locationPickerModal" class="ck-location-modal-overlay">
+    <div class="ck-location-modal">
+        <button type="button" class="ck-location-close" id="closeLocationModal">&times;</button>
 
+        <div class="ck-location-search-wrap">
+            <span class="ck-location-back-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14.7 6.3a1 1 0 010 1.4L11.41 11H20a1 1 0 110 2h-8.59l3.3 3.3a1 1 0 11-1.42 1.4l-5-5a1 1 0 010-1.4l5-5a1 1 0 011.41 0z"/>
+                </svg>
+            </span>
+
+            <input
+                type="text"
+                id="modal_location_search"
+                class="ck-location-search-input"
+                placeholder="Search for your location/society/apartment"
+            >
+        </div>
+
+        <button type="button" class="ck-use-current-location" id="useCurrentLocationBtn">
+            <span class="ck-current-location-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a1 1 0 011 1v1.07A8.002 8.002 0 0119.93 11H21a1 1 0 110 2h-1.07A8.002 8.002 0 0113 19.93V21a1 1 0 11-2 0v-1.07A8.002 8.002 0 014.07 13H3a1 1 0 110-2h1.07A8.002 8.002 0 0111 4.07V3a1 1 0 011-1zm0 4a6 6 0 100 12 6 6 0 000-12zm0 4a2 2 0 110 4 2 2 0 010-4z"/>
+                </svg>
+            </span>
+            Use current location
+        </button>
+
+        <div class="ck-location-divider"></div>
+
+        <div class="ck-location-body">
+            <h3 class="ck-location-heading">Recents</h3>
+
+            <div class="ck-recent-list" id="recentLocationsList"></div>
+
+            <div class="ck-location-status" id="locationStatusBox" style="display:none;"></div>
+
+            <div class="ck-search-results" id="locationSearchResults" style="display:none;"></div>
+        </div>
+
+        <div class="ck-location-footer">
+            powered by OpenStreetMap
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//code.tidio.co/fi6ihkvtowtmsmkipuyc3vxfybpel3na.js" async></script>
-<!-- <script 
-      type="text/javascript"
-      src="https://d3mkw6s8thqya7.cloudfront.net/integration-plugin.js"
-      id="aisensy-wa-widget"
-      widget-id="aabcqe"
-    >
-    </script> -->
+
 <script>
     $.ajaxSetup({
         headers: {
@@ -1626,153 +1817,230 @@
         }
     });
 
-
-
     $(document).on('click', '#customerSendOtpBtn', function (e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    let mobile = $('#customer_mobile_number').val().trim();
+        let mobile = $('#customer_mobile_number').val().trim();
 
-    $('#customer_mobile_error').text('');
-    $('#customer_otp_error').text('');
-    $('#customer_otp_success_msg').text('');
+        $('#customer_mobile_error').text('');
+        $('#customer_otp_error').text('');
+        $('#customer_otp_success_msg').text('');
 
-    if (mobile === '') {
-        $('#customer_mobile_error').text('Please enter mobile number');
-        return;
-    }
-
-    if (!/^[0-9]{10}$/.test(mobile)) {
-        $('#customer_mobile_error').text('Please enter valid 10 digit mobile number');
-        return;
-    }
-
-    let $btn = $(this);
-    $btn.prop('disabled', true).text('Sending...');
-
-    $.ajax({
-        url: "{{ route('customer.send.otp') }}",
-        type: "POST",
-        data: {
-            mobile: mobile
-        },
-        success: function (response) {
-            if (response.status === true) {
-                $('#customerOtpSection').show();
-                $('#customerVerifyOtpBtn').show();
-                $('#customerSendOtpBtn').hide();
-                $('#customer_otp_success_msg').text(response.message || 'OTP sent successfully');
-            } else {
-                $('#customer_mobile_error').text(response.message || 'Failed to send OTP');
-            }
-        },
-        error: function (xhr) {
-            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
-                if (xhr.responseJSON.errors.mobile) {
-                    $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
-                } else {
-                    $('#customer_mobile_error').text('Validation failed');
-                }
-            } else if (xhr.status === 419) {
-                $('#customer_mobile_error').text('Session expired. Please refresh the page.');
-            } else if (xhr.status === 404) {
-                $('#customer_mobile_error').text('OTP route not found.');
-            } else {
-                $('#customer_mobile_error').text('Something went wrong while sending OTP');
-            }
-
-            console.log(xhr.responseText);
-        },
-        complete: function () {
-            $btn.prop('disabled', false).text('Get OTP');
+        if (mobile === '') {
+            $('#customer_mobile_error').text('Please enter mobile number');
+            return;
         }
-    });
-});
 
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            $('#customer_mobile_error').text('Please enter valid 10 digit mobile number');
+            return;
+        }
 
-$(document).on('click', '#customerVerifyOtpBtn', function (e) {
-    e.preventDefault();
+        let $btn = $(this);
+        $btn.prop('disabled', true).text('Sending...');
 
-    let mobile = $('#customer_mobile_number').val().trim();
-    let otp = $('#customer_otp_code').val().trim();
-    let redirectUrl = $('#customer_redirect_url').val();
-
-    $('#customer_mobile_error').text('');
-    $('#customer_otp_error').text('');
-    $('#customer_otp_success_msg').text('');
-
-    if (otp === '') {
-        $('#customer_otp_error').text('Please enter OTP');
-        return;
-    }
-
-    if (!/^[0-9]{4,6}$/.test(otp)) {
-        $('#customer_otp_error').text('Please enter valid OTP');
-        return;
-    }
-
-    let $btn = $(this);
-    $btn.prop('disabled', true).text('Verifying...');
-
-    $.ajax({
-        url: "{{ route('customer.verify.otp') }}",
-        type: "POST",
-        data: {
-            mobile: mobile,
-            otp: otp
-        },
-        success: function (response) {
-            if (response.status === true) {
-                $('#customer_otp_success_msg').text(response.message || 'OTP verified successfully');
-
-                setTimeout(function () {
-                    if (redirectUrl && redirectUrl !== '') {
-                        window.location.href = redirectUrl;
+        $.ajax({
+            url: "{{ route('customer.send.otp') }}",
+            type: "POST",
+            data: {
+                mobile: mobile
+            },
+            success: function (response) {
+                if (response.status === true) {
+                    $('#customerOtpSection').show();
+                    $('#customerVerifyOtpBtn').show();
+                    $('#customerSendOtpBtn').hide();
+                    $('#customer_otp_success_msg').text(response.message || 'OTP sent successfully');
+                } else {
+                    $('#customer_mobile_error').text(response.message || 'Failed to send OTP');
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    if (xhr.responseJSON.errors.mobile) {
+                        $('#customer_mobile_error').text(xhr.responseJSON.errors.mobile[0]);
                     } else {
-                        window.location.reload();
+                        $('#customer_mobile_error').text('Validation failed');
                     }
-                }, 800);
-            } else {
-                $('#customer_otp_error').text(response.message || 'Invalid OTP');
-            }
-        },
-        error: function (xhr) {
-            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
-                if (xhr.responseJSON.errors.otp) {
-                    $('#customer_otp_error').text(xhr.responseJSON.errors.otp[0]);
+                } else if (xhr.status === 419) {
+                    $('#customer_mobile_error').text('Session expired. Please refresh the page.');
+                } else if (xhr.status === 404) {
+                    $('#customer_mobile_error').text('OTP route not found.');
                 } else {
-                    $('#customer_otp_error').text('Validation failed');
+                    $('#customer_mobile_error').text('Something went wrong while sending OTP');
                 }
-            } else {
-                $('#customer_otp_error').text('Something went wrong while verifying OTP');
-            }
 
-            console.log(xhr.responseText);
-        },
-        complete: function () {
-            $btn.prop('disabled', false).text('Verify OTP');
-        }
+                console.log(xhr.responseText);
+            },
+            complete: function () {
+                $btn.prop('disabled', false).text('Get OTP');
+            }
+        });
     });
-});
+
+    $(document).on('click', '#customerVerifyOtpBtn', function (e) {
+        e.preventDefault();
+
+        let mobile = $('#customer_mobile_number').val().trim();
+        let otp = $('#customer_otp_code').val().trim();
+        let redirectUrl = $('#customer_redirect_url').val();
+
+        $('#customer_mobile_error').text('');
+        $('#customer_otp_error').text('');
+        $('#customer_otp_success_msg').text('');
+
+        if (otp === '') {
+            $('#customer_otp_error').text('Please enter OTP');
+            return;
+        }
+
+        if (!/^[0-9]{4,6}$/.test(otp)) {
+            $('#customer_otp_error').text('Please enter valid OTP');
+            return;
+        }
+
+        let $btn = $(this);
+        $btn.prop('disabled', true).text('Verifying...');
+
+        $.ajax({
+            url: "{{ route('customer.verify.otp') }}",
+            type: "POST",
+            data: {
+                mobile: mobile,
+                otp: otp
+            },
+            success: function (response) {
+                if (response.status === true) {
+                    $('#customer_otp_success_msg').text(response.message || 'OTP verified successfully');
+
+                    setTimeout(function () {
+                        if (redirectUrl && redirectUrl !== '') {
+                            window.location.href = redirectUrl;
+                        } else {
+                            window.location.reload();
+                        }
+                    }, 800);
+                } else {
+                    $('#customer_otp_error').text(response.message || 'Invalid OTP');
+                }
+            },
+            error: function (xhr) {
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    if (xhr.responseJSON.errors.otp) {
+                        $('#customer_otp_error').text(xhr.responseJSON.errors.otp[0]);
+                    } else {
+                        $('#customer_otp_error').text('Validation failed');
+                    }
+                } else {
+                    $('#customer_otp_error').text('Something went wrong while verifying OTP');
+                }
+
+                console.log(xhr.responseText);
+            },
+            complete: function () {
+                $btn.prop('disabled', false).text('Verify OTP');
+            }
+        });
+    });
 </script>
+
 <script>
     let watchId = null;
     let bestPosition = null;
     let finalLocationObject = null;
+    let ckSearchResults = [];
+    const recentStorageKey = 'constructkaro_recent_locations';
+
+    function getRecentLocations() {
+        try {
+            return JSON.parse(localStorage.getItem(recentStorageKey)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveRecentLocation(locationObj) {
+        let recents = getRecentLocations();
+        recents = recents.filter(item => item.address !== locationObj.address);
+        recents.unshift(locationObj);
+
+        if (recents.length > 5) {
+            recents = recents.slice(0, 5);
+        }
+
+        localStorage.setItem(recentStorageKey, JSON.stringify(recents));
+        renderRecentLocations();
+    }
+
+    function renderRecentLocations() {
+        const recents = getRecentLocations();
+        const list = document.getElementById('recentLocationsList');
+
+        if (!list) return;
+
+        if (recents.length === 0) {
+            list.innerHTML = `<div style="padding:10px 0; color:#777; font-size:14px;">No recent locations found.</div>`;
+            return;
+        }
+
+        let html = '';
+
+        recents.forEach((item, index) => {
+            html += `
+                <div class="ck-recent-item" onclick="selectRecentLocation(${index})">
+                    <div class="ck-recent-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 8a1 1 0 011 1v3.38l2.32 1.34a1 1 0 11-1 1.74l-2.82-1.63A1 1 0 0111 14V9a1 1 0 011-1zm0-6a10 10 0 100 20 10 10 0 000-20z"/>
+                        </svg>
+                    </div>
+                    <div class="ck-recent-content">
+                        <h4>${item.title || item.address}</h4>
+                        <p>${item.subtitle || item.address}</p>
+                    </div>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+    }
+
+    function selectRecentLocation(index) {
+        const recents = getRecentLocations();
+        const selected = recents[index];
+        if (!selected) return;
+
+        applySelectedLocation(selected);
+        closeLocationModal();
+    }
+
+    function applySelectedLocation(locationObj) {
+        document.getElementById("hero_location_input").value = locationObj.address || '';
+        document.getElementById("location_json").value = JSON.stringify(locationObj);
+        document.getElementById("location_lat").value = locationObj.lat || '';
+        document.getElementById("location_long").value = locationObj.long || '';
+        document.getElementById("location_pincode").value = locationObj.pincode || '';
+        document.getElementById("location_city_key").value = locationObj.cityKey || '';
+    }
+
+    function openLocationModal() {
+        document.getElementById('locationPickerModal').classList.add('active');
+        document.getElementById('modal_location_search').focus();
+        renderRecentLocations();
+    }
+
+    function closeLocationModal() {
+        document.getElementById('locationPickerModal').classList.remove('active');
+        document.getElementById('locationStatusBox').style.display = 'none';
+        document.getElementById('locationSearchResults').style.display = 'none';
+    }
 
     function getProperLocation() {
         const statusBox = document.getElementById("locationStatusBox");
-        const locationInput = document.getElementById("hero_location_input");
 
-        statusBox.style.display = "inline-block";
+        statusBox.style.display = "block";
         statusBox.innerHTML = "Getting accurate current location... please wait.";
-        locationInput.value = "";
-        document.getElementById("location_json").value = "";
-        document.getElementById("location_lat").value = "";
-        document.getElementById("location_long").value = "";
-        document.getElementById("location_pincode").value = "";
-        document.getElementById("location_city_key").value = "";
 
+        document.getElementById("locationSearchResults").style.display = "none";
         finalLocationObject = null;
 
         if (!navigator.geolocation) {
@@ -1821,12 +2089,11 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
             }
 
             await fetchFullLocation(bestPosition);
-        }, 10000);
+        }, 8000);
     }
 
     async function fetchFullLocation(position) {
         const statusBox = document.getElementById("locationStatusBox");
-        const locationInput = document.getElementById("hero_location_input");
 
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
@@ -1867,17 +2134,20 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
                 pincode: a.postcode || "",
                 accuracy: accuracy,
                 rawDisplayName: osmData.display_name || "",
-                reverseGeocodeData: osmData
+                reverseGeocodeData: osmData,
+                title: cityName || properAddress,
+                subtitle: [a.state, a.country].filter(Boolean).join(', ')
             };
 
-            locationInput.value = properAddress;
-            document.getElementById("location_json").value = JSON.stringify(finalLocationObject);
-            document.getElementById("location_lat").value = lat;
-            document.getElementById("location_long").value = long;
-            document.getElementById("location_pincode").value = a.postcode || "";
-            document.getElementById("location_city_key").value = finalLocationObject.cityKey;
+            applySelectedLocation(finalLocationObject);
+            saveRecentLocation(finalLocationObject);
 
-            statusBox.innerHTML = "Proper location fetched successfully.";
+            statusBox.innerHTML = "Location fetched successfully.";
+
+            setTimeout(() => {
+                closeLocationModal();
+            }, 700);
+
         } catch (error) {
             statusBox.innerHTML = "Failed to fetch full location details.";
             console.error(error);
@@ -1938,5 +2208,153 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
             .replace(/\s+/g, "_")
             .replace(/[^\w_()]/g, "");
     }
+
+    async function searchLocationSuggestions(query) {
+        const resultBox = document.getElementById('locationSearchResults');
+        const statusBox = document.getElementById('locationStatusBox');
+
+        if (query.length < 3) {
+            resultBox.style.display = 'none';
+            resultBox.innerHTML = '';
+            return;
+        }
+
+        statusBox.style.display = "none";
+
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}&addressdetails=1&limit=6&countrycodes=in`
+            );
+
+            const data = await response.json();
+
+            if (!data.length) {
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = `<div style="padding:12px 0; color:#777;">No locations found.</div>`;
+                return;
+            }
+
+            let html = '';
+
+            data.forEach((item, index) => {
+                const address = item.address || {};
+                const title =
+                    address.city ||
+                    address.town ||
+                    address.village ||
+                    address.suburb ||
+                    item.name ||
+                    'Selected Location';
+
+                const subtitle = item.display_name || '';
+
+                html += `
+                    <div class="ck-search-item" onclick="selectSearchLocation(${index})">
+                        <div class="ck-search-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5A2.5 2.5 0 1112 6a2.5 2.5 0 010 5.5z"/>
+                            </svg>
+                        </div>
+                        <div class="ck-search-content">
+                            <h4>${title}</h4>
+                            <p>${subtitle}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            ckSearchResults = data;
+            resultBox.innerHTML = html;
+            resultBox.style.display = 'block';
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function selectSearchLocation(index) {
+        const item = ckSearchResults[index];
+        if (!item) return;
+
+        const a = item.address || {};
+        const cityName = a.city || a.town || a.village || "";
+        const stateName = a.state || "";
+
+        const selectedObj = {
+            city_key: null,
+            cityKey: generateCityKey(cityName, stateName),
+            customerId: "",
+            countryKey: (a.country_code || "in").toUpperCase() === "IN" ? "IND" : (a.country_code || "").toUpperCase(),
+            address: item.display_name || "",
+            homescreenAddress: {
+                ucAddress: {},
+                placeId: item.place_id || "",
+                address: item.display_name || "",
+                formattedAddress: item.display_name || ""
+            },
+            locationDetails: {
+                lat: item.lat,
+                long: item.lon
+            },
+            lat: item.lat,
+            long: item.lon,
+            placeId: item.place_id || "",
+            visibleBottomTabs: [],
+            pincode: a.postcode || "",
+            title: cityName || item.name || 'Selected Location',
+            subtitle: item.display_name || "",
+            reverseGeocodeData: item
+        };
+
+        applySelectedLocation(selectedObj);
+        saveRecentLocation(selectedObj);
+        closeLocationModal();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const openBtn = document.getElementById('openLocationModal');
+        const closeBtn = document.getElementById('closeLocationModal');
+        const modal = document.getElementById('locationPickerModal');
+        const currentBtn = document.getElementById('useCurrentLocationBtn');
+        const searchInput = document.getElementById('modal_location_search');
+
+        if (openBtn) {
+            openBtn.addEventListener('click', openLocationModal);
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeLocationModal);
+        }
+
+        if (modal) {
+            modal.addEventListener('click', function (e) {
+                if (e.target.id === 'locationPickerModal') {
+                    closeLocationModal();
+                }
+            });
+        }
+
+        if (currentBtn) {
+            currentBtn.addEventListener('click', function () {
+                getProperLocation();
+            });
+        }
+
+        if (searchInput) {
+            let debounceTimer;
+
+            searchInput.addEventListener('input', function () {
+                const value = this.value.trim();
+
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(function () {
+                    searchLocationSuggestions(value);
+                }, 400);
+            });
+        }
+
+        renderRecentLocations();
+    });
 </script>
+
 @endsection

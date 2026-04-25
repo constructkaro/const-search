@@ -55,9 +55,41 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
 
-    public function allvendors(){
-        $allvendors = DB::table('vendor_register')->get();
-        // dd($allvendors);
-        return view('admin.vendors.index',compact('allvendors'));
+    // public function allvendors(){
+    //     $allvendors = DB::table('vendor_register')->get();
+    //     dd($allvendors);
+    //     return view('admin.vendors.index',compact('allvendors'));
+    // }
+
+    public function allvendors(Request $request)
+{
+    $query = DB::table('contractor_providers')
+        ->join('vendor_register', 'contractor_providers.vendor_id', '=', 'vendor_register.id')
+        ->select(
+            'vendor_register.*',
+            'contractor_providers.*',
+            DB::raw("'Contractor' as work_type")
+        );
+
+    if ($request->filled('city')) {
+        $query->where('vendor_register.city', $request->city);
     }
+
+    if ($request->filled('search')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('vendor_register.full_name', 'like', '%' . $request->search . '%')
+              ->orWhere('vendor_register.company_name', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    $allvendors = $query->orderBy('vendor_register.id', 'desc')->paginate(15);
+dd($allvendors);
+    $cities = DB::table('vendor_register')
+        ->whereNotNull('city')
+        ->distinct()
+        ->orderBy('city')
+        ->pluck('city');
+
+    return view('admin.vendors.index', compact('allvendors', 'cities'));
+}
 }

@@ -192,7 +192,7 @@
             <div class="footer-brand">
                 <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo">
                 <p>
-                    ConstructKaro is India’s construction-focused digital platform connecting customers with verified vendors, contractors and service providers transparently and efficiently.
+                    Constructkaro is a construction services platform that helps homeowners, businesses, and landowners plan, design, and execute residential, commercial, industrial, and infrastructure projects through verified Constructkaro experts across Mumbai, Navi Mumbai, Pune, Thane, and Raigad.
                 </p>
             </div>
 
