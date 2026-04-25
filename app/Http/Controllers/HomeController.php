@@ -134,4 +134,29 @@ class HomeController extends Controller
     public function canstructkarodifferent(){
         return view('main.canstructkarodifferent');
     }
+
+    public function guide_me(){
+        return view('main.guide_me');
+    }
+
+    public function architect_services(){
+        return view('main.architect_services');
+    }
+
+    public function interior_services(){
+        return view('main.interior_services');
+    }
+
+    public function survey_services(){
+        return view('main.survey_services');
+    }
+
+    public function survey_testing(){
+        return view('main.survey_testing');
+
+    }
+
+    public function boq_testing(){
+        return view('main.boq_testing');
+    }
 }

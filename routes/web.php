@@ -35,6 +35,8 @@ use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
 use App\Http\Controllers\HomeController;
 
+use App\Http\Controllers\ConstructionRequirementController;
+
 Route::get('/test', [VendorController::class, 'test'])->name('test');
 
 
@@ -288,6 +290,19 @@ Route::get('core-problem', [HomeController::class, 'coreproblem'])->name('corepr
 
 Route::get('canstructkaro-different', [HomeController::class, 'canstructkarodifferent'])->name('canstructkarodifferent');
 
+Route::get('guide_me', [HomeController::class, 'guide_me'])->name('guide_me');
+
+Route::get('architect-services', [HomeController::class, 'architect_services'])->name('architect.services');
+
+Route::get('interior-services', [HomeController::class, 'interior_services'])->name('interior.services');
+
+Route::get('survey-services', [HomeController::class, 'survey_services'])->name('survey.services');
+Route::get('survey-testing', [HomeController::class, 'survey_testing'])->name('survey.testing');
+Route::get('boq-testing', [HomeController::class, 'boq_testing'])->name('boq.testing');
+
+
+Route::post('/construction-requirement/store', [ConstructionRequirementController::class, 'store'])
+    ->name('construction.requirement.store');
 
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);
