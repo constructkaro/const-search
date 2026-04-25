@@ -174,13 +174,13 @@ body {
 }
 
 .ck-trust-icon-img {
-    width: 60px;
-    height: 60px;
+    width: 87px;
+    height: 81px;
     object-fit: contain;
 }
 
 .ck-trust-title {
-    font-size: 15px;
+    font-size: 24px;
     font-weight: 700;
     color: #111;
     line-height: 1.4;
@@ -1245,7 +1245,7 @@ body {
                     <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
                 </div>
 
-                <div class="ck-service-card">
+                <!-- <div class="ck-service-card">
                     <div class="ck-service-image">
                         <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
                     </div>
@@ -1253,6 +1253,15 @@ body {
                     <div class="ck-service-line"></div>
                     <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
                     <a href="{{ route('post', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
+                </div> -->
+                <div class="ck-service-card">
+                    <div class="ck-service-image">
+                        <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
+                    </div>
+                    <h3 class="ck-service-title">Interior Designer</h3>
+                    <div class="ck-service-line"></div>
+                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
+                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
                 </div>
 
             </div>

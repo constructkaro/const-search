@@ -83,7 +83,7 @@ class AdminController extends Controller
     }
 
     $allvendors = $query->orderBy('vendor_register.id', 'desc')->paginate(15);
-dd($allvendors);
+// dd($allvendors);
     $cities = DB::table('vendor_register')
         ->whereNotNull('city')
         ->distinct()

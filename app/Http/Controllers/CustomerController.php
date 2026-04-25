@@ -287,7 +287,7 @@ public function verifyOtp(Request $request)
         $states       = DB::table('state')->orderBy('name')->get();
         $budget_range = DB::table('budget_range')->get();
         $unit         = DB::table('cust_unit')->get();
-          $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
 
         $selectedWorkTypeId = $request->work_type_id;
 
@@ -298,6 +298,13 @@ public function verifyOtp(Request $request)
             'unit','cities',
             'selectedWorkTypeId'
         ));
+    }
+
+
+
+    public function post_for_interior(){
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        return view('customer.post_for_interior',compact('cities'));
     }
         
     public function savepost(Request $request)
@@ -430,6 +437,202 @@ public function verifyOtp(Request $request)
             'message' => 'Project Posted Successfully',
         ]);
     }
+
+
+    //    public function storeInteriorRequirement(Request $request)
+    // {
+    //     $customer_id = session('customer_id');
+    //     $request->validate([
+    //         'full_name' => 'required|string|max:255',
+    //         'mobile' => 'required|string|max:20',
+    //         'email' => 'nullable|email|max:255',
+
+    //         'house_name' => 'nullable|string|max:255',
+    //         'city_id' => 'required',
+    //         'area_ids' => 'required|array',
+    //         'pincode' => 'nullable|string|max:255',
+
+    //         'site_status' => 'nullable|string|max:100',
+    //         'material_option' => 'nullable|string|max:100',
+    //         'property_category' => 'nullable|string|max:100',
+    //         'property_type' => 'nullable|string|max:100',
+    //         'space_selection' => 'nullable|string|max:100',
+    //         'approx_area' => 'nullable|string|max:100',
+
+    //         'furniture_requirement' => 'nullable|string|max:255',
+    //         'design_style' => 'nullable|string|max:100',
+    //         'color_theme' => 'nullable|string|max:100',
+    //         'budget_from' => 'nullable|string|max:100',
+    //         'budget_to' => 'nullable|string|max:100',
+    //         'additional_details' => 'nullable|string',
+    //     ]);
+
+    //     DB::table('interior_requirements')->insert([
+    //         'user_id'         => $customer_id,
+    //         'full_name' => $request->full_name,
+    //         'mobile' => $request->mobile,
+    //         'email' => $request->email,
+
+    //         'house_name' => $request->house_name,
+    //         'city' => $request->city_id,
+    //         'area' => $request->area_ids,
+    //         'pincode' => $request->pincode,
+
+    //         'site_status' => $request->site_status,
+    //         'material_option' => $request->material_option,
+    //         'property_category' => $request->property_category,
+    //         'property_type' => $request->property_type,
+    //         'space_selection' => $request->space_selection,
+    //         'approx_area' => $request->approx_area,
+
+    //         'furniture_requirement' => $request->furniture_requirement,
+    //         'design_style' => $request->design_style,
+    //         'color_theme' => $request->color_theme,
+    //         'budget_from' => $request->budget_from,
+    //         'budget_to' => $request->budget_to,
+    //         'additional_details' => $request->additional_details,
+
+    //         'created_at' => now(),
+    //         'updated_at' => now(),
+    //     ]);
+
+    //     return back()->with('success', 'Interior requirement submitted successfully.');
+    // } 
+// public function storeInteriorRequirement(Request $request)
+// {
+//     $customer_id = session('customer_id');
+
+//     $request->validate([
+//         'full_name' => 'required|string|max:255',
+//         'mobile' => 'required|string|max:20',
+//         'email' => 'nullable|email|max:255',
+
+//         'house_name' => 'nullable|string|max:255',
+//         'city_id' => 'required',
+//         'area_ids' => 'required|array',
+//         'pincode' => 'nullable|string|max:255',
+
+//         'site_status' => 'nullable|string|max:100',
+//         'material_option' => 'nullable|string|max:100',
+//         'property_category' => 'nullable|string|max:100',
+//         'property_type' => 'nullable|string|max:100',
+//         'space_selection' => 'nullable|string|max:100',
+//         'approx_area' => 'nullable|string|max:100',
+
+//         'furniture_requirement' => 'nullable|string|max:255',
+//         'design_style' => 'nullable|string|max:100',
+//         'color_theme' => 'nullable|string|max:100',
+//         'budget_from' => 'nullable|string|max:100',
+//         'budget_to' => 'nullable|string|max:100',
+//         'additional_details' => 'nullable|string',
+//     ]);
+
+//     $areaIds = implode(',', $request->area_ids);
+
+//     DB::table('interior_requirements')->insert([
+//         'user_id' => $customer_id,
+//         'full_name' => $request->full_name,
+//         'mobile' => $request->mobile,
+//         'email' => $request->email,
+
+//         'house_name' => $request->house_name,
+//         'city' => $request->city_id,
+//         'area' => $areaIds,
+//         'pincode' => $request->pincode,
+
+//         'site_status' => $request->site_status,
+//         'material_option' => $request->material_option,
+//         'property_category' => $request->property_category,
+//         'property_type' => $request->property_type,
+//         'space_selection' => $request->space_selection,
+//         'approx_area' => $request->approx_area,
+
+//         'furniture_requirement' => $request->furniture_requirement,
+//         'design_style' => $request->design_style,
+//         'color_theme' => $request->color_theme,
+//         'budget_from' => $request->budget_from,
+//         'budget_to' => $request->budget_to,
+//         'additional_details' => $request->additional_details,
+
+//         'created_at' => now(),
+//         'updated_at' => now(),
+//     ]);
+
+//     return back()->with('success', 'Interior requirement submitted successfully.');
+// }
+public function storeInteriorRequirement(Request $request)
+{
+    // ✅ First check login before save
+    if (!session('customer_id')) {
+        return response()->json([
+            'status' => 'otp_required',
+            'message' => 'Please verify your mobile number.'
+        ]);
+    }
+
+    $customer_id = session('customer_id');
+
+    $request->validate([
+        'full_name' => 'required|string|max:255',
+        'mobile' => 'required|string|max:20',
+        'email' => 'nullable|email|max:255',
+
+        'house_name' => 'nullable|string|max:255',
+        'city_id' => 'required',
+        'area_ids' => 'required|array',
+        'pincode' => 'nullable|string|max:255',
+
+        'site_status' => 'nullable|string|max:100',
+        'material_option' => 'nullable|string|max:100',
+        'property_category' => 'nullable|string|max:100',
+        'property_type' => 'nullable|string|max:100',
+        'space_selection' => 'nullable|string|max:100',
+        'approx_area' => 'nullable|string|max:100',
+
+        'furniture_requirement' => 'nullable|string|max:255',
+        'design_style' => 'nullable|string|max:100',
+        'color_theme' => 'nullable|string|max:100',
+        'budget_from' => 'nullable|string|max:100',
+        'budget_to' => 'nullable|string|max:100',
+        'additional_details' => 'nullable|string',
+    ]);
+
+    $areaIds = implode(',', $request->area_ids);
+
+    DB::table('interior_requirements')->insert([
+        'user_id' => $customer_id,
+        'full_name' => $request->full_name,
+        'mobile' => $request->mobile,
+        'email' => $request->email,
+
+        'house_name' => $request->house_name,
+        'city' => $request->city_id,
+        'area' => $areaIds,
+        'pincode' => $request->pincode,
+
+        'site_status' => $request->site_status,
+        'material_option' => $request->material_option,
+        'property_category' => $request->property_category,
+        'property_type' => $request->property_type,
+        'space_selection' => $request->space_selection,
+        'approx_area' => $request->approx_area,
+
+        'furniture_requirement' => $request->furniture_requirement,
+        'design_style' => $request->design_style,
+        'color_theme' => $request->color_theme,
+        'budget_from' => $request->budget_from,
+        'budget_to' => $request->budget_to,
+        'additional_details' => $request->additional_details,
+
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Interior requirement submitted successfully.'
+    ]);
+}
     public function getProjectTypes($workTypeId)
     {
          $subtypes = DB::table('work_subtypes')
@@ -439,148 +642,6 @@ public function verifyOtp(Request $request)
     }
 
  
-// public function myorder()
-// {
-//     $customerId = session('customer_id');
-
-//     if (!$customerId) {
-//         return redirect()->back()->with('error', 'Customer session not found.');
-//     }
-
-//     // Survey Bookings
-//     $surveyBookings = DB::table('survey_bookings')
-//         ->where('customer_id', $customerId)
-//         ->get()
-//         ->map(function ($item) {
-//             return (object) [
-//                 'id' => $item->id,
-//                 'type' => 'Survey Booking',
-//                 'service_key' => 'survey',
-//                 'service_name' => $item->service_name ?? 'Survey Service',
-//                 'title' => $item->service_name ?? 'Survey Service',
-//                 'location' => $item->full_address ?? '-',
-//                 'scope' => trim(($item->land_area ?? '-') . ' ' . ($item->area_unit ?? '')),
-//                 'description' => $item->description ?? '-',
-//                 'created_at' => $item->created_at,
-//                 'raw_data' => $item,
-//             ];
-//         });
-
-//     // Testing Enquiries
-//     $testingEnquiries = DB::table('testing_enquiries')
-//         ->where('customer_id', $customerId)
-//         ->get()
-//         ->map(function ($item) {
-//             $location = collect([
-//                 $item->house_building_name ?? null,
-//                 $item->road_area_colony ?? null,
-//                 $item->city ?? null,
-//                 $item->pincode ?? null,
-//             ])->filter()->implode(', ');
-
-//             return (object) [
-//                 'id' => $item->id,
-//                 'type' => 'Testing Enquiry',
-//                 'service_key' => 'testing',
-//                 'service_name' => $item->service_name ?? 'Testing Service',
-//                 'title' => $item->project_name ?? $item->service_name ?? 'Testing Service',
-//                 'location' => $location ?: '-',
-//                 'scope' => $item->required_testing_type ?? '-',
-//                 'description' => $item->additional_details ?? '-',
-//                 'created_at' => $item->created_at,
-//                 'raw_data' => $item,
-//             ];
-//         });
-
-//     // BOQ Enquiries
-//     $boqEnquiries = DB::table('boq_enquiries')
-//         ->where('customer_id', $customerId)
-//         ->get()
-//         ->map(function ($item) {
-//             $location = collect([
-//                 $item->house_building_name ?? null,
-//                 $item->road_area_colony ?? null,
-//                 $item->city ?? null,
-//                 $item->pincode ?? null,
-//             ])->filter()->implode(', ');
-
-//             return (object) [
-//                 'id' => $item->id,
-//                 'type' => 'BOQ Enquiry',
-//                 'service_key' => 'boq',
-//                 'service_name' => $item->service_name ?? 'BOQ / Estimation',
-//                 'title' => $item->project_name ?? $item->service_name ?? 'BOQ / Estimation',
-//                 'location' => $location ?: '-',
-//                 'scope' => $item->project_type ?? '-',
-//                 'description' => $item->additional_details ?? '-',
-//                 'created_at' => $item->created_at,
-//                 'raw_data' => $item,
-//             ];
-//         });
-
-//     // Example: Contractor Bookings
-//     $contractorBookings = DB::table('contractor_providers')
-//         ->where('customer_id', $customerId)
-//         ->get()
-//         ->map(function ($item) {
-//             $location = collect([
-//                 $item->house_building_name ?? null,
-//                 $item->road_area_colony ?? null,
-//                 $item->city ?? null,
-//                 $item->pincode ?? null,
-//             ])->filter()->implode(', ');
-
-//             return (object) [
-//                 'id' => $item->id,
-//                 'type' => 'Contractor Booking',
-//                 'service_key' => 'contractor',
-//                 'service_name' => $item->service_name ?? 'Contractor Service',
-//                 'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
-//                 'location' => $location ?: '-',
-//                 'scope' => $item->project_type ?? '-',
-//                 'description' => $item->additional_details ?? '-',
-//                 'created_at' => $item->created_at,
-//                 'raw_data' => $item,
-//             ];
-//         });
-
-//     // Example: Interior Bookings
-//     $interiorBookings = DB::table('interior_providers')
-//         ->where('customer_id', $customerId)
-//         ->get()
-//         ->map(function ($item) {
-//             $location = collect([
-//                 $item->house_building_name ?? null,
-//                 $item->road_area_colony ?? null,
-//                 $item->city ?? null,
-//                 $item->pincode ?? null,
-//             ])->filter()->implode(', ');
-
-//             return (object) [
-//                 'id' => $item->id,
-//                 'type' => 'Interior Booking',
-//                 'service_key' => 'interior',
-//                 'service_name' => $item->service_name ?? 'Interior Service',
-//                 'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
-//                 'location' => $location ?: '-',
-//                 'scope' => $item->project_type ?? '-',
-//                 'description' => $item->additional_details ?? '-',
-//                 'created_at' => $item->created_at,
-//                 'raw_data' => $item,
-//             ];
-//         });
-
-//     $allOrders = collect()
-//         ->concat($surveyBookings)
-//         ->concat($testingEnquiries)
-//         ->concat($boqEnquiries)
-//         ->concat($contractorBookings)
-//         ->concat($interiorBookings)
-//         ->sortByDesc('created_at')
-//         ->values();
-
-//     return view('customer.myorder', compact('allOrders'));
-// }
 
 
  public function myorder()
@@ -761,7 +822,9 @@ public function orderTrack($service, $id)
         'executionSteps'
     ));
 }
-        
+
+
+ 
     public function logout()
     {
         session()->forget([
