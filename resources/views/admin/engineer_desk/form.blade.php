@@ -130,9 +130,9 @@
         @include('admin.project.partials.project_table_serious', ['posts' => $posts])
     </div>
 </div>
-@endsection
 
-@push('scripts')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function loadProjectTable(url) {
         $.ajax({
@@ -168,4 +168,4 @@
         loadProjectTable(url);
     });
 </script>
-@endpush
+@endsection

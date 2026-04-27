@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\HelpCenterCallback;
 
@@ -159,4 +160,125 @@ class HomeController extends Controller
     public function boq_testing(){
         return view('main.boq_testing');
     }
+
+    public function confused_guide_me(){
+         $cities = DB::table('city')
+        ->orderBy('name', 'asc')
+        ->get();
+        return view('main.confused_guied_me', compact('cities'));
+    }
+
+//   public function packageMaterial($city, $package)
+// {
+//     if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+//         abort(404);
+//     }
+
+//     $allowedCities = [
+//         'pune',
+//         'mumbai',
+//         'navi-mumbai',
+//         'raigad',
+//         'thane',
+//         'pimpri-chinchwad'
+//     ];
+
+//     if (!in_array($city, $allowedCities)) {
+//         abort(404);
+//     }
+
+//     $cities = DB::table('city')
+//         ->orderBy('name', 'asc')
+//         ->get();
+
+//     $selectedCity = $city;
+
+//     return view('main.package_material', compact('package', 'cities', 'selectedCity'));
+// }
+public function packageMaterial($city, $package)
+{
+    if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+        abort(404);
+    }
+
+    $allowedCities = [
+        'pune',
+        'mumbai',
+        'navi-mumbai',
+        'raigad',
+        'thane',
+        'pimpri-chinchwad'
+    ];
+
+    if (!in_array($city, $allowedCities)) {
+        abort(404);
+    }
+
+    $cities = DB::table('city')->orderBy('name', 'asc')->get();
+
+    $selectedCity = $city;
+
+    $materials = [
+        'pune' => [
+            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+        ],
+
+        'mumbai' => [
+            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+        ],
+
+        'navi-mumbai' => [
+            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+        ],
+    ];
+
+    // Pimpri Chinchwad same as Pune
+    $materials['pimpri-chinchwad'] = $materials['pune'];
+
+    // Raigad and Thane same as Navi Mumbai for now
+    $materials['raigad'] = $materials['navi-mumbai'];
+    $materials['thane'] = $materials['navi-mumbai'];
+
+    $material = $materials[$selectedCity];
+
+    return view('main.package_material', compact(
+        'package',
+        'cities',
+        'selectedCity',
+        'material'
+    ));
+}
+
+public function turnkeyMaterial($city, $package)
+{
+    if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+        abort(404);
+    }
+
+    $allowedCities = [
+        'pune',
+        'mumbai',
+        'navi-mumbai',
+        'raigad',
+        'thane',
+        'pimpri-chinchwad'
+    ];
+
+    if (!in_array($city, $allowedCities)) {
+        abort(404);
+    }
+
+    $cities = DB::table('city')->orderBy('name', 'asc')->get();
+    $selectedCity = $city;
+
+    return view('main.turnkey_material', compact('cities', 'selectedCity', 'package'));
+}
+
+
 }

@@ -773,8 +773,14 @@ body {
                             <label class="cp-label">Added By</label>
                             <div class="cp-input-wrap">
                                 <i class="bi bi-person-badge cp-icon"></i>
-                                <input type="text" class="cp-input" name="add_by"
-                                    placeholder="Enter name of who is adding this">
+
+                                <select class="cp-input" name="add_by" required>
+                                    <option value="">Select Added By</option>
+                                    <option value="manali">Manali</option>
+                                    <option value="darshana">Darshana</option>
+                                    <option value="Sakashi">Sakshi</option>
+                                  
+                                </select>
                             </div>
                         </div>
 
@@ -959,13 +965,21 @@ $(function () {
     if ($('#work_type').val()) $('#work_type').trigger('change');
 
     // ── 3. Project Subtype → Auto-fill Title ──
-    $('#work_subtype').on('change', function () {
-        const text = $(this).find('option:selected').text();
-        $('#sum-type').text(text || '—');
-        if (text && text !== 'Select Project Type') {
-            $('#project_title').val(text);
-        }
-    });
+   $('#work_subtype').on('change', function () {
+    const text = $(this).find('option:selected').text();
+
+    $('#sum-type').text(text || '—');
+
+    if (text && text !== 'Select Project Type') {
+        $('#project_title')
+            .val('')
+            .attr('placeholder', text);
+    } else {
+        $('#project_title')
+            .val('')
+            .attr('placeholder', 'Auto-filled after selecting project type');
+    }
+});
 
     // ── 4. City → Load Areas ──
     function loadAreas(cityId, selectedAreas = []) {

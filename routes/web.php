@@ -119,14 +119,15 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
     Route::post('/admin/assign-vendor', [PostLeadController::class, 'assignVendor'])->name('assign.vendor');
 
-    
+    Route::get('/admin/vendors/{vendor}/forms', [AdminController::class, 'vendorForms'])
+    ->name('vendors.forms');
     });
 
 
 // //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
-    Route::get('/', function () {
-    // Route::get('/vendor', function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
+//     Route::get('/', function () {
+    Route::get('/vendor', function () {
          return view('vendor.welcome');
     })->name('vendor');
 
@@ -199,7 +200,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
     Route::post('/vendor/notification-response', [VendorController::class, 'notificationResponse'])
     ->name('vendor.notification.response');
 // 
-});
+// });
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
@@ -304,9 +305,24 @@ Route::get('survey-services', [HomeController::class, 'survey_services'])->name(
 Route::get('survey-testing', [HomeController::class, 'survey_testing'])->name('survey.testing');
 Route::get('boq-testing', [HomeController::class, 'boq_testing'])->name('boq.testing');
 
+Route::get('guide-me', [HomeController::class, 'confused_guide_me'])->name('confused_guide_me');
+
 
 Route::post('/construction-requirement/store', [ConstructionRequirementController::class, 'store'])
     ->name('construction.requirement.store');
 
+
+    // Route::get('/package-material/{package}', [HomeController::class, 'packageMaterial'])
+    // ->name('package.material');
+
+   Route::get('/package-material/{city}/{package}', [HomeController::class, 'packageMaterial'])
+    ->name('package.material');
+
+    Route::get('/turnkey-material/{city}', [HomeController::class, 'turnkeyMaterial'])
+    ->name('turnkey.material');
+
+
+    Route::get('/turnkey-material/{city}/{package}', [HomeController::class, 'turnkeyMaterial'])
+    ->name('turnkey.material');
 Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::get('/check-services', [ServiceAvailabilityController::class, 'check']);

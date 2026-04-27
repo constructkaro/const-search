@@ -657,13 +657,41 @@
     <div class="faq-wrap">
         @php
             $faqs = [
-                'What is the purpose of a BOQ?' => 'A BOQ helps define quantities, materials, labour, rates, and total project cost clearly before execution.',
-                'How much does BOQ / Estimation cost?' => 'The cost depends on project size, drawing availability, scope of work, and estimation detail required.',
-                'Do I need drawings for BOQ?' => 'Yes, drawings help prepare accurate quantities. If drawings are not available, our team can guide you on the next step.',
-                'Can BOQ help in reducing construction cost?' => 'Yes, a proper BOQ helps compare quotations, avoid overbilling, and control unnecessary expenses.',
-                'Do you provide BOQ for interior projects?' => 'Yes, BOQ can be prepared for residential, commercial, interior, renovation, and structural works.',
-                'Is BOQ useful for contractor selection?' => 'Yes, BOQ helps compare contractor quotes on the same item-wise scope.',
-                'How long does it take to prepare BOQ?' => 'Timeline depends on project size and drawing details. Our team reviews your requirement and shares the expected timeline.'
+                'What is the purpose of a BOQ?' => 'A BOQ helps:
+•	Plan project cost 
+•	Avoid budget overruns 
+•	Compare contractor quotes 
+',
+                'How much does BOQ / Estimation cost?' => 'Cost depends on:
+•	Project size 
+•	Complexity 
+•	Drawings availability 
+Typically ranges from ₹2,000 to ₹25,000+.
+',
+                'Do I need drawings for BOQ?' => 'Yes, drawings help in accurate estimation.
+However, basic estimation can also be done with:
+•	Plot size 
+•	Requirements 
+',
+                'Can BOQ help in reducing construction cost?' => 'Yes, with:
+•	Value engineering 
+•	Material alternatives 
+•	Better planning 
+',
+                'Do you provide BOQ for interior projects?' => 'Yes, we provide:
+•	Interior BOQ 
+•	Furniture costing 
+•	Finishing estimation 
+',
+                'Is BOQ useful for contractor selection?' => 'Absolutely. It helps:
+•	Compare quotes 
+•	Ensure fair pricing 
+•	Avoid overcharging 
+',
+                'How long does it take to prepare BOQ?' => '•	Small projects: 1–2 days 
+•	Medium projects: 2–4 days 
+•	Large projects: 5+ days 
+'
             ];
         @endphp
 

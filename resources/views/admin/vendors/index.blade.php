@@ -43,10 +43,10 @@
             <label class="form-label small text-muted mb-1">Work Type</label>
             
            <select name="work_type" class="form-select form-select-sm" style="min-width:160px;">
-    <option value="">All Work Types</option>
-    <option value="Architect"   {{ request('work_type') == 'Architect'   ? 'selected' : '' }}>Architect</option>
-    <option value="Contractor"  {{ request('work_type') == 'Contractor'  ? 'selected' : '' }}>Contractor</option>
-</select>
+            <option value="">All Work Types</option>
+            <option value="Architect"   {{ request('work_type') == 'Architect'   ? 'selected' : '' }}>Architect</option>
+            <option value="Contractor"  {{ request('work_type') == 'Contractor'  ? 'selected' : '' }}>Contractor</option>
+        </select>
         </div>
         <div class="col-auto">
             <label class="form-label small text-muted mb-1">Search</label>
@@ -75,7 +75,7 @@
                     <th>Business Entity</th>
                     <th>Pincode</th>
                     <th>Area</th>
-                    <th>Created At</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,20 +97,22 @@
                         </td>
                         <td>
                             @if($vendor->work_type)
-                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success">
-                                    {{ $vendor->work_type }}
-                                </span>
+                                <span class="badge bg-success">{{ $vendor->work_type }}</span>
                             @else
-                                -
+                                <span class="badge bg-danger">No Service Provider Registered</span>
                             @endif
                         </td>
                         <td>{{ $vendor->business_address ?? '-' }}</td>
                         <td>{{ $vendor->business_entity ?? '-' }}</td>
                         <td class="text-muted">{{ $vendor->pincode ?? '-' }}</td>
                         <td>{{ $vendor->area ?? '-' }}</td>
-                        <td class="text-muted">
-                            {{ !empty($vendor->created_at) ? \Carbon\Carbon::parse($vendor->created_at)->format('d M Y') : '-' }}
+                        <td>
+                            <a href="{{ route('admin.vendors.forms', $vendor->id) }}" 
+                            class="btn btn-sm btn-primary">
+                                Check Inserted Forms
+                            </a>
                         </td>
+                        
                     </tr>
                 @empty
                     <tr>

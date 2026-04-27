@@ -686,10 +686,24 @@
     <div class="faq-wrap">
         @php
             $faqs = [
-                'What is the cost of interior design services?' => 'The cost depends on the property size, design scope, material selection, and execution requirements.',
-                'Do you provide both design and execution?' => 'Yes, we can help with design planning, BOQ, vendor matching, execution coordination, and project handover.',
-                'How long does an interior project take?' => 'Timeline depends on the project size and scope. Our team reviews your requirement and guides you with an estimated timeline.',
-                'Can I customize the design as per my budget?' => 'Yes, designs and material selections can be planned according to your preferred budget range.',
+                'What is the cost of interior design services?' => 'Interior design cost depends on:
+•	Area size 
+•	Material selection 
+•	Design complexity 
+Typically, it can range from ₹1,500 to ₹3,500 per sq.ft depending on quality and scope.
+',
+                'Do you provide both design and execution?' => 'Yes, ConstructKaro provides end-to-end solutions, including design, planning, and full execution.',
+                'How long does an interior project take?' => '•	1 BHK: 30–45 days 
+•	2/3 BHK: 45–75 days 
+•	Commercial spaces: depends on scale 
+',
+                'Can I customize the design as per my budget?' => 'Absolutely. We offer:
+•	Budget-friendly options 
+•	Standard packages 
+•	Premium designs 
+',
+
+ 'Do you provide 3D designs before starting?' => 'Yes, 3D visualization is provided so you can clearly understand the final outcome before execution.',
                 'How do I get started?' => 'Submit your requirement and our team will contact you within 24 working hours.'
             ];
         @endphp

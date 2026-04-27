@@ -1289,7 +1289,7 @@ body {
                     </div>
                 </div>
 
-                <div class="explore-card blue-card">
+                <!-- <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
                     </div>
@@ -1297,6 +1297,16 @@ body {
                         <h3>Testing Services</h3>
                         <p>Explore All Categories of Testing Services</p>
                         <a href="{{ route('customer.testing') }}" class="explore-btn blue-btn">Get Started</a>
+                    </div>
+                </div> -->
+                 <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Structural Audit</h3>
+                        <p>Explore All Categories of structural Services</p>
+                        <a href="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn">Get Started</a>
                     </div>
                 </div>
 
@@ -1331,7 +1341,9 @@ body {
                     From initial planning to complete project execution, ConstructKaro
                     guides you with the right services at every stage.
                 </p>
-                <a href="{{route('guide_me')}}" class="ck-guide-btn">
+                <!-- <a href="{{route('guide_me')}}" class="ck-guide-btn"> -->
+                <a href="{{route('confused_guide_me')}}" class="ck-guide-btn">
+
                     Let ConstructKaro Guide Me
                 </a>
             </div>
@@ -1350,14 +1362,10 @@ body {
                 @foreach ([
                     ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
                     ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                    ['structural-audit.png','Structural Audit','blue-border'],
+                    ['testing-services.png','Testing Services','blue-border'],
                     ['machinery-on-hire.png','Machinery On Hire','orange-border'],
-                    ['facade-services.png','Facade Services','blue-border'],
-                    ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
-                    ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                    ['structural-audit.png','Structural Audit','blue-border'],
-                    ['machinery-on-hire.png','Machinery On Hire','orange-border'],
-                    ['facade-services.png','Facade Services','blue-border'],
+                    ['facade-services.png','Facade Services','blue-border']
+                  
                 ] as $upcoming)
                     <div class="upcoming-card {{ $upcoming[2] }}">
                         <span class="upcoming-badge">Coming Soon</span>

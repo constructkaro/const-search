@@ -304,7 +304,7 @@
                         <th>Lead / Project</th>
                         <th>Customer Requirement</th>
                         <th>Service Type</th>
-                        <th>File</th>
+                        <th>Boq File</th>
                         <th>Vendor Status</th>
                         <th>Action</th>
                     </tr>

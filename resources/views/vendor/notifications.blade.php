@@ -402,7 +402,7 @@
                             <th>#</th>
                             <th>Title</th>
                             <th>Customer Name</th>
-                            <th>Mobile</th>
+                           
                             <th>Service Type</th>
                             <th>City</th>
                             <th>Status</th>
@@ -418,8 +418,7 @@
                                     'post_id' => $item->post_id ?? '',
                                     'title' => $item->title ?? '',
                                     'contact_name' => $item->contact_name ?? '',
-                                    'mobile' => $item->mobile ?? '',
-                                    'email' => $item->email ?? '',
+                                   
                                     'service_type' => $item->service_type ?? '',
                                     'city' => $item->city_id ?? '',
                                     'pincode' => $item->pincode ?? '',
@@ -444,7 +443,7 @@
                                 <td>{{ $key + 1 }}</td>
                                 <td class="project-title-cell">{{ $item->title ?? '-' }}</td>
                                 <td>{{ $item->contact_name ?? '-' }}</td>
-                                <td>{{ $item->mobile ?? '-' }}</td>
+                                
                                 <td>{{ $item->service_type ?? '-' }}</td>
                                 <td>{{ $item->city_id ?? '-' }}</td>
                                 <td>
@@ -492,15 +491,7 @@
                     <div class="detail-value" id="modalContactName">-</div>
                 </div>
 
-                <div class="detail-box">
-                    <div class="detail-label">Mobile</div>
-                    <div class="detail-value" id="modalMobile">-</div>
-                </div>
-
-                <div class="detail-box">
-                    <div class="detail-label">Email</div>
-                    <div class="detail-value" id="modalEmail">-</div>
-                </div>
+               
 
                 <div class="detail-box">
                     <div class="detail-label">Service Type</div>
@@ -650,8 +641,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalProjectTitle').innerText = data.title || 'Project Details';
             document.getElementById('modalAssignedAt').innerText = 'Assigned At: ' + (data.created_at || '-');
             document.getElementById('modalContactName').innerText = data.contact_name || '-';
-            document.getElementById('modalMobile').innerText = data.mobile || '-';
-            document.getElementById('modalEmail').innerText = data.email || '-';
+         
             document.getElementById('modalServiceType').innerText = data.service_type || '-';
             document.getElementById('modalCity').innerText = data.city || '-';
             document.getElementById('modalPincode').innerText = data.pincode || '-';

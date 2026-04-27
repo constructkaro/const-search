@@ -12,8 +12,10 @@ class EngineerDeskController extends Controller
 {
     public function create(Request $request)
     {
-        $query = DB::table('posts')->where('lead_status','serious')->latest();
-
+        // $query = DB::table('posts')->where('lead_status','serious','Exploring')->latest();
+        $query = DB::table('posts')
+            ->whereIn('lead_status', ['serious', 'Exploring'])
+            ->latest();
         if ($request->filled('search')) {
             $search = $request->search;
 

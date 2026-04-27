@@ -600,12 +600,28 @@
     <div class="faq-wrap">
         @php
             $faqs = [
-                'What is the cost of land survey services?' => 'The cost depends on land size, location, survey type, equipment required, and deliverables.',
-                'How long does a land survey take?' => 'Small surveys may take a few hours, while larger land or detailed mapping work may take more time.',
-                'What is a Total Station Survey?' => 'A Total Station Survey uses advanced equipment to capture accurate angles, distances, and site measurements.',
-                'Do you provide survey reports and drawings?' => 'Yes, survey reports, layout drawings, contour maps, and AutoCAD files can be provided depending on the requirement.',
-                'Is land survey necessary before construction?' => 'Yes, it helps verify boundaries, levels, dimensions, and site conditions before construction planning.',
-                'How do I get started?' => 'Submit your requirement and our team will contact you within 24 working hours.'
+                'What is the cost of land survey services?' => 'Cost depends on:
+                •	Land size 
+                •	Survey type 
+                •	Location 
+                Typically ranges from ₹5,000 to ₹50,000+ depending on project scope.
+                ',
+                'How long does a land survey take?' => '•	Small plots: 1–2 days 
+                •	Medium land: 2–4 days 
+                •	Large projects: 5+ days 
+                ',
+                'What is a Total Station Survey?' => 'It is a high-precision digital survey method used for accurate measurement and construction layout.',
+                'Do you provide survey reports and drawings?' => 'Yes, we provide:
+                    •	AutoCAD drawings 
+                    •	Survey reports 
+                    •	Layout plans 
+                    ',
+                'Is land survey necessary before construction?' => 'Yes, it helps:
+                •	Avoid boundary disputes 
+                •	Ensure correct construction layout 
+                •	Plan site development properly 
+                ',
+                'How do I get started?' => 'Submit your requirement, and our team will contact you within 24 working hours.'
             ];
         @endphp
 
