@@ -299,6 +299,9 @@ Route::get('guide_me', [HomeController::class, 'guide_me'])->name('guide_me');
 
 Route::get('architect-services', [HomeController::class, 'architect_services'])->name('architect.services');
 
+
+Route::get('contractor-services', [HomeController::class, 'contractor_services'])->name('contractor.services');
+
 Route::get('interior-services', [HomeController::class, 'interior_services'])->name('interior.services');
 
 Route::get('survey-services', [HomeController::class, 'survey_services'])->name('survey.services');

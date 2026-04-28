@@ -148,6 +148,11 @@ class HomeController extends Controller
         return view('main.interior_services');
     }
 
+    public function contractor_services(){
+        return view('main.contractor_services');
+
+    }
+
     public function survey_services(){
         return view('main.survey_services');
     }
@@ -279,6 +284,8 @@ public function turnkeyMaterial($city, $package)
 
     return view('main.turnkey_material', compact('cities', 'selectedCity', 'package'));
 }
+
+
 
 
 }

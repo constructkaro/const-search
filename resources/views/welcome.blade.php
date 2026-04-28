@@ -484,7 +484,11 @@ body {
     display: flex;
     gap: 24px;
     width: max-content;
-    animation: upcomingAutoScroll 30s linear infinite;
+    animation: upcomingAutoScroll 18s linear infinite;
+    will-change: transform;
+}
+.upcoming-auto-scroll-track:hover {
+    animation-play-state: paused;
 }
 
 @keyframes upcomingAutoScroll {
@@ -1341,8 +1345,8 @@ body {
                     From initial planning to complete project execution, ConstructKaro
                     guides you with the right services at every stage.
                 </p>
-                <!-- <a href="{{route('guide_me')}}" class="ck-guide-btn"> -->
-                <a href="{{route('confused_guide_me')}}" class="ck-guide-btn">
+                <a href="" class="ck-guide-btn">
+                <!-- <a href="{{route('confused_guide_me')}}" class="ck-guide-btn"> -->
 
                     Let ConstructKaro Guide Me
                 </a>
@@ -1351,36 +1355,57 @@ body {
     </section>
 
     {{-- ── UPCOMING SERVICES ── --}}
+   
     <section class="upcoming-services-section">
-        <div class="upcoming-services-heading">
-            <h2>Our Upcoming Services</h2>
-            <div class="upcoming-heading-line"></div>
-        </div>
+    <div class="upcoming-services-heading">
+        <h2>Our Upcoming Services</h2>
+        <div class="upcoming-heading-line"></div>
+    </div>
 
-        <div class="upcoming-auto-scroll-wrap">
-            <div class="upcoming-auto-scroll-track">
-                @foreach ([
+    <div class="upcoming-auto-scroll-wrap">
+        <div class="upcoming-auto-scroll-track">
+
+            @php
+                $services = [
                     ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
                     ['welding-fabrication.png','Welding & Fabrication','blue-border'],
                     ['testing-services.png','Testing Services','blue-border'],
                     ['machinery-on-hire.png','Machinery On Hire','orange-border'],
                     ['facade-services.png','Facade Services','blue-border']
-                  
-                ] as $upcoming)
-                    <div class="upcoming-card {{ $upcoming[2] }}">
-                        <span class="upcoming-badge">Coming Soon</span>
-                        <div class="upcoming-card-image">
-                            <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
-                        </div>
-                        <div class="upcoming-card-body">
-                            <h3>{{ $upcoming[1] }}</h3>
-                            <p>Launching soon on ConstructKaro</p>
-                        </div>
+                ];
+            @endphp
+
+            {{-- ORIGINAL --}}
+            @foreach ($services as $upcoming)
+                <div class="upcoming-card {{ $upcoming[2] }}">
+                    <span class="upcoming-badge">Coming Soon</span>
+                    <div class="upcoming-card-image">
+                        <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
                     </div>
-                @endforeach
-            </div>
+                    <div class="upcoming-card-body">
+                        <h3>{{ $upcoming[1] }}</h3>
+                        <p>Launching soon on ConstructKaro</p>
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- DUPLICATE (IMPORTANT for seamless loop) --}}
+            @foreach ($services as $upcoming)
+                <div class="upcoming-card {{ $upcoming[2] }}">
+                    <span class="upcoming-badge">Coming Soon</span>
+                    <div class="upcoming-card-image">
+                        <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
+                    </div>
+                    <div class="upcoming-card-body">
+                        <h3>{{ $upcoming[1] }}</h3>
+                        <p>Launching soon on ConstructKaro</p>
+                    </div>
+                </div>
+            @endforeach
+
         </div>
-    </section>
+    </div>
+</section>
 
     {{-- ── VENDOR ── --}}
     <section class="ck-vendor-section">
@@ -1388,7 +1413,7 @@ body {
             <div class="ck-vendor-content-box">
                 <h2 class="ck-vendor-title">Get real construction projects in your area</h2>
                 <p class="ck-vendor-text">Join ConstructKaro and start receiving verified leads. No commission, no listing fees.</p>
-                <a href="#" class="ck-vendor-btn">Join as Vendor</a>
+                <a href="https://vendor.constructkaro.com/" class="ck-vendor-btn">Join as Vendor</a>
             </div>
             <div class="ck-vendor-image-box">
                 <img src="{{ asset('images/logo/a1.jpg') }}" alt="Construction Projects">
@@ -1414,8 +1439,13 @@ body {
         <div class="ck-all-services-line"></div>
 
         <div class="ck-service-slider">
-            <div class="ck-slide"><img src="{{ asset('images/services/contractor.png') }}" alt="Contractor"></div>
-            <!-- <div class="ck-slide"><img src="{{ asset('images/services/architect.png') }}"  alt="Architect"></div> -->
+            <!-- <div class="ck-slide"><img src="{{ asset('images/services/contractor.png') }}" alt="Contractor"></div> -->
+            <div class="ck-slide">
+                <a href="{{ route('contractor.services') }}">
+                    <img src="{{ asset('images/services/contractor.png') }}" alt="Architect">
+                </a>
+            </div>
+            <!-- <div class="ck-slide"><img src="{{ asset('images/services/architect.png') }}"  alt="contractor"></div> -->
             <div class="ck-slide">
                 <a href="{{ route('architect.services') }}">
                     <img src="{{ asset('images/services/architect.png') }}" alt="Architect">
