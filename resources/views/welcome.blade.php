@@ -1369,9 +1369,11 @@ body {
                 $services = [
                     ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
                     ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                    ['testing-services.png','Testing Services','blue-border'],
-                    ['machinery-on-hire.png','Machinery On Hire','orange-border'],
-                    ['facade-services.png','Facade Services','blue-border']
+                    ['testing-services.jpeg','Testing Services','blue-border'],
+                    ['machinaryonhire.png','Machinery On Hire','orange-border'],
+                    ['facade-services.png','Facade Services','blue-border'],
+                    ['StructuralAudit.jpeg','Structural Audit','blue-border']
+
                 ];
             @endphp
 
