@@ -33,6 +33,7 @@ class ContractorController extends Controller
         return view('vendor.categories.contractor', compact('workType', 'projectTypes'));
     }
 
+
    
     public function store(Request $request)
     {
@@ -47,9 +48,15 @@ class ContractorController extends Controller
             'project_types' => 'required|array',
             'company_name' => 'required|string|max:255',
             'msme_registered' => 'required',
-            'city_id' =>'required',
-            'area_ids' => 'required',
+
+            'city_ids' => 'required|array|min:1',
+            'city_ids.*' => 'required',
+
+            'area_ids' => 'required|array|min:1',
+            'area_ids.*' => 'required',
+
             'pincode' => 'required',
+
             'msme_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
             'pan_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
             'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
@@ -60,6 +67,11 @@ class ContractorController extends Controller
             'work_photo_1' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
             'work_photo_2' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
             'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
+
+            'agreement_terms_accepted' => 'required|accepted',
+            'privacy_policy_accepted'  => 'required|accepted',
+            'newsletter_opt_in'        => 'nullable',
+            'agreement_accepted_at'    => 'nullable|string',
         ]);
 
         $existing = ContractorProvider::where('vendor_id', $vendorId)->first();
@@ -118,13 +130,17 @@ class ContractorController extends Controller
 
         $data = [
             'vendor_id' => $vendorId,
+
             'project_types' => $request->project_types,
             'experience_years' => $request->experience_years,
             'team_size' => $request->team_size,
-            'city_id' => $request->city_id,
+
+            'city_ids' => $request->city_ids,
             'area_ids' => $request->area_ids,
-            'minimum_project_value' => $request->minimum_project_value,
             'pincode' => $request->pincode,
+
+            'minimum_project_value' => $request->minimum_project_value,
+
             'company_name' => $request->company_name,
             'entity_type' => $request->entity_type,
             'registered_address' => $request->registered_address,
@@ -135,6 +151,7 @@ class ContractorController extends Controller
             'esic_number' => $request->esic_number,
             'pf_number' => $request->pf_number,
             'msme_registered' => $msme,
+
             'msme_certificate' => $msme_certificate,
             'pan_card' => $pan_card,
             'gst_certificate' => $gst_certificate,
@@ -145,17 +162,21 @@ class ContractorController extends Controller
             'work_photo_1' => $work_photo_1,
             'work_photo_2' => $work_photo_2,
             'work_photo_3' => $work_photo_3,
+
             'status' => 'pending',
+
+            'agreement_terms_accepted' => $request->agreement_terms_accepted,
+            'privacy_policy_accepted'  => $request->privacy_policy_accepted,
+            'newsletter_opt_in'        => $request->newsletter_opt_in ?? 0,
+            'agreement_accepted_at'    => $request->agreement_accepted_at,
         ];
 
         if ($existing) {
             $existing->update($data);
             return back()->with('success', 'Data updated successfully');
-        } else {
-            ContractorProvider::create($data);
-            return back()->with('success', 'Data saved successfully');
         }
+
+        ContractorProvider::create($data);
+        return back()->with('success', 'Data saved successfully');
     }
-   
-   
 }

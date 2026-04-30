@@ -36,9 +36,13 @@ class ArchitectController extends Controller
     }
 
     $request->validate([
+        'agreement_terms_accepted' => 'required|accepted',
+        'privacy_policy_accepted'  => 'required|accepted',
+        'newsletter_opt_in'        => 'nullable',
+        'agreement_accepted_at'    => 'nullable|string',
         'project_types' => 'required|array',
         'experience_years' => 'required',
-        'city_id' => 'required',
+        'city_ids' => 'required|array',
         'area_ids' => 'required|array',
         'pincode' => 'required',
         'minimum_project_value' => 'required|numeric',
@@ -61,7 +65,7 @@ class ArchitectController extends Controller
         'vendor_id' => $vendorId,
         'project_types' => $request->project_types,
         'experience_years' => $request->experience_years,
-        'city_id' => $request->city_id,
+        'city_ids' => $request->city_ids,
         'area_ids' => $request->area_ids,
         'pincode' => $request->pincode,
         'minimum_project_value' => $request->minimum_project_value,
@@ -90,6 +94,10 @@ class ArchitectController extends Controller
         'portfolio_image_3' => $uploadFile($request, 'portfolio_image_3', 'architects/portfolio', $existing?->portfolio_image_3),
 
         'status' => 'pending',
+        'agreement_terms_accepted' => $request->agreement_terms_accepted,
+        'privacy_policy_accepted'  => $request->privacy_policy_accepted,
+        'newsletter_opt_in'        => $request->newsletter_opt_in ?? 0,
+        'agreement_accepted_at'    => $request->agreement_accepted_at,
     ];
 
     if ($existing) {

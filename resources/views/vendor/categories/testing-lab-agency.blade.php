@@ -725,6 +725,10 @@
                            name="minimum_project_value"
                            value="{{ old('minimum_project_value', $data->minimum_project_value ?? '') }}"
                            placeholder="Enter minimum project value">
+
+                    <small class="text-muted">
+                        Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs. Do not write 5 Lakhs or 5L.
+                    </small>
                 </div>
             </div>
         </div>

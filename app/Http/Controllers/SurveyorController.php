@@ -294,7 +294,7 @@ public function store(Request $request)
       
 
         'company_name' => 'required|string|max:255',
-        'city_id' => 'required',
+        'city_ids' => 'required|array',
         'area_ids' => 'required|array',
       
         'pincode' => 'required',
@@ -303,7 +303,12 @@ public function store(Request $request)
         'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
         'aadhaar_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
         'company_profile' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
+        'agreement_terms_accepted' => 'required|accepted',
+'privacy_policy_accepted'  => 'required|accepted',
+'newsletter_opt_in'        => 'nullable',
+'agreement_accepted_at'    => 'nullable|date',
     ]);
+
 
     $existing = SurveyorProvider::where('vendor_id', $vendorId)->first();
 
@@ -332,7 +337,7 @@ public function store(Request $request)
          'project_types' => $request->project_types,
         'experience_years' => $request->experience_years,
         'team_size' => $request->team_size,
-        'city_id' => $request->city_id,
+        'city_ids' => $request->city_ids,
          'area_ids' => $request->area_ids,
         'minimum_project_value' => $request->minimum_project_value,
         'pincode' => $request->pincode,
@@ -347,6 +352,10 @@ public function store(Request $request)
         'aadhaar_card' => $aadhaar_card,
         'company_profile' => $company_profile,
         'status' => 'pending',
+        'agreement_terms_accepted' => $request->agreement_terms_accepted,
+'privacy_policy_accepted'  => $request->privacy_policy_accepted,
+'newsletter_opt_in'        => $request->newsletter_opt_in,
+'agreement_accepted_at'    => $request->agreement_accepted_at,
     ];
 
     if ($existing) {

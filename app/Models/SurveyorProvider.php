@@ -15,16 +15,16 @@ class SurveyorProvider extends Model
         'team_size',
         'pincode',
         'minimum_project_value',
-        'city_id','area_ids','pincode',
+        'city_ids','area_ids','pincode',
         'company_name',
         'entity_type',
         'registered_address',
         'contact_person_name',
         'contact_person_designation',
-        // 'licensed_surveyor',
-        // 'stamped_drawings',
-        // 'report_format_available',
-        // 'land_record_support',
+       'agreement_terms_accepted',
+'privacy_policy_accepted',
+'newsletter_opt_in',
+'agreement_accepted_at',
         'gst_certificate',
         'aadhaar_card',
         'company_profile',
@@ -36,6 +36,8 @@ class SurveyorProvider extends Model
 
     protected $casts = [
     'project_types' => 'array',
+    
+    'city_ids' => 'array',
     'area_ids' => 'array', // ✅ ADD THIS
 ];
 

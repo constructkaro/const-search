@@ -34,8 +34,8 @@ class StructuralAuditProvider extends Model
         'certificate_file',
         'company_profile_file',
         'logo_file',
-        'service_description',
-        'major_cities_covered',
+        'service_description','company_name',
+        'major_cities_covered','agreement_terms_accepted','privacy_policy_accepted','newsletter_opt_in','agreement_accepted_at',
         'status',
     ];
 

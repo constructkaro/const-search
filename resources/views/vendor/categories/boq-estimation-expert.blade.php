@@ -186,8 +186,6 @@
         font-size: 15px;
     }
 
-  
-
     .field-block + .field-block {
         margin-top: 24px;
     }
@@ -199,7 +197,8 @@
         margin-bottom: 10px;
     }
 
-    .field-label .req {
+    .field-label .req,
+    .req {
         color: var(--ck-danger);
     }
 
@@ -494,6 +493,18 @@
         font-weight: 600;
     }
 
+    .area-loading {
+        display: none;
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+
+    .area-loading.visible {
+        display: block;
+    }
+
     .select2-container {
         width: 100% !important;
     }
@@ -532,6 +543,12 @@
         color: #10204f !important;
         border-radius: 999px !important;
         padding: 4px 10px !important;
+    }
+
+    .select2-container .select2-selection--multiple .select2-selection__choice__remove {
+        color: #10204f !important;
+        border-right: none !important;
+        margin-right: 6px !important;
     }
 
     .select2-dropdown {
@@ -599,15 +616,18 @@
     }
 
     $selectedTurnaround = old('boq_turnaround_time', $existingData->boq_turnaround_time ?? '');
-    $selectedCityId = old('city_id', $existingData->city_id ?? '');
 
-    $selectedAreaIds = old('area_ids', $existingData->area_ids ?? []);
-    if (is_string($selectedAreaIds)) {
-        $selectedAreaIds = json_decode($selectedAreaIds, true) ?? [];
-    }
-    if (!is_array($selectedAreaIds)) {
-        $selectedAreaIds = [];
-    }
+    $selectedCityIds = old('city_ids', !empty($existingData->city_ids)
+        ? json_decode($existingData->city_ids, true)
+        : (!empty($existingData->city_id) ? [$existingData->city_id] : [])
+    );
+    $selectedCityIds = is_array($selectedCityIds) ? array_map('strval', $selectedCityIds) : [];
+
+    $selectedAreaIds = old('area_ids', !empty($existingData->area_ids)
+        ? json_decode($existingData->area_ids, true)
+        : []
+    );
+    $selectedAreaIds = is_array($selectedAreaIds) ? array_map('strval', $selectedAreaIds) : [];
 
     $savedPincodes = old('pincode', $existingData->pincode ?? '');
 @endphp
@@ -616,6 +636,16 @@
 
     @if(session('success'))
         <div class="alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if($errors->any())
+        <div style="background:#fee2e2;color:#991b1b;padding:14px 18px;border-radius:12px;font-weight:600;">
+            <ul style="margin:0;padding-left:18px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <div class="boq-hero">
@@ -677,13 +707,13 @@
                         <p style="color:red; font-weight:600;">No project types found.</p>
                     @endforelse
                 </div>
+
                 @error('project_types')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="section-card">
-               
                 <div class="section-head">
                     <div class="section-badge">
                         <i class="fa-solid fa-building"></i>
@@ -700,7 +730,8 @@
                         <select class="form-select" name="experience_years" id="experience_years">
                             <option value="">Select years of experience</option>
                             @foreach($experienceYears as $experience)
-                                <option value="{{ $experience->id }}" {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
+                                <option value="{{ $experience->id }}"
+                                    {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
                                     {{ $experience->experiance ?? $experience->experience }}
                                 </option>
                             @endforeach
@@ -715,7 +746,8 @@
                         <select class="form-select" name="team_size" id="team_size">
                             <option value="">Select team size</option>
                             @foreach($team_size as $team)
-                                <option value="{{ $team->id }}" {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                                <option value="{{ $team->id }}"
+                                    {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
                                     {{ $team->team_size }}
                                 </option>
                             @endforeach
@@ -727,22 +759,27 @@
 
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <select class="form-select" name="city_id" id="city_id">
-                            <option value="">Select City</option>
+                        <select class="form-select" name="city_ids[]" id="city_ids" multiple required>
                             @foreach($cities as $city)
-                                <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                <option value="{{ $city->id }}"
+                                    {{ in_array((string)$city->id, $selectedCityIds) ? 'selected' : '' }}>
                                     {{ $city->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('city_id')
+                        @error('city_ids')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
 
                     <div>
                         <div class="field-label">Area <span class="req">*</span></div>
-                        <select class="form-select" name="area_ids[]" id="area_id" multiple></select>
+                        <select class="form-select" name="area_ids[]" id="area_ids" multiple required></select>
+
+                        <small class="area-loading" id="areaLoading">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading areas…
+                        </small>
+
                         @error('area_ids')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -754,7 +791,8 @@
                                   id="pincode_id"
                                   name="pincode"
                                   readonly
-                                  placeholder="Selected area pincodes will appear here">{{ $savedPincodes }}</textarea>
+                                  placeholder="Pincodes auto-fill from selected areas">{{ $savedPincodes }}</textarea>
+
                         @error('pincode')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -762,14 +800,16 @@
 
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                        <input type="text"
+                        <input type="number"
+                               step="1"
+                               min="0"
                                class="form-input"
                                name="minimum_project_value"
                                value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
                                placeholder="Enter minimum project value">
-                        @error('minimum_project_value')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                        <small class="text-muted">
+                            Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs. Do not write 5 Lakhs or 5L.
+                        </small>
                     </div>
                 </div>
             </div>
@@ -790,6 +830,7 @@
                         </div>
                     @endforeach
                 </div>
+
                 @error('boq_turnaround_time')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
@@ -818,14 +859,18 @@
                         </div>
                         <h4>Upload GST Document</h4>
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
-                        <input type="file" name="gst_certificate" id="gst_certificate">
+                        <input type="file" name="gst_certificate" id="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
                         <div class="file-note" id="gst_certificate_name"></div>
+
                         @if(!empty($existingData->gst_certificate))
                             <div class="mt-2">
-                                <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">View uploaded GST Certificate</a>
+                                <a href="{{ asset('storage/' . $existingData->gst_certificate) }}" target="_blank">
+                                    View uploaded GST Certificate
+                                </a>
                             </div>
                         @endif
                     </div>
+
                     @error('gst_certificate')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -839,14 +884,18 @@
                         </div>
                         <h4>Upload Aadhaar Card</h4>
                         <p>Accepted: PDF, JPG, PNG<br>Maximum file size: 5MB</p>
-                        <input type="file" name="aadhaar_card" id="aadhaar_card">
+                        <input type="file" name="aadhaar_card" id="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
                         <div class="file-note" id="aadhaar_card_name"></div>
+
                         @if(!empty($existingData->aadhaar_card))
                             <div class="mt-2">
-                                <a href="{{ asset('storage/' . $existingData->aadhaar_card) }}" target="_blank">View uploaded Aadhaar Card</a>
+                                <a href="{{ asset('storage/' . $existingData->aadhaar_card) }}" target="_blank">
+                                    View uploaded Aadhaar Card
+                                </a>
                             </div>
                         @endif
                     </div>
+
                     @error('aadhaar_card')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -860,14 +909,18 @@
                         </div>
                         <h4>Upload Company Profile</h4>
                         <p>Accepted: PDF preferred<br>Maximum file size: 10MB</p>
-                        <input type="file" name="company_profile" id="company_profile">
+                        <input type="file" name="company_profile" id="company_profile" accept=".pdf,.jpg,.jpeg,.png">
                         <div class="file-note" id="company_profile_name"></div>
+
                         @if(!empty($existingData->company_profile))
                             <div class="mt-2">
-                                <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">View uploaded Company Profile</a>
+                                <a href="{{ asset('storage/' . $existingData->company_profile) }}" target="_blank">
+                                    View uploaded Company Profile
+                                </a>
                             </div>
                         @endif
                     </div>
+
                     @error('company_profile')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -888,106 +941,145 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    function bindFileNamePreview(inputId, outputId) {
-        const input = document.getElementById(inputId);
-        const output = document.getElementById(outputId);
+function bindFileNamePreview(inputId, outputId) {
+    const input = document.getElementById(inputId);
+    const output = document.getElementById(outputId);
 
-        if (!input || !output) return;
+    if (!input || !output) return;
 
-        input.addEventListener('change', function () {
-            output.textContent = this.files && this.files.length ? this.files[0].name : '';
+    input.addEventListener('change', function () {
+        output.textContent = this.files && this.files.length ? this.files[0].name : '';
+    });
+}
+
+bindFileNamePreview('gst_certificate', 'gst_certificate_name');
+bindFileNamePreview('aadhaar_card', 'aadhaar_card_name');
+bindFileNamePreview('company_profile', 'company_profile_name');
+</script>
+
+<script>
+$(document).ready(function () {
+
+    const preSelectedCityIds = @json($selectedCityIds);
+    const preSelectedAreaIds = @json($selectedAreaIds);
+
+    const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
+    const pincodesRoute = "{{ route('get.pincodes') }}";
+
+    $('#city_ids').select2({
+        placeholder: 'Select one or more cities',
+        width: '100%',
+        closeOnSelect: false
+    });
+
+    $('#area_ids').select2({
+        placeholder: 'Select areas',
+        width: '100%',
+        closeOnSelect: false
+    });
+
+    function loadAreasForCities(cityIds, preselectAreaIds = []) {
+        if (!cityIds || cityIds.length === 0) {
+            $('#area_ids').html('').trigger('change');
+            $('#pincode_id').val('');
+            return;
+        }
+
+        $('#areaLoading').addClass('visible');
+        $('#area_ids').prop('disabled', true);
+
+        const requests = cityIds.map(cityId => {
+            return $.ajax({
+                url: areasRouteTemplate.replace(':city_id', cityId),
+                type: 'GET',
+                dataType: 'json'
+            });
+        });
+
+        $.when(...requests).then(function (...responses) {
+            let allAreas = [];
+
+            if (cityIds.length === 1) {
+                allAreas = responses[0];
+            } else {
+                responses.forEach(res => {
+                    allAreas = allAreas.concat(res[0]);
+                });
+            }
+
+            const seen = new Set();
+
+            const uniqueAreas = allAreas.filter(area => {
+                if (seen.has(area.id)) return false;
+                seen.add(area.id);
+                return true;
+            });
+
+            uniqueAreas.sort((a, b) => a.name.localeCompare(b.name));
+
+            let html = '';
+
+            uniqueAreas.forEach(area => {
+                const selected =
+                    preselectAreaIds.includes(area.id.toString()) ||
+                    preselectAreaIds.includes(area.id);
+
+                html += `<option value="${area.id}" ${selected ? 'selected' : ''}>${area.name}</option>`;
+            });
+
+            $('#area_ids').html(html).trigger('change');
+            $('#area_ids').prop('disabled', false);
+            $('#areaLoading').removeClass('visible');
+
+            if (preselectAreaIds.length > 0) {
+                loadPincodes(preselectAreaIds);
+            }
+
+        }).fail(function () {
+            $('#area_ids').prop('disabled', false);
+            $('#areaLoading').removeClass('visible');
+            alert('Areas loading failed. Please check get.areas route.');
         });
     }
 
-    bindFileNamePreview('gst_certificate', 'gst_certificate_name');
-    bindFileNamePreview('aadhaar_card', 'aadhaar_card_name');
-    bindFileNamePreview('company_profile', 'company_profile_name');
+    function loadPincodes(areaIds) {
+        if (!areaIds || areaIds.length === 0) {
+            $('#pincode_id').val('');
+            return;
+        }
 
-    $(document).ready(function () {
-        let selectedCityId = @json($selectedCityId);
-        let selectedAreaIds = @json($selectedAreaIds);
-
-        $('#city_id').select2({
-            placeholder: 'Select City',
-            width: '100%'
-        });
-
-        $('#area_id').select2({
-            placeholder: 'Select Area',
-            width: '100%',
-            closeOnSelect: false
-        });
-
-        function loadAreas(cityId, selectedAreas = []) {
-            $('#area_id').html('').trigger('change');
-
-            if (!cityId) {
+        $.ajax({
+            url: pincodesRoute,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                area_ids: areaIds
+            },
+            success: function (data) {
+                let uniquePincodes = [...new Set(data)];
+                $('#pincode_id').val(uniquePincodes.join(', '));
+            },
+            error: function () {
                 $('#pincode_id').val('');
-                return;
             }
-
-            $.ajax({
-                url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    let options = '';
-
-                    $.each(data, function (index, area) {
-                        let isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
-                        options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
-                    });
-
-                    $('#area_id').html(options).trigger('change');
-
-                    if (selectedAreas.length > 0) {
-                        loadPincodes(selectedAreas);
-                    } else {
-                        $('#pincode_id').val('');
-                    }
-                },
-                error: function () {
-                    $('#area_id').html('').trigger('change');
-                    $('#pincode_id').val('');
-                }
-            });
-        }
-
-        function loadPincodes(areaIds) {
-            if (!areaIds || areaIds.length === 0) {
-                $('#pincode_id').val('');
-                return;
-            }
-
-            $.ajax({
-                url: "{{ route('get.pincodes') }}",
-                type: 'GET',
-                dataType: 'json',
-                data: { area_ids: areaIds },
-                success: function (data) {
-                    let uniquePincodes = [...new Set(data)];
-                    $('#pincode_id').val(uniquePincodes.join(', '));
-                },
-                error: function () {
-                    $('#pincode_id').val('');
-                }
-            });
-        }
-
-        $('#city_id').on('change', function () {
-            let cityId = $(this).val();
-            loadAreas(cityId, []);
         });
+    }
 
-        $('#area_id').on('change', function () {
-            let areaIds = $(this).val();
-            loadPincodes(areaIds);
-        });
-
-        if (selectedCityId) {
-            loadAreas(selectedCityId, selectedAreaIds);
-        }
+    $('#city_ids').on('change', function () {
+        $('#pincode_id').val('');
+        loadAreasForCities($(this).val() || [], []);
     });
+
+    $('#area_ids').on('change', function () {
+        loadPincodes($(this).val() || []);
+    });
+
+    if (preSelectedCityIds.length > 0) {
+        $('#city_ids').val(preSelectedCityIds).trigger('change.select2');
+        loadAreasForCities(preSelectedCityIds, preSelectedAreaIds);
+    }
+
+});
 </script>
 
 @endsection

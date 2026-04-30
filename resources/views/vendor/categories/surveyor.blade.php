@@ -6,750 +6,980 @@
 @section('content')
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     :root{
-        --ck-bg: #f4f7fb;
-        --ck-white: #ffffff;
-        --ck-navy: #0f173d;
-        --ck-navy-2: #1e3766;
-        --ck-navy-3: #355c9a;
-        --ck-orange: #eb7a2f;
-        --ck-orange-2: #f39a56;
-        --ck-orange-soft: #fff4eb;
-        --ck-text: #182b49;
-        --ck-text-soft: #71829b;
-        --ck-muted: #99a6b7;
-        --ck-line: #e3eaf2;
-        --ck-line-dark: #d6dfeb;
-        --ck-red: #ef4444;
-        --ck-green: #16a34a;
-        --ck-shadow-sm: 0 8px 22px rgba(15, 23, 61, 0.05);
-        --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
-        --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.18);
-        --ck-radius-xl: 28px;
-        --ck-radius-lg: 22px;
-        --ck-radius-md: 16px;
-        --ck-radius-sm: 14px;
+        --ck-bg:#f4f7fb;
+        --ck-white:#ffffff;
+        --ck-navy:#0f173d;
+        --ck-navy-2:#1e3766;
+        --ck-orange:#eb7a2f;
+        --ck-orange-2:#f39a56;
+        --ck-text:#182b49;
+        --ck-text-soft:#71829b;
+        --ck-muted:#99a6b7;
+        --ck-line:#e3eaf2;
+        --ck-line-dark:#d6dfeb;
+        --ck-red:#ef4444;
+        --ck-green:#16a34a;
+        --ck-shadow-sm:0 8px 22px rgba(15,23,61,.05);
+        --ck-shadow-md:0 16px 38px rgba(15,23,61,.07);
+        --ck-shadow-lg:0 18px 38px rgba(235,122,47,.18);
+        --ck-radius-xl:28px;
+        --ck-radius-md:16px;
+    }
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
     }
 
     body{
         background:
-            linear-gradient(rgba(15, 23, 61, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(15, 23, 61, 0.03) 1px, transparent 1px),
-            linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
-        background-size: 56px 56px, 56px 56px, auto;
+            linear-gradient(rgba(15,23,61,.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(15,23,61,.03) 1px, transparent 1px),
+            linear-gradient(180deg,#f8fafc 0%,#eef3f8 100%);
+        background-size:56px 56px,56px 56px,auto;
     }
 
     .vendor-page{
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 18px 0 34px;
+        max-width:1280px;
+        margin:0 auto;
+        padding:18px 0 34px;
     }
 
     .vendor-stack{
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+        display:flex;
+        flex-direction:column;
+        gap:24px;
     }
 
     .top-banner{
-        background: linear-gradient(135deg, #ffffff 0%, #fff8f2 100%);
-        border: 1px solid #f2e0d0;
-        border-radius: 26px;
-        box-shadow: var(--ck-shadow-md);
-        padding: 22px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 18px;
-        flex-wrap: wrap;
+        background:linear-gradient(135deg,#ffffff 0%,#fff8f2 100%);
+        border:1px solid #f2e0d0;
+        border-radius:26px;
+        box-shadow:var(--ck-shadow-md);
+        padding:22px 24px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:18px;
+        flex-wrap:wrap;
     }
 
     .top-banner-left{
-        display: flex;
-        align-items: center;
-        gap: 16px;
+        display:flex;
+        align-items:center;
+        gap:16px;
     }
 
     .top-banner-icon{
-        width: 62px;
-        height: 62px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        box-shadow: 0 16px 32px rgba(235,122,47,0.22);
-        flex-shrink: 0;
+        width:62px;
+        height:62px;
+        border-radius:20px;
+        background:linear-gradient(135deg,var(--ck-orange),var(--ck-orange-2));
+        color:#fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:24px;
+        box-shadow:0 16px 32px rgba(235,122,47,.22);
+        flex-shrink:0;
     }
 
     .top-banner h1{
-        margin: 0;
-        color: var(--ck-navy);
-        font-size: 26px;
-        line-height: 1.2;
-        font-weight: 900;
+        margin:0;
+        color:var(--ck-navy);
+        font-size:26px;
+        line-height:1.2;
+        font-weight:900;
     }
 
     .top-banner p{
-        margin: 6px 0 0;
-        color: var(--ck-text-soft);
-        font-size: 14px;
-        font-weight: 500;
+        margin:6px 0 0;
+        color:var(--ck-text-soft);
+        font-size:14px;
+        font-weight:500;
     }
 
     .top-badge{
-        padding: 11px 16px;
-        border-radius: 999px;
-        background: #fff;
-        border: 1px solid #f1dfcf;
-        color: var(--ck-orange);
-        font-size: 14px;
-        font-weight: 800;
-        box-shadow: 0 8px 18px rgba(235,122,47,0.06);
+        padding:11px 16px;
+        border-radius:999px;
+        background:#fff;
+        border:1px solid #f1dfcf;
+        color:var(--ck-orange);
+        font-size:14px;
+        font-weight:800;
+        box-shadow:0 8px 18px rgba(235,122,47,.06);
     }
 
     .section-card{
-        background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-        border: 1px solid var(--ck-line);
-        border-radius: var(--ck-radius-xl);
-        box-shadow: var(--ck-shadow-md);
-        padding: 28px 26px 30px;
-        position: relative;
-        overflow: hidden;
+        background:linear-gradient(180deg,#ffffff 0%,#fcfdff 100%);
+        border:1px solid var(--ck-line);
+        border-radius:var(--ck-radius-xl);
+        box-shadow:var(--ck-shadow-md);
+        padding:28px 26px 30px;
+        position:relative;
+        overflow:hidden;
     }
 
     .section-card::before{
-        content: "";
-        position: absolute;
-        right: -80px;
-        top: -80px;
-        width: 220px;
-        height: 220px;
-        background: radial-gradient(circle, rgba(235,122,47,0.05) 0%, transparent 72%);
+        content:"";
+        position:absolute;
+        right:-80px;
+        top:-80px;
+        width:220px;
+        height:220px;
+        background:radial-gradient(circle,rgba(235,122,47,.05) 0%,transparent 72%);
+        pointer-events:none;
     }
 
     .section-divider{
-        height: 4px;
-        width: 100%;
-        background: linear-gradient(90deg, var(--ck-orange), rgba(235,122,47,0.10));
-        border-radius: 999px;
-        margin-bottom: 24px;
+        height:4px;
+        width:100%;
+        background:linear-gradient(90deg,var(--ck-orange),rgba(235,122,47,.10));
+        border-radius:999px;
+        margin-bottom:24px;
     }
 
     .section-head{
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 24px;
-        position: relative;
-        z-index: 2;
+        display:flex;
+        align-items:flex-start;
+        gap:16px;
+        margin-bottom:24px;
+        position:relative;
+        z-index:2;
     }
 
     .section-badge{
-        width: 54px;
-        height: 54px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #fff4eb 0%, #ffe8d8 100%);
-        color: var(--ck-orange);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        flex-shrink: 0;
+        width:54px;
+        height:54px;
+        border-radius:18px;
+        background:linear-gradient(135deg,#fff4eb 0%,#ffe8d8 100%);
+        color:var(--ck-orange);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:22px;
+        flex-shrink:0;
     }
 
     .section-title-wrap h2{
-        margin: 0;
-        font-size: 22px;
-        line-height: 1.15;
-        color: var(--ck-navy-2);
-        font-weight: 900;
+        margin:0;
+        font-size:22px;
+        line-height:1.15;
+        color:var(--ck-navy-2);
+        font-weight:900;
     }
 
     .section-title-wrap p{
-        margin: 6px 0 0;
-        color: var(--ck-text-soft);
-        font-size: 15px;
-        font-weight: 500;
+        margin:6px 0 0;
+        color:var(--ck-text-soft);
+        font-size:15px;
+        font-weight:500;
     }
 
     .field-block + .field-block{
-        margin-top: 24px;
+        margin-top:24px;
     }
 
     .field-label{
-        margin: 0 0 10px;
-        font-size: 16px;
-        color: var(--ck-navy);
-        font-weight: 800;
+        margin:0 0 10px;
+        font-size:16px;
+        color:var(--ck-navy);
+        font-weight:800;
     }
 
+    .req,
     .field-label .req{
-        color: var(--ck-red);
+        color:var(--ck-red);
     }
 
     .field-sub{
-        margin: -2px 0 14px;
-        font-size: 14px;
-        color: var(--ck-text-soft);
-        font-weight: 500;
+        margin:-2px 0 14px;
+        font-size:14px;
+        color:var(--ck-text-soft);
+        font-weight:500;
     }
 
     .vendor-bar{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 16px 18px;
-        border: 1.5px solid var(--ck-line-dark);
-        border-radius: var(--ck-radius-md);
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        padding:16px 18px;
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:var(--ck-radius-md);
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
     }
 
     .vendor-value{
-        font-size: 16px;
-        font-weight: 800;
-        color: var(--ck-navy);
+        font-size:16px;
+        font-weight:800;
+        color:var(--ck-navy);
     }
 
     .vendor-chip{
-        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
-        color: #fff;
-        padding: 9px 14px;
-        border-radius: 999px;
-        font-size: 13px;
-        font-weight: 800;
-        white-space: nowrap;
+        background:linear-gradient(135deg,var(--ck-orange),var(--ck-orange-2));
+        color:#fff;
+        padding:9px 14px;
+        border-radius:999px;
+        font-size:13px;
+        font-weight:800;
+        white-space:nowrap;
     }
 
     .project-grid{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px 18px;
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:16px 18px;
     }
 
     .check-card input[type="checkbox"]{
-        display: none;
+        display:none;
     }
 
     .check-card label{
-        min-height: 60px;
-        border: 1.5px solid var(--ck-line-dark);
-        border-radius: var(--ck-radius-md);
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px 16px;
-        cursor: pointer;
-        transition: 0.22s ease;
-        font-size: 15px;
-        color: var(--ck-text);
-        font-weight: 700;
-        line-height: 1.4;
+        min-height:60px;
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:var(--ck-radius-md);
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+        display:flex;
+        align-items:center;
+        gap:14px;
+        padding:14px 16px;
+        cursor:pointer;
+        transition:.22s ease;
+        font-size:15px;
+        color:var(--ck-text);
+        font-weight:700;
+        line-height:1.4;
     }
 
     .check-card label::before{
-        content: "";
-        width: 20px;
-        height: 20px;
-        border-radius: 6px;
-        border: 2px solid #c4d0de;
-        background: #fff;
-        flex-shrink: 0;
-        transition: 0.22s ease;
+        content:"";
+        width:20px;
+        height:20px;
+        border-radius:6px;
+        border:2px solid #c4d0de;
+        background:#fff;
+        flex-shrink:0;
+        transition:.22s ease;
     }
 
     .check-card input:checked + label{
-        border-color: #f1c7ad;
-        background: linear-gradient(180deg, #fffaf6 0%, #fff2e9 100%);
-        box-shadow: 0 10px 18px rgba(235,122,47,0.07);
+        border-color:#f1c7ad;
+        background:linear-gradient(180deg,#fffaf6 0%,#fff2e9 100%);
+        box-shadow:0 10px 18px rgba(235,122,47,.07);
     }
 
     .check-card input:checked + label::before{
-        background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
-        border-color: var(--ck-orange);
-        box-shadow: inset 0 0 0 4px #fff;
+        background:linear-gradient(135deg,var(--ck-orange),var(--ck-orange-2));
+        border-color:var(--ck-orange);
+        box-shadow:inset 0 0 0 4px #fff;
     }
 
     .form-grid-2{
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px 24px;
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px 24px;
     }
 
     .form-input,
     .form-select,
     .form-textarea{
-        width: 100%;
-        border: 1.5px solid var(--ck-line-dark);
-        border-radius: var(--ck-radius-md);
-        background: #fff;
-        color: var(--ck-text);
-        font-size: 15px;
-        padding: 0 18px;
-        outline: none;
-        transition: .22s ease;
-    }
-
-    .form-input::placeholder,
-    .form-textarea::placeholder{
-        color: #9aa7b8;
-        font-weight: 500;
+        width:100% !important;
+        border:2px solid #dbe4f0 !important;
+        border-radius:22px !important;
+        background:#fff !important;
+        color:#243b64 !important;
+        font-size:18px !important;
+        box-shadow:none !important;
+        outline:none !important;
+        transition:all .25s ease;
     }
 
     .form-input,
     .form-select{
-        height: 58px;
+        height:78px !important;
+        padding:0 24px !important;
     }
 
     .form-textarea{
-        min-height: 120px;
-        resize: vertical;
-        padding: 16px 18px;
+        min-height:150px;
+        padding:24px !important;
+        resize:vertical;
+        line-height:1.6;
     }
 
     .form-input:focus,
     .form-select:focus,
     .form-textarea:focus{
-        border-color: var(--ck-orange);
-        box-shadow: 0 0 0 4px rgba(235,122,47,0.08);
-    }
-
-    .form-input.is-invalid,
-    .form-select.is-invalid,
-    .form-textarea.is-invalid{
-        border-color: var(--ck-red);
-        box-shadow: 0 0 0 4px rgba(239,68,68,0.08);
+        border-color:#c8d5e6 !important;
+        box-shadow:0 0 0 4px rgba(37,99,235,.05) !important;
     }
 
     .error-text{
-        margin-top: 8px;
-        font-size: 13px;
-        color: var(--ck-red);
-        font-weight: 600;
+        margin-top:8px;
+        font-size:13px;
+        color:var(--ck-red);
+        font-weight:600;
+    }
+
+    .text-muted{
+        color:var(--ck-text-soft);
+        font-size:13px;
+        font-weight:500;
     }
 
     .upload-grid-2{
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px 20px;
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px 20px;
     }
 
     .upload-title{
-        margin: 0 0 8px;
-        font-size: 15px;
-        color: var(--ck-navy);
-        font-weight: 800;
+        margin:0 0 8px;
+        font-size:15px;
+        color:var(--ck-navy);
+        font-weight:800;
     }
 
-    .upload-input{
-        display: none;
+    .upload-box-wrap input[type="file"]{
+        display:none;
     }
 
     .upload-box{
-        min-height: 96px;
-        border: 1.5px solid var(--ck-line-dark);
-        border-radius: var(--ck-radius-md);
-        background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding: 16px;
-        cursor: pointer;
-        transition: 0.22s ease;
+        min-height:96px;
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:var(--ck-radius-md);
+        background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%);
+        display:flex;
+        align-items:center;
+        gap:16px;
+        padding:16px;
+        cursor:pointer;
+        transition:.22s ease;
     }
 
     .upload-box:hover{
-        border-color: #f1c19e;
-        box-shadow: 0 10px 22px rgba(235,122,47,0.08);
+        border-color:#f1c19e;
+        box-shadow:0 10px 22px rgba(235,122,47,.08);
     }
 
     .upload-icon{
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        background: #f6f7fb;
-        color: var(--ck-orange);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
+        width:48px;
+        height:48px;
+        border-radius:14px;
+        background:#f6f7fb;
+        color:var(--ck-orange);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:20px;
+        flex-shrink:0;
     }
 
     .upload-main{
-        font-size: 16px;
-        color: var(--ck-navy);
-        font-weight: 800;
-        margin-bottom: 4px;
+        font-size:16px;
+        color:var(--ck-navy);
+        font-weight:800;
+        margin-bottom:4px;
     }
 
     .upload-note{
-        font-size: 13px;
-        color: var(--ck-text-soft);
-        font-weight: 500;
+        font-size:13px;
+        color:var(--ck-text-soft);
+        font-weight:500;
     }
 
-    .file-name{
-        margin-top: 8px;
-        font-size: 13px;
-        color: var(--ck-green);
-        font-weight: 700;
-        word-break: break-word;
+    .uploaded-link{
+        display:none;
+        margin-top:8px;
+        color:#0d6efd;
+        font-weight:600;
+        text-decoration:none;
+        font-size:13px;
     }
 
-    .photo-grid{
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 20px;
-    }
-
-    .photo-card{
-        border: 1px solid var(--ck-line);
-        border-radius: 18px;
-        background: #fff;
-        padding: 14px;
-        box-shadow: var(--ck-shadow-sm);
-    }
-
-    .photo-preview{
-        width: 100%;
-        height: 220px;
-        border-radius: 14px;
-        overflow: hidden;
-        background: #f5f7fb;
-        border: 1px solid var(--ck-line);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        cursor: pointer;
-    }
-
-    .photo-preview img{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-    }
-
-    .photo-preview .placeholder{
-        color: var(--ck-muted);
-        font-weight: 700;
-        text-align: center;
-        padding: 12px;
+    .uploaded-link:hover{
+        text-decoration:underline;
     }
 
     .submit-bar{
-        background: linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 100%);
-        border: 1px solid var(--ck-line);
-        border-radius: 24px;
-        box-shadow: var(--ck-shadow-md);
-        padding: 18px 22px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        flex-wrap: wrap;
+        background:linear-gradient(135deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.93) 100%);
+        border:1px solid var(--ck-line);
+        border-radius:24px;
+        box-shadow:var(--ck-shadow-md);
+        padding:18px 22px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:18px;
+        flex-wrap:wrap;
     }
 
-  
-
-    .submit-btn {
-    min-width: 324px;
-    height: 58px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 900;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    box-shadow: var(--ck-shadow-lg);
-    transition: .22s;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    .submit-btn{
+        min-width:324px;
+        height:58px;
+        border:none;
+        border-radius:14px;
+        background:linear-gradient(135deg,var(--ck-orange),var(--ck-orange-2));
+        color:#fff;
+        font-size:15px;
+        font-weight:900;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:14px;
+        box-shadow:var(--ck-shadow-lg);
+        transition:.22s;
+        cursor:pointer;
+    }
 
     .submit-btn:hover{
-        transform: translateY(-1px);
-        box-shadow: 0 22px 42px rgba(235,122,47,0.24);
+        transform:translateY(-1px);
+        box-shadow:0 22px 42px rgba(235,122,47,.24);
     }
 
     .submit-note{
-        max-width: 500px;
-        color: var(--ck-text-soft);
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 1.5;
+        max-width:500px;
+        color:var(--ck-text-soft);
+        font-size:14px;
+        font-weight:500;
+        line-height:1.5;
     }
 
-    @media (max-width: 1200px){
+    .area-loading{
+        display:none;
+        font-size:13px;
+        color:#71829b;
+        font-weight:600;
+        margin-top:8px;
+    }
+
+    .area-loading.visible{
+        display:block;
+    }
+
+    .select2-container{
+        width:100% !important;
+    }
+
+    .select2-container--default .select2-selection--single,
+    .select2-container--default .select2-selection--multiple{
+        width:100% !important;
+        border:2px solid #dbe4f0 !important;
+        border-radius:22px !important;
+        background:#fff !important;
+        color:#243b64 !important;
+        font-size:18px !important;
+        box-shadow:none !important;
+        transition:all .25s ease;
+    }
+
+    .select2-container--default .select2-selection--single{
+        height:78px !important;
+        display:flex !important;
+        align-items:center !important;
+        padding:0 24px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered{
+        color:#243b64 !important;
+        line-height:74px !important;
+        padding-left:0 !important;
+        padding-right:36px !important;
+        font-size:18px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+        height:78px !important;
+        right:18px !important;
+    }
+
+    .select2-container--default .select2-selection--multiple{
+        min-height:78px !important;
+        padding:12px 18px !important;
+        display:flex !important;
+        align-items:center;
+        flex-wrap:wrap;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered{
+        display:flex !important;
+        flex-wrap:wrap !important;
+        gap:8px !important;
+        padding:0 !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice{
+        background:#eef4ff !important;
+        border:1px solid #c7d7f7 !important;
+        color:#243b64 !important;
+        border-radius:999px !important;
+        padding:6px 12px !important;
+        font-size:15px !important;
+        margin:0 !important;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+        color:#243b64 !important;
+        border-right:none !important;
+        margin-right:6px !important;
+    }
+
+    .select2-dropdown{
+        border:1px solid #dbe4f0 !important;
+        border-radius:16px !important;
+        overflow:hidden;
+    }
+
+    .select2-results__option{
+        padding:12px 16px !important;
+        font-size:16px !important;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected]{
+        background-color:#172554 !important;
+        color:#fff !important;
+    }
+
+    .agreement-status-card{
+        background:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);
+        border:1.5px solid var(--ck-line-dark);
+        border-radius:18px;
+        padding:18px;
+    }
+
+    .agreement-status-title{
+        font-size:16px;
+        font-weight:900;
+        color:var(--ck-navy);
+        margin-bottom:14px;
+    }
+
+    .agreement-status-grid{
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:12px;
+    }
+
+    .agreement-status-item{
+        min-height:54px;
+        border-radius:14px;
+        border:1px solid #e5eaf2;
+        background:#fff;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        padding:12px 14px;
+        font-size:14px;
+        font-weight:800;
+        color:#64748b;
+    }
+
+    .agreement-status-item.accepted{
+        background:#ecfdf3;
+        border-color:#abefc6;
+        color:#027a48;
+    }
+
+    .agreement-status-item.pending{
+        background:#fff7ed;
+        border-color:#fed7aa;
+        color:#c2410c;
+    }
+
+    .agreement-status-icon{
+        width:26px;
+        height:26px;
+        border-radius:50%;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    }
+
+    .agreement-status-item.accepted .agreement-status-icon{
+        background:#16a34a;
+        color:#fff;
+    }
+
+    .agreement-status-item.pending .agreement-status-icon{
+        background:#f97316;
+        color:#fff;
+    }
+
+    .agreement-modal-overlay{
+        position:fixed;
+        inset:0;
+        background:rgba(15,23,61,.72);
+        display:none;
+        align-items:center;
+        justify-content:center;
+        z-index:99999;
+        padding:18px;
+    }
+
+    .agreement-modal-overlay.active{
+        display:flex;
+    }
+
+    .agreement-modal{
+        width:100%;
+        max-width:980px;
+        max-height:92vh;
+        background:#fff;
+        border-radius:24px;
+        box-shadow:0 30px 90px rgba(0,0,0,.28);
+        overflow:hidden;
+        display:flex;
+        flex-direction:column;
+    }
+
+    .agreement-modal-header{
+        padding:20px 24px;
+        background:linear-gradient(135deg,#fff4eb 0%,#ffffff 100%);
+        border-bottom:1px solid #f1dfcf;
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:16px;
+    }
+
+    .agreement-modal-header h2{
+        margin:0;
+        font-size:22px;
+        color:var(--ck-navy);
+        font-weight:900;
+    }
+
+    .agreement-modal-header p{
+        margin:6px 0 0;
+        font-size:14px;
+        color:var(--ck-text-soft);
+        font-weight:500;
+    }
+
+    .agreement-close-btn{
+        width:38px;
+        height:38px;
+        border:none;
+        border-radius:50%;
+        background:#fff;
+        color:var(--ck-navy);
+        font-size:18px;
+        cursor:pointer;
+        box-shadow:var(--ck-shadow-sm);
+    }
+
+    .agreement-modal-body{
+        padding:24px;
+        overflow-y:auto;
+        color:#1f2937;
+        line-height:1.65;
+        font-size:14px;
+    }
+
+    .agreement-modal-body h3{
+        margin:18px 0 8px;
+        font-size:17px;
+        color:var(--ck-navy);
+        font-weight:900;
+    }
+
+    .agreement-modal-body p{
+        margin:0 0 10px;
+    }
+
+    .agreement-modal-body ul{
+        margin:6px 0 12px 20px;
+    }
+
+    .agreement-title-box{
+        text-align:center;
+        border:1px solid #f1dfcf;
+        border-radius:18px;
+        background:#fffaf6;
+        padding:16px;
+        margin-bottom:18px;
+    }
+
+    .agreement-title-box h1{
+        margin:0;
+        font-size:22px;
+        color:var(--ck-navy);
+        font-weight:900;
+    }
+
+    .agreement-title-box h4{
+        margin:6px 0 0;
+        color:var(--ck-orange);
+        font-weight:900;
+    }
+
+    .agreement-checks{
+        padding:18px 24px;
+        border-top:1px solid var(--ck-line);
+        background:#fbfcfe;
+    }
+
+    .agreement-check-row{
+        display:flex;
+        gap:10px;
+        align-items:flex-start;
+        margin-bottom:12px;
+        color:var(--ck-text);
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .agreement-check-row input{
+        margin-top:4px;
+        width:18px;
+        height:18px;
+        flex-shrink:0;
+    }
+
+    .agreement-modal-footer{
+        padding:16px 24px;
+        border-top:1px solid var(--ck-line);
+        display:flex;
+        justify-content:flex-end;
+        gap:12px;
+        flex-wrap:wrap;
+    }
+
+    .agreement-cancel-btn,
+    .agreement-submit-btn{
+        height:48px;
+        border-radius:14px;
+        padding:0 22px;
+        font-weight:900;
+        cursor:pointer;
+        border:none;
+    }
+
+    .agreement-cancel-btn{
+        background:#f3f4f6;
+        color:#374151;
+    }
+
+    .agreement-submit-btn{
+        background:linear-gradient(135deg,var(--ck-orange),var(--ck-orange-2));
+        color:#fff;
+        box-shadow:var(--ck-shadow-lg);
+    }
+
+    .agreement-submit-btn:disabled{
+        opacity:.55;
+        cursor:not-allowed;
+    }
+
+    @media(max-width:1200px){
         .project-grid{
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .photo-grid{
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns:repeat(2,minmax(0,1fr));
         }
     }
 
-    @media (max-width: 992px){
+    @media(max-width:992px){
         .form-grid-2,
-        .upload-grid-2,
-        .photo-grid{
-            grid-template-columns: 1fr;
+        .upload-grid-2{
+            grid-template-columns:1fr;
         }
 
         .project-grid{
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-columns:repeat(2,minmax(0,1fr));
         }
 
         .submit-btn{
-            width: 100%;
-            min-width: 100%;
+            width:100%;
+            min-width:100%;
+        }
+
+        .agreement-status-grid{
+            grid-template-columns:1fr;
         }
     }
 
-    @media (max-width: 768px){
+    @media(max-width:768px){
         .vendor-page{
-            padding: 12px 0 22px;
+            padding:12px 0 22px;
         }
 
         .top-banner{
-            padding: 18px 16px;
-            border-radius: 20px;
+            padding:18px 16px;
+            border-radius:20px;
         }
 
         .top-banner h1{
-            font-size: 22px;
+            font-size:22px;
         }
 
         .top-banner-left{
-            align-items: flex-start;
+            align-items:flex-start;
         }
 
         .section-card{
-            padding: 18px 16px 22px;
-            border-radius: 20px;
+            padding:18px 16px 22px;
+            border-radius:20px;
         }
 
         .section-head{
-            gap: 12px;
+            gap:12px;
         }
 
         .section-badge{
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            font-size: 20px;
+            width:48px;
+            height:48px;
+            border-radius:14px;
+            font-size:20px;
         }
 
         .section-title-wrap h2{
-            font-size: 20px;
+            font-size:20px;
         }
 
         .vendor-bar{
-            flex-direction: column;
-            align-items: flex-start;
+            flex-direction:column;
+            align-items:flex-start;
         }
 
         .project-grid{
-            grid-template-columns: 1fr;
+            grid-template-columns:1fr;
         }
 
         .submit-bar{
-            padding: 16px;
+            padding:16px;
         }
 
         .submit-btn{
-            height: 62px;
-            font-size: 16px;
+            height:62px;
+            font-size:16px;
+        }
+
+        .agreement-modal{
+            max-height:95vh;
+            border-radius:18px;
+        }
+
+        .agreement-modal-header,
+        .agreement-modal-body,
+        .agreement-checks,
+        .agreement-modal-footer{
+            padding:16px;
+        }
+
+        .agreement-modal-header h2{
+            font-size:18px;
         }
     }
-    .file-name{
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--ck-green);
-    font-weight: 700;
-    word-break: break-word;
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.file-name:hover{
-    text-decoration: underline;
-}
-</style>
-<style>
-    .uploaded-link {
-        display: none;
-        margin-top: 8px;
-        color: #0d6efd;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .uploaded-link:hover {
-        text-decoration: underline;
-    }
-
-    .upload-box-wrap input[type="file"] {
-        display: none;
-    }
-
-    .upload-box {
-        cursor: pointer;
-        border: 1px dashed #cfd4dc;
-        border-radius: 12px;
-        padding: 16px;
-        display: block;
-        background: #fff;
-    }
-
-    .upload-note.file-name {
-        font-size: 13px;
-        color: #6c757d;
-        margin-top: 4px;
-        word-break: break-word;
-    }
-
-    .form-input,
-.form-select,
-.form-textarea,
-.select2-container--default .select2-selection--single,
-.select2-container--default .select2-selection--multiple {
-    width: 100% !important;
-    border: 2px solid #dbe4f0 !important;
-    border-radius: 22px !important;
-    background: #fff !important;
-    color: #243b64 !important;
-    font-size: 18px !important;
-    box-shadow: none !important;
-    transition: all 0.25s ease;
-}
-
-.form-input,
-.form-select,
-.select2-container--default .select2-selection--single {
-    height: 78px !important;
-    padding: 0 24px !important;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus,
-.select2-container--default.select2-container--focus .select2-selection--single,
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #c8d5e6 !important;
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.05) !important;
-    outline: none !important;
-}
-
-.form-textarea {
-    min-height: 150px;
-    padding: 24px !important;
-    resize: vertical;
-    line-height: 1.6;
-}
-
-.select2-container {
-    width: 100% !important;
-}
-
-.select2-container--default .select2-selection--single {
-    display: flex !important;
-    align-items: center !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #243b64 !important;
-    line-height: 74px !important;
-    padding-left: 0 !important;
-    padding-right: 36px !important;
-    font-size: 18px !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__placeholder {
-    color: #9aa6b2 !important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 78px !important;
-    right: 18px !important;
-}
-
-.select2-container--default .select2-selection--multiple {
-    min-height: 78px !important;
-    padding: 12px 18px !important;
-    display: flex !important;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 0 !important;
-}
-
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background: #eef4ff !important;
-    border: 1px solid #c7d7f7 !important;
-    color: #243b64 !important;
-    border-radius: 999px !important;
-    padding: 6px 12px !important;
-    font-size: 15px !important;
-    margin: 0 !important;
-}
-
-.select2-dropdown {
-    border: 1px solid #dbe4f0 !important;
-    border-radius: 16px !important;
-    overflow: hidden;
-}
-
-.select2-results__option {
-    padding: 12px 16px !important;
-    font-size: 16px !important;
-}
-
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #172554 !important;
-    color: #fff !important;
-}
 </style>
 
 @php
-    $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
-@endphp
+    $decodeArray = function ($value) {
+        if (is_array($value)) {
+            return $value;
+        }
 
-<form action="{{ route('surveyor.store') }}" method="POST" enctype="multipart/form-data">
+        if (is_string($value) && $value !== '') {
+            $decoded = json_decode($value, true);
+
+            if (is_string($decoded)) {
+                $decoded = json_decode($decoded, true);
+            }
+
+            return is_array($decoded) ? $decoded : [];
+        }
+
+        return [];
+    };
+
+    $selectedProjects = old('project_types', $decodeArray($existingData->project_types ?? null));
+    $selectedProjects = is_array($selectedProjects) ? $selectedProjects : [];
+
+    $selectedCityIds = old('city_ids', !empty($existingData->city_ids)
+        ? $decodeArray($existingData->city_ids)
+        : (!empty($existingData->city_id) ? [$existingData->city_id] : [])
+    );
+    $selectedCityIds = is_array($selectedCityIds) ? array_map('strval', $selectedCityIds) : [];
+
+    $selectedAreaIds = old('area_ids', !empty($existingData->area_ids)
+        ? $decodeArray($existingData->area_ids)
+        : []
+    );
+    $selectedAreaIds = is_array($selectedAreaIds) ? array_map('strval', $selectedAreaIds) : [];
+
+    $savedPincodes = old('pincode', $existingData->pincode ?? '');
+
+    $termsAccepted = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
+    $privacyAccepted = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
+    $newsletterAccepted = (int)($existingData->newsletter_opt_in ?? 0) === 1;
+    $agreementDate = now()->format('d F Y');
+@endphp
+<div class="agreement-status-card">
+                <div class="agreement-status-title">Agreement Acceptance Status</div>
+
+                <div class="agreement-status-grid">
+                    <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
+                        <span class="agreement-status-icon">
+                            <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                        </span>
+                        <span>{{ $termsAccepted ? 'Terms Accepted' : 'Terms Pending' }}</span>
+                    </div>
+
+                    <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
+                        <span class="agreement-status-icon">
+                            <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                        </span>
+                        <span>{{ $privacyAccepted ? 'Privacy Accepted' : 'Privacy Pending' }}</span>
+                    </div>
+
+                    <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
+                        <span class="agreement-status-icon">
+                            <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                        </span>
+                        <span>{{ $newsletterAccepted ? 'Newsletter Accepted' : 'Newsletter Optional' }}</span>
+                    </div>
+                </div>
+            </div>
+<form action="{{ route('surveyor.store') }}" method="POST" enctype="multipart/form-data" id="surveyorRegisterForm">
     @csrf
+
+    <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted ? 1 : 0 }}">
+    <input type="hidden" name="privacy_policy_accepted" id="privacy_policy_accepted" value="{{ $privacyAccepted ? 1 : 0 }}">
+    <input type="hidden" name="newsletter_opt_in" id="newsletter_opt_in" value="{{ $newsletterAccepted ? 1 : 0 }}">
+    <input type="hidden" name="agreement_accepted_at" id="agreement_accepted_at" value="{{ $existingData->agreement_accepted_at ?? '' }}">
 
     <div class="vendor-page">
         <div class="vendor-stack">
 
+            @if(session('success'))
+                <div style="background:#d1fae5;color:#065f46;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div style="background:#fee2e2;color:#991b1b;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
+                    <ul style="margin:0;padding-left:18px;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="top-banner">
                 <div class="top-banner-left">
                     <div class="top-banner-icon">
-                        <i class="fa-solid fa-couch"></i>
+                        <i class="fa-solid fa-map-location-dot"></i>
                     </div>
                     <div>
-                        <h1>Join as an Surveyor Partner</h1>
-                        <p>Complete your profile, upload your documents, and start getting matched with relevant interior projects.</p>
+                        <h1>Join as a Surveyor Partner</h1>
+                        <p>Complete your profile, upload your documents, and start getting matched with relevant survey projects.</p>
                     </div>
                 </div>
                 <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
@@ -760,7 +990,7 @@
                     <div class="section-badge"><i class="fa-solid fa-briefcase"></i></div>
                     <div class="section-title-wrap">
                         <h2>Business & Work Details</h2>
-                        <p>Select your interior specialization and project expertise</p>
+                        <p>Select your survey specialization and project expertise</p>
                     </div>
                 </div>
 
@@ -784,12 +1014,12 @@
                                     id="project_type_{{ $index }}"
                                     name="project_types[]"
                                     value="{{ $type }}"
-                                    {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
+                                    {{ in_array($type, $selectedProjects) ? 'checked' : '' }}
                                 >
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
                         @empty
-                            <p style="color:red; font-weight:600;">No project types found for Contractor.</p>
+                            <p style="color:red;font-weight:600;">No project types found for Surveyor.</p>
                         @endforelse
                     </div>
 
@@ -806,18 +1036,21 @@
                     <div class="section-badge"><i class="fa-solid fa-building"></i></div>
                     <div class="section-title-wrap">
                         <h2>Basic Business Information</h2>
-                        <p>Studio overview and operating details</p>
+                        <p>Business overview and operating details</p>
                     </div>
                 </div>
 
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
-                         <select class="form-select" name="experience_years" id="experience_years">
-                            <option value="" selected disabled>Select years of experience</option>
+                        <select class="form-select" name="experience_years" id="experience_years">
+                            <option value="" disabled {{ old('experience_years', $existingData->experience_years ?? '') == '' ? 'selected' : '' }}>
+                                Select years of experience
+                            </option>
                             @foreach($experienceYears as $experience)
-                                <option value="{{ $experience->id }}" {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
-                                    {{ $experience->experiance }}
+                                <option value="{{ $experience->id }}"
+                                    {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
+                                    {{ $experience->experiance ?? $experience->experience }}
                                 </option>
                             @endforeach
                         </select>
@@ -825,37 +1058,25 @@
 
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
-                         <select class="form-select" name="team_size">
-                            <option value="" selected disabled>Select team size</option>
-                             @foreach($team_size as $team)
-                                <option value="{{ $team->id }}" {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
+                        <select class="form-select" name="team_size">
+                            <option value="" disabled {{ old('team_size', $existingData->team_size ?? '') == '' ? 'selected' : '' }}>
+                                Select team size
+                            </option>
+                            @foreach($team_size as $team)
+                                <option value="{{ $team->id }}"
+                                    {{ old('team_size', $existingData->team_size ?? '') == $team->id ? 'selected' : '' }}>
                                     {{ $team->team_size }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-            
-
-                    @php
-                        $selectedCityId = old('city_id', $existingData->city_id ?? '');
-
-                        $selectedAreaIds = old('area_ids');
-                        if (!$selectedAreaIds) {
-                            $selectedAreaIds = !empty($existingData->area_ids)
-                                ? json_decode($existingData->area_ids, true)
-                                : [];
-                        }
-                        $selectedAreaIds = is_array($selectedAreaIds) ? $selectedAreaIds : [];
-
-                        $savedPincodes = old('pincode', $existingData->pincode ?? '');
-                    @endphp
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
-                        <select class="form-select" name="city_id" id="city_id">
-                            <option value="">Select City</option>
+                        <select class="form-select" name="city_ids[]" id="city_ids" multiple required>
                             @foreach($cities as $city)
-                                <option value="{{ $city->id }}" {{ $selectedCityId == $city->id ? 'selected' : '' }}>
+                                <option value="{{ $city->id }}"
+                                    {{ in_array((string)$city->id, $selectedCityIds) ? 'selected' : '' }}>
                                     {{ $city->name }}
                                 </option>
                             @endforeach
@@ -864,7 +1085,10 @@
 
                     <div>
                         <div class="field-label">Area <span class="req">*</span></div>
-                        <select class="form-select" name="area_ids[]" id="area_id" multiple="multiple"></select>
+                        <select class="form-select" name="area_ids[]" id="area_ids" multiple required></select>
+                        <small class="area-loading" id="areaLoading">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading areas…
+                        </small>
                     </div>
 
                     <div>
@@ -874,13 +1098,24 @@
                             id="pincode_id"
                             name="pincode"
                             readonly
-                            placeholder="Selected area pincodes will appear here"
+                            placeholder="Pincodes auto-fill from selected areas"
                         >{{ $savedPincodes }}</textarea>
                     </div>
 
                     <div>
                         <div class="field-label">Minimum Project Value Handled (₹) <span class="req">*</span></div>
-                      <input type="text" class="form-input" name="minimum_project_value" value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}" placeholder="Enter minimum project value">
+                        <input
+                            type="number"
+                            step="1"
+                            min="0"
+                            class="form-input"
+                            name="minimum_project_value"
+                            value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
+                            placeholder="Enter minimum project value"
+                        >
+                        <small class="text-muted">
+                            Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs. Do not write 5 Lakhs or 5L.
+                        </small>
                     </div>
                 </div>
             </div>
@@ -899,7 +1134,14 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Studio / Firm Name <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="company_name" placeholder="Enter company name" value="{{ old('company_name', $existingData->company_name ?? '') }}">
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="company_name"
+                            placeholder="Enter company name"
+                            value="{{ old('company_name', $existingData->company_name ?? '') }}"
+                            required
+                        >
                     </div>
 
                     <div>
@@ -907,47 +1149,71 @@
                         <select class="form-select" name="entity_type">
                             <option value="" selected disabled>Select entity type</option>
                             @foreach($entity_type as $entity)
-                                <option value="{{ $entity->id }}" {{ old('entity_type', $existingData->entity_type ?? '') == $entity->id ? 'selected' : '' }}>
+                                <option value="{{ $entity->id }}"
+                                    {{ old('entity_type', $existingData->entity_type ?? '') == $entity->id ? 'selected' : '' }}>
                                     {{ $entity->entity_type }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
-                    <div style="grid-column: 1 / -1;">
+                    <div style="grid-column:1/-1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                       <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
+                        <textarea
+                            class="form-textarea"
+                            name="registered_address"
+                            placeholder="Enter registered office address"
+                            required
+                        >{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
                     </div>
 
                     <div>
-                        <div class="field-label">Principal Designer Name <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="contact_person_name" placeholder="Enter company name" value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}">
-
+                        <div class="field-label">Contact Person Name <span class="req">*</span></div>
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="contact_person_name"
+                            placeholder="Enter contact person name"
+                            value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}"
+                        >
                     </div>
 
                     <div>
                         <div class="field-label">Designation <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="contact_person_designation" placeholder="Enter designation" value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
-
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="contact_person_designation"
+                            placeholder="Enter designation"
+                            value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}"
+                        >
                     </div>
 
                     <div>
                         <div class="field-label">PAN Number</div>
-                        <input type="text" class="form-input" name="pan_number" placeholder="Enter PAN number" value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
-
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="pan_number"
+                            placeholder="Enter PAN number"
+                            value="{{ old('pan_number', $existingData->pan_number ?? '') }}"
+                        >
                     </div>
 
                     <div>
                         <div class="field-label">GST Number</div>
-                        <input type="text" class="form-input" name="gst_number" placeholder="Enter PAN number" value="{{ old('gst_number', $existingData->gst_number ?? '') }}">
-
+                        <input
+                            type="text"
+                            class="form-input"
+                            name="gst_number"
+                            placeholder="Enter GST number"
+                            value="{{ old('gst_number', $existingData->gst_number ?? '') }}"
+                        >
                     </div>
-
-                   
                 </div>
             </div>
 
-             <div class="section-card">
+            <div class="section-card">
                 <div class="section-divider"></div>
 
                 <div class="section-head">
@@ -959,6 +1225,7 @@
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
+
                 <div class="upload-grid-2">
                     <div>
                         <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
@@ -971,16 +1238,16 @@
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a>
-                             
-                            @if(!empty($existingData->pan_card))
-                            <div>
-                                <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
-                                    View PAN Certificate
-                                </a>
-                            </div>
-                            @endif
 
+                            <a href="#" class="uploaded-link" id="pan_card_link" target="_blank">View PAN</a>
+
+                            @if(!empty($existingData->pan_card))
+                                <div>
+                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
+                                        View PAN Certificate
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -995,7 +1262,9 @@
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a>
+
+                            <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank">View GST</a>
+
                             @if(!empty($existingData->gst_certificate))
                                 <div>
                                     <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
@@ -1003,8 +1272,6 @@
                                     </a>
                                 </div>
                             @endif
-
-                           
                         </div>
                     </div>
 
@@ -1019,16 +1286,16 @@
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a>
+
+                            <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank">View Aadhaar</a>
+
                             @if(!empty($existingData->aadhaar_card))
                                 <div>
                                     <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
-                                        View Adhar Certificate
+                                        View Aadhaar Certificate
                                     </a>
                                 </div>
                             @endif
-
-                            
                         </div>
                     </div>
 
@@ -1043,7 +1310,9 @@
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a>
+
+                            <a href="#" class="uploaded-link" id="company_profile_link" target="_blank">View Certificate</a>
+
                             @if(!empty($existingData->company_profile))
                                 <div>
                                     <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
@@ -1051,114 +1320,336 @@
                                     </a>
                                 </div>
                             @endif
-
-                            
                         </div>
                     </div>
                 </div>
-               
             </div>
 
+            
+
             <div class="submit-bar">
-                <button type="submit" class="submit-btn">
+                <button type="button" class="submit-btn" id="openAgreementBtn">
                     <i class="fa-regular fa-paper-plane"></i>
                     <span>Submit Surveyor Profile</span>
                 </button>
 
                 <div class="submit-note">
-                    By submitting, you agree to ConstructKaro’s designer verification and project lead matching process.
+                    By submitting, you agree to ConstructKaro’s surveyor verification and project lead matching process.
                 </div>
             </div>
+
         </div>
     </div>
 </form>
+
+<div class="agreement-modal-overlay" id="agreementModal">
+    <div class="agreement-modal">
+
+        <div class="agreement-modal-header">
+            <div>
+                <h2>Project Execution & Representation Agreement</h2>
+                <p>Please read and accept the agreement before submitting your Surveyor profile.</p>
+            </div>
+
+            <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="agreement-modal-body">
+            <div class="agreement-title-box">
+                <h1>CONSTRUCTKARO</h1>
+                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
+                <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
+            </div>
+
+            <h3>1. PARTIES</h3>
+            <p>
+                <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
+                having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
+                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>,
+                shall hereinafter be referred to as <strong>“ConstructKaro”</strong>.
+            </p>
+
+            <p><strong>AND</strong></p>
+
+            <p>
+                <strong id="agreementCompanyName">{{ old('company_name', $existingData->company_name ?? 'Surveyor Company Name') }}</strong>,
+                having its principal office at
+                <strong id="agreementCompanyAddress">{{ old('registered_address', $existingData->registered_address ?? 'Surveyor Office Address') }}</strong>,
+                shall hereinafter be referred to as <strong>“Surveyor”</strong>.
+            </p>
+
+            <p>
+                ConstructKaro and Surveyor are individually referred to as a “Party” and collectively as the “Parties.”
+            </p>
+
+            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
+            <p>
+                ConstructKaro provides construction and project management services, overseeing execution of projects under its brand and contractual responsibility.
+                The Surveyor agrees to execute assigned work as per specifications, drawings, BOQ, timelines, quality standards, and project-specific requirements provided by ConstructKaro.
+            </p>
+            <p>
+                All projects shall be executed under the ConstructKaro brand. The Surveyor shall represent the work exclusively under ConstructKaro unless otherwise agreed in writing.
+                ConstructKaro shall remain the primary contracting party with the customer.
+            </p>
+
+            <h3>3. INDEPENDENT SURVEYOR STATUS</h3>
+            <p>
+                The Surveyor is engaged as an independent execution partner. Nothing in this Agreement shall create partnership, joint venture, employer-employee relationship, or agency except limited representation authorized by ConstructKaro.
+            </p>
+            <ul>
+                <li>The Surveyor shall manage its manpower, staff, tools, equipment, and resources.</li>
+                <li>The Surveyor shall comply with labour laws, statutory requirements, and applicable regulations.</li>
+                <li>The Surveyor shall execute work at its own risk and cost subject to ConstructKaro instructions.</li>
+                <li>The Surveyor shall act as an authorized execution partner of ConstructKaro.</li>
+            </ul>
+
+            <h3>4. SURVEYOR OBLIGATIONS</h3>
+            <ul>
+                <li>Maintain all necessary licenses, registrations, GST compliance, and statutory approvals.</li>
+                <li>Execute work strictly as per scope, drawings, BOQ, specifications, and timelines approved by ConstructKaro.</li>
+                <li>Ensure site safety, labour welfare, quality, and legal compliance.</li>
+                <li>Deploy qualified manpower, tools, instruments, and resources for proper execution.</li>
+                <li>Not represent its own company name, brand, or identity before the customer without written approval.</li>
+                <li>Not directly contact, negotiate, or enter into agreement with the customer without ConstructKaro approval.</li>
+                <li>Maintain confidentiality of project details, customer information, drawings, BOQs, rates, and data.</li>
+                <li>Not subcontract or assign work without prior written approval from ConstructKaro.</li>
+            </ul>
+
+            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
+            <p>
+                ConstructKaro shall share project BOQ, scope, drawings, and specifications with the Surveyor for submission of base rates.
+                ConstructKaro shall have the exclusive right to determine final project pricing offered to the customer.
+            </p>
+            <p>
+                All billing to the customer shall be done solely by ConstructKaro. The Surveyor shall not raise any invoice directly to the customer.
+                Payment to the Surveyor shall be on a bill-to-bill basis and subject to receipt of corresponding payment from the customer and quality approval by ConstructKaro.
+            </p>
+
+            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
+            <p>
+                ConstructKaro may appoint a Quality Check Officer to monitor and verify the quality of work.
+                Payment shall be released only after inspection, verification, and approval by ConstructKaro.
+            </p>
+
+            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
+            <ul>
+                <li>ConstructKaro does not guarantee allocation or continuity of any project.</li>
+                <li>ConstructKaro does not guarantee specific project size, value, or volume.</li>
+                <li>ConstructKaro does not guarantee timely payment from the customer.</li>
+                <li>ConstructKaro shall not be liable for delay due to customer non-payment, site conditions, scope changes, or regulatory issues.</li>
+            </ul>
+
+            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
+            <p>
+                The Surveyor shall not directly or indirectly contact, solicit, negotiate, or execute work with any customer introduced, assigned, or handled by ConstructKaro except through ConstructKaro.
+                This restriction shall remain valid during the term of this Agreement and for thirty-six (36) months from completion or termination.
+            </p>
+            <p>
+                Breach may attract liquidated damages equal to 20% of total project value or ₹5,00,000, whichever is higher, in addition to legal remedies available to ConstructKaro.
+            </p>
+
+            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
+            <p>
+                All project details, BOQs, drawings, pricing, specifications, customer information, and commercial terms shared by ConstructKaro shall remain confidential and shall not be disclosed or reused without written permission.
+            </p>
+
+            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
+            <p>
+                ConstructKaro retains exclusive ownership of its brand name, logo, trademarks, systems, data, documents, drawings, BOQs, reports, and related intellectual property.
+                The Surveyor shall not use ConstructKaro’s name, logo, or project content for marketing or commercial purposes without prior written consent.
+            </p>
+
+            <h3>11. LIABILITY & INDEMNITY</h3>
+            <p>
+                The Surveyor shall indemnify and hold harmless ConstructKaro, its directors, employees, and representatives from claims, losses, damages, penalties, disputes, defective work, delay, negligence, third-party claims, or statutory non-compliance arising from the Surveyor’s work.
+            </p>
+            <p>
+                The Surveyor shall be fully liable for loss or damage caused due to acts, omissions, negligence, non-compliance, incorrect survey data, wrong assessment, or failure to follow applicable standards.
+            </p>
+
+            <h3>12. DISPUTE HANDLING</h3>
+            <p>
+                Customer-related communication and disputes shall be handled exclusively by ConstructKaro.
+                Any dispute between ConstructKaro and the Surveyor shall first be attempted to be resolved amicably within thirty (30) days.
+                If unresolved, the dispute shall be referred to arbitration under the Arbitration & Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
+            </p>
+
+            <h3>13. TERMINATION</h3>
+            <p>
+                Either Party may terminate this Agreement by giving seven (7) days’ prior written notice.
+                ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct, fraud, negligence, confidentiality breach, or non-circumvention breach.
+            </p>
+
+            <h3>14. GOVERNING LAW & JURISDICTION</h3>
+            <p>
+                This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.
+            </p>
+
+            <h3>15. DIGITAL ACCEPTANCE</h3>
+            <p>
+                This Agreement may be executed via digital signature, click-wrap acceptance, or electronic confirmation.
+                Such execution shall be legally valid under the Information Technology Act, 2000.
+            </p>
+
+            <h3>16. FINAL UNDERSTANDING</h3>
+            <p>
+                This Agreement constitutes the entire understanding between the Parties. If any clause is held invalid, remaining clauses shall continue to be enforceable.
+            </p>
+        </div>
+
+        <div class="agreement-checks">
+            <label class="agreement-check-row">
+                <input type="checkbox" id="agreeTerms">
+                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement.</span>
+            </label>
+
+            <label class="agreement-check-row">
+                <input type="checkbox" id="agreePrivacy">
+                <span>I have read and agree to the Privacy Policy of ConstructKaro, including collection and processing of my personal and business data.</span>
+            </label>
+
+            <label class="agreement-check-row">
+                <input type="checkbox" id="agreeNewsletter">
+                <span>I agree to receive communication, updates, and newsletters from ConstructKaro. Optional.</span>
+            </label>
+        </div>
+
+        <div class="agreement-modal-footer">
+            <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
+            <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
+                Agree & Submit
+            </button>
+        </div>
+
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    let selectedCityId = @json($selectedCityId);
-    let selectedAreaIds = @json($selectedAreaIds);
-    let savedPincodes = @json($savedPincodes);
-</script>
-<script>
-    function bindFileName(inputId, nameId) {
-        const input = document.getElementById(inputId);
-        const nameBox = document.getElementById(nameId);
+function setupFilePreview(inputId, linkId) {
+    const input = document.getElementById(inputId);
+    const link = document.getElementById(linkId);
 
-        if (input && nameBox) {
-            input.addEventListener('change', function () {
-                nameBox.textContent = this.files.length ? this.files[0].name : '';
-            });
-        }
-    }
+    if (!input || !link) return;
 
-    bindFileName('pan_card', 'pan_card_name');
-    bindFileName('gst_certificate', 'gst_certificate_name');
-    bindFileName('company_profile', 'company_profile_name');
-    bindFileName('supporting_documents', 'supporting_documents_name');
+    input.addEventListener('change', function () {
+        const file = this.files[0];
+        const wrap = this.closest('.upload-box-wrap');
+        const fileNameBox = wrap ? wrap.querySelector('.file-name') : null;
 
-    document.querySelectorAll('.portfolio-image-input').forEach(function(input, index) {
-        input.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const imageNumber = index + 1;
-            const preview = document.getElementById('portfolio_preview_' + imageNumber);
-            const placeholder = document.getElementById('portfolio_placeholder_' + imageNumber);
+        if (file) {
+            link.href = URL.createObjectURL(file);
+            link.style.display = 'inline-block';
+            link.textContent = 'View Uploaded File';
 
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
+            if (fileNameBox) {
+                fileNameBox.textContent = file.name;
             }
-        });
+        } else {
+            link.href = '#';
+            link.style.display = 'none';
+
+            if (fileNameBox) {
+                fileNameBox.textContent = 'Choose and upload file';
+            }
+        }
     });
+}
+
+setupFilePreview('pan_card', 'pan_card_link');
+setupFilePreview('gst_certificate', 'gst_certificate_link');
+setupFilePreview('aadhaar_card', 'aadhaar_card_link');
+setupFilePreview('company_profile', 'company_profile_link');
 </script>
+
 <script>
 $(document).ready(function () {
 
-    let selectedCityId = @json($selectedCityId);
-    let selectedAreaIds = @json($selectedAreaIds);
+    const preSelectedCityIds = @json($selectedCityIds);
+    const preSelectedAreaIds = @json($selectedAreaIds);
 
-    $('#city_id').select2({
-        placeholder: 'Select City',
-        width: '100%'
-    });
+    const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
+    const pincodesRoute = "{{ route('get.pincodes') }}";
 
-    $('#area_id').select2({
-        placeholder: 'Select Area',
+    $('#city_ids').select2({
+        placeholder: 'Select one or more cities',
         width: '100%',
         closeOnSelect: false
     });
 
-    function loadAreas(cityId, selectedAreas = []) {
-        $('#area_id').html('');
+    $('#area_ids').select2({
+        placeholder: 'Select areas',
+        width: '100%',
+        closeOnSelect: false
+    });
 
-        if (!cityId) {
-            $('#area_id').trigger('change');
+    function loadAreasForCities(cityIds, preselectAreaIds = []) {
+        if (!cityIds || cityIds.length === 0) {
+            $('#area_ids').html('').trigger('change');
+            $('#pincode_id').val('');
             return;
         }
 
-        $.ajax({
-            url: "{{ route('get.areas', ':city_id') }}".replace(':city_id', cityId),
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                let options = '';
+        $('#areaLoading').addClass('visible');
+        $('#area_ids').prop('disabled', true);
 
-                $.each(data, function (index, area) {
-                    let isSelected = selectedAreas.includes(area.id.toString()) || selectedAreas.includes(area.id);
-                    options += `<option value="${area.id}" ${isSelected ? 'selected' : ''}>${area.name}</option>`;
+        const requests = cityIds.map(function(cityId) {
+            return $.ajax({
+                url: areasRouteTemplate.replace(':city_id', cityId),
+                type: 'GET',
+                dataType: 'json'
+            });
+        });
+
+        $.when.apply($, requests).then(function () {
+            let allAreas = [];
+
+            if (cityIds.length === 1) {
+                allAreas = arguments[0];
+            } else {
+                $.each(arguments, function(index, response) {
+                    allAreas = allAreas.concat(response[0]);
                 });
-
-                $('#area_id').html(options).trigger('change');
-
-                if (selectedAreas.length > 0) {
-                    loadPincodes(selectedAreas);
-                }
             }
+
+            const seen = new Set();
+
+            const uniqueAreas = allAreas.filter(function(area) {
+                if (seen.has(area.id)) return false;
+                seen.add(area.id);
+                return true;
+            });
+
+            uniqueAreas.sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+
+            let html = '';
+
+            uniqueAreas.forEach(function(area) {
+                const selected =
+                    preselectAreaIds.includes(area.id.toString()) ||
+                    preselectAreaIds.includes(area.id);
+
+                html += `<option value="${area.id}" ${selected ? 'selected' : ''}>${area.name}</option>`;
+            });
+
+            $('#area_ids').html(html).trigger('change');
+            $('#area_ids').prop('disabled', false);
+            $('#areaLoading').removeClass('visible');
+
+            if (preselectAreaIds.length > 0) {
+                loadPincodes(preselectAreaIds);
+            }
+
+        }).fail(function () {
+            $('#area_ids').prop('disabled', false);
+            $('#areaLoading').removeClass('visible');
+            alert('Areas loading failed. Please check get.areas route.');
         });
     }
 
@@ -1169,31 +1660,140 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "{{ route('get.pincodes') }}",
+            url: pincodesRoute,
             type: 'GET',
             dataType: 'json',
-            data: { area_ids: areaIds },
+            data: {
+                area_ids: areaIds
+            },
             success: function (data) {
                 let uniquePincodes = [...new Set(data)];
                 $('#pincode_id').val(uniquePincodes.join(', '));
+            },
+            error: function () {
+                $('#pincode_id').val('');
             }
         });
     }
 
-    $('#city_id').on('change', function () {
-        let cityId = $(this).val();
+    $('#city_ids').on('change', function () {
         $('#pincode_id').val('');
-        loadAreas(cityId, []);
+        loadAreasForCities($(this).val() || [], []);
     });
 
-    $('#area_id').on('change', function () {
-        let areaIds = $(this).val();
-        loadPincodes(areaIds);
+    $('#area_ids').on('change', function () {
+        loadPincodes($(this).val() || []);
     });
 
-    if (selectedCityId) {
-        loadAreas(selectedCityId, selectedAreaIds);
+    if (preSelectedCityIds.length > 0) {
+        $('#city_ids').val(preSelectedCityIds).trigger('change.select2');
+        loadAreasForCities(preSelectedCityIds, preSelectedAreaIds);
     }
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('surveyorRegisterForm');
+    const openBtn = document.getElementById('openAgreementBtn');
+
+    const modal = document.getElementById('agreementModal');
+    const closeBtn = document.getElementById('closeAgreementBtn');
+    const cancelBtn = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+
+    const agreeTerms = document.getElementById('agreeTerms');
+    const agreePrivacy = document.getElementById('agreePrivacy');
+    const agreeNewsletter = document.getElementById('agreeNewsletter');
+
+    const hiddenTerms = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const hiddenNewsletter = document.getElementById('newsletter_opt_in');
+    const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
+
+    const agreementCompanyName = document.getElementById('agreementCompanyName');
+    const agreementCompanyAddress = document.getElementById('agreementCompanyAddress');
+
+    function mysqlDateTimeNow() {
+        const now = new Date();
+
+        const pad = function (num) {
+            return String(num).padStart(2, '0');
+        };
+
+        return now.getFullYear() + '-' +
+            pad(now.getMonth() + 1) + '-' +
+            pad(now.getDate()) + ' ' +
+            pad(now.getHours()) + ':' +
+            pad(now.getMinutes()) + ':' +
+            pad(now.getSeconds());
+    }
+
+    function toggleSubmitButton() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
+    function refreshAgreementPartyDetails() {
+        const companyInput = form.querySelector('[name="company_name"]');
+        const addressInput = form.querySelector('[name="registered_address"]');
+
+        if (agreementCompanyName && companyInput && companyInput.value.trim() !== '') {
+            agreementCompanyName.textContent = companyInput.value.trim();
+        }
+
+        if (agreementCompanyAddress && addressInput && addressInput.value.trim() !== '') {
+            agreementCompanyAddress.textContent = addressInput.value.trim();
+        }
+    }
+
+    function openAgreementModal() {
+        refreshAgreementPartyDetails();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAgreementModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    openBtn.addEventListener('click', function () {
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const alreadyAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
+
+        if (alreadyAccepted) {
+            form.submit();
+            return;
+        }
+
+        openAgreementModal();
+    });
+
+    closeBtn.addEventListener('click', closeAgreementModal);
+    cancelBtn.addEventListener('click', closeAgreementModal);
+
+    agreeTerms.addEventListener('change', toggleSubmitButton);
+    agreePrivacy.addEventListener('change', toggleSubmitButton);
+
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept required agreement terms and privacy policy.');
+            return;
+        }
+
+        hiddenTerms.value = '1';
+        hiddenPrivacy.value = '1';
+        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
+        hiddenAcceptedAt.value = mysqlDateTimeNow();
+
+        closeAgreementModal();
+        form.submit();
+    });
+});
+</script>
+
 @endsection

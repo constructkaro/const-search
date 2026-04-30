@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Session;
 class VendorController extends Controller
 {
   
+public function welcome()
+{
+      $cities = DB::table('city')->orderBy('name', 'asc')->get();
+
+    return view('vendor.welcome',compact('cities'));
+}
 
 public function vendorstore(Request $request)
 {
@@ -18,9 +24,12 @@ public function vendorstore(Request $request)
         'mobile' => 'required|digits:10|unique:vendor_register,mobile',
         'email' => 'required|email|max:255|unique:vendor_register,email',
         'company_name' => 'required|string|max:255',
-        'city' => 'required|string|max:255',
-        'Area' => 'required|string',
-        'pincode' => 'required|digits:6',
+
+        'city_id' => 'required',
+        'area_ids' => 'required|array',
+        'area_ids.*' => 'required',
+        'pincode' => 'required|string',
+
         'business_address' => 'required|string|max:500',
         'business_entity' => 'required|string|max:255',
         'password' => 'required|min:6|confirmed',
@@ -33,11 +42,16 @@ public function vendorstore(Request $request)
     DB::table('vendor_register')->insert([
         'full_name' => $validated['full_name'],
         'mobile' => $validated['mobile'],
-        'Area'  =>$validated['Area'],
+        'city_id' => $validated['city_id'],
+
+        // array to JSON string
+        'area_ids' => json_encode($validated['area_ids']),
+
+        // already comma-separated string from textarea
+        'pincode' => $validated['pincode'],
+
         'email' => $validated['email'],
         'company_name' => $validated['company_name'],
-        'city' => $validated['city'],
-        'pincode' => $validated['pincode'],
         'business_address' => $validated['business_address'],
         'business_entity' => $validated['business_entity'],
         'password' => Hash::make($validated['password']),
@@ -47,6 +61,50 @@ public function vendorstore(Request $request)
 
     return redirect()->back()->with('success', 'Vendor registered successfully. Please login.');
 }
+
+// public function vendorstore(Request $request)
+// {
+//     // dd($request);
+//     $validated = $request->validate([
+//         'full_name' => 'required|string|max:255',
+//         'mobile' => 'required|digits:10|unique:vendor_register,mobile',
+//         'email' => 'required|email|max:255|unique:vendor_register,email',
+//         'company_name' => 'required|string|max:255',
+//           'city_id' => 'required',
+//         'area_ids' => 'required|array',
+//         'pincode' => 'required',
+//         // 'city' => 'required|string|max:255',
+//         // 'Area' => 'required|string',
+//         // 'pincode' => 'required|digits:6',
+//         'business_address' => 'required|string|max:500',
+//         'business_entity' => 'required|string|max:255',
+//         'password' => 'required|min:6|confirmed',
+//     ], [
+//         'mobile.unique' => 'This mobile number is already registered.',
+//         'email.unique' => 'This email is already registered.',
+//         'password.confirmed' => 'Password and confirm password do not match.',
+//     ]);
+
+//     DB::table('vendor_register')->insert([
+//         'full_name' => $validated['full_name'],
+//         'mobile' => $validated['mobile'],
+//         'city_id' => $validated['city_id'], 
+//         'area_ids' => $validated['area_ids'], 
+//         'pincode' => $validated['pincode'], 
+//         // 'Area'  =>$validated['Area'],
+//         'email' => $validated['email'],
+//         'company_name' => $validated['company_name'],
+//         // 'city' => $validated['city'],
+//         // 'pincode' => $validated['pincode'],
+//         'business_address' => $validated['business_address'],
+//         'business_entity' => $validated['business_entity'],
+//         'password' => Hash::make($validated['password']),
+//         'created_at' => now(),
+//         'updated_at' => now(),
+//     ]);
+
+//     return redirect()->back()->with('success', 'Vendor registered successfully. Please login.');
+// }
 
 
 public function test(){

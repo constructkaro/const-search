@@ -12,7 +12,7 @@ class ContractorProvider extends Model
         'project_types',
         'experience_years',
         'team_size',
-        'city_id','area_ids',
+        'city_ids','area_ids',
         'minimum_project_value',
         'company_name',
         'entity_type',
@@ -34,12 +34,13 @@ class ContractorProvider extends Model
         'esic_doc',
         'work_photo_1',
         'work_photo_2',
-        'work_photo_3',
+        'work_photo_3','agreement_terms_accepted','privacy_policy_accepted','newsletter_opt_in','agreement_accepted_at',
         'status',
     ];
 
     protected $casts = [
     'project_types' => 'array',
+    'city_ids' => 'array',
     'area_ids' => 'array', // ✅ ADD THIS
 ];
 

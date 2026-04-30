@@ -14,7 +14,7 @@ class ArchitectProvider extends Model
         'experience_years',
         'team_size',
         'aadhaar_card',
-        'city_id',
+        'city_ids',
         'area_ids',
         'pincode',
         'minimum_project_value',
@@ -38,12 +38,13 @@ class ArchitectProvider extends Model
         'portfolio_image_1',
         'portfolio_image_2',
         'portfolio_image_3',
-        'msme_certificate',
+        'msme_certificate','agreement_terms_accepted','privacy_policy_accepted','newsletter_opt_in','agreement_accepted_at',
         'status',
     ];
 
     protected $casts = [
         'project_types' => 'array',
         'area_ids' => 'array',
+        'city_ids' =>'array'
     ];
 }
