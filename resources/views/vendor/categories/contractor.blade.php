@@ -21,6 +21,7 @@
         --ck-line: #e3eaf2;
         --ck-line-dark: #d6dfeb;
         --ck-red: #ef4444;
+        --ck-green: #16a34a;
         --ck-shadow-sm: 0 8px 22px rgba(15, 23, 61, 0.05);
         --ck-shadow-md: 0 16px 38px rgba(15, 23, 61, 0.07);
         --ck-shadow-lg: 0 18px 38px rgba(235, 122, 47, 0.20);
@@ -355,6 +356,9 @@
         text-decoration: underline;
     }
 
+    /* ══════════════════════════════════════
+       SUBMIT BAR — new two-button layout
+    ══════════════════════════════════════ */
     .submit-bar{
         background: linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 100%);
         border: 1px solid var(--ck-line);
@@ -368,9 +372,52 @@
         flex-wrap: wrap;
     }
 
+    .submit-bar-actions{
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    /* Agreement button — outlined navy style */
+    .agreement-view-btn{
+        height: 58px;
+        padding: 0 26px;
+        border: 2px solid var(--ck-navy-2);
+        border-radius: 16px;
+        background: transparent;
+        color: var(--ck-navy-2);
+        font-size: 16px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all .22s ease;
+        white-space: nowrap;
+    }
+
+    .agreement-view-btn:hover{
+        background: var(--ck-navy-2);
+        color: #fff;
+    }
+
+    /* If agreement already accepted — show green badge variant */
+    .agreement-view-btn.accepted{
+        border-color: #16a34a;
+        color: #16a34a;
+    }
+
+    .agreement-view-btn.accepted:hover{
+        background: #16a34a;
+        color: #fff;
+    }
+
+    /* Submit button */
     .submit-btn{
-        min-width: 320px;
         height: 68px;
+        padding: 0 36px;
         border: none;
         border-radius: 18px;
         background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
@@ -383,6 +430,53 @@
         gap: 14px;
         box-shadow: var(--ck-shadow-lg);
         transition: .22s ease;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .submit-btn:disabled{
+        opacity: 0.45;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .submit-btn:not(:disabled):hover{
+        transform: translateY(-2px);
+        box-shadow: 0 22px 44px rgba(235,122,47,0.28);
+    }
+
+    /* Agreement pending notice inside submit bar */
+    .agreement-pending-notice{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #c2410c;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 10px;
+        padding: 8px 14px;
+    }
+
+    .agreement-accepted-badge{
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #027a48;
+        background: #ecfdf3;
+        border: 1px solid #abefc6;
+        border-radius: 10px;
+        padding: 8px 14px;
+    }
+
+    .agreement-accepted-badge.visible{
+        display: flex;
+    }
+    .agreement-pending-notice.hidden{
+        display: none;
     }
 
     .submit-note{
@@ -491,9 +585,16 @@
             grid-template-columns: 1fr;
         }
 
-        .submit-btn{
-            min-width: 100%;
+        .submit-bar-actions{
             width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .agreement-view-btn,
+        .submit-btn{
+            width: 100%;
+            justify-content: center;
         }
     }
 
@@ -502,276 +603,313 @@
         .section-card{ padding: 18px 16px 22px; border-radius: 20px; }
         .section-title-wrap h2{ font-size: 20px; }
         .vendor-bar{ grid-template-columns: 1fr; }
+        .submit-bar{ flex-direction: column; align-items: stretch; }
     }
 
 
-    /* Agreement Modal */
-.agreement-modal-overlay{
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 61, 0.72);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 99999;
-    padding: 18px;
-}
+    /* ═══════════════════════════════════
+       Agreement Modal
+    ═══════════════════════════════════ */
+    .agreement-modal-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 61, 0.72);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        padding: 18px;
+    }
 
-.agreement-modal-overlay.active{
-    display: flex;
-}
+    .agreement-modal-overlay.active{
+        display: flex;
+    }
 
-.agreement-modal{
-    width: 100%;
-    max-width: 980px;
-    max-height: 92vh;
-    background: #fff;
-    border-radius: 24px;
-    box-shadow: 0 30px 90px rgba(0,0,0,0.28);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.agreement-modal-header{
-    padding: 20px 24px;
-    background: linear-gradient(135deg, #fff4eb 0%, #ffffff 100%);
-    border-bottom: 1px solid #f1dfcf;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-}
-
-.agreement-modal-header h2{
-    margin: 0;
-    font-size: 22px;
-    color: var(--ck-navy);
-    font-weight: 900;
-}
-
-.agreement-modal-header p{
-    margin: 6px 0 0;
-    font-size: 14px;
-    color: var(--ck-text-soft);
-    font-weight: 500;
-}
-
-.agreement-close-btn{
-    width: 38px;
-    height: 38px;
-    border: none;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--ck-navy);
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: var(--ck-shadow-sm);
-}
-
-.agreement-modal-body{
-    padding: 24px;
-    overflow-y: auto;
-    color: #1f2937;
-    line-height: 1.65;
-    font-size: 14px;
-}
-
-.agreement-modal-body h3{
-    margin: 18px 0 8px;
-    font-size: 17px;
-    color: var(--ck-navy);
-    font-weight: 900;
-}
-
-.agreement-modal-body p{
-    margin: 0 0 10px;
-}
-
-.agreement-modal-body ul{
-    margin: 6px 0 12px 20px;
-}
-
-.agreement-title-box{
-    text-align: center;
-    border: 1px solid #f1dfcf;
-    border-radius: 18px;
-    background: #fffaf6;
-    padding: 16px;
-    margin-bottom: 18px;
-}
-
-.agreement-title-box h1{
-    margin: 0;
-    font-size: 22px;
-    color: var(--ck-navy);
-    font-weight: 900;
-}
-
-.agreement-title-box h4{
-    margin: 6px 0 0;
-    color: var(--ck-orange);
-    font-weight: 900;
-}
-
-.agreement-checks{
-    padding: 18px 24px;
-    border-top: 1px solid var(--ck-line);
-    background: #fbfcfe;
-}
-
-.agreement-check-row{
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    margin-bottom: 12px;
-    color: var(--ck-text);
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.agreement-check-row input{
-    margin-top: 4px;
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
-
-.agreement-modal-footer{
-    padding: 16px 24px;
-    border-top: 1px solid var(--ck-line);
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.agreement-cancel-btn,
-.agreement-submit-btn{
-    height: 48px;
-    border-radius: 14px;
-    padding: 0 22px;
-    font-weight: 900;
-    cursor: pointer;
-    border: none;
-}
-
-.agreement-cancel-btn{
-    background: #f3f4f6;
-    color: #374151;
-}
-
-.agreement-submit-btn{
-    background: linear-gradient(135deg, var(--ck-orange), var(--ck-orange-2));
-    color: #fff;
-    box-shadow: var(--ck-shadow-lg);
-}
-
-.agreement-submit-btn:disabled{
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
-@media(max-width: 768px){
     .agreement-modal{
-        max-height: 95vh;
-        border-radius: 18px;
+        width: 100%;
+        max-width: 980px;
+        max-height: 92vh;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 30px 90px rgba(0,0,0,0.28);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
-    .agreement-modal-header,
-    .agreement-modal-body,
-    .agreement-checks,
-    .agreement-modal-footer{
-        padding: 16px;
+    .agreement-modal-header{
+        padding: 20px 24px;
+        background: linear-gradient(135deg, #fff4eb 0%, #ffffff 100%);
+        border-bottom: 1px solid #f1dfcf;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
     }
 
     .agreement-modal-header h2{
+        margin: 0;
+        font-size: 22px;
+        color: var(--ck-navy);
+        font-weight: 900;
+    }
+
+    .agreement-modal-header p{
+        margin: 6px 0 0;
+        font-size: 14px;
+        color: var(--ck-text-soft);
+        font-weight: 500;
+    }
+
+    .agreement-close-btn{
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
+        color: var(--ck-navy);
         font-size: 18px;
+        cursor: pointer;
+        box-shadow: var(--ck-shadow-sm);
     }
-}
 
-.agreement-status-card{
-    background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
-    border: 1.5px solid var(--ck-line-dark);
-    border-radius: 18px;
-    padding: 18px;
-    margin-top: 18px;
-}
+    .agreement-modal-body{
+        padding: 24px;
+        overflow-y: auto;
+        color: #1f2937;
+        line-height: 1.65;
+        font-size: 14px;
+    }
 
-.agreement-status-title{
-    font-size: 16px;
-    font-weight: 900;
-    color: var(--ck-navy);
-    margin-bottom: 14px;
-}
+    .agreement-modal-body h3{
+        margin: 18px 0 8px;
+        font-size: 17px;
+        color: var(--ck-navy);
+        font-weight: 900;
+    }
 
-.agreement-status-grid{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-}
+    .agreement-modal-body p{
+        margin: 0 0 10px;
+    }
 
-.agreement-status-item{
-    min-height: 54px;
-    border-radius: 14px;
-    border: 1px solid #e5eaf2;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #64748b;
-}
+    .agreement-modal-body ul{
+        margin: 6px 0 12px 20px;
+    }
 
-.agreement-status-item.accepted{
-    background: #ecfdf3;
-    border-color: #abefc6;
-    color: #027a48;
-}
+    .agreement-title-box{
+        text-align: center;
+        border: 1px solid #f1dfcf;
+        border-radius: 18px;
+        background: #fffaf6;
+        padding: 16px;
+        margin-bottom: 18px;
+    }
 
-.agreement-status-item.pending{
-    background: #fff7ed;
-    border-color: #fed7aa;
-    color: #c2410c;
-}
+    .agreement-title-box h1{
+        margin: 0;
+        font-size: 22px;
+        color: var(--ck-navy);
+        font-weight: 900;
+    }
 
-.agreement-status-icon{
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
+    .agreement-title-box h4{
+        margin: 6px 0 0;
+        color: var(--ck-orange);
+        font-weight: 900;
+    }
 
-.agreement-status-item.accepted .agreement-status-icon{
-    background: #16a34a;
-    color: #fff;
-}
+    /* Read-only mode: hide checkboxes + footer actions, show close only */
+    .agreement-modal.readonly-mode .agreement-checks,
+    .agreement-modal.readonly-mode .agreement-modal-footer{
+        display: none;
+    }
 
-.agreement-status-item.pending .agreement-status-icon{
-    background: #f97316;
-    color: #fff;
-}
+    .agreement-modal.readonly-mode .agreement-modal-header{
+        background: linear-gradient(135deg, #ecfdf3 0%, #ffffff 100%);
+        border-bottom-color: #abefc6;
+    }
 
-@media(max-width: 768px){
+    .agreement-readonly-banner{
+        display: none;
+        margin: 0 24px 0;
+        padding: 12px 16px;
+        background: #ecfdf3;
+        border: 1px solid #abefc6;
+        border-radius: 12px;
+        color: #027a48;
+        font-size: 14px;
+        font-weight: 700;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .agreement-modal.readonly-mode .agreement-readonly-banner{
+        display: flex;
+    }
+
+    .agreement-checks{
+        padding: 18px 24px;
+        border-top: 1px solid var(--ck-line);
+        background: #fbfcfe;
+    }
+
+    .agreement-check-row{
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        color: var(--ck-text);
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .agreement-check-row input{
+        margin-top: 4px;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .agreement-modal-footer{
+        padding: 16px 24px;
+        border-top: 1px solid var(--ck-line);
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .agreement-cancel-btn,
+    .agreement-submit-btn{
+        height: 48px;
+        border-radius: 14px;
+        padding: 0 22px;
+        font-weight: 900;
+        cursor: pointer;
+        border: none;
+    }
+
+    .agreement-cancel-btn{
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .agreement-submit-btn{
+        background: linear-gradient(135deg, var(--ck-orange), var(--ck-orange-2));
+        color: #fff;
+        box-shadow: var(--ck-shadow-lg);
+    }
+
+    .agreement-submit-btn:disabled{
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    @media(max-width: 768px){
+        .agreement-modal{
+            max-height: 95vh;
+            border-radius: 18px;
+        }
+
+        .agreement-modal-header,
+        .agreement-modal-body,
+        .agreement-checks,
+        .agreement-modal-footer{
+            padding: 16px;
+        }
+
+        .agreement-modal-header h2{
+            font-size: 18px;
+        }
+    }
+
+    /* Agreement Status Card */
+    .agreement-status-card{
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+        border: 1.5px solid var(--ck-line-dark);
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 24px;
+    }
+
+    .agreement-status-title{
+        font-size: 16px;
+        font-weight: 900;
+        color: var(--ck-navy);
+        margin-bottom: 14px;
+    }
+
     .agreement-status-grid{
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
     }
-}
+
+    .agreement-status-item{
+        min-height: 54px;
+        border-radius: 14px;
+        border: 1px solid #e5eaf2;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 800;
+        color: #64748b;
+    }
+
+    .agreement-status-item.accepted{
+        background: #ecfdf3;
+        border-color: #abefc6;
+        color: #027a48;
+    }
+
+    .agreement-status-item.pending{
+        background: #fff7ed;
+        border-color: #fed7aa;
+        color: #c2410c;
+    }
+
+    .agreement-status-icon{
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .agreement-status-item.accepted .agreement-status-icon{
+        background: #16a34a;
+        color: #fff;
+    }
+
+    .agreement-status-item.pending .agreement-status-icon{
+        background: #f97316;
+        color: #fff;
+    }
+
+    @media(max-width: 768px){
+        .agreement-status-grid{
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
+
 @php
-    $termsAccepted = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
-    $privacyAccepted = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
-    $newsletterAccepted = (int)($existingData->newsletter_opt_in ?? 0) === 1;
+    $termsAccepted      = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
+    $privacyAccepted    = (int)($existingData->privacy_policy_accepted  ?? 0) === 1;
+    $newsletterAccepted = (int)($existingData->newsletter_opt_in        ?? 0) === 1;
+
+    /* Both mandatory fields accepted = fully agreed */
+    $fullyAgreed = $termsAccepted && $privacyAccepted;
 @endphp
+
 @php
     $selectedProjects = json_decode($existingData->project_types ?? '[]', true);
 
-    /* ── Multi-city / area pre-fill ── */
     $selectedCityIds = old('city_ids', !empty($existingData->city_ids)
         ? json_decode($existingData->city_ids, true)
         : []);
@@ -784,38 +922,39 @@
 
     $savedPincodes = old('pincode', $existingData->pincode ?? '');
 @endphp
+
+@php
+    $agreementDate          = now()->format('d F Y');
+    $agreementPartnerName   = old('company_name',       $existingData->company_name       ?? 'Contractor Company Name');
+    $agreementPartnerAddress= old('registered_address', $existingData->registered_address ?? 'Contractor Office Address');
+    $agreementPartnerRole   = $workType->work_type ?? 'Execution Partner';
+@endphp
+
+{{-- ── Agreement Acceptance Status Card ── --}}
 <div class="agreement-status-card">
     <div class="agreement-status-title">Agreement Acceptance Status</div>
 
     <div class="agreement-status-grid">
-
         <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
             </span>
-            <span>
-                Terms & Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}
-            </span>
+            <span>Terms &amp; Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
         </div>
 
         <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
             </span>
-            <span>
-                Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}
-            </span>
+            <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
         </div>
 
         <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
             </span>
-            <span>
-                Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}
-            </span>
+            <span>Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}</span>
         </div>
-
     </div>
 
     @if(!empty($existingData->agreement_accepted_at))
@@ -824,24 +963,28 @@
         </small>
     @endif
 </div>
-<!-- <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data"> -->
-    <form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data" id="contractorRegisterForm">
+
+{{-- ══════════════════════════════════════
+     MAIN FORM
+══════════════════════════════════════ --}}
+<form action="{{ route('contractor.store') }}" method="POST" enctype="multipart/form-data" id="contractorRegisterForm">
     @csrf
 
-    <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted ? 1 : 0 }}">
-<input type="hidden" name="privacy_policy_accepted" id="privacy_policy_accepted" value="{{ $privacyAccepted ? 1 : 0 }}">
-<input type="hidden" name="newsletter_opt_in" id="newsletter_opt_in" value="{{ $newsletterAccepted ? 1 : 0 }}">
-<input type="hidden" name="agreement_accepted_at" id="agreement_accepted_at" value="{{ $existingData->agreement_accepted_at ?? '' }}">
+    {{-- Hidden agreement fields — pre-seeded from DB --}}
+    <input type="hidden" name="agreement_terms_accepted"  id="agreement_terms_accepted"  value="{{ $termsAccepted     ? 1 : 0 }}">
+    <input type="hidden" name="privacy_policy_accepted"   id="privacy_policy_accepted"   value="{{ $privacyAccepted   ? 1 : 0 }}">
+    <input type="hidden" name="newsletter_opt_in"         id="newsletter_opt_in"         value="{{ $newsletterAccepted ? 1 : 0 }}">
+    <input type="hidden" name="agreement_accepted_at"     id="agreement_accepted_at"     value="{{ $existingData->agreement_accepted_at ?? '' }}">
 
     @if(session('success'))
-        <div style="background:#d1fae5; color:#065f46; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
+        <div style="background:#d1fae5;color:#065f46;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
             {{ session('success') }}
         </div>
     @endif
 
     @if($errors->any())
-        <div style="background:#fee2e2; color:#991b1b; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
-            <ul style="margin:0; padding-left:18px;">
+        <div style="background:#fee2e2;color:#991b1b;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
+            <ul style="margin:0;padding-left:18px;">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -855,11 +998,9 @@
             {{-- ── Business & Work Details ── --}}
             <div class="section-card">
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-briefcase"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-briefcase"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Business & Work Details</h2>
+                        <h2>Business &amp; Work Details</h2>
                         <p>Select your construction category and project expertise</p>
                     </div>
                 </div>
@@ -875,21 +1016,18 @@
                 <div class="field-block">
                     <div class="field-label">Project Type <span class="req">*</span></div>
                     <div class="field-sub">Select all project types you have experience in</div>
-
                     <div class="project-grid">
                         @forelse($projectTypes as $index => $type)
                             <div class="check-card">
-                                <input
-                                    type="checkbox"
-                                    id="project_type_{{ $index }}"
-                                    name="project_types[]"
-                                    value="{{ $type }}"
-                                    {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}
-                                >
+                                <input type="checkbox"
+                                       id="project_type_{{ $index }}"
+                                       name="project_types[]"
+                                       value="{{ $type }}"
+                                       {{ in_array($type, old('project_types', $selectedProjects ?? [])) ? 'checked' : '' }}>
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
                         @empty
-                            <p style="color:red; font-weight:600;">No project types found for Contractor.</p>
+                            <p style="color:red;font-weight:600;">No project types found for Contractor.</p>
                         @endforelse
                     </div>
                 </div>
@@ -898,11 +1036,8 @@
             {{-- ── Basic Business Information ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-building"></i></div>
                     <div class="section-title-wrap">
                         <h2>Basic Business Information</h2>
                         <p>Company overview and operating details</p>
@@ -910,7 +1045,6 @@
                 </div>
 
                 <div class="form-grid-2">
-                    {{-- Experience --}}
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
                         <select class="form-select" name="experience_years" id="experience_years">
@@ -924,7 +1058,6 @@
                         </select>
                     </div>
 
-                    {{-- Team Size --}}
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
                         <select class="form-select" name="team_size">
@@ -938,7 +1071,6 @@
                         </select>
                     </div>
 
-                    {{-- City — multiple --}}
                     <div>
                         <div class="field-label">City <span class="req">*</span></div>
                         <select class="form-select" name="city_ids[]" id="city_ids" multiple required>
@@ -951,11 +1083,9 @@
                         </select>
                     </div>
 
-                    {{-- Area — multiple, loaded via AJAX --}}
                     <div>
                         <div class="field-label">Area <span class="req">*</span></div>
                         <select class="form-select" name="area_ids[]" id="area_ids" multiple required>
-                            {{-- Pre-populate IDs on validation failure; JS will refresh with names --}}
                             @foreach($selectedAreaIds as $aId)
                                 <option value="{{ $aId }}" selected>{{ $aId }}</option>
                             @endforeach
@@ -965,28 +1095,17 @@
                         </small>
                     </div>
 
-                    {{-- Pincode --}}
                     <div>
                         <div class="field-label">Pincode <span class="req">*</span></div>
-                        <textarea
-                            class="form-textarea"
-                            id="pincode_id"
-                            name="pincode"
-                            readonly
-                            placeholder="Pincodes auto-fill from selected areas"
-                        >{{ $savedPincodes }}</textarea>
+                        <textarea class="form-textarea" id="pincode_id" name="pincode" readonly
+                                  placeholder="Pincodes auto-fill from selected areas">{{ $savedPincodes }}</textarea>
                     </div>
 
-                    {{-- Minimum Project Value --}}
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="minimum_project_value"
-                            value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
-                            placeholder="Enter minimum project value"
-                        >
+                        <input type="text" class="form-input" name="minimum_project_value"
+                               value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
+                               placeholder="Enter minimum project value">
                         <small class="text-muted">
                             Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs.
                         </small>
@@ -997,13 +1116,10 @@
             {{-- ── Company & Compliance Details ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-id-card"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-id-card"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Company & Compliance Details</h2>
+                        <h2>Company &amp; Compliance Details</h2>
                         <p>Legal, statutory and contact information</p>
                     </div>
                 </div>
@@ -1012,7 +1128,7 @@
                     <div>
                         <div class="field-label">Company Name <span class="req">*</span></div>
                         <input type="text" class="form-input" name="company_name" placeholder="Enter company name"
-                               value="{{ old('company_name', $existingData->company_name ?? '') }}">
+                               value="{{ old('company_name', $existingData->company_name ?? '') }}" id="companyNameInput">
                     </div>
 
                     <div>
@@ -1030,7 +1146,8 @@
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                        <textarea class="form-textarea" name="registered_address" placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
+                        <textarea class="form-textarea" name="registered_address" id="registeredAddressInput"
+                                  placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
                     </div>
 
                     <div>
@@ -1108,13 +1225,10 @@
             {{-- ── Documents & Work Proof ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-file-arrow-up"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-file-arrow-up"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Documents & Work Proof</h2>
+                        <h2>Documents &amp; Work Proof</h2>
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
@@ -1194,374 +1308,142 @@
                 </div>
             </div>
 
-            {{-- ── Submit Bar ── --}}
+            {{-- ══════════════════════════════════════
+                 SUBMIT BAR — TWO SEPARATE BUTTONS
+                 1. View/Accept Agreement (always visible)
+                 2. Submit (enabled only after agreement accepted)
+            ══════════════════════════════════════ --}}
             <div class="submit-bar">
-               <button type="button" class="submit-btn" id="openAgreementBtn">
-    <i class="fa-regular fa-paper-plane"></i>
-    <span>Submit Contractor Profile</span>
-</button>
+                <div class="submit-bar-actions">
+
+                    {{-- ① View Agreement button — always visible --}}
+                    <button type="button"
+                            id="openAgreementBtn"
+                            class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+                        <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+                        <span id="agreementBtnLabel">
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                        </span>
+                    </button>
+
+                    {{-- Status badges --}}
+                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Agreement acceptance required before submitting
+                    </div>
+                    <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Agreement Accepted
+                    </div>
+
+                    {{-- ② Submit button — enabled only when agreement accepted --}}
+                    <button type="button"
+                            class="submit-btn"
+                            id="submitFormBtn"
+                            {{ $fullyAgreed ? '' : 'disabled' }}>
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Submit Contractor Profile</span>
+                    </button>
+
+                </div>
+
                 <div class="submit-note">
                     By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
+                    @if(!$fullyAgreed)
+                        <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
+                    @endif
                 </div>
             </div>
 
         </div>
     </div>
 </form>
-@php
-    $agreementDate = now()->format('d F Y');
-    $agreementPartnerName = old('company_name', $existingData->company_name ?? 'Execution Partner Company Name');
-    $agreementPartnerAddress = old('registered_address', $existingData->registered_address ?? 'Partner Office Address');
-    $agreementPartnerRole = $workType->work_type ?? 'Execution Partner';
-@endphp
 
-<!-- <div class="agreement-modal-overlay" id="agreementModal">
-    <div class="agreement-modal">
-
-        <div class="agreement-modal-header">
-            <div>
-                <h2>Project Execution & Representation Agreement</h2>
-                <p>Please read and accept the agreement before submitting your profile.</p>
-            </div>
-            <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="agreement-modal-body">
-            <div class="agreement-title-box">
-                <h1>CONSTRUCTKARO</h1>
-                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
-                <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
-            </div>
-
-            <h3>1. PARTIES</h3>
-            <p>
-                <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
-                having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
-                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>
-                shall hereinafter be referred to as <strong>“ConstructKaro”</strong>.
-            </p>
-
-            <p>
-                AND
-            </p>
-
-            <p>
-                <strong>{{ $agreementPartnerName }}</strong>, having its principal office at
-                <strong>{{ $agreementPartnerAddress }}</strong>, shall hereinafter be referred to as
-                <strong>“{{ $agreementPartnerRole }}”</strong>.
-            </p>
-
-            <p>
-                ConstructKaro and {{ $agreementPartnerRole }} are individually referred to as a “Party”
-                and collectively as the “Parties.”
-            </p>
-
-            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
-            <p>
-                ConstructKaro provides construction and project management services, overseeing the execution
-                of construction projects under its brand and contractual responsibility.
-            </p>
-            <p>
-                The {{ $agreementPartnerRole }} agrees to execute assigned work as per specifications provided
-                by ConstructKaro, adhering to quality standards, timelines, and project-specific requirements.
-            </p>
-            <p>
-                All projects shall be executed under the ConstructKaro brand. The {{ $agreementPartnerRole }}
-                shall represent the work exclusively under ConstructKaro unless otherwise agreed in writing.
-            </p>
-            <p>
-                ConstructKaro shall remain the primary contracting party with the customer, and the
-                {{ $agreementPartnerRole }} shall not directly deal with the customer without prior written consent.
-            </p>
-
-            <h3>3. INDEPENDENT EXECUTION PARTNER STATUS</h3>
-            <p>
-                The {{ $agreementPartnerRole }} is engaged as an independent execution partner for assigned works.
-                Nothing in this Agreement shall create a partnership, joint venture, employer-employee relationship,
-                or agency except limited representation authorized by ConstructKaro.
-            </p>
-            <p>The {{ $agreementPartnerRole }} shall be responsible for:</p>
-            <ul>
-                <li>Deployment and management of manpower and labour.</li>
-                <li>Compliance with applicable labour laws, statutory requirements, and regulations.</li>
-                <li>Payment of wages, PF, ESIC, insurance, and other statutory dues.</li>
-                <li>Site execution, supervision, safety, and operational control.</li>
-            </ul>
-
-            <h3>4. EXECUTION PARTNER OBLIGATIONS</h3>
-            <ul>
-                <li>Maintain all necessary licenses, registrations, GST compliance, and statutory approvals.</li>
-                <li>Execute work as per scope, drawings, BOQ, specifications, and timelines approved by ConstructKaro.</li>
-                <li>Ensure site safety, labour welfare, and compliance with applicable laws.</li>
-                <li>Deploy qualified manpower, tools, and resources required for timely execution.</li>
-                <li>Follow all instructions and execution guidelines issued by ConstructKaro.</li>
-                <li>Not represent its own brand before the customer unless approved in writing.</li>
-                <li>Not directly contact, negotiate, or enter into any agreement with the customer.</li>
-                <li>Maintain confidentiality of project details, customer information, drawings, BOQs, and rates.</li>
-                <li>Not subcontract or assign work without prior written approval from ConstructKaro.</li>
-            </ul>
-
-            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
-            <p>
-                ConstructKaro shall share the project BOQ, scope, drawings, and specifications with the
-                {{ $agreementPartnerRole }} for submission of base rates.
-            </p>
-            <p>
-                ConstructKaro shall have the exclusive right to determine final project pricing to be offered
-                to the customer, including its margin, service charges, or commercial adjustments.
-            </p>
-            <p>
-                All billing to the customer shall be done solely by ConstructKaro. The {{ $agreementPartnerRole }}
-                shall not raise any invoice directly to the customer.
-            </p>
-            <p>
-                Payments shall be released to the {{ $agreementPartnerRole }} on a bill-to-bill basis, subject
-                to receipt of corresponding payment from the customer and quality approval.
-            </p>
-
-            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
-            <p>
-                ConstructKaro may assign a Quality Check Officer to monitor and verify the work performed.
-                Payment shall be released only after inspection, verification, and approval by ConstructKaro.
-            </p>
-
-            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
-            <p>ConstructKaro does not guarantee:</p>
-            <ul>
-                <li>Allocation or continuity of any project.</li>
-                <li>Specific project size, value, or volume of work.</li>
-                <li>Timely payments from the customer.</li>
-                <li>Changes in project scope, timelines, or site conditions.</li>
-            </ul>
-
-            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
-            <p>
-                The {{ $agreementPartnerRole }} shall not directly or indirectly contact, engage, solicit,
-                negotiate, or enter into any agreement with customers introduced, assigned, or handled by
-                ConstructKaro except through ConstructKaro.
-            </p>
-            <p>
-                This restriction shall remain valid during the term of this Agreement and for thirty-six (36)
-                months from completion or termination. In case of breach, the {{ $agreementPartnerRole }} shall
-                be liable to pay liquidated damages equal to 20% of the total project value or ₹5,00,000,
-                whichever is higher.
-            </p>
-
-            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
-            <p>
-                All information shared by ConstructKaro, including project details, pricing, BOQs, drawings,
-                specifications, customer information, and commercial terms, shall be treated as strictly confidential.
-            </p>
-            <p>
-                The {{ $agreementPartnerRole }} shall comply with applicable data protection laws, including the
-                Digital Personal Data Protection Act, 2023.
-            </p>
-
-            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
-            <p>
-                ConstructKaro shall retain exclusive ownership of its brand name, logo, trademarks, platform,
-                systems, data, documents, drawings, BOQs, and related intellectual property.
-            </p>
-            <p>
-                The {{ $agreementPartnerRole }} shall not use ConstructKaro’s brand, logo, or project content
-                for marketing or commercial purposes without prior written consent.
-            </p>
-
-            <h3>11. LIABILITY & INDEMNITY</h3>
-            <p>
-                The {{ $agreementPartnerRole }} shall indemnify and hold harmless ConstructKaro, its directors,
-                employees, and representatives from claims, losses, damages, penalties, disputes, defective work,
-                delay, negligence, third-party claims, or statutory non-compliance.
-            </p>
-
-            <h3>12. DISPUTE HANDLING</h3>
-            <p>
-                Customer-related communication, disputes, and claims shall be handled exclusively by ConstructKaro.
-                Any dispute between ConstructKaro and the {{ $agreementPartnerRole }} shall first be attempted to
-                be resolved amicably within thirty (30) days.
-            </p>
-            <p>
-                If unresolved, the dispute shall be referred to arbitration under the Arbitration & Conciliation Act, 1996.
-                The seat of arbitration shall be Khalapur Court and the language shall be English.
-            </p>
-
-            <h3>13. TERMINATION</h3>
-            <p>
-                Either Party may terminate this Agreement by giving seven (7) days’ prior written notice.
-                ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct,
-                fraud, negligence, confidentiality breach, or non-circumvention breach.
-            </p>
-
-            <h3>14. GOVERNING LAW & JURISDICTION</h3>
-            <p>
-                This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall
-                have exclusive jurisdiction.
-            </p>
-
-            <h3>15. DIGITAL ACCEPTANCE</h3>
-            <p>
-                This Agreement may be executed by digital signature, click-wrap acceptance, or electronic confirmation.
-                Such execution shall be legally valid under the Information Technology Act, 2000.
-            </p>
-
-            <h3>16. FINAL UNDERSTANDING</h3>
-            <p>
-                This Agreement constitutes the entire understanding between the Parties. If any clause is held invalid,
-                the remaining clauses shall continue to be enforceable.
-            </p>
-        </div>
-
-        <div class="agreement-checks">
-            <label class="agreement-check-row">
-                <input type="checkbox" id="agreeTerms">
-                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement.</span>
-            </label>
-
-            <label class="agreement-check-row">
-                <input type="checkbox" id="agreePrivacy">
-                <span>I have read and agree to the Privacy Policy of ConstructKaro, including collection and processing of my personal and business data.</span>
-            </label>
-
-            <label class="agreement-check-row">
-                <input type="checkbox" id="agreeNewsletter">
-                <span>I agree to receive communication, updates, and newsletters from ConstructKaro. Optional.</span>
-            </label>
-        </div>
-
-        <div class="agreement-modal-footer">
-            <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
-            <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
-                Agree & Submit
-            </button>
-        </div>
-
-    </div>
-</div> -->
-@php
-    $agreementDate = $agreementDate ?? now()->format('d F Y');
-@endphp
-
+{{-- ══════════════════════════════════════
+     AGREEMENT MODAL
+══════════════════════════════════════ --}}
 <div class="agreement-modal-overlay" id="agreementModal">
-    <div class="agreement-modal">
+    {{--
+        JS adds class  "readonly-mode"  when opening in view-only mode
+        (i.e. agreement already accepted).
+    --}}
+    <div class="agreement-modal" id="agreementModalInner">
 
         <div class="agreement-modal-header">
             <div>
-                <h2>Project Execution & Representation Agreement</h2>
-                <p>Please read and accept the agreement before submitting your Contractor profile.</p>
+                <h2>Project Execution &amp; Representation Agreement</h2>
+                <p id="agreementModalSubtitle">Please read and accept the agreement before submitting your Contractor profile.</p>
             </div>
             <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
+        {{-- Shown only in readonly-mode --}}
+        <div class="agreement-readonly-banner">
+            <i class="fa-solid fa-circle-check"></i>
+            You have already accepted this agreement.
+            @if(!empty($existingData->agreement_accepted_at))
+                Accepted on {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}.
+            @endif
+        </div>
+
         <div class="agreement-modal-body">
             <div class="agreement-title-box">
                 <h1>CONSTRUCTKARO</h1>
-                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
+                <h4>PROJECT EXECUTION &amp; REPRESENTATION AGREEMENT</h4>
                 <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
             </div>
 
             <h3>1. PARTIES</h3>
-
             <p>
                 <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
                 having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
-                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>
-                hereinafter referred to as <strong>“ConstructKaro”</strong>, which expression shall include its successors and permitted assigns.
+                Katrang Road, Khopoli-410203, operating under the brand name <strong>"ConstructKaro"</strong>
+                hereinafter referred to as <strong>"ConstructKaro"</strong>, which expression shall include its successors and permitted assigns.
             </p>
-
             <p><strong>AND</strong></p>
-
             <p>
-                <strong id="agreementCompanyName">{{ old('company_name', $existingData->company_name ?? 'Contractor Company Name') }}</strong>,
+                <strong id="agreementCompanyName">{{ $agreementPartnerName }}</strong>,
                 a company / firm / entity incorporated or registered under applicable laws,
                 having its principal office at
-                <strong id="agreementCompanyAddress">{{ old('registered_address', $existingData->registered_address ?? 'Contractor Office Address') }}</strong>,
-                hereinafter referred to as <strong>“Contractor”</strong>, which expression shall include its successors and permitted assigns.
+                <strong id="agreementCompanyAddress">{{ $agreementPartnerAddress }}</strong>,
+                hereinafter referred to as <strong>"Contractor"</strong>, which expression shall include its successors and permitted assigns.
             </p>
-
             <p>
-                ConstructKaro and Contractor are individually referred to as a <strong>“Party”</strong> and collectively as the <strong>“Parties.”</strong>
+                ConstructKaro and Contractor are individually referred to as a <strong>"Party"</strong>
+                and collectively as the <strong>"Parties."</strong>
             </p>
 
-            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
-
-            <p>
-                <strong>2.1 Platform Purpose:</strong> ConstructKaro provides construction and project management services,
-                overseeing the execution of construction projects under its brand and contractual responsibility.
-            </p>
-
-            <p>
-                <strong>2.2 Role of Contractor:</strong> The Contractor agrees to execute the assigned work as per the specifications provided by ConstructKaro,
-                adhering to quality standards, timelines, and other project-specific requirements.
-            </p>
-
-            <p>
-                <strong>2.3 ConstructKaro's Representation:</strong> All projects shall be executed under the ConstructKaro brand.
-                The Contractor shall represent the work exclusively under ConstructKaro, unless otherwise agreed in writing.
-            </p>
-
-            <p>
-                <strong>2.4 Customer Relationship:</strong> The Contractor acknowledges that ConstructKaro will remain the primary contracting party with the customer,
-                and the Contractor shall not engage in direct dealings with the customer without prior written consent from ConstructKaro.
-            </p>
-
-            <p>
-                <strong>2.5 Subcontracting:</strong> The Contractor shall not subcontract or assign work to third parties without prior written approval from ConstructKaro.
-            </p>
+            <h3>2. PURPOSE &amp; NATURE OF PLATFORM</h3>
+            <p><strong>2.1 Platform Purpose:</strong> ConstructKaro provides construction and project management services, overseeing the execution of construction projects under its brand and contractual responsibility.</p>
+            <p><strong>2.2 Role of Contractor:</strong> The Contractor agrees to execute the assigned work as per the specifications provided by ConstructKaro, adhering to quality standards, timelines, and other project-specific requirements.</p>
+            <p><strong>2.3 ConstructKaro's Representation:</strong> All projects shall be executed under the ConstructKaro brand. The Contractor shall represent the work exclusively under ConstructKaro, unless otherwise agreed in writing.</p>
+            <p><strong>2.4 Customer Relationship:</strong> The Contractor acknowledges that ConstructKaro will remain the primary contracting party with the customer, and the Contractor shall not engage in direct dealings with the customer without prior written consent from ConstructKaro.</p>
+            <p><strong>2.5 Subcontracting:</strong> The Contractor shall not subcontract or assign work to third parties without prior written approval from ConstructKaro.</p>
 
             <h3>3. INDEPENDENT CONTRACTOR STATUS</h3>
-
-            <p>
-                <strong>3.1</strong> The Contractor is engaged as an independent contractor for execution of assigned works under this Agreement.
-            </p>
-
-            <p>
-                <strong>3.2</strong> Nothing contained in this Agreement shall be deemed to create any relationship of:
-            </p>
-
+            <p><strong>3.1</strong> The Contractor is engaged as an independent contractor for execution of assigned works under this Agreement.</p>
+            <p><strong>3.2</strong> Nothing contained in this Agreement shall be deemed to create any relationship of:</p>
             <ul>
                 <li>Partnership</li>
                 <li>Joint venture</li>
                 <li>Employer–employee</li>
                 <li>Agency, except to the limited extent of representation authorized by ConstructKaro</li>
             </ul>
-
-            <p>
-                <strong>3.3</strong> The Contractor shall be solely responsible for:
-            </p>
-
+            <p><strong>3.3</strong> The Contractor shall be solely responsible for:</p>
             <ul>
                 <li>Deployment and management of its manpower and labour</li>
                 <li>Compliance with all applicable labour laws, statutory requirements, and regulations</li>
                 <li>Payment of wages, PF, ESIC, insurance, and other statutory dues</li>
                 <li>Site execution, supervision, safety, and operational control of its workforce</li>
             </ul>
-
-            <p>
-                <strong>3.4</strong> The Contractor shall execute the work at its own risk and cost, subject to the instructions and project requirements defined by ConstructKaro.
-            </p>
-
-            <p>
-                <strong>3.5</strong> The Contractor shall act as an Authorized Execution Partner of ConstructKaro, representing ConstructKaro for project execution under assigned scope.
-            </p>
-
-            <p>
-                <strong>3.6</strong> The Contractor operates as an independent entity but is authorized to represent ConstructKaro for execution purposes under agreed terms.
-                ConstructKaro acts as a coordination, monitoring, and service platform.
-            </p>
-
-            <p>
-                <strong>3.7</strong> The Contractor agrees to execute assigned projects as a ConstructKaro-authorized partner and shall adhere to all quality,
-                timeline, and communication standards defined by ConstructKaro.
-            </p>
+            <p><strong>3.4</strong> The Contractor shall execute the work at its own risk and cost, subject to the instructions and project requirements defined by ConstructKaro.</p>
+            <p><strong>3.5</strong> The Contractor shall act as an Authorized Execution Partner of ConstructKaro, representing ConstructKaro for project execution under assigned scope.</p>
+            <p><strong>3.6</strong> The Contractor operates as an independent entity but is authorized to represent ConstructKaro for execution purposes under agreed terms. ConstructKaro acts as a coordination, monitoring, and service platform.</p>
+            <p><strong>3.7</strong> The Contractor agrees to execute assigned projects as a ConstructKaro-authorized partner and shall adhere to all quality, timeline, and communication standards defined by ConstructKaro.</p>
 
             <h3>4. CONTRACTOR OBLIGATIONS</h3>
-
-            <p>The Contractor agrees to:</p>
-
             <ul>
                 <li>Hold and maintain all necessary licenses, registrations, GST compliance, and statutory approvals required for execution of the assigned work.</li>
                 <li>Execute the work strictly in accordance with the scope, drawings, BOQ, specifications, and timelines provided and approved by ConstructKaro.</li>
@@ -1572,342 +1454,139 @@
                 <li>Not directly contact, negotiate, or enter into any agreement with the customer without prior written approval of ConstructKaro.</li>
                 <li>Not bypass, circumvent, or attempt to deal directly with any customer or project assigned by ConstructKaro.</li>
                 <li>Maintain strict confidentiality of all project details, customer information, drawings, BOQs, rates, and any data shared by ConstructKaro.</li>
-                <li>Refrain from misusing ConstructKaro’s brand, name, data, or any platform-related information for personal or business gain.</li>
+                <li>Refrain from misusing ConstructKaro's brand, name, data, or any platform-related information for personal or business gain.</li>
                 <li>Not subcontract or assign the work to any third party without prior written approval of ConstructKaro.</li>
             </ul>
 
-            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
-
+            <h3>5. COMMERCIAL TERMS &amp; PAYMENT STRUCTURE</h3>
             <p><strong>5.1</strong> ConstructKaro shall share the project BOQ, scope, drawings, and specifications with the Contractor for submission of base rates.</p>
-
             <p><strong>5.2</strong> The Contractor shall submit its rates against the BOQ, which shall be treated as the base execution cost.</p>
-
-            <p>
-                <strong>5.3</strong> ConstructKaro shall have the exclusive right to determine the final project pricing to be offered to the customer,
-                including addition of its margin, service charges, or commercial adjustments.
-            </p>
-
+            <p><strong>5.3</strong> ConstructKaro shall have the exclusive right to determine the final project pricing to be offered to the customer, including addition of its margin, service charges, or commercial adjustments.</p>
             <p><strong>5.4</strong> The Contractor expressly agrees that the rates submitted by it shall remain confidential and shall not be disclosed to the customer.</p>
-
             <p><strong>5.5</strong> All billing to the customer shall be done solely by ConstructKaro. The Contractor shall not raise any invoice directly to the customer.</p>
-
-            <p>
-                <strong>5.6</strong> Payments received from the customer shall be managed by ConstructKaro, and the Contractor shall be paid on a bill-to-bill basis,
-                subject to receipt of corresponding payment from the customer.
-            </p>
-
-            <p>
-                <strong>5.7</strong> ConstructKaro shall release payment to the Contractor after deducting its agreed margin and any applicable deductions,
-                within a reasonable time from receipt of payment from the customer.
-            </p>
-
-            <p>
-                <strong>5.8</strong> The Contractor acknowledges that ConstructKaro does not guarantee payments from the customer,
-                and payment to the Contractor is strictly linked to actual realization of funds from the customer.
-            </p>
-
+            <p><strong>5.6</strong> Payments received from the customer shall be managed by ConstructKaro, and the Contractor shall be paid on a bill-to-bill basis, subject to receipt of corresponding payment from the customer.</p>
+            <p><strong>5.7</strong> ConstructKaro shall release payment to the Contractor after deducting its agreed margin and any applicable deductions, within a reasonable time from receipt of payment from the customer.</p>
+            <p><strong>5.8</strong> The Contractor acknowledges that ConstructKaro does not guarantee payments from the customer, and payment to the Contractor is strictly linked to actual realization of funds from the customer.</p>
             <p><strong>5.9</strong> The Contractor shall raise tax-compliant invoices only to ConstructKaro and not to the customer.</p>
-
             <p><strong>5.10</strong> All payments under this Agreement shall be exclusive of applicable taxes, including GST, which shall be charged and paid as per prevailing laws.</p>
 
-            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
-
+            <h3>6. QUALITY CHECK &amp; PAYMENT RELEASE</h3>
             <p><strong>6.1</strong> A designated ConstructKaro Quality Check Officer shall be assigned to monitor and verify the quality of work performed by the Contractor.</p>
+            <p><strong>6.2</strong> The Quality Check Officer will inspect the site regularly and ensure that the work meets the prescribed quality standards.</p>
+            <p><strong>6.3</strong> The Contractor shall submit work photos and other relevant documentation to the site engineer or Quality Check Officer as part of the verification process.</p>
+            <p><strong>6.4</strong> Payment will be released only after the work has been inspected, verified, and approved by the ConstructKaro Quality Check Officer.</p>
 
-            <p>
-                <strong>6.2</strong> The Quality Check Officer will inspect the site regularly and ensure that the work meets the prescribed quality standards.
-                The Contractor shall allow the Quality Check Officer full access to the site for this purpose.
-            </p>
-
-            <p>
-                <strong>6.3</strong> The Contractor shall submit work photos and other relevant documentation to the site engineer or Quality Check Officer as part of the verification process.
-            </p>
-
-            <p>
-                <strong>6.4</strong> The payment to the Contractor shall be processed on a bill-to-bill basis.
-                Payment will be released only after the work has been inspected, verified, and approved by the ConstructKaro Quality Check Officer.
-            </p>
-
-            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
-
+            <h3>7. NO GUARANTEE &amp; RISK ACKNOWLEDGEMENT</h3>
             <p><strong>7.1</strong> ConstructKaro does not guarantee:</p>
-
             <ul>
                 <li>Allocation or continuity of any project or work</li>
                 <li>Specific project size, value, or volume of work</li>
                 <li>Timely payments from the customer</li>
                 <li>Any changes in project scope, timelines, or conditions</li>
             </ul>
+            <p><strong>7.2</strong> The Contractor acknowledges that construction projects involve inherent risks, uncertainties, and site-related challenges.</p>
+            <p><strong>7.3</strong> The Contractor agrees that execution of work shall be undertaken at its own risk and cost.</p>
+            <p><strong>7.4</strong> ConstructKaro shall not be liable for any losses, damages, or delays arising due to non-payment or delayed payment by the customer, changes in project scope, or site conditions.</p>
 
-            <p>
-                <strong>7.2</strong> The Contractor acknowledges that construction projects involve inherent risks, uncertainties,
-                and site-related challenges, including but not limited to delays, design changes, and external factors beyond control.
-            </p>
+            <h3>8. NON-CIRCUMVENTION &amp; NON-SOLICITATION</h3>
+            <p><strong>8.1</strong> The Contractor shall not, directly or indirectly, contact, engage, solicit, negotiate, or enter into any agreement with any customer introduced, assigned, or handled by ConstructKaro, except through ConstructKaro.</p>
+            <p><strong>8.2</strong> The Contractor shall not attempt to bypass, avoid, or circumvent ConstructKaro in any manner.</p>
+            <p><strong>8.3</strong> This restriction shall remain valid during the term of this Agreement and for a period of thirty-six (36) months from the completion or termination of this Agreement.</p>
+            <p><strong>8.4</strong> The Contractor shall not directly or indirectly solicit, accept, or execute any work from the customer independently.</p>
+            <p><strong>8.5</strong> In the event of any breach of this clause, the Contractor shall be liable to pay liquidated damages equal to 20% of the total project value or ₹5,00,000, whichever is higher.</p>
 
-            <p>
-                <strong>7.3</strong> The Contractor agrees that execution of work shall be undertaken at its own risk and cost,
-                subject to the terms of this Agreement and instructions issued by ConstructKaro.
-            </p>
-
-            <p><strong>7.4</strong> ConstructKaro shall not be liable for any losses, damages, or delays arising due to:</p>
-
-            <ul>
-                <li>Non-payment or delayed payment by the customer</li>
-                <li>Changes in project scope or requirements</li>
-                <li>Site conditions, local issues, or regulatory constraints</li>
-            </ul>
-
-            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
-
-            <p>
-                <strong>8.1</strong> The Contractor shall not, directly or indirectly, contact, engage, solicit, negotiate,
-                or enter into any agreement with any customer, client, or project introduced, assigned, or handled by ConstructKaro, except through ConstructKaro.
-            </p>
-
-            <p>
-                <strong>8.2</strong> The Contractor shall not attempt to bypass, avoid, or circumvent ConstructKaro in any manner
-                for the purpose of obtaining work, payments, or future projects from such customers.
-            </p>
-
-            <p>
-                <strong>8.3</strong> This restriction shall remain valid during the term of this Agreement and for a period of thirty-six (36) months
-                from the completion or termination of this Agreement, with such period being extended upon renewal of the Agreement.
-            </p>
-
-            <p>
-                <strong>8.4</strong> The Contractor shall not directly or indirectly solicit, accept, or execute any work from the customer independently,
-                whether in its own name or through any third party.
-            </p>
-
-            <p>
-                <strong>8.5</strong> In the event of any breach of this clause, the Contractor shall be liable to pay liquidated damages equal to
-                20% of the total project value or ₹5,00,000, whichever is higher, in addition to any other legal remedies available to ConstructKaro.
-                This liability is in accordance with ConstructKaro’s trademark, which is owned by Swarajya Construction Pvt. Ltd.,
-                and any breach of this clause will be subject to the provisions of trademark law.
-            </p>
-
-            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
-
-            <p>
-                <strong>9.1</strong> The Contractor shall treat all information shared by ConstructKaro as strictly confidential,
-                including but not limited to project details, pricing, BOQs, drawings, specifications, customer information, and commercial terms.
-            </p>
-
-            <p>
-                <strong>9.2</strong> The Contractor shall not disclose, share, copy, reproduce, or use any such information for any purpose other than execution of the assigned work,
-                without prior written consent of ConstructKaro.
-            </p>
-
+            <h3>9. CONFIDENTIALITY &amp; DATA PROTECTION</h3>
+            <p><strong>9.1</strong> The Contractor shall treat all information shared by ConstructKaro as strictly confidential.</p>
+            <p><strong>9.2</strong> The Contractor shall not disclose, share, copy, reproduce, or use any such information for any purpose other than execution of the assigned work.</p>
             <p><strong>9.3</strong> The Contractor shall ensure that its employees, staff, and representatives also comply with the confidentiality obligations under this Agreement.</p>
-
             <p><strong>9.4</strong> The Contractor shall comply with all applicable data protection laws, including the Digital Personal Data Protection Act, 2023.</p>
+            <p><strong>9.5</strong> The Contractor shall not use any customer information for direct or indirect business solicitation or personal gain.</p>
+            <p><strong>9.6</strong> All documents, data, and information provided by ConstructKaro shall remain the exclusive property of ConstructKaro.</p>
+            <p><strong>9.7</strong> The confidentiality obligations shall survive for a period of three (3) years from the date of termination or completion of the project.</p>
 
-            <p><strong>9.5</strong> The Contractor shall not use any customer information, contact details, or project data for direct or indirect business solicitation or personal gain.</p>
+            <h3>10. INTELLECTUAL PROPERTY &amp; BRANDING</h3>
+            <p><strong>10.1</strong> ConstructKaro shall retain exclusive ownership of its brand name, logo, trademarks, platform, systems, data, documents, drawings, BOQs, and all related intellectual property.</p>
+            <p><strong>10.2</strong> All projects shall be executed strictly under the ConstructKaro brand.</p>
+            <p><strong>10.3</strong> The Contractor shall not use its own company name, brand, logo, or identity before the customer without prior written approval.</p>
+            <p><strong>10.4</strong> The Contractor shall not use ConstructKaro's name, logo, or project-related content for marketing, promotional, or commercial purposes without prior written consent.</p>
+            <p><strong>10.5</strong> All project-related documents, drawings, BOQs, designs, reports, and data shall remain the exclusive property of ConstructKaro.</p>
+            <p><strong>10.6</strong> The Contractor shall not claim any ownership, rights, or association with the ConstructKaro brand beyond execution of assigned work.</p>
 
-            <p>
-                <strong>9.6</strong> All documents, data, and information provided by ConstructKaro shall remain the exclusive property of ConstructKaro
-                and shall be returned or deleted upon completion or termination of the project, if required.
-            </p>
-
-            <p>
-                <strong>9.7</strong> The confidentiality obligations under this Agreement shall survive for a period of three (3) years
-                from the date of termination or completion of the project, whichever is later.
-            </p>
-
-            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
-
-            <p>
-                <strong>10.1</strong> ConstructKaro shall retain exclusive ownership of its brand name, logo, trademarks, platform,
-                systems, data, documents, drawings, BOQs, and all related intellectual property.
-            </p>
-
-            <p>
-                <strong>10.2</strong> All projects shall be executed strictly under the ConstructKaro brand,
-                and the Contractor shall represent the work only in the name of ConstructKaro.
-            </p>
-
-            <p>
-                <strong>10.3</strong> The Contractor shall not use its own company name, brand, logo, or identity in any manner before the customer
-                in relation to the assigned project, unless expressly approved in writing by ConstructKaro.
-            </p>
-
-            <p>
-                <strong>10.4</strong> The Contractor shall not use, display, reproduce, or publish the ConstructKaro name, logo,
-                or any project-related content for marketing, promotional, or commercial purposes without prior written consent.
-            </p>
-
-            <p>
-                <strong>10.5</strong> All project-related documents, drawings, BOQs, designs, reports, and data shall remain the exclusive property of ConstructKaro
-                and shall not be reused, shared, or replicated by the Contractor without permission.
-            </p>
-
-            <p>
-                <strong>10.6</strong> The Contractor shall not claim any ownership, rights, or association with the ConstructKaro brand or project beyond execution of assigned work.
-            </p>
-
-            <h3>11. LIABILITY & INDEMNITY</h3>
-
-            <p><strong>11.1</strong> The Contractor shall be solely responsible for:</p>
-
-            <ul>
-                <li>Execution of the assigned work</li>
-                <li>Quality, workmanship, and completion of the project</li>
-                <li>Site safety, labour deployment, and supervision</li>
-                <li>Compliance with all applicable laws, statutory requirements, and regulations</li>
-            </ul>
-
-            <p><strong>11.2</strong> The Contractor shall indemnify, defend, and hold harmless ConstructKaro, its directors, employees, and representatives from and against any and all:</p>
-
-            <ul>
-                <li>Claims, demands, or disputes raised by the customer</li>
-                <li>Legal notices, penalties, or regulatory actions</li>
-                <li>Losses, damages, or liabilities arising out of defective work, delay, or negligence</li>
-                <li>Third-party claims, including injury, accident, or property damage caused during execution</li>
-            </ul>
-
-            <p>
-                <strong>11.3</strong> The Contractor shall be fully liable for any loss, damage, or cost incurred due to its acts,
-                omissions, negligence, or non-compliance during execution of the project.
-            </p>
-
-            <p>
-                <strong>11.4</strong> ConstructKaro’s liability, if any, shall be strictly limited to the amount actually received by ConstructKaro from the customer
-                for the specific project, and ConstructKaro shall not be liable for any indirect, consequential, or incidental damages.
-            </p>
+            <h3>11. LIABILITY &amp; INDEMNITY</h3>
+            <p><strong>11.1</strong> The Contractor shall be solely responsible for execution, quality, workmanship, site safety, labour deployment, supervision, and compliance with all applicable laws.</p>
+            <p><strong>11.2</strong> The Contractor shall indemnify, defend, and hold harmless ConstructKaro, its directors, employees, and representatives from and against all claims, demands, disputes, legal notices, penalties, losses, damages, liabilities, and third-party claims arising out of its acts, omissions, or negligence.</p>
+            <p><strong>11.3</strong> The Contractor shall be fully liable for any loss, damage, or cost incurred due to its acts, omissions, negligence, or non-compliance during execution.</p>
+            <p><strong>11.4</strong> ConstructKaro's liability, if any, shall be strictly limited to the amount actually received by ConstructKaro from the customer for the specific project.</p>
 
             <h3>12. DISPUTE HANDLING</h3>
-
-            <p>
-                <strong>12.1</strong> All customer-related communication, disputes, and claims shall be handled exclusively by ConstructKaro.
-                Any disputes with suppliers or vendors shall be handled by the Contractor, who will be responsible for resolving such matters directly.
-            </p>
-
-            <p>
-                <strong>12.2</strong> The Contractor shall not directly engage with the customer for dispute resolution,
-                unless specifically instructed or authorized in writing by ConstructKaro.
-            </p>
-
-            <p>
-                <strong>12.3</strong> In case of any dispute arising out of execution, quality, delay, or performance of work,
-                the Contractor shall fully cooperate with ConstructKaro in resolving such issues.
-            </p>
-
-            <p>
-                <strong>12.4</strong> Any dispute between ConstructKaro and the Contractor arising out of or in connection with this Agreement
-                shall first be attempted to be resolved amicably within thirty (30) days.
-            </p>
-
-            <p>
-                <strong>12.5</strong> During the 30-day dispute resolution period, the Contractor shall continue to perform work on the project as per the instructions,
-                despite the ongoing dispute with the client. ConstructKaro will handle and resolve any disputes with the client.
-                If the dispute remains unresolved within the 30-day period, ConstructKaro reserves the right to assign the project to a different vendor within the following seven (7) days.
-            </p>
-
-            <p>
-                <strong>12.6</strong> If the dispute remains unresolved, it shall be referred to arbitration in accordance with the provisions of the Arbitration & Conciliation Act, 1996.
-            </p>
-
-            <ul>
-                <li>The seat of arbitration shall be Khalapur court.</li>
-                <li>The language of arbitration shall be English.</li>
-                <li>The decision of the arbitrator shall be final and binding on both parties.</li>
-            </ul>
+            <p><strong>12.1</strong> All customer-related communication, disputes, and claims shall be handled exclusively by ConstructKaro.</p>
+            <p><strong>12.2</strong> The Contractor shall not directly engage with the customer for dispute resolution unless specifically instructed or authorized in writing by ConstructKaro.</p>
+            <p><strong>12.3</strong> In case of any dispute arising out of execution, quality, delay, or performance, the Contractor shall fully cooperate with ConstructKaro.</p>
+            <p><strong>12.4</strong> Any dispute between ConstructKaro and the Contractor shall first be attempted to be resolved amicably within thirty (30) days.</p>
+            <p><strong>12.5</strong> During the 30-day period, the Contractor shall continue to perform work as per instructions. If unresolved, ConstructKaro reserves the right to assign the project to a different vendor within seven (7) days.</p>
+            <p><strong>12.6</strong> If the dispute remains unresolved, it shall be referred to arbitration under the Arbitration &amp; Conciliation Act, 1996. Seat: Khalapur court. Language: English. Decision: Final and binding.</p>
 
             <h3>13. TERMINATION</h3>
+            <p><strong>13.1</strong> Either Party may terminate this Agreement by giving seven (7) days' prior written notice.</p>
+            <p><strong>13.2</strong> ConstructKaro shall have the right to terminate immediately without prior notice in case of breach, poor quality, delay, misconduct, fraud, negligence, or breach of confidentiality or non-circumvention obligations.</p>
+            <p><strong>13.3</strong> Upon termination, the Contractor shall immediately stop using ConstructKaro's name, brand, and materials, return all project-related documents and data, and ConstructKaro shall have the right to reassign the project.</p>
+            <p><strong>13.4</strong> Termination shall not affect ongoing obligations, payments due for approved work, or rights and obligations arising prior to termination.</p>
 
-            <p><strong>13.1</strong> Either Party may terminate this Agreement by giving seven (7) days’ prior written notice to the other Party.</p>
-
-            <p><strong>13.2</strong> ConstructKaro shall have the right to terminate this Agreement immediately, without prior notice, in case of:</p>
-
-            <ul>
-                <li>Breach of terms of this Agreement</li>
-                <li>Poor quality of work or non-performance</li>
-                <li>Delay in execution without valid reason</li>
-                <li>Misconduct, fraud, or negligence</li>
-                <li>Breach of confidentiality or non-circumvention obligations</li>
-            </ul>
-
-            <p><strong>13.3</strong> Upon termination:</p>
-
-            <ul>
-                <li>The Contractor shall immediately stop using ConstructKaro’s name, brand, and materials.</li>
-                <li>All project-related documents, data, and information shall be returned to ConstructKaro.</li>
-                <li>ConstructKaro shall have the right to reassign the project to another contractor.</li>
-            </ul>
-
-            <p><strong>13.4</strong> Termination shall not affect:</p>
-
-            <ul>
-                <li>Ongoing obligations related to completed or ongoing work</li>
-                <li>Payments due for work completed and approved, subject to receipt of payment from the customer</li>
-                <li>Rights and obligations arising prior to termination</li>
-            </ul>
-
-            <h3>14. GOVERNING LAW & JURISDICTION</h3>
-
+            <h3>14. GOVERNING LAW &amp; JURISDICTION</h3>
             <p><strong>14.1</strong> This Agreement shall be governed by the laws of India.</p>
-
             <p><strong>14.2</strong> Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.</p>
 
             <h3>15. DIGITAL ACCEPTANCE</h3>
-
-            <p><strong>15.1</strong> This Agreement may be executed via:</p>
-
-            <ul>
-                <li>Digital signature</li>
-                <li>Click-wrap acceptance</li>
-                <li>Electronic confirmation</li>
-            </ul>
-
+            <p><strong>15.1</strong> This Agreement may be executed via digital signature, click-wrap acceptance, or electronic confirmation.</p>
             <p><strong>15.2</strong> Such execution shall be legally valid under the Information Technology Act, 2000.</p>
 
             <h3>16. FINAL UNDERSTANDING</h3>
-
             <p><strong>16.1</strong> This Agreement constitutes the entire understanding between the Parties.</p>
-
             <p><strong>16.2</strong> If any clause is held invalid, remaining clauses shall continue to be enforceable.</p>
         </div>
 
+        {{-- Checkboxes — hidden in readonly-mode via CSS --}}
         <div class="agreement-checks">
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeTerms">
-                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement and accept all obligations defined herein.</span>
+                <span>I have read, understood, and agree to the Terms &amp; Conditions of this Project Execution Agreement and accept all obligations defined herein.</span>
             </label>
-
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreePrivacy">
                 <span>I have read and agree to the Privacy Policy of ConstructKaro, including the collection, use, and processing of my personal and business data.</span>
             </label>
-
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeNewsletter">
-                <span>I agree to receive communication, updates, and newsletters from ConstructKaro related to projects, opportunities, and platform updates. Optional.</span>
+                <span>I agree to receive communication, updates, and newsletters from ConstructKaro. Optional.</span>
             </label>
         </div>
 
+        {{-- Footer — hidden in readonly-mode via CSS --}}
         <div class="agreement-modal-footer">
             <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
             <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
-                Agree & Submit
+                Agree &amp; Continue
             </button>
         </div>
 
     </div>
 </div>
+
+{{-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-{{-- ── File preview ── --}}
+{{-- File preview --}}
 <script>
 function setupFilePreview(inputId, linkId) {
     const input = document.getElementById(inputId);
     const link  = document.getElementById(linkId);
     if (!input || !link) return;
-
     input.addEventListener('change', function () {
         const file        = this.files[0];
         const fileNameBox = this.closest('.upload-box-wrap').querySelector('.file-name');
-
         if (file) {
             link.href          = URL.createObjectURL(file);
             link.style.display = 'inline-block';
@@ -1920,225 +1599,231 @@ function setupFilePreview(inputId, linkId) {
         }
     });
 }
-
-setupFilePreview('msme_certificate',  'msme_link');
-setupFilePreview('pan_card',          'pan_card_link');
-setupFilePreview('gst_certificate',   'gst_certificate_link');
-setupFilePreview('aadhaar_card',      'aadhaar_card_link');
-setupFilePreview('company_profile',   'company_profile_link');
+setupFilePreview('msme_certificate', 'msme_link');
+setupFilePreview('pan_card',         'pan_card_link');
+setupFilePreview('gst_certificate',  'gst_certificate_link');
+setupFilePreview('aadhaar_card',     'aadhaar_card_link');
+setupFilePreview('company_profile',  'company_profile_link');
 </script>
 
-{{-- ── Multi-city + Multi-area select ── --}}
+{{-- Multi-city + Multi-area select --}}
 <script>
 $(document).ready(function () {
-
-    /* PHP → JS pre-selected values */
-    const preSelectedCityIds = @json($selectedCityIds);   // e.g. ["2","5"]
-    const preSelectedAreaIds = @json($selectedAreaIds);   // e.g. ["12","15"]
-
-    /* Route templates */
+    const preSelectedCityIds = @json($selectedCityIds);
+    const preSelectedAreaIds = @json($selectedAreaIds);
     const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
     const pincodesRoute      = "{{ route('get.pincodes') }}";
 
-    /* ── Init Select2 ── */
-    $('#city_ids').select2({
-        placeholder   : 'Select one or more cities',
-        width         : '100%',
-        closeOnSelect : false
-    });
+    $('#city_ids').select2({ placeholder: 'Select one or more cities', width: '100%', closeOnSelect: false });
+    $('#area_ids').select2({ placeholder: 'Select areas',              width: '100%', closeOnSelect: false });
 
-    $('#area_ids').select2({
-        placeholder   : 'Select areas',
-        width         : '100%',
-        closeOnSelect : false
-    });
-
-    /* ────────────────────────────────────────────
-       loadAreasForCities(cityIds, preselectAreaIds)
-       Fetches areas for ALL selected cities in
-       parallel, merges + deduplicates, rebuilds
-       the area <select>.
-    ──────────────────────────────────────────── */
     function loadAreasForCities(cityIds, preselectAreaIds) {
         if (!cityIds || cityIds.length === 0) {
             $('#area_ids').html('').trigger('change');
             $('#pincode_id').val('');
             return;
         }
-
         $('#areaLoading').addClass('visible');
         $('#area_ids').prop('disabled', true);
 
         const requests = cityIds.map(cityId =>
-            $.ajax({
-                url      : areasRouteTemplate.replace(':city_id', cityId),
-                type     : 'GET',
-                dataType : 'json'
-            })
+            $.ajax({ url: areasRouteTemplate.replace(':city_id', cityId), type: 'GET', dataType: 'json' })
         );
 
         $.when(...requests).then(function (...responses) {
             let allAreas = [];
-
             if (cityIds.length === 1) {
-                /* Single deferred: $.when resolves as (data, status, jqXHR) */
                 allAreas = responses[0];
             } else {
-                /* Multiple deferreds: each response = [data, status, jqXHR] */
-                responses.forEach(res => {
-                    allAreas = allAreas.concat(res[0]);
-                });
+                responses.forEach(res => { allAreas = allAreas.concat(res[0]); });
             }
-
-            /* Deduplicate by id */
             const seen   = new Set();
-            const unique = allAreas.filter(area => {
-                if (seen.has(area.id)) return false;
-                seen.add(area.id);
-                return true;
-            });
-
-            /* Sort alphabetically */
+            const unique = allAreas.filter(area => { if (seen.has(area.id)) return false; seen.add(area.id); return true; });
             unique.sort((a, b) => a.name.localeCompare(b.name));
-
-            /* Build <option> list */
             let html = '';
             unique.forEach(area => {
-                const isSel = preselectAreaIds.includes(area.id.toString())
-                           || preselectAreaIds.includes(area.id);
+                const isSel = preselectAreaIds.includes(area.id.toString()) || preselectAreaIds.includes(area.id);
                 html += `<option value="${area.id}" ${isSel ? 'selected' : ''}>${area.name}</option>`;
             });
-
             $('#area_ids').html(html).trigger('change');
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
-
-            if (preselectAreaIds.length > 0) {
-                loadPincodes(preselectAreaIds);
-            }
-
+            if (preselectAreaIds.length > 0) { loadPincodes(preselectAreaIds); }
         }).fail(function () {
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
-            console.error('Failed to load areas.');
         });
     }
 
-    /* ── loadPincodes ── */
     function loadPincodes(areaIds) {
-        if (!areaIds || areaIds.length === 0) {
-            $('#pincode_id').val('');
-            return;
-        }
-
+        if (!areaIds || areaIds.length === 0) { $('#pincode_id').val(''); return; }
         $.ajax({
-            url      : pincodesRoute,
-            type     : 'GET',
-            dataType : 'json',
-            data     : { area_ids: areaIds },
-            success  : function (data) {
-                $('#pincode_id').val([...new Set(data)].join(', '));
-            }
+            url: pincodesRoute, type: 'GET', dataType: 'json', data: { area_ids: areaIds },
+            success: function (data) { $('#pincode_id').val([...new Set(data)].join(', ')); }
         });
     }
 
-    /* ── City change → reload areas ── */
-    $('#city_ids').on('change', function () {
-        loadAreasForCities($(this).val() || [], []);
-        $('#pincode_id').val('');
-    });
+    $('#city_ids').on('change', function () { loadAreasForCities($(this).val() || [], []); $('#pincode_id').val(''); });
+    $('#area_ids').on('change', function () { loadPincodes($(this).val() || []); });
 
-    /* ── Area change → reload pincodes ── */
-    $('#area_ids').on('change', function () {
-        loadPincodes($(this).val() || []);
-    });
-
-    /* ── Restore state on validation failure ── */
     if (preSelectedCityIds.length > 0) {
         $('#city_ids').val(preSelectedCityIds).trigger('change.select2');
         loadAreasForCities(preSelectedCityIds, preSelectedAreaIds);
     }
 });
 </script>
+
+{{-- ══════════════════════════════════════
+     AGREEMENT MODAL LOGIC (SEPARATED)
+     ──────────────────────────────────────
+     KEY BEHAVIOURS:
+     • "View/Accept Agreement" button always visible
+     • If NOT yet accepted → opens modal in ACCEPT mode
+       (checkboxes + "Agree & Continue" footer shown)
+     • If ALREADY accepted  → opens modal in READ-ONLY mode
+       (green banner shown, checkboxes/footer hidden)
+     • "Submit" button stays disabled until agreement accepted
+     • After accepting inside modal: hidden fields updated,
+       submit button unlocked, button label/style changes
+     • Submit button triggers form.checkValidity() then submits
+══════════════════════════════════════ --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('contractorRegisterForm');
-    const openBtn = document.getElementById('openAgreementBtn');
 
-    const modal = document.getElementById('agreementModal');
-    const closeBtn = document.getElementById('closeAgreementBtn');
-    const cancelBtn = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    /* ── Elements ── */
+    const form               = document.getElementById('contractorRegisterForm');
+    const openBtn            = document.getElementById('openAgreementBtn');
+    const submitFormBtn      = document.getElementById('submitFormBtn');
 
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreePrivacy = document.getElementById('agreePrivacy');
-    const agreeNewsletter = document.getElementById('agreeNewsletter');
+    const modal              = document.getElementById('agreementModal');
+    const modalInner         = document.getElementById('agreementModalInner');
+    const closeBtn           = document.getElementById('closeAgreementBtn');
+    const cancelBtn          = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn     = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle      = document.getElementById('agreementModalSubtitle');
 
-    const hiddenTerms = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
-    const hiddenNewsletter = document.getElementById('newsletter_opt_in');
-    const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
+    const agreeTerms         = document.getElementById('agreeTerms');
+    const agreePrivacy       = document.getElementById('agreePrivacy');
+    const agreeNewsletter    = document.getElementById('agreeNewsletter');
 
-    function toggleSubmitButton() {
-        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
-    }
+    const hiddenTerms        = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy      = document.getElementById('privacy_policy_accepted');
+    const hiddenNewsletter   = document.getElementById('newsletter_opt_in');
+    const hiddenAcceptedAt   = document.getElementById('agreement_accepted_at');
 
-    function openAgreementModal() {
+    const pendingNotice      = document.getElementById('agreementPendingNotice');
+    const acceptedBadge      = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel  = document.getElementById('agreementBtnLabel');
+
+    const companyNameInput   = document.getElementById('companyNameInput');
+    const registeredAddrInput= document.getElementById('registeredAddressInput');
+    const modalCompanyName   = document.getElementById('agreementCompanyName');
+    const modalCompanyAddr   = document.getElementById('agreementCompanyAddress');
+
+    /* ── State: is agreement already accepted (server-side)? ── */
+    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
+
+    /* ── Helpers ── */
+    function openModal(readOnly) {
+        /* Sync live form values into agreement text */
+        if (companyNameInput && modalCompanyName) {
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Contractor Company Name';
+        }
+        if (registeredAddrInput && modalCompanyAddr) {
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Contractor Office Address';
+        }
+
+        if (readOnly) {
+            modalInner.classList.add('readonly-mode');
+            modalSubtitle.textContent = 'You can review this agreement at any time.';
+        } else {
+            modalInner.classList.remove('readonly-mode');
+            modalSubtitle.textContent = 'Please read and accept the agreement before submitting your Contractor profile.';
+            /* Reset checkboxes on fresh open */
+            agreeTerms.checked     = false;
+            agreePrivacy.checked   = false;
+            agreeNewsletter.checked= hiddenNewsletter.value === '1';
+            agreeSubmitBtn.disabled= true;
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeAgreementModal() {
+    function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
+    function markAgreementAccepted(newsletterChecked) {
+        agreementAccepted = true;
+
+        /* Update hidden fields */
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        hiddenAcceptedAt.value = new Date().toISOString();
+
+        /* Update UI */
+        openBtn.classList.add('accepted');
+        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
+        agreementBtnLabel.textContent = 'View Agreement';
+
+        pendingNotice.classList.add('hidden');
+        acceptedBadge.classList.add('visible');
+
+        submitFormBtn.disabled = false;
+    }
+
+    function toggleAgreeBtn() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
+    /* ── Event: open agreement button ── */
     openBtn.addEventListener('click', function () {
+        openModal(agreementAccepted);
+    });
+
+    /* ── Event: close / cancel ── */
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    /* Close on overlay click */
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    /* ── Event: checkbox change ── */
+    agreeTerms.addEventListener('change',   toggleAgreeBtn);
+    agreePrivacy.addEventListener('change',  toggleAgreeBtn);
+
+    /* ── Event: "Agree & Continue" inside modal ── */
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept the required Terms & Conditions and Privacy Policy.');
+            return;
+        }
+        markAgreementAccepted(agreeNewsletter.checked);
+        closeModal();
+    });
+
+    /* ── Event: Submit form button ── */
+    submitFormBtn.addEventListener('click', function () {
+        /* Safety check: agreement must be accepted */
+        if (!agreementAccepted) {
+            alert('Please read and accept the Agreement first by clicking the "Read & Accept Agreement" button.');
+            return;
+        }
+
+        /* HTML5 validation */
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
 
-        openAgreementModal();
-    });
-
-    closeBtn.addEventListener('click', closeAgreementModal);
-    cancelBtn.addEventListener('click', closeAgreementModal);
-
-    agreeTerms.addEventListener('change', toggleSubmitButton);
-    agreePrivacy.addEventListener('change', toggleSubmitButton);
-
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept required agreement terms and privacy policy.');
-            return;
-        }
-
-        hiddenTerms.value = '1';
-        hiddenPrivacy.value = '1';
-        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
-        hiddenAcceptedAt.value = new Date().toISOString();
-
-        closeAgreementModal();
         form.submit();
     });
-});
-
-
-openBtn.addEventListener('click', function () {
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
-    const alreadyAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
-
-    if (alreadyAccepted) {
-        form.submit();
-        return;
-    }
-
-    openAgreementModal();
 });
 </script>
+
 @endsection

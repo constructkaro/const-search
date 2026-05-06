@@ -17,147 +17,64 @@ public function welcome()
     return view('vendor.welcome',compact('cities'));
 }
 
-// public function vendorstore(Request $request)
-// {
-//     // dd($request);
-//     $validated = $request->validate([
-//         'full_name' => 'required|string|max:255',
-//         'mobile' => 'required|digits:10|unique:vendor_register,mobile',
-//         'email' => 'required|email|max:255|unique:vendor_register,email',
-//         'company_name' => 'required|string|max:255',
 
-//         'city_ids' => 'required',
-//         'area_ids' => 'required|array',
-//         'area_ids.*' => 'required',
-//         'pincode' => 'required|string',
 
-//         'business_address' => 'required|string|max:500',
-//         'business_entity' => 'required|string|max:255',
-//         'password' => 'required|min:6|confirmed',
-//     ], [
-//         'mobile.unique' => 'This mobile number is already registered.',
-//         'email.unique' => 'This email is already registered.',
-//         'password.confirmed' => 'Password and confirm password do not match.',
-//     ]);
+public function vendorstore(Request $request)
+{
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'mobile' => 'required|digits:10|unique:vendor_register,mobile',
+        'email' => 'required|email|max:255|unique:vendor_register,email',
+        'company_name' => 'required|string|max:255',
 
-//     DB::table('vendor_register')->insert([
-//         'full_name' => $validated['full_name'],
-//         'mobile' => $validated['mobile'],
-//         'city_ids' => $validated['city_ids'],
+        'city_ids' => 'required|array|min:1',
+        'city_ids.*' => 'required|integer',
 
-//         // array to JSON string
-//         'area_ids' => $validated['area_ids'],
+        'area_ids' => 'required|array|min:1',
+        'area_ids.*' => 'required|integer',
 
-//         // already comma-separated string from textarea
-//         'pincode' => $validated['pincode'],
+        'pincode' => 'required|string|max:500',
 
-//         'email' => $validated['email'],
-//         'company_name' => $validated['company_name'],
-//         'business_address' => $validated['business_address'],
-//         'business_entity' => $validated['business_entity'],
-//         'password' => Hash::make($validated['password']),
-//         'created_at' => now(),
-//         'updated_at' => now(),
-//     ]);
+        'business_address' => 'required|string|max:500',
+        'business_entity' => 'required|string|max:255',
+        'password' => 'required|min:6|confirmed',
+    ], [
+        'mobile.unique' => 'This mobile number is already registered.',
+        'email.unique' => 'This email is already registered.',
+        'password.confirmed' => 'Password and confirm password do not match.',
+        'city_ids.required' => 'Please select at least one city.',
+        'area_ids.required' => 'Please select at least one area.',
+    ]);
 
-//     return redirect()->back()->with('success', 'Vendor registered successfully. Please login.');
-// }
+    // Insert vendor and get inserted vendor ID
+    $vendorId = DB::table('vendor_register')->insertGetId([
+        'full_name' => $validated['full_name'],
+        'mobile' => $validated['mobile'],
 
- public function vendorstore(Request $request)
-    {
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'mobile' => 'required|digits:10|unique:vendor_register,mobile',
-            'email' => 'required|email|max:255|unique:vendor_register,email',
-            'company_name' => 'required|string|max:255',
+        'city_ids' => json_encode($validated['city_ids']),
+        'area_ids' => json_encode($validated['area_ids']),
 
-            'city_ids' => 'required|array|min:1',
-            'city_ids.*' => 'required|integer',
+        'pincode' => $validated['pincode'],
 
-            'area_ids' => 'required|array|min:1',
-            'area_ids.*' => 'required|integer',
+        'email' => $validated['email'],
+        'company_name' => $validated['company_name'],
+        'business_address' => $validated['business_address'],
+        'business_entity' => $validated['business_entity'],
+        'password' => Hash::make($validated['password']),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
 
-            'pincode' => 'required|string|max:500',
+    // Store vendor login session
+    Session::put('vendor_id', $vendorId);
+    Session::put('vendor_name', $validated['full_name']);
+    Session::put('vendor_email', $validated['email']);
 
-            'business_address' => 'required|string|max:500',
-            'business_entity' => 'required|string|max:255',
-            'password' => 'required|min:6|confirmed',
-        ], [
-            'mobile.unique' => 'This mobile number is already registered.',
-            'email.unique' => 'This email is already registered.',
-            'password.confirmed' => 'Password and confirm password do not match.',
-            'city_ids.required' => 'Please select at least one city.',
-            'area_ids.required' => 'Please select at least one area.',
-        ]);
-
-        DB::table('vendor_register')->insert([
-            'full_name' => $validated['full_name'],
-            'mobile' => $validated['mobile'],
-
-            // IMPORTANT: Convert array to JSON string
-            'city_ids' => json_encode($validated['city_ids']),
-            'area_ids' => json_encode($validated['area_ids']),
-
-            'pincode' => $validated['pincode'],
-
-            'email' => $validated['email'],
-            'company_name' => $validated['company_name'],
-            'business_address' => $validated['business_address'],
-            'business_entity' => $validated['business_entity'],
-            'password' => Hash::make($validated['password']),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        return redirect()
-            ->back()
-            ->with('success', 'Vendor registered successfully. Please login.');
-    }
-
-// public function vendorstore(Request $request)
-// {
-//     // dd($request);
-//     $validated = $request->validate([
-//         'full_name' => 'required|string|max:255',
-//         'mobile' => 'required|digits:10|unique:vendor_register,mobile',
-//         'email' => 'required|email|max:255|unique:vendor_register,email',
-//         'company_name' => 'required|string|max:255',
-//           'city_id' => 'required',
-//         'area_ids' => 'required|array',
-//         'pincode' => 'required',
-//         // 'city' => 'required|string|max:255',
-//         // 'Area' => 'required|string',
-//         // 'pincode' => 'required|digits:6',
-//         'business_address' => 'required|string|max:500',
-//         'business_entity' => 'required|string|max:255',
-//         'password' => 'required|min:6|confirmed',
-//     ], [
-//         'mobile.unique' => 'This mobile number is already registered.',
-//         'email.unique' => 'This email is already registered.',
-//         'password.confirmed' => 'Password and confirm password do not match.',
-//     ]);
-
-//     DB::table('vendor_register')->insert([
-//         'full_name' => $validated['full_name'],
-//         'mobile' => $validated['mobile'],
-//         'city_id' => $validated['city_id'], 
-//         'area_ids' => $validated['area_ids'], 
-//         'pincode' => $validated['pincode'], 
-//         // 'Area'  =>$validated['Area'],
-//         'email' => $validated['email'],
-//         'company_name' => $validated['company_name'],
-//         // 'city' => $validated['city'],
-//         // 'pincode' => $validated['pincode'],
-//         'business_address' => $validated['business_address'],
-//         'business_entity' => $validated['business_entity'],
-//         'password' => Hash::make($validated['password']),
-//         'created_at' => now(),
-//         'updated_at' => now(),
-//     ]);
-
-//     return redirect()->back()->with('success', 'Vendor registered successfully. Please login.');
-// }
-
+    // Redirect to dashboard
+    return redirect()
+        ->route('dashboard')
+        ->with('success', 'Vendor registered successfully.');
+}
 
 public function test(){
     return view('test');
@@ -186,83 +103,6 @@ public function notifications()
     return view('vendor.notifications', compact('notifications'));
 }
 
-// public function notifications()
-// {
-//     $vendorId = session('vendor_id');
-
-//     $notifications = DB::table('vendor_project_notifications as vpn')
-//         ->join('posts as p', 'vpn.post_id', '=', 'p.id')
-//         ->where('vpn.vendor_id', $vendorId)
-//         ->leftJoin('vendor_notification_responses as vr', function ($join) use ($vendorId) {
-//                 $join->on('vr.notification_id', '=', 'vn.id')
-//                     ->where('vr.vendor_id', '=', $vendorId);
-//             })
-//         ->select(
-//             'vpn.*',
-//             'p.*', 'vr.is_interested',
-//             'vr.boq_file'
-//             // 'p.contact_name',
-//             // 'p.mobile',
-//             // 'p.city_id',
-//             // 'p.description',
-//             // 'p.files'
-//         )
-//         ->where('vpn.vendor_id', $vendorId)
-//         ->orderByDesc('vpn.id')
-//         ->get();
-// // dd($notifications);
-//     return view('vendor.notifications', compact('notifications'));
-// }
-
-// public function notificationResponse(Request $request)
-// {
-//     $request->validate([
-//         'notification_id' => 'required',
-//         'post_id' => 'required',
-//         'is_interested' => 'nullable|in:0,1',
-//         'boq_file' => 'nullable|file|mimes:pdf,xls,xlsx,jpg,jpeg,png|max:5120',
-//     ]);
-
-//     $filePath = null;
-
-//     if ($request->hasFile('boq_file')) {
-//         $filePath = $request->file('boq_file')->store('vendor_boq_files', 'public');
-//     }
-
-//     $exists = DB::table('vendor_notification_responses')
-//     ->where('notification_id', $request->notification_id)
-//     ->where('vendor_id', session('vendor_id'))
-//     ->first();
-
-//     if ($exists) {
-
-//         DB::table('vendor_notification_responses')
-//             ->where('id', $exists->id)
-//             ->update([
-//                 'is_interested' => $request->is_interested ?? 0,
-//                 'boq_file' => $filePath ?? $exists->boq_file,
-//                 'updated_at' => now()
-//             ]);
-
-//     } else {
-
-//         DB::table('vendor_notification_responses')->insert([
-//             'notification_id' => $request->notification_id,
-//             'post_id' => $request->post_id,
-//             'vendor_id' => session('vendor_id'),
-//             'is_interested' => $request->is_interested ?? 0,
-//             'boq_file' => $filePath,
-//             'created_at' => now(),
-//             'updated_at' => now(),
-//         ]);
-//     }
-    
-
-//     return response()->json([
-//         'status' => true,
-//         'message' => 'Your response has been submitted successfully.'
-//     ]);
-// }
 public function notificationResponse(Request $request)
 {
     

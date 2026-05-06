@@ -368,6 +368,9 @@
         text-decoration: underline;
     }
 
+    /* ══════════════════════════════════════
+       SUBMIT BAR — two-button layout
+    ══════════════════════════════════════ */
     .submit-bar{
         background: linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 100%);
         border: 1px solid var(--ck-line);
@@ -381,9 +384,51 @@
         flex-wrap: wrap;
     }
 
+    .submit-bar-actions{
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    /* Agreement button — outlined navy */
+    .agreement-view-btn{
+        height: 58px;
+        padding: 0 26px;
+        border: 2px solid var(--ck-navy-2);
+        border-radius: 16px;
+        background: transparent;
+        color: var(--ck-navy-2);
+        font-size: 16px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all .22s ease;
+        white-space: nowrap;
+    }
+
+    .agreement-view-btn:hover{
+        background: var(--ck-navy-2);
+        color: #fff;
+    }
+
+    .agreement-view-btn.accepted{
+        border-color: #16a34a;
+        color: #16a34a;
+    }
+
+    .agreement-view-btn.accepted:hover{
+        background: #16a34a;
+        color: #fff;
+    }
+
+    /* Submit button */
     .submit-btn{
-        min-width: 320px;
         height: 68px;
+        padding: 0 36px;
         border: none;
         border-radius: 18px;
         background: linear-gradient(135deg, var(--ck-orange) 0%, var(--ck-orange-2) 100%);
@@ -397,12 +442,49 @@
         box-shadow: var(--ck-shadow-lg);
         transition: .22s ease;
         cursor: pointer;
+        white-space: nowrap;
     }
 
-    .submit-btn:hover{
-        transform: translateY(-2px);
-        box-shadow: 0 22px 40px rgba(235,122,47,0.24);
+    .submit-btn:disabled{
+        opacity: 0.45;
+        cursor: not-allowed;
+        box-shadow: none;
     }
+
+    .submit-btn:not(:disabled):hover{
+        transform: translateY(-2px);
+        box-shadow: 0 22px 44px rgba(235,122,47,0.28);
+    }
+
+    /* Status badges */
+    .agreement-pending-notice{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #c2410c;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 10px;
+        padding: 8px 14px;
+    }
+
+    .agreement-accepted-badge{
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #027a48;
+        background: #ecfdf3;
+        border: 1px solid #abefc6;
+        border-radius: 10px;
+        padding: 8px 14px;
+    }
+
+    .agreement-accepted-badge.visible{ display: flex; }
+    .agreement-pending-notice.hidden{ display: none; }
 
     .submit-note{
         max-width: 480px;
@@ -428,13 +510,10 @@
         margin-top: 6px;
     }
 
-    .area-loading.visible{
-        display: block;
-    }
+    .area-loading.visible{ display: block; }
 
-    .select2-container{
-        width: 100% !important;
-    }
+    /* Select2 overrides */
+    .select2-container{ width: 100% !important; }
 
     .select2-container .select2-selection--single{
         height: 58px !important;
@@ -495,21 +574,20 @@
         overflow: hidden;
     }
 
-    .select2-results__option{
-        padding: 10px 14px !important;
-    }
+    .select2-results__option{ padding: 10px 14px !important; }
 
     .select2-results__option--highlighted{
         background: var(--ck-navy) !important;
         color: #fff !important;
     }
 
+    /* Agreement Status Card */
     .agreement-status-card{
         background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
         border: 1.5px solid var(--ck-line-dark);
         border-radius: 18px;
         padding: 18px;
-        margin-top: 18px;
+        margin-bottom: 24px;
     }
 
     .agreement-status-title{
@@ -571,6 +649,7 @@
         color: #fff;
     }
 
+    /* Agreement Modal */
     .agreement-modal-overlay{
         position: fixed;
         inset: 0;
@@ -582,9 +661,7 @@
         padding: 18px;
     }
 
-    .agreement-modal-overlay.active{
-        display: flex;
-    }
+    .agreement-modal-overlay.active{ display: flex; }
 
     .agreement-modal{
         width: 100%;
@@ -649,13 +726,8 @@
         font-weight: 900;
     }
 
-    .agreement-modal-body p{
-        margin: 0 0 10px;
-    }
-
-    .agreement-modal-body ul{
-        margin: 6px 0 12px 20px;
-    }
+    .agreement-modal-body p{ margin: 0 0 10px; }
+    .agreement-modal-body ul{ margin: 6px 0 12px 20px; }
 
     .agreement-title-box{
         text-align: center;
@@ -678,6 +750,31 @@
         color: var(--ck-orange);
         font-weight: 900;
     }
+
+    /* readonly-mode: hide checkboxes + footer */
+    .agreement-modal.readonly-mode .agreement-checks,
+    .agreement-modal.readonly-mode .agreement-modal-footer{ display: none; }
+
+    .agreement-modal.readonly-mode .agreement-modal-header{
+        background: linear-gradient(135deg, #ecfdf3 0%, #ffffff 100%);
+        border-bottom-color: #abefc6;
+    }
+
+    .agreement-readonly-banner{
+        display: none;
+        margin: 0 24px 0;
+        padding: 12px 16px;
+        background: #ecfdf3;
+        border: 1px solid #abefc6;
+        border-radius: 12px;
+        color: #027a48;
+        font-size: 14px;
+        font-weight: 700;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .agreement-modal.readonly-mode .agreement-readonly-banner{ display: flex; }
 
     .agreement-checks{
         padding: 18px 24px;
@@ -721,10 +818,7 @@
         border: none;
     }
 
-    .agreement-cancel-btn{
-        background: #f3f4f6;
-        color: #374151;
-    }
+    .agreement-cancel-btn{ background: #f3f4f6; color: #374151; }
 
     .agreement-submit-btn{
         background: linear-gradient(135deg, var(--ck-orange), var(--ck-orange-2));
@@ -740,72 +834,43 @@
     @media (max-width: 992px){
         .form-grid-2,
         .project-grid,
-        .upload-grid-2{
-            grid-template-columns: 1fr;
+        .upload-grid-2{ grid-template-columns: 1fr; }
+
+        .submit-bar-actions{
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
         }
 
-        .submit-btn{
-            min-width: 100%;
-            width: 100%;
-        }
+        .agreement-view-btn,
+        .submit-btn{ width: 100%; justify-content: center; }
     }
 
     @media (max-width: 768px){
-        .contractor-page{
-            padding: 12px 0 22px;
-        }
+        .contractor-page{ padding: 12px 0 22px; }
+        .section-card{ padding: 18px 16px 22px; border-radius: 20px; }
+        .section-title-wrap h2{ font-size: 20px; }
+        .vendor-bar{ grid-template-columns: 1fr; }
+        .agreement-status-grid{ grid-template-columns: 1fr; }
+        .submit-bar{ flex-direction: column; align-items: stretch; }
 
-        .section-card{
-            padding: 18px 16px 22px;
-            border-radius: 20px;
-        }
-
-        .section-title-wrap h2{
-            font-size: 20px;
-        }
-
-        .vendor-bar{
-            grid-template-columns: 1fr;
-        }
-
-        .agreement-status-grid{
-            grid-template-columns: 1fr;
-        }
-
-        .agreement-modal{
-            max-height: 95vh;
-            border-radius: 18px;
-        }
+        .agreement-modal{ max-height: 95vh; border-radius: 18px; }
 
         .agreement-modal-header,
         .agreement-modal-body,
         .agreement-checks,
-        .agreement-modal-footer{
-            padding: 16px;
-        }
+        .agreement-modal-footer{ padding: 16px; }
 
-        .agreement-modal-header h2{
-            font-size: 18px;
-        }
+        .agreement-modal-header h2{ font-size: 18px; }
     }
 </style>
 
 @php
     $decodeArray = function ($value) {
-        if (is_array($value)) {
-            return $value;
-        }
-
-        if (empty($value)) {
-            return [];
-        }
-
+        if (is_array($value)) return $value;
+        if (empty($value)) return [];
         $decoded = json_decode($value, true);
-
-        if (is_string($decoded)) {
-            $decoded = json_decode($decoded, true);
-        }
-
+        if (is_string($decoded)) $decoded = json_decode($decoded, true);
         return is_array($decoded) ? $decoded : [];
     };
 
@@ -820,67 +885,77 @@
 
     $savedPincodes = old('pincode', $existingData->pincode ?? '');
 
-    $workType = $workType ?? null;
+    $workType     = $workType     ?? null;
     $projectTypes = $projectTypes ?? collect();
 
-    $termsAccepted = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
-    $privacyAccepted = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
-    $newsletterAccepted = (int)($existingData->newsletter_opt_in ?? 0) === 1;
+    $termsAccepted      = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
+    $privacyAccepted    = (int)($existingData->privacy_policy_accepted  ?? 0) === 1;
+    $newsletterAccepted = (int)($existingData->newsletter_opt_in        ?? 0) === 1;
+
+    /* Both mandatory fields accepted = fully agreed */
+    $fullyAgreed = $termsAccepted && $privacyAccepted;
+
+    $agreementDate = now()->format('d F Y');
 @endphp
-  <div class="agreement-status-card">
-                <div class="agreement-status-title">Agreement Acceptance Status</div>
 
-                <div class="agreement-status-grid">
+{{-- ── Agreement Acceptance Status Card ── --}}
+<div class="agreement-status-card">
+    <div class="agreement-status-title">Agreement Acceptance Status</div>
 
-                    <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>Terms & Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
-                    </div>
+    <div class="agreement-status-grid">
+        <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
+            <span class="agreement-status-icon">
+                <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+            </span>
+            <span>Terms &amp; Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
+        </div>
 
-                    <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
-                    </div>
+        <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
+            <span class="agreement-status-icon">
+                <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+            </span>
+            <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
+        </div>
 
-                    <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
-                        </span>
-                        <span>Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}</span>
-                    </div>
+        <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
+            <span class="agreement-status-icon">
+                <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
+            </span>
+            <span>Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}</span>
+        </div>
+    </div>
 
-                </div>
+    @if(!empty($existingData->agreement_accepted_at))
+        <small style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
+            Accepted At: {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}
+        </small>
+    @endif
+</div>
 
-                @if(!empty($existingData->agreement_accepted_at))
-                    <small style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
-                        Accepted At: {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}
-                    </small>
-                @endif
-            </div>
+{{-- ══════════════════════════════════════
+     MAIN FORM
+══════════════════════════════════════ --}}
 <div class="contractor-page">
     <div class="contractor-stack">
 
         <form action="{{ route('architect.store') }}" method="POST" enctype="multipart/form-data" id="architectRegisterForm">
             @csrf
 
-            <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted ? 1 : 0 }}">
-            <input type="hidden" name="privacy_policy_accepted" id="privacy_policy_accepted" value="{{ $privacyAccepted ? 1 : 0 }}">
-            <input type="hidden" name="newsletter_opt_in" id="newsletter_opt_in" value="{{ $newsletterAccepted ? 1 : 0 }}">
-            <input type="hidden" name="agreement_accepted_at" id="agreement_accepted_at" value="{{ $existingData->agreement_accepted_at ?? '' }}">
+            {{-- Hidden agreement fields — pre-seeded from DB --}}
+            <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted     ? 1 : 0 }}">
+            <input type="hidden" name="privacy_policy_accepted"  id="privacy_policy_accepted"  value="{{ $privacyAccepted   ? 1 : 0 }}">
+            <input type="hidden" name="newsletter_opt_in"        id="newsletter_opt_in"        value="{{ $newsletterAccepted ? 1 : 0 }}">
+            <input type="hidden" name="agreement_accepted_at"    id="agreement_accepted_at"    value="{{ $existingData->agreement_accepted_at ?? '' }}">
 
             @if(session('success'))
-                <div style="background:#d1fae5; color:#065f46; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
+                <div style="background:#d1fae5;color:#065f46;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if($errors->any())
-                <div style="background:#fee2e2; color:#991b1b; padding:14px 18px; border-radius:12px; margin-bottom:20px; font-weight:600;">
-                    <ul style="margin:0; padding-left:18px;">
+                <div style="background:#fee2e2;color:#991b1b;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
+                    <ul style="margin:0;padding-left:18px;">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -888,13 +963,12 @@
                 </div>
             @endif
 
+            {{-- ── Business & Work Details ── --}}
             <div class="section-card">
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-compass-drafting"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-compass-drafting"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Business & Work Details</h2>
+                        <h2>Business &amp; Work Details</h2>
                         <p>Select your architectural specialization and project expertise</p>
                     </div>
                 </div>
@@ -910,33 +984,28 @@
                 <div class="field-block">
                     <div class="field-label">Project Type <span class="req">*</span></div>
                     <div class="field-sub">Select all project types you have experience in</div>
-
                     <div class="project-grid">
                         @forelse($projectTypes as $index => $type)
                             <div class="check-card">
-                                <input
-                                    type="checkbox"
-                                    id="project_type_{{ $index }}"
-                                    name="project_types[]"
-                                    value="{{ $type }}"
-                                    {{ in_array($type, $selectedProjects) ? 'checked' : '' }}
-                                >
+                                <input type="checkbox"
+                                       id="project_type_{{ $index }}"
+                                       name="project_types[]"
+                                       value="{{ $type }}"
+                                       {{ in_array($type, $selectedProjects) ? 'checked' : '' }}>
                                 <label for="project_type_{{ $index }}">{{ $type }}</label>
                             </div>
                         @empty
-                            <p style="color:red; font-weight:600;">No project types found.</p>
+                            <p style="color:red;font-weight:600;">No project types found.</p>
                         @endforelse
                     </div>
                 </div>
             </div>
 
+            {{-- ── Basic Business Information ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-building"></i></div>
                     <div class="section-title-wrap">
                         <h2>Basic Business Information</h2>
                         <p>Company overview and operating details</p>
@@ -944,14 +1013,12 @@
                 </div>
 
                 <div class="form-grid-2 business-info-grid">
-
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
                         <select class="form-select" name="experience_years" required>
                             <option value="" disabled {{ old('experience_years', $existingData->experience_years ?? '') == '' ? 'selected' : '' }}>
                                 Select years of experience
                             </option>
-
                             @foreach($experienceYears as $experience)
                                 <option value="{{ $experience->id }}"
                                     {{ old('experience_years', $existingData->experience_years ?? '') == $experience->id ? 'selected' : '' }}>
@@ -980,7 +1047,6 @@
                                 <option value="{{ $aId }}" selected>{{ $aId }}</option>
                             @endforeach
                         </select>
-
                         <small class="area-loading" id="areaLoading">
                             <i class="fa-solid fa-spinner fa-spin"></i> Loading areas…
                         </small>
@@ -988,45 +1054,29 @@
 
                     <div>
                         <div class="field-label">Pincode <span class="req">*</span></div>
-                        <textarea
-                            class="form-textarea"
-                            id="pincode_id"
-                            name="pincode"
-                            readonly
-                            required
-                            placeholder="Pincodes auto-fill from selected areas"
-                        >{{ $savedPincodes }}</textarea>
+                        <textarea class="form-textarea" id="pincode_id" name="pincode" readonly required
+                                  placeholder="Pincodes auto-fill from selected areas">{{ $savedPincodes }}</textarea>
                     </div>
 
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                        <input
-                            type="number"
-                            step="1"
-                            min="0"
-                            name="minimum_project_value"
-                            class="form-input"
-                            required
-                            placeholder="Enter amount in numbers only, e.g. 500000"
-                            value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
-                        >
+                        <input type="number" step="1" min="0" name="minimum_project_value" class="form-input" required
+                               placeholder="Enter amount in numbers only, e.g. 500000"
+                               value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}">
                         <small class="text-muted">
-                            Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs. Do not write 5 Lakhs or 5L.
+                            Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs.
                         </small>
                     </div>
-
                 </div>
             </div>
 
+            {{-- ── Company & Compliance Details ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-id-card"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-id-card"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Company & Compliance Details</h2>
+                        <h2>Company &amp; Compliance Details</h2>
                         <p>Legal, statutory and contact information</p>
                     </div>
                 </div>
@@ -1034,14 +1084,9 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Company Name <span class="req">*</span></div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="company_name"
-                            required
-                            placeholder="Enter company name"
-                            value="{{ old('company_name', $existingData->company_name ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="company_name" id="companyNameInput" required
+                               placeholder="Enter company name"
+                               value="{{ old('company_name', $existingData->company_name ?? '') }}">
                     </div>
 
                     <div>
@@ -1059,143 +1104,87 @@
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Registered Office Address <span class="req">*</span></div>
-                        <textarea
-                            class="form-textarea"
-                            name="registered_address"
-                            required
-                            placeholder="Enter registered office address"
-                        >{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
+                        <textarea class="form-textarea" name="registered_address" id="registeredAddressInput" required
+                                  placeholder="Enter registered office address">{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
                     </div>
 
                     <div>
                         <div class="field-label">Contact Person Designation <span class="req">*</span></div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="contact_person_designation"
-                            required
-                            placeholder="Enter contact person designation"
-                            value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="contact_person_designation" required
+                               placeholder="Enter contact person designation"
+                               value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Contact Person Name</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="contact_person_name"
-                            placeholder="Enter contact person name"
-                            value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="contact_person_name"
+                               placeholder="Enter contact person name"
+                               value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">PAN Number</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="pan_number"
-                            placeholder="Enter PAN number"
-                            value="{{ old('pan_number', $existingData->pan_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="pan_number"
+                               placeholder="Enter PAN number"
+                               value="{{ old('pan_number', $existingData->pan_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">TAN Number</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="tan_number"
-                            placeholder="Enter TAN number"
-                            value="{{ old('tan_number', $existingData->tan_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="tan_number"
+                               placeholder="Enter TAN number"
+                               value="{{ old('tan_number', $existingData->tan_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">GST Number</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="gst_number"
-                            placeholder="Enter GST number"
-                            value="{{ old('gst_number', $existingData->gst_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="gst_number"
+                               placeholder="Enter GST number"
+                               value="{{ old('gst_number', $existingData->gst_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">COA Number</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="coa_number"
-                            placeholder="Enter COA number"
-                            value="{{ old('coa_number', $existingData->coa_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="coa_number"
+                               placeholder="Enter COA number"
+                               value="{{ old('coa_number', $existingData->coa_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">Website</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="website"
-                            placeholder="Enter website"
-                            value="{{ old('website', $existingData->website ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="website"
+                               placeholder="Enter website"
+                               value="{{ old('website', $existingData->website ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">ESIC Number</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="esic_number"
-                            placeholder="Enter ESIC number"
-                            value="{{ old('esic_number', $existingData->esic_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="esic_number"
+                               placeholder="Enter ESIC number"
+                               value="{{ old('esic_number', $existingData->esic_number ?? '') }}">
                     </div>
 
                     <div>
                         <div class="field-label">PF No</div>
-                        <input
-                            type="text"
-                            class="form-input"
-                            name="pf_number"
-                            placeholder="Enter PF number"
-                            value="{{ old('pf_number', $existingData->pf_number ?? '') }}"
-                        >
+                        <input type="text" class="form-input" name="pf_number"
+                               placeholder="Enter PF number"
+                               value="{{ old('pf_number', $existingData->pf_number ?? '') }}">
                     </div>
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">MSME/Udyam Registered <span class="req">*</span></div>
-
                         <div class="radio-group">
                             <div class="radio-pill">
-                                <input
-                                    type="radio"
-                                    id="msme_yes"
-                                    name="msme_registered"
-                                    value="Yes"
-                                    required
-                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'Yes' ? 'checked' : '' }}
-                                >
+                                <input type="radio" id="msme_yes" name="msme_registered" value="Yes" required
+                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'Yes' ? 'checked' : '' }}>
                                 <label for="msme_yes">Yes</label>
                             </div>
-
                             <div class="radio-pill">
-                                <input
-                                    type="radio"
-                                    id="msme_no"
-                                    name="msme_registered"
-                                    value="No"
-                                    required
-                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'No' ? 'checked' : '' }}
-                                >
+                                <input type="radio" id="msme_no" name="msme_registered" value="No" required
+                                    {{ old('msme_registered', $existingData->msme_registered ?? '') == 'No' ? 'checked' : '' }}>
                                 <label for="msme_no">No</label>
                             </div>
                         </div>
-
                         @error('msme_registered')
                             <div class="text-danger" style="margin-top:8px;">{{ $message }}</div>
                         @enderror
@@ -1203,60 +1192,38 @@
 
                     <div style="grid-column: 1 / -1;">
                         <div class="field-label">Upload MSME/Udyam Certificate</div>
-
                         <div class="upload-box-wrap">
-                            <input
-                                type="file"
-                                id="msme_certificate"
-                                name="msme_certificate"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                            >
-
+                            <input type="file" id="msme_certificate" name="msme_certificate" accept=".pdf,.jpg,.jpeg,.png">
                             <label for="msme_certificate" class="upload-box">
-                                <div class="upload-icon">
-                                    <i class="fa-regular fa-award"></i>
-                                </div>
+                                <div class="upload-icon"><i class="fa-regular fa-award"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Upload MSME/Udyam Certificate</div>
                                     <div class="upload-note file-name" id="msme_certificate_name">PDF, JPG, PNG up to 20MB</div>
                                 </div>
                             </label>
-
                             @if(!empty($existingData->msme_certificate))
-                                <a href="{{ asset('storage/' . $existingData->msme_certificate) }}"
-                                   class="uploaded-link"
-                                   id="msme_certificate_link"
-                                   target="_blank"
-                                   style="display:inline-block;">
-                                    View Uploaded MSME
-                                </a>
+                                <a href="{{ asset('storage/'.$existingData->msme_certificate) }}"
+                                   class="uploaded-link" id="msme_certificate_link" target="_blank"
+                                   style="display:inline-block;">View Uploaded MSME</a>
                             @else
-                                <a href="#"
-                                   class="uploaded-link"
-                                   id="msme_certificate_link"
-                                   target="_blank"
-                                   style="display:none;">
-                                    View Uploaded MSME
-                                </a>
+                                <a href="#" class="uploaded-link" id="msme_certificate_link" target="_blank"
+                                   style="display:none;">View Uploaded MSME</a>
                             @endif
-
                             @error('msme_certificate')
-                                <div class="text-danger" style="margin-top:8px; font-size:13px;">{{ $message }}</div>
+                                <div class="text-danger" style="margin-top:8px;font-size:13px;">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
                 </div>
             </div>
 
+            {{-- ── Documents & Work Proof ── --}}
             <div class="section-card">
                 <div class="section-divider"></div>
-
                 <div class="section-head">
-                    <div class="section-badge">
-                        <i class="fa-solid fa-file-arrow-up"></i>
-                    </div>
+                    <div class="section-badge"><i class="fa-solid fa-file-arrow-up"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Documents & Work Proof</h2>
+                        <h2>Documents &amp; Work Proof</h2>
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
@@ -1264,128 +1231,120 @@
                 <div class="upload-grid-2">
                     <div>
                         <div class="upload-title">PAN Card <span class="req">*</span> (PDF, max 20 MB)</div>
-
                         <div class="upload-box-wrap">
                             <input type="file" id="pan_card" name="pan_card" accept=".pdf,.jpg,.jpeg,.png">
-
                             <label for="pan_card" class="upload-box">
-                                <div class="upload-icon">
-                                    <i class="fa-regular fa-id-card"></i>
-                                </div>
+                                <div class="upload-icon"><i class="fa-regular fa-id-card"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">PAN Card</div>
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-
                             <a href="#" class="uploaded-link" id="pan_card_link" target="_blank" style="display:none;">View PAN</a>
-
                             @if(!empty($existingData->pan_card))
-                                <div>
-                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
-                                        View PAN Certificate
-                                    </a>
-                                </div>
+                                <div><a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">View PAN Certificate</a></div>
                             @endif
                         </div>
                     </div>
 
                     <div>
                         <div class="upload-title">GST Certificate <span class="req">*</span> (PDF, max 20 MB)</div>
-
                         <div class="upload-box-wrap">
                             <input type="file" id="gst_certificate" name="gst_certificate" accept=".pdf,.jpg,.jpeg,.png">
-
                             <label for="gst_certificate" class="upload-box">
-                                <div class="upload-icon">
-                                    <i class="fa-regular fa-file-lines"></i>
-                                </div>
+                                <div class="upload-icon"><i class="fa-regular fa-file-lines"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">GST Certificate</div>
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-
                             <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank" style="display:none;">View GST</a>
-
                             @if(!empty($existingData->gst_certificate))
-                                <div>
-                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
-                                        View GST Certificate
-                                    </a>
-                                </div>
+                                <div><a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">View GST Certificate</a></div>
                             @endif
                         </div>
                     </div>
 
                     <div>
                         <div class="upload-title">Aadhaar Card <span class="req">*</span> (PDF, max 20 MB)</div>
-
                         <div class="upload-box-wrap">
                             <input type="file" id="aadhaar_card" name="aadhaar_card" accept=".pdf,.jpg,.jpeg,.png">
-
                             <label for="aadhaar_card" class="upload-box">
-                                <div class="upload-icon">
-                                    <i class="fa-regular fa-address-card"></i>
-                                </div>
+                                <div class="upload-icon"><i class="fa-regular fa-address-card"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Aadhaar Card</div>
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-
                             <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank" style="display:none;">View Aadhaar</a>
-
                             @if(!empty($existingData->aadhaar_card))
-                                <div>
-                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
-                                        View Aadhaar Certificate
-                                    </a>
-                                </div>
+                                <div><a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">View Aadhaar Certificate</a></div>
                             @endif
                         </div>
                     </div>
 
                     <div>
                         <div class="upload-title">Company Profile <span class="req">*</span> (PDF, max 20 MB)</div>
-
                         <div class="upload-box-wrap">
                             <input type="file" id="company_profile" name="company_profile" accept=".pdf,.jpg,.jpeg,.png">
-
                             <label for="company_profile" class="upload-box">
-                                <div class="upload-icon">
-                                    <i class="fa-regular fa-building"></i>
-                                </div>
+                                <div class="upload-icon"><i class="fa-regular fa-building"></i></div>
                                 <div class="upload-content">
                                     <div class="upload-main">Company Profile</div>
                                     <div class="upload-note file-name">Choose and upload file</div>
                                 </div>
                             </label>
-
                             <a href="#" class="uploaded-link" id="company_profile_link" target="_blank" style="display:none;">View Certificate</a>
-
                             @if(!empty($existingData->company_profile))
-                                <div>
-                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
-                                        View Company Profile
-                                    </a>
-                                </div>
+                                <div><a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">View Company Profile</a></div>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
 
-          
-
+            {{-- ══════════════════════════════════════
+                 SUBMIT BAR — TWO SEPARATE BUTTONS
+            ══════════════════════════════════════ --}}
             <div class="submit-bar">
-                <button type="button" class="submit-btn" id="openAgreementBtn">
-                    <i class="fa-regular fa-paper-plane"></i>
-                    <span>Submit Architect Profile</span>
-                </button>
+                <div class="submit-bar-actions">
+
+                    {{-- ① View Agreement button — always visible --}}
+                    <button type="button"
+                            id="openAgreementBtn"
+                            class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+                        <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+                        <span id="agreementBtnLabel">
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                        </span>
+                    </button>
+
+                    {{-- Status badges --}}
+                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Agreement acceptance required before submitting
+                    </div>
+                    <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Agreement Accepted
+                    </div>
+
+                    {{-- ② Submit button — enabled only when agreement accepted --}}
+                    <button type="button"
+                            class="submit-btn"
+                            id="submitFormBtn"
+                            {{ $fullyAgreed ? '' : 'disabled' }}>
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Submit Architect Profile</span>
+                    </button>
+
+                </div>
 
                 <div class="submit-note">
                     By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
+                    @if(!$fullyAgreed)
+                        <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
+                    @endif
                 </div>
             </div>
 
@@ -1393,28 +1352,35 @@
     </div>
 </div>
 
-@php
-    $agreementDate = now()->format('d F Y');
-@endphp
-
+{{-- ══════════════════════════════════════
+     AGREEMENT MODAL
+══════════════════════════════════════ --}}
 <div class="agreement-modal-overlay" id="agreementModal">
-    <div class="agreement-modal">
+    <div class="agreement-modal" id="agreementModalInner">
 
         <div class="agreement-modal-header">
             <div>
-                <h2>Project Execution & Representation Agreement</h2>
-                <p>Please read and accept the agreement before submitting your Architect profile.</p>
+                <h2>Project Execution &amp; Representation Agreement</h2>
+                <p id="agreementModalSubtitle">Please read and accept the agreement before submitting your Architect profile.</p>
             </div>
-
             <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
+        {{-- Shown only in readonly-mode --}}
+        <div class="agreement-readonly-banner">
+            <i class="fa-solid fa-circle-check"></i>
+            You have already accepted this agreement.
+            @if(!empty($existingData->agreement_accepted_at))
+                Accepted on {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}.
+            @endif
+        </div>
+
         <div class="agreement-modal-body">
             <div class="agreement-title-box">
                 <h1>CONSTRUCTKARO</h1>
-                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
+                <h4>PROJECT EXECUTION &amp; REPRESENTATION AGREEMENT</h4>
                 <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
             </div>
 
@@ -1422,41 +1388,26 @@
             <p>
                 <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
                 having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
-                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>
-                shall hereinafter be referred to as <strong>“ConstructKaro”</strong>.
+                Katrang Road, Khopoli-410203, operating under the brand name <strong>"ConstructKaro"</strong>
+                shall hereinafter be referred to as <strong>"ConstructKaro"</strong>.
             </p>
-
             <p><strong>AND</strong></p>
-
             <p>
                 <strong id="agreementCompanyName">{{ old('company_name', $existingData->company_name ?? 'Architect Company Name') }}</strong>,
                 having its principal office at
                 <strong id="agreementCompanyAddress">{{ old('registered_address', $existingData->registered_address ?? 'Architect Office Address') }}</strong>,
-                shall hereinafter be referred to as <strong>“Architect”</strong>.
+                shall hereinafter be referred to as <strong>"Architect"</strong>.
             </p>
+            <p>ConstructKaro and Architect are individually referred to as a "Party" and collectively as the "Parties."</p>
 
-            <p>
-                ConstructKaro and Architect are individually referred to as a “Party” and collectively as the “Parties.”
-            </p>
-
-            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
-            <p>
-                ConstructKaro provides construction and project management services, overseeing execution of projects under its brand and contractual responsibility.
-            </p>
-            <p>
-                The Architect agrees to execute assigned work as per specifications, quality standards, timelines, drawings, BOQ, and project-specific requirements provided by ConstructKaro.
-            </p>
-            <p>
-                All projects shall be executed under the ConstructKaro brand. The Architect shall represent the work exclusively under ConstructKaro unless otherwise agreed in writing.
-            </p>
-            <p>
-                ConstructKaro shall remain the primary contracting party with the customer. The Architect shall not engage in direct dealings with the customer without prior written consent from ConstructKaro.
-            </p>
+            <h3>2. PURPOSE &amp; NATURE OF PLATFORM</h3>
+            <p>ConstructKaro provides construction and project management services, overseeing execution of projects under its brand and contractual responsibility.</p>
+            <p>The Architect agrees to execute assigned work as per specifications, quality standards, timelines, drawings, BOQ, and project-specific requirements provided by ConstructKaro.</p>
+            <p>All projects shall be executed under the ConstructKaro brand. The Architect shall represent the work exclusively under ConstructKaro unless otherwise agreed in writing.</p>
+            <p>ConstructKaro shall remain the primary contracting party with the customer. The Architect shall not engage in direct dealings with the customer without prior written consent from ConstructKaro.</p>
 
             <h3>3. INDEPENDENT ARCHITECT STATUS</h3>
-            <p>
-                The Architect is engaged as an independent execution partner for assigned works. Nothing in this Agreement shall create a partnership, joint venture, employer-employee relationship, or agency except limited representation authorized by ConstructKaro.
-            </p>
+            <p>The Architect is engaged as an independent execution partner for assigned works. Nothing in this Agreement shall create a partnership, joint venture, employer-employee relationship, or agency except limited representation authorized by ConstructKaro.</p>
             <ul>
                 <li>The Architect shall manage its manpower, staff, and resources.</li>
                 <li>The Architect shall comply with applicable laws, statutory requirements, and regulations.</li>
@@ -1477,23 +1428,15 @@
                 <li>Not subcontract or assign work without prior written approval from ConstructKaro.</li>
             </ul>
 
-            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
-            <p>
-                ConstructKaro shall share project BOQ, scope, drawings, and specifications with the Architect for rate submission. ConstructKaro shall have the exclusive right to determine final project pricing offered to the customer.
-            </p>
-            <p>
-                All billing to the customer shall be done solely by ConstructKaro. The Architect shall not raise any invoice directly to the customer.
-            </p>
-            <p>
-                Payment to the Architect shall be on a bill-to-bill basis and subject to receipt of corresponding payment from the customer and quality approval by ConstructKaro.
-            </p>
+            <h3>5. COMMERCIAL TERMS &amp; PAYMENT STRUCTURE</h3>
+            <p>ConstructKaro shall share project BOQ, scope, drawings, and specifications with the Architect for rate submission. ConstructKaro shall have the exclusive right to determine final project pricing offered to the customer.</p>
+            <p>All billing to the customer shall be done solely by ConstructKaro. The Architect shall not raise any invoice directly to the customer.</p>
+            <p>Payment to the Architect shall be on a bill-to-bill basis and subject to receipt of corresponding payment from the customer and quality approval by ConstructKaro.</p>
 
-            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
-            <p>
-                ConstructKaro may appoint a Quality Check Officer to monitor and verify the quality of work. Payment shall be released only after inspection, verification, and approval.
-            </p>
+            <h3>6. QUALITY CHECK &amp; PAYMENT RELEASE</h3>
+            <p>ConstructKaro may appoint a Quality Check Officer to monitor and verify the quality of work. Payment shall be released only after inspection, verification, and approval.</p>
 
-            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
+            <h3>7. NO GUARANTEE &amp; RISK ACKNOWLEDGEMENT</h3>
             <ul>
                 <li>ConstructKaro does not guarantee allocation or continuity of any project.</li>
                 <li>ConstructKaro does not guarantee specific project size, value, or volume.</li>
@@ -1501,82 +1444,58 @@
                 <li>ConstructKaro shall not be liable for delay due to customer non-payment, site conditions, scope changes, or regulatory issues.</li>
             </ul>
 
-            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
-            <p>
-                The Architect shall not directly or indirectly contact, solicit, negotiate, or execute work with any customer introduced, assigned, or handled by ConstructKaro except through ConstructKaro.
-            </p>
-            <p>
-                This restriction shall remain valid during the term of this Agreement and for thirty-six (36) months from completion or termination. Breach may attract liquidated damages equal to 20% of total project value or ₹5,00,000, whichever is higher.
-            </p>
+            <h3>8. NON-CIRCUMVENTION &amp; NON-SOLICITATION</h3>
+            <p>The Architect shall not directly or indirectly contact, solicit, negotiate, or execute work with any customer introduced, assigned, or handled by ConstructKaro except through ConstructKaro.</p>
+            <p>This restriction shall remain valid during the term of this Agreement and for thirty-six (36) months from completion or termination. Breach may attract liquidated damages equal to 20% of total project value or ₹5,00,000, whichever is higher.</p>
 
-            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
-            <p>
-                All project details, BOQs, drawings, pricing, specifications, customer information, and commercial terms shared by ConstructKaro shall remain confidential and shall not be disclosed or reused without permission.
-            </p>
-            <p>
-                The Architect shall comply with applicable data protection laws including the Digital Personal Data Protection Act, 2023.
-            </p>
+            <h3>9. CONFIDENTIALITY &amp; DATA PROTECTION</h3>
+            <p>All project details, BOQs, drawings, pricing, specifications, customer information, and commercial terms shared by ConstructKaro shall remain confidential and shall not be disclosed or reused without permission.</p>
+            <p>The Architect shall comply with applicable data protection laws including the Digital Personal Data Protection Act, 2023.</p>
 
-            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
-            <p>
-                ConstructKaro retains exclusive ownership of its brand name, logo, trademarks, systems, data, documents, drawings, BOQs, reports, and related intellectual property.
-            </p>
-            <p>
-                The Architect shall not use ConstructKaro’s name, logo, or project content for marketing or commercial purposes without prior written consent.
-            </p>
+            <h3>10. INTELLECTUAL PROPERTY &amp; BRANDING</h3>
+            <p>ConstructKaro retains exclusive ownership of its brand name, logo, trademarks, systems, data, documents, drawings, BOQs, reports, and related intellectual property.</p>
+            <p>The Architect shall not use ConstructKaro's name, logo, or project content for marketing or commercial purposes without prior written consent.</p>
 
-            <h3>11. LIABILITY & INDEMNITY</h3>
-            <p>
-                The Architect shall indemnify and hold harmless ConstructKaro, its directors, employees, and representatives from claims, losses, damages, penalties, disputes, defective work, delay, negligence, third-party claims, or statutory non-compliance arising from the Architect’s work.
-            </p>
+            <h3>11. LIABILITY &amp; INDEMNITY</h3>
+            <p>The Architect shall indemnify and hold harmless ConstructKaro, its directors, employees, and representatives from claims, losses, damages, penalties, disputes, defective work, delay, negligence, third-party claims, or statutory non-compliance arising from the Architect's work.</p>
 
             <h3>12. DISPUTE HANDLING</h3>
-            <p>
-                Customer-related communication and disputes shall be handled exclusively by ConstructKaro. Any dispute between ConstructKaro and the Architect shall first be attempted to be resolved amicably within thirty (30) days. If unresolved, the dispute shall be referred to arbitration under the Arbitration & Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
-            </p>
+            <p>Customer-related communication and disputes shall be handled exclusively by ConstructKaro. Any dispute between ConstructKaro and the Architect shall first be attempted to be resolved amicably within thirty (30) days. If unresolved, the dispute shall be referred to arbitration under the Arbitration &amp; Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.</p>
 
             <h3>13. TERMINATION</h3>
-            <p>
-                Either Party may terminate this Agreement by giving seven (7) days’ prior written notice. ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct, fraud, negligence, confidentiality breach, or non-circumvention breach.
-            </p>
+            <p>Either Party may terminate this Agreement by giving seven (7) days' prior written notice. ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct, fraud, negligence, confidentiality breach, or non-circumvention breach.</p>
 
-            <h3>14. GOVERNING LAW & JURISDICTION</h3>
-            <p>
-                This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.
-            </p>
+            <h3>14. GOVERNING LAW &amp; JURISDICTION</h3>
+            <p>This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.</p>
 
             <h3>15. DIGITAL ACCEPTANCE</h3>
-            <p>
-                This Agreement may be executed via digital signature, click-wrap acceptance, or electronic confirmation. Such execution shall be legally valid under the Information Technology Act, 2000.
-            </p>
+            <p>This Agreement may be executed via digital signature, click-wrap acceptance, or electronic confirmation. Such execution shall be legally valid under the Information Technology Act, 2000.</p>
 
             <h3>16. FINAL UNDERSTANDING</h3>
-            <p>
-                This Agreement constitutes the entire understanding between the Parties. If any clause is held invalid, remaining clauses shall continue to be enforceable.
-            </p>
+            <p>This Agreement constitutes the entire understanding between the Parties. If any clause is held invalid, remaining clauses shall continue to be enforceable.</p>
         </div>
 
+        {{-- Checkboxes — hidden in readonly-mode via CSS --}}
         <div class="agreement-checks">
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeTerms">
-                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement.</span>
+                <span>I have read, understood, and agree to the Terms &amp; Conditions of this Project Execution Agreement.</span>
             </label>
-
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreePrivacy">
                 <span>I have read and agree to the Privacy Policy of ConstructKaro, including collection and processing of my personal and business data.</span>
             </label>
-
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeNewsletter">
                 <span>I agree to receive communication, updates, and newsletters from ConstructKaro. Optional.</span>
             </label>
         </div>
 
+        {{-- Footer — hidden in readonly-mode via CSS --}}
         <div class="agreement-modal-footer">
             <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
             <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
-                Agree & Submit
+                Agree &amp; Continue
             </button>
         </div>
 
@@ -1586,63 +1505,45 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+{{-- File preview --}}
 <script>
 function setupFilePreview(inputId, linkId, defaultNote) {
     const input = document.getElementById(inputId);
     const link  = document.getElementById(linkId);
-
     if (!input || !link) return;
-
     input.addEventListener('change', function () {
         const file = this.files[0];
         const wrap = this.closest('.upload-box-wrap');
         const fileNameBox = wrap ? wrap.querySelector('.file-name') : null;
-
         if (file) {
             link.href = URL.createObjectURL(file);
             link.style.display = 'inline-block';
             link.textContent = 'View Uploaded File';
-
-            if (fileNameBox) {
-                fileNameBox.textContent = file.name;
-            }
+            if (fileNameBox) fileNameBox.textContent = file.name;
         } else {
             link.href = '#';
             link.style.display = 'none';
-
-            if (fileNameBox) {
-                fileNameBox.textContent = defaultNote || 'Choose and upload file';
-            }
+            if (fileNameBox) fileNameBox.textContent = defaultNote || 'Choose and upload file';
         }
     });
 }
-
 setupFilePreview('msme_certificate', 'msme_certificate_link', 'PDF, JPG, PNG up to 20MB');
-setupFilePreview('pan_card', 'pan_card_link', 'Choose and upload file');
-setupFilePreview('gst_certificate', 'gst_certificate_link', 'Choose and upload file');
-setupFilePreview('aadhaar_card', 'aadhaar_card_link', 'Choose and upload file');
-setupFilePreview('company_profile', 'company_profile_link', 'Choose and upload file');
+setupFilePreview('pan_card',         'pan_card_link',         'Choose and upload file');
+setupFilePreview('gst_certificate',  'gst_certificate_link',  'Choose and upload file');
+setupFilePreview('aadhaar_card',     'aadhaar_card_link',     'Choose and upload file');
+setupFilePreview('company_profile',  'company_profile_link',  'Choose and upload file');
 </script>
 
+{{-- Multi-city + Multi-area select --}}
 <script>
 $(document).ready(function () {
     const preSelectedCityIds = @json($selectedCityIds);
     const preSelectedAreaIds = @json($selectedAreaIds);
-
     const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
-    const pincodesRoute = "{{ route('get.pincodes') }}";
+    const pincodesRoute      = "{{ route('get.pincodes') }}";
 
-    $('#city_ids').select2({
-        placeholder: 'Select one or more cities',
-        width: '100%',
-        closeOnSelect: false
-    });
-
-    $('#area_ids').select2({
-        placeholder: 'Select areas',
-        width: '100%',
-        closeOnSelect: false
-    });
+    $('#city_ids').select2({ placeholder: 'Select one or more cities', width: '100%', closeOnSelect: false });
+    $('#area_ids').select2({ placeholder: 'Select areas',              width: '100%', closeOnSelect: false });
 
     function loadAreasForCities(cityIds, preselectAreaIds) {
         if (!cityIds || cityIds.length === 0) {
@@ -1650,88 +1551,48 @@ $(document).ready(function () {
             $('#pincode_id').val('');
             return;
         }
-
         $('#areaLoading').addClass('visible');
         $('#area_ids').prop('disabled', true);
 
         const requests = cityIds.map(cityId =>
-            $.ajax({
-                url: areasRouteTemplate.replace(':city_id', cityId),
-                type: 'GET',
-                dataType: 'json'
-            })
+            $.ajax({ url: areasRouteTemplate.replace(':city_id', cityId), type: 'GET', dataType: 'json' })
         );
 
         $.when(...requests).then(function (...responses) {
             let allAreas = [];
-
             if (cityIds.length === 1) {
                 allAreas = responses[0];
             } else {
-                responses.forEach(res => {
-                    allAreas = allAreas.concat(res[0]);
-                });
+                responses.forEach(res => { allAreas = allAreas.concat(res[0]); });
             }
-
-            const seen = new Set();
-
-            const unique = allAreas.filter(area => {
-                if (seen.has(area.id)) return false;
-                seen.add(area.id);
-                return true;
-            });
-
+            const seen   = new Set();
+            const unique = allAreas.filter(area => { if (seen.has(area.id)) return false; seen.add(area.id); return true; });
             unique.sort((a, b) => a.name.localeCompare(b.name));
-
             let html = '';
-
             unique.forEach(area => {
                 const isSel = preselectAreaIds.includes(area.id.toString()) || preselectAreaIds.includes(area.id);
                 html += `<option value="${area.id}" ${isSel ? 'selected' : ''}>${area.name}</option>`;
             });
-
             $('#area_ids').html(html).trigger('change');
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
-
-            if (preselectAreaIds.length > 0) {
-                loadPincodes(preselectAreaIds);
-            }
-
+            if (preselectAreaIds.length > 0) loadPincodes(preselectAreaIds);
         }).fail(function () {
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
-            console.error('Failed to load areas.');
         });
     }
 
     function loadPincodes(areaIds) {
-        if (!areaIds || areaIds.length === 0) {
-            $('#pincode_id').val('');
-            return;
-        }
-
+        if (!areaIds || areaIds.length === 0) { $('#pincode_id').val(''); return; }
         $.ajax({
-            url: pincodesRoute,
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                area_ids: areaIds
-            },
-            success: function (data) {
-                $('#pincode_id').val([...new Set(data)].join(', '));
-            }
+            url: pincodesRoute, type: 'GET', dataType: 'json', data: { area_ids: areaIds },
+            success: function (data) { $('#pincode_id').val([...new Set(data)].join(', ')); }
         });
     }
 
-    $('#city_ids').on('change', function () {
-        $('#pincode_id').val('');
-        loadAreasForCities($(this).val() || [], []);
-    });
-
-    $('#area_ids').on('change', function () {
-        loadPincodes($(this).val() || []);
-    });
+    $('#city_ids').on('change', function () { $('#pincode_id').val(''); loadAreasForCities($(this).val() || [], []); });
+    $('#area_ids').on('change', function () { loadPincodes($(this).val() || []); });
 
     if (preSelectedCityIds.length > 0) {
         $('#city_ids').val(preSelectedCityIds).trigger('change.select2');
@@ -1740,90 +1601,130 @@ $(document).ready(function () {
 });
 </script>
 
+{{-- ══════════════════════════════════════
+     AGREEMENT MODAL LOGIC (SEPARATED)
+══════════════════════════════════════ --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('architectRegisterForm');
-    const openBtn = document.getElementById('openAgreementBtn');
 
-    const modal = document.getElementById('agreementModal');
-    const closeBtn = document.getElementById('closeAgreementBtn');
-    const cancelBtn = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    const form             = document.getElementById('architectRegisterForm');
+    const openBtn          = document.getElementById('openAgreementBtn');
+    const submitFormBtn    = document.getElementById('submitFormBtn');
 
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreePrivacy = document.getElementById('agreePrivacy');
-    const agreeNewsletter = document.getElementById('agreeNewsletter');
+    const modal            = document.getElementById('agreementModal');
+    const modalInner       = document.getElementById('agreementModalInner');
+    const closeBtn         = document.getElementById('closeAgreementBtn');
+    const cancelBtn        = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
 
-    const hiddenTerms = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const agreeTerms       = document.getElementById('agreeTerms');
+    const agreePrivacy     = document.getElementById('agreePrivacy');
+    const agreeNewsletter  = document.getElementById('agreeNewsletter');
+
+    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    const agreementCompanyName = document.getElementById('agreementCompanyName');
-    const agreementCompanyAddress = document.getElementById('agreementCompanyAddress');
+    const pendingNotice    = document.getElementById('agreementPendingNotice');
+    const acceptedBadge    = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel= document.getElementById('agreementBtnLabel');
 
-    function toggleSubmitButton() {
-        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
-    }
+    const companyNameInput = document.getElementById('companyNameInput');
+    const registeredAddrInput = document.getElementById('registeredAddressInput');
+    const modalCompanyName = document.getElementById('agreementCompanyName');
+    const modalCompanyAddr = document.getElementById('agreementCompanyAddress');
 
-    function refreshAgreementPartyDetails() {
-        const companyInput = form.querySelector('[name="company_name"]');
-        const addressInput = form.querySelector('[name="registered_address"]');
+    /* State — seeded from DB via hidden fields */
+    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
-        if (agreementCompanyName && companyInput && companyInput.value.trim() !== '') {
-            agreementCompanyName.textContent = companyInput.value.trim();
+    /* ── Helpers ── */
+    function openModal(readOnly) {
+        /* Sync live form values into agreement text */
+        if (companyNameInput && modalCompanyName) {
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Architect Company Name';
+        }
+        if (registeredAddrInput && modalCompanyAddr) {
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Architect Office Address';
         }
 
-        if (agreementCompanyAddress && addressInput && addressInput.value.trim() !== '') {
-            agreementCompanyAddress.textContent = addressInput.value.trim();
+        if (readOnly) {
+            modalInner.classList.add('readonly-mode');
+            modalSubtitle.textContent = 'You can review this agreement at any time.';
+        } else {
+            modalInner.classList.remove('readonly-mode');
+            modalSubtitle.textContent = 'Please read and accept the agreement before submitting your Architect profile.';
+            agreeTerms.checked      = false;
+            agreePrivacy.checked    = false;
+            agreeNewsletter.checked = hiddenNewsletter.value === '1';
+            agreeSubmitBtn.disabled = true;
         }
-    }
 
-    function openAgreementModal() {
-        refreshAgreementPartyDetails();
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeAgreementModal() {
+    function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
+    function markAgreementAccepted(newsletterChecked) {
+        agreementAccepted = true;
+
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        hiddenAcceptedAt.value = new Date().toISOString();
+
+        openBtn.classList.add('accepted');
+        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
+        agreementBtnLabel.textContent = 'View Agreement';
+
+        pendingNotice.classList.add('hidden');
+        acceptedBadge.classList.add('visible');
+
+        submitFormBtn.disabled = false;
+    }
+
+    function toggleAgreeBtn() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
+    /* ── Events ── */
     openBtn.addEventListener('click', function () {
+        openModal(agreementAccepted);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    agreeTerms.addEventListener('change',  toggleAgreeBtn);
+    agreePrivacy.addEventListener('change', toggleAgreeBtn);
+
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept the required Terms & Conditions and Privacy Policy.');
+            return;
+        }
+        markAgreementAccepted(agreeNewsletter.checked);
+        closeModal();
+    });
+
+    submitFormBtn.addEventListener('click', function () {
+        if (!agreementAccepted) {
+            alert('Please read and accept the Agreement first by clicking the "Read & Accept Agreement" button.');
+            return;
+        }
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
-
-        const alreadyAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
-
-        if (alreadyAccepted) {
-            form.submit();
-            return;
-        }
-
-        openAgreementModal();
-    });
-
-    closeBtn.addEventListener('click', closeAgreementModal);
-    cancelBtn.addEventListener('click', closeAgreementModal);
-
-    agreeTerms.addEventListener('change', toggleSubmitButton);
-    agreePrivacy.addEventListener('change', toggleSubmitButton);
-
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept required agreement terms and privacy policy.');
-            return;
-        }
-
-        hiddenTerms.value = '1';
-        hiddenPrivacy.value = '1';
-        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
-        hiddenAcceptedAt.value = new Date().toISOString();
-
-        closeAgreementModal();
         form.submit();
     });
 });

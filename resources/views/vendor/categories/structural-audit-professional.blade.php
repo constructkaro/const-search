@@ -589,6 +589,13 @@
         flex-wrap:wrap;
     }
 
+    .submit-bar-actions{
+        display:flex;
+        align-items:center;
+        gap:14px;
+        flex-wrap:wrap;
+    }
+
     .submit-btn{
         min-width:350px;
         height:70px;
@@ -610,6 +617,73 @@
     .submit-btn:hover{
         transform:translateY(-2px);
         box-shadow:0 22px 40px rgba(235,122,47,.24);
+    }
+
+    .agreement-view-btn{
+        height:60px;
+        padding:0 24px;
+        border:2px solid var(--ck-navy-2);
+        border-radius:16px;
+        background:transparent;
+        color:var(--ck-navy-2);
+        font-size:16px;
+        font-weight:800;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        cursor:pointer;
+        transition:all .22s ease;
+        white-space:nowrap;
+    }
+
+    .agreement-view-btn:hover{
+        background:var(--ck-navy-2);
+        color:#fff;
+    }
+
+    .agreement-view-btn.accepted{
+        border-color:#16a34a;
+        color:#16a34a;
+    }
+
+    .agreement-view-btn.accepted:hover{
+        background:#16a34a;
+        color:#fff;
+    }
+
+    .agreement-pending-notice{
+        display:flex;
+        align-items:center;
+        gap:8px;
+        font-size:13px;
+        font-weight:700;
+        color:#c2410c;
+        background:#fff7ed;
+        border:1px solid #fed7aa;
+        border-radius:10px;
+        padding:8px 14px;
+    }
+
+    .agreement-accepted-badge{
+        display:none;
+        align-items:center;
+        gap:8px;
+        font-size:13px;
+        font-weight:700;
+        color:#027a48;
+        background:#ecfdf3;
+        border:1px solid #abefc6;
+        border-radius:10px;
+        padding:8px 14px;
+    }
+
+    .agreement-accepted-badge.visible{
+        display:flex;
+    }
+
+    .agreement-pending-notice.hidden{
+        display:none;
     }
 
     .submit-note{
@@ -674,7 +748,6 @@
         border:1.5px solid var(--ck-line-dark);
         border-radius:18px;
         padding:18px;
-        margin-top:18px;
     }
 
     .agreement-status-title{
@@ -902,6 +975,34 @@
         cursor:not-allowed;
     }
 
+    .agreement-modal.readonly-mode .agreement-checks,
+    .agreement-modal.readonly-mode .agreement-modal-footer{
+        display:none;
+    }
+
+    .agreement-modal.readonly-mode .agreement-modal-header{
+        background:linear-gradient(135deg,#ecfdf3 0%,#ffffff 100%);
+        border-bottom-color:#abefc6;
+    }
+
+    .agreement-readonly-banner{
+        display:none;
+        margin:0 24px 0;
+        padding:12px 16px;
+        background:#ecfdf3;
+        border:1px solid #abefc6;
+        border-radius:12px;
+        color:#027a48;
+        font-size:14px;
+        font-weight:700;
+        align-items:center;
+        gap:10px;
+    }
+
+    .agreement-modal.readonly-mode .agreement-readonly-banner{
+        display:flex;
+    }
+
     .select2-container{
         width:100% !important;
     }
@@ -1000,6 +1101,19 @@
         .agreement-status-grid{
             grid-template-columns:1fr;
         }
+
+        .submit-bar-actions{
+            width:100%;
+            flex-direction:column;
+            align-items:stretch;
+        }
+
+        .agreement-view-btn,
+        .submit-btn{
+            width:100%;
+            min-width:100%;
+            justify-content:center;
+        }
     }
 
     @media(max-width:768px){
@@ -1065,8 +1179,10 @@
 </style>
 
 @php
+    $existingData = $existingData ?? (object)[];
     $workType = $workType ?? null;
     $projectTypes = $projectTypes ?? collect();
+    $cities = $cities ?? collect();
 
     $structureTypes = [
         ['name' => 'RCC', 'icon' => 'fa-solid fa-table-cells-large'],
@@ -1138,34 +1254,11 @@
     $privacyAccepted = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
     $newsletterAccepted = (int)($existingData->newsletter_opt_in ?? 0) === 1;
 
+    $fullyAgreed = $termsAccepted && $privacyAccepted;
+
     $agreementDate = now()->format('d F Y');
 @endphp
-  <div class="agreement-status-card">
-                <div class="agreement-status-title">Agreement Acceptance Status</div>
 
-                <div class="agreement-status-grid">
-                    <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $termsAccepted ? 'Terms Accepted' : 'Terms Pending' }}</span>
-                    </div>
-
-                    <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $privacyAccepted ? 'Privacy Accepted' : 'Privacy Pending' }}</span>
-                    </div>
-
-                    <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $newsletterAccepted ? 'Newsletter Accepted' : 'Newsletter Optional' }}</span>
-                    </div>
-                </div>
-            </div>
 <div class="audit-page">
     <div class="audit-stack">
 
@@ -1198,6 +1291,39 @@
                 </div>
             </div>
             <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
+        </div>
+
+        <div class="agreement-status-card">
+            <div class="agreement-status-title">Agreement Acceptance Status</div>
+
+            <div class="agreement-status-grid">
+                <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                    </span>
+                    <span>Terms &amp; Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
+                </div>
+
+                <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                    </span>
+                    <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
+                </div>
+
+                <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
+                    </span>
+                    <span>Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}</span>
+                </div>
+            </div>
+
+            @if(!empty($existingData->agreement_accepted_at))
+                <small style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
+                    Accepted At: {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}
+                </small>
+            @endif
         </div>
 
         <form action="{{ route('structural_audit.store') }}" method="POST" enctype="multipart/form-data" id="structuralAuditForm">
@@ -1378,7 +1504,6 @@
                 </div>
 
                 <div class="form-grid-2">
-
                     <div class="field-block">
                         <label class="field-label" for="team_size">Team Size</label>
                         <select class="form-select" id="team_size" name="team_size">
@@ -1402,9 +1527,6 @@
                             value="{{ old('company_name', $existingData->company_name ?? '') }}"
                             required
                         >
-                        @error('company_name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block" style="grid-column:1/-1;">
@@ -1416,9 +1538,6 @@
                             placeholder="Enter registered office address"
                             required
                         >{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
-                        @error('registered_address')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block">
@@ -1430,9 +1549,6 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('city_ids')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block">
@@ -1446,10 +1562,6 @@
                         <small class="area-loading" id="areaLoading">
                             <i class="fa-solid fa-spinner fa-spin"></i> Loading areas…
                         </small>
-
-                        @error('area_ids')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block">
@@ -1459,11 +1571,9 @@
                             id="pincode_id"
                             name="pincode"
                             readonly
+                            required
                             placeholder="Pincodes auto-fill from selected areas"
                         >{{ $savedPincodes }}</textarea>
-                        @error('pincode')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block">
@@ -1531,9 +1641,6 @@
                             placeholder="Enter GST number"
                             value="{{ old('gst_number', $existingData->gst_number ?? '') }}"
                         >
-                        @error('gst_number')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block">
@@ -1546,9 +1653,6 @@
                             placeholder="Enter PAN number"
                             value="{{ old('pan_number', $existingData->pan_number ?? '') }}"
                         >
-                        @error('pan_number')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="field-block" style="grid-column:1/-1;">
@@ -1569,12 +1673,10 @@
                             </label>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="field-block">
                     <div class="upload-grid">
-
                         <div class="upload-item" id="certificate_wrap">
                             <div class="upload-title">Upload Certificate</div>
                             <label for="certificate_file" class="upload-box">
@@ -1593,10 +1695,6 @@
                                     </a>
                                 </div>
                             @endif
-
-                            @error('certificate_file')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
                         </div>
 
                         <div class="upload-item" id="company_profile_wrap">
@@ -1617,10 +1715,6 @@
                                     </a>
                                 </div>
                             @endif
-
-                            @error('company_profile_file')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
                         </div>
 
                         <div class="upload-item" id="logo_wrap">
@@ -1641,12 +1735,7 @@
                                     </a>
                                 </div>
                             @endif
-
-                            @error('logo_file')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -1672,9 +1761,6 @@
                         name="service_description"
                         placeholder="Describe your core structural audit services, specialisations, and key strengths..."
                     >{{ old('service_description', $existingData->service_description ?? '') }}</textarea>
-                    @error('service_description')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
 
                 <div class="field-block">
@@ -1687,37 +1773,53 @@
                         placeholder="e.g. Mumbai, Pune, Navi Mumbai, Thane"
                         value="{{ old('major_cities_covered', $existingData->major_cities_covered ?? '') }}"
                     >
-                    @error('major_cities_covered')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
                 </div>
             </div>
-
-          
 
             <div class="submit-bar">
-                <button type="button" class="submit-btn" id="openAgreementBtn">
-                    <i class="fa-regular fa-paper-plane"></i>
-                    <span>Submit Structural Audit Profile</span>
-                </button>
+                <div class="submit-bar-actions">
+                    <button type="button"
+                            id="openAgreementBtn"
+                            class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+                        <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+                        <span id="agreementBtnLabel">
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                        </span>
+                    </button>
+
+                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Agreement required
+                    </div>
+
+                    <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Agreement Accepted
+                    </div>
+
+                    <button type="button" class="submit-btn" id="submitFormBtn">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Submit Structural Audit Profile</span>
+                    </button>
+                </div>
 
                 <div class="submit-note">
-                    By submitting, you agree to ConstructKaro's vendor terms and verification process.
+                    By submitting, your Structural Audit profile details will be saved or updated.
+                    @if(!$fullyAgreed)
+                        <br><strong style="color:#c2410c;">Agreement can be accepted separately using the agreement button.</strong>
+                    @endif
                 </div>
             </div>
-
         </form>
-
     </div>
 </div>
 
 <div class="agreement-modal-overlay" id="agreementModal">
-    <div class="agreement-modal">
-
+    <div class="agreement-modal" id="agreementModalInner">
         <div class="agreement-modal-header">
             <div>
-                <h2>Project Execution & Representation Agreement</h2>
-                <p>Please read and accept the agreement before submitting your Structural Consultant profile.</p>
+                <h2>Project Execution &amp; Representation Agreement</h2>
+                <p id="agreementModalSubtitle">Please read and accept the agreement.</p>
             </div>
 
             <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
@@ -1725,10 +1827,18 @@
             </button>
         </div>
 
+        <div class="agreement-readonly-banner">
+            <i class="fa-solid fa-circle-check"></i>
+            You have already accepted this agreement.
+            @if(!empty($existingData->agreement_accepted_at))
+                Accepted on {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}.
+            @endif
+        </div>
+
         <div class="agreement-modal-body">
             <div class="agreement-title-box">
                 <h1>CONSTRUCTKARO</h1>
-                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
+                <h4>PROJECT EXECUTION &amp; REPRESENTATION AGREEMENT</h4>
                 <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
             </div>
 
@@ -1736,8 +1846,8 @@
             <p>
                 <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
                 having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
-                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>
-                shall hereinafter be referred to as <strong>“ConstructKaro”</strong>.
+                Katrang Road, Khopoli-410203, operating under the brand name <strong>"ConstructKaro"</strong>
+                shall hereinafter be referred to as <strong>"ConstructKaro"</strong>.
             </p>
 
             <p><strong>AND</strong></p>
@@ -1746,19 +1856,19 @@
                 <strong id="agreementCompanyName">{{ old('company_name', $existingData->company_name ?? 'Structural Consultant Company Name') }}</strong>,
                 having its principal office at
                 <strong id="agreementCompanyAddress">{{ old('registered_address', $existingData->registered_address ?? 'Structural Consultant Office Address') }}</strong>,
-                shall hereinafter be referred to as <strong>“Structural Consultant”</strong>.
+                shall hereinafter be referred to as <strong>"Structural Consultant"</strong>.
             </p>
 
             <p>
-                ConstructKaro and Structural Consultant are individually referred to as a “Party” and collectively as the “Parties.”
+                ConstructKaro and Structural Consultant are individually referred to as a "Party" and collectively as the "Parties."
             </p>
 
-            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
+            <h3>2. PURPOSE &amp; NATURE OF PLATFORM</h3>
             <p>
-                ConstructKaro provides construction and project management services, overseeing the execution of construction projects under its brand and contractual responsibility.
+                ConstructKaro provides construction and project management services, overseeing execution of construction projects under its brand and contractual responsibility.
             </p>
             <p>
-                The Structural Consultant agrees to execute assigned work as per the specifications provided by ConstructKaro, adhering to quality standards, timelines, and other project-specific requirements.
+                The Structural Consultant agrees to execute assigned work as per specifications provided by ConstructKaro, adhering to quality standards, timelines, and other project-specific requirements.
             </p>
             <p>
                 All projects shall be executed under the ConstructKaro brand. The Structural Consultant shall represent the work exclusively under ConstructKaro unless otherwise agreed in writing.
@@ -1792,7 +1902,7 @@
                 <li>Not subcontract or assign work without prior written approval from ConstructKaro.</li>
             </ul>
 
-            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
+            <h3>5. COMMERCIAL TERMS &amp; PAYMENT STRUCTURE</h3>
             <p>
                 ConstructKaro shall share project BOQ, scope, drawings, and specifications with the Structural Consultant for rate submission.
                 ConstructKaro shall have the exclusive right to determine final project pricing offered to the customer.
@@ -1804,13 +1914,13 @@
                 Payment to the Structural Consultant shall be on a bill-to-bill basis and subject to receipt of corresponding payment from the customer and quality approval by ConstructKaro.
             </p>
 
-            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
+            <h3>6. QUALITY CHECK &amp; PAYMENT RELEASE</h3>
             <p>
                 ConstructKaro may appoint a Quality Check Officer to monitor and verify the quality of work.
                 Payment shall be released only after inspection, verification, and approval.
             </p>
 
-            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
+            <h3>7. NO GUARANTEE &amp; RISK ACKNOWLEDGEMENT</h3>
             <ul>
                 <li>ConstructKaro does not guarantee allocation or continuity of any project.</li>
                 <li>ConstructKaro does not guarantee specific project size, value, or volume.</li>
@@ -1818,7 +1928,7 @@
                 <li>ConstructKaro shall not be liable for delay due to customer non-payment, site conditions, scope changes, or regulatory issues.</li>
             </ul>
 
-            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
+            <h3>8. NON-CIRCUMVENTION &amp; NON-SOLICITATION</h3>
             <p>
                 The Structural Consultant shall not directly or indirectly contact, solicit, negotiate, or execute work with any customer introduced, assigned, or handled by ConstructKaro except through ConstructKaro.
             </p>
@@ -1827,17 +1937,17 @@
                 Breach may attract liquidated damages equal to 20% of total project value or ₹5,00,000, whichever is higher.
             </p>
 
-            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
+            <h3>9. CONFIDENTIALITY &amp; DATA PROTECTION</h3>
             <p>
                 All project details, BOQs, drawings, pricing, specifications, customer information, and commercial terms shared by ConstructKaro shall remain confidential and shall not be disclosed or reused without permission.
             </p>
 
-            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
+            <h3>10. INTELLECTUAL PROPERTY &amp; BRANDING</h3>
             <p>
                 ConstructKaro retains exclusive ownership of its brand name, logo, trademarks, systems, data, documents, drawings, BOQs, reports, and related intellectual property.
             </p>
 
-            <h3>11. LIABILITY & INDEMNITY</h3>
+            <h3>11. LIABILITY &amp; INDEMNITY</h3>
             <p>
                 The Structural Consultant shall indemnify and hold harmless ConstructKaro, its directors, employees, and representatives from claims, losses, damages, penalties, disputes, defective work, delay, negligence, third-party claims, or statutory non-compliance arising from the Structural Consultant’s work.
             </p>
@@ -1849,7 +1959,7 @@
             <p>
                 Customer-related communication and disputes shall be handled exclusively by ConstructKaro.
                 Any dispute between ConstructKaro and the Structural Consultant shall first be attempted to be resolved amicably within thirty (30) days.
-                If unresolved, the dispute shall be referred to arbitration under the Arbitration & Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
+                If unresolved, the dispute shall be referred to arbitration under the Arbitration &amp; Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
             </p>
 
             <h3>13. TERMINATION</h3>
@@ -1858,7 +1968,7 @@
                 ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct, fraud, negligence, confidentiality breach, or non-circumvention breach.
             </p>
 
-            <h3>14. GOVERNING LAW & JURISDICTION</h3>
+            <h3>14. GOVERNING LAW &amp; JURISDICTION</h3>
             <p>
                 This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.
             </p>
@@ -1878,7 +1988,7 @@
         <div class="agreement-checks">
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeTerms">
-                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement.</span>
+                <span>I have read, understood, and agree to the Terms &amp; Conditions of this Project Execution Agreement.</span>
             </label>
 
             <label class="agreement-check-row">
@@ -1895,10 +2005,9 @@
         <div class="agreement-modal-footer">
             <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
             <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
-                Agree & Submit
+                Agree &amp; Continue
             </button>
         </div>
-
     </div>
 </div>
 
@@ -2056,25 +2165,34 @@ bindFilePreview('logo_file', 'logo_file_name', 'logo_wrap');
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('structuralAuditForm');
-    const openBtn = document.getElementById('openAgreementBtn');
+    const form             = document.getElementById('structuralAuditForm');
+    const openBtn          = document.getElementById('openAgreementBtn');
+    const submitFormBtn    = document.getElementById('submitFormBtn');
 
-    const modal = document.getElementById('agreementModal');
-    const closeBtn = document.getElementById('closeAgreementBtn');
-    const cancelBtn = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    const modal            = document.getElementById('agreementModal');
+    const modalInner       = document.getElementById('agreementModalInner');
+    const closeBtn         = document.getElementById('closeAgreementBtn');
+    const cancelBtn        = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
 
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreePrivacy = document.getElementById('agreePrivacy');
-    const agreeNewsletter = document.getElementById('agreeNewsletter');
+    const agreeTerms       = document.getElementById('agreeTerms');
+    const agreePrivacy     = document.getElementById('agreePrivacy');
+    const agreeNewsletter  = document.getElementById('agreeNewsletter');
 
-    const hiddenTerms = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
+    const pendingNotice     = document.getElementById('agreementPendingNotice');
+    const acceptedBadge     = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel = document.getElementById('agreementBtnLabel');
+
     const agreementCompanyName = document.getElementById('agreementCompanyName');
     const agreementCompanyAddress = document.getElementById('agreementCompanyAddress');
+
+    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
     function mysqlDateTimeNow() {
         const now = new Date();
@@ -2091,68 +2209,113 @@ document.addEventListener('DOMContentLoaded', function () {
             pad(now.getSeconds());
     }
 
-    function toggleSubmitButton() {
-        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
-    }
-
     function refreshAgreementPartyDetails() {
         const companyInput = form.querySelector('[name="company_name"]');
         const addressInput = form.querySelector('[name="registered_address"]');
 
-        if (agreementCompanyName && companyInput && companyInput.value.trim() !== '') {
-            agreementCompanyName.textContent = companyInput.value.trim();
+        if (agreementCompanyName && companyInput) {
+            agreementCompanyName.textContent = companyInput.value.trim() || 'Structural Consultant Company Name';
         }
 
-        if (agreementCompanyAddress && addressInput && addressInput.value.trim() !== '') {
-            agreementCompanyAddress.textContent = addressInput.value.trim();
+        if (agreementCompanyAddress && addressInput) {
+            agreementCompanyAddress.textContent = addressInput.value.trim() || 'Structural Consultant Office Address';
         }
     }
 
-    function openAgreementModal() {
+    function openModal(readOnly) {
         refreshAgreementPartyDetails();
+
+        if (readOnly) {
+            modalInner.classList.add('readonly-mode');
+            modalSubtitle.textContent = 'You can review this agreement at any time.';
+        } else {
+            modalInner.classList.remove('readonly-mode');
+            modalSubtitle.textContent = 'Please read and accept the agreement.';
+
+            agreeTerms.checked      = false;
+            agreePrivacy.checked    = false;
+            agreeNewsletter.checked = hiddenNewsletter.value === '1';
+
+            agreeSubmitBtn.disabled = true;
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeAgreementModal() {
+    function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
+    function markAgreementAccepted(newsletterChecked) {
+        agreementAccepted = true;
+
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        hiddenAcceptedAt.value = mysqlDateTimeNow();
+
+        openBtn.classList.add('accepted');
+
+        const icon = openBtn.querySelector('i');
+        if (icon) {
+            icon.className = 'fa-solid fa-file-circle-check';
+        }
+
+        agreementBtnLabel.textContent = 'View Agreement';
+
+        if (pendingNotice) {
+            pendingNotice.classList.add('hidden');
+        }
+
+        if (acceptedBadge) {
+            acceptedBadge.classList.add('visible');
+        }
+    }
+
+    function toggleAgreeBtn() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
     openBtn.addEventListener('click', function () {
+        openModal(agreementAccepted);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    agreeTerms.addEventListener('change', toggleAgreeBtn);
+    agreePrivacy.addEventListener('change', toggleAgreeBtn);
+
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept the required Terms & Conditions and Privacy Policy.');
+            return;
+        }
+
+        markAgreementAccepted(agreeNewsletter.checked);
+
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
 
-        const alreadyAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
-
-        if (alreadyAccepted) {
-            form.submit();
-            return;
-        }
-
-        openAgreementModal();
+        form.submit();
     });
 
-    closeBtn.addEventListener('click', closeAgreementModal);
-    cancelBtn.addEventListener('click', closeAgreementModal);
-
-    agreeTerms.addEventListener('change', toggleSubmitButton);
-    agreePrivacy.addEventListener('change', toggleSubmitButton);
-
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept required agreement terms and privacy policy.');
+    submitFormBtn.addEventListener('click', function () {
+        if (!form.checkValidity()) {
+            form.reportValidity();
             return;
         }
 
-        hiddenTerms.value = '1';
-        hiddenPrivacy.value = '1';
-        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
-        hiddenAcceptedAt.value = mysqlDateTimeNow();
-
-        closeAgreementModal();
         form.submit();
     });
 });

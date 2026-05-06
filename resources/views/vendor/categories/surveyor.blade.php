@@ -15,6 +15,7 @@
         --ck-navy-2:#1e3766;
         --ck-orange:#eb7a2f;
         --ck-orange-2:#f39a56;
+        --ck-orange-soft:#fff4eb;
         --ck-text:#182b49;
         --ck-text-soft:#71829b;
         --ck-muted:#99a6b7;
@@ -407,6 +408,15 @@
         text-decoration:underline;
     }
 
+    .existing-file-link{
+        display:inline-block;
+        margin-top:8px;
+        color:#2563eb;
+        font-weight:700;
+        text-decoration:underline;
+        font-size:13px;
+    }
+
     .submit-bar{
         background:linear-gradient(135deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.93) 100%);
         border:1px solid var(--ck-line);
@@ -418,6 +428,46 @@
         justify-content:space-between;
         gap:18px;
         flex-wrap:wrap;
+    }
+
+    .submit-bar-actions{
+        display:flex;
+        align-items:center;
+        gap:14px;
+        flex-wrap:wrap;
+    }
+
+    .agreement-view-btn{
+        height:58px;
+        padding:0 26px;
+        border:2px solid var(--ck-navy-2);
+        border-radius:16px;
+        background:transparent;
+        color:var(--ck-navy-2);
+        font-size:16px;
+        font-weight:800;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        cursor:pointer;
+        transition:all .22s ease;
+        white-space:nowrap;
+    }
+
+    .agreement-view-btn:hover{
+        background:var(--ck-navy-2);
+        color:#fff;
+    }
+
+    .agreement-view-btn.accepted{
+        border-color:#16a34a;
+        color:#16a34a;
+    }
+
+    .agreement-view-btn.accepted:hover{
+        background:#16a34a;
+        color:#fff;
     }
 
     .submit-btn{
@@ -436,11 +486,57 @@
         box-shadow:var(--ck-shadow-lg);
         transition:.22s;
         cursor:pointer;
+        white-space:nowrap;
     }
 
-    .submit-btn:hover{
+    .submit-btn:disabled{
+        opacity:.45;
+        cursor:not-allowed;
+        box-shadow:none;
+    }
+
+    .submit-btn:disabled:hover{
+        transform:none;
+        box-shadow:none;
+    }
+
+    .submit-btn:not(:disabled):hover{
         transform:translateY(-1px);
         box-shadow:0 22px 42px rgba(235,122,47,.24);
+    }
+
+    .agreement-pending-notice{
+        display:flex;
+        align-items:center;
+        gap:8px;
+        font-size:13px;
+        font-weight:700;
+        color:#c2410c;
+        background:#fff7ed;
+        border:1px solid #fed7aa;
+        border-radius:10px;
+        padding:8px 14px;
+    }
+
+    .agreement-accepted-badge{
+        display:none;
+        align-items:center;
+        gap:8px;
+        font-size:13px;
+        font-weight:700;
+        color:#027a48;
+        background:#ecfdf3;
+        border:1px solid #abefc6;
+        border-radius:10px;
+        padding:8px 14px;
+    }
+
+    .agreement-accepted-badge.visible{
+        display:flex;
+    }
+
+    .agreement-pending-notice.hidden{
+        display:none;
     }
 
     .submit-note{
@@ -778,6 +874,34 @@
         cursor:not-allowed;
     }
 
+    .agreement-modal.readonly-mode .agreement-checks,
+    .agreement-modal.readonly-mode .agreement-modal-footer{
+        display:none;
+    }
+
+    .agreement-modal.readonly-mode .agreement-modal-header{
+        background:linear-gradient(135deg,#ecfdf3 0%,#ffffff 100%);
+        border-bottom-color:#abefc6;
+    }
+
+    .agreement-readonly-banner{
+        display:none;
+        margin:0 24px 0;
+        padding:12px 16px;
+        background:#ecfdf3;
+        border:1px solid #abefc6;
+        border-radius:12px;
+        color:#027a48;
+        font-size:14px;
+        font-weight:700;
+        align-items:center;
+        gap:10px;
+    }
+
+    .agreement-modal.readonly-mode .agreement-readonly-banner{
+        display:flex;
+    }
+
     @media(max-width:1200px){
         .project-grid{
             grid-template-columns:repeat(2,minmax(0,1fr));
@@ -794,9 +918,17 @@
             grid-template-columns:repeat(2,minmax(0,1fr));
         }
 
+        .submit-bar-actions{
+            width:100%;
+            flex-direction:column;
+            align-items:stretch;
+        }
+
+        .agreement-view-btn,
         .submit-btn{
             width:100%;
             min-width:100%;
+            justify-content:center;
         }
 
         .agreement-status-grid{
@@ -897,6 +1029,13 @@
         return [];
     };
 
+    $projectTypes    = $projectTypes ?? collect();
+    $experienceYears = $experienceYears ?? collect();
+    $team_size       = $team_size ?? collect();
+    $cities          = $cities ?? collect();
+    $entity_type     = $entity_type ?? collect();
+    $workType        = $workType ?? null;
+
     $selectedProjects = old('project_types', $decodeArray($existingData->project_types ?? null));
     $selectedProjects = is_array($selectedProjects) ? $selectedProjects : [];
 
@@ -914,47 +1053,59 @@
 
     $savedPincodes = old('pincode', $existingData->pincode ?? '');
 
-    $termsAccepted = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
-    $privacyAccepted = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
+    $termsAccepted      = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
+    $privacyAccepted    = (int)($existingData->privacy_policy_accepted ?? 0) === 1;
     $newsletterAccepted = (int)($existingData->newsletter_opt_in ?? 0) === 1;
+
+    $fullyAgreed = $termsAccepted && $privacyAccepted;
+
     $agreementDate = now()->format('d F Y');
 @endphp
-<div class="agreement-status-card">
-                <div class="agreement-status-title">Agreement Acceptance Status</div>
 
-                <div class="agreement-status-grid">
-                    <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $termsAccepted ? 'Terms Accepted' : 'Terms Pending' }}</span>
-                    </div>
+<div class="vendor-page">
+    <div class="vendor-stack">
 
-                    <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $privacyAccepted ? 'Privacy Accepted' : 'Privacy Pending' }}</span>
-                    </div>
+        {{-- Agreement Status --}}
+        <div class="agreement-status-card">
+            <div class="agreement-status-title">Agreement Acceptance Status</div>
 
-                    <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
-                        <span class="agreement-status-icon">
-                            <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-clock' }}"></i>
-                        </span>
-                        <span>{{ $newsletterAccepted ? 'Newsletter Accepted' : 'Newsletter Optional' }}</span>
-                    </div>
+            <div class="agreement-status-grid">
+                <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                    </span>
+                    <span>Terms &amp; Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
+                </div>
+
+                <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
+                    </span>
+                    <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
+                </div>
+
+                <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
+                    <span class="agreement-status-icon">
+                        <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
+                    </span>
+                    <span>Newsletter {{ $newsletterAccepted ? 'Accepted' : 'Optional' }}</span>
                 </div>
             </div>
-<form action="{{ route('surveyor.store') }}" method="POST" enctype="multipart/form-data" id="surveyorRegisterForm">
-    @csrf
 
-    <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted ? 1 : 0 }}">
-    <input type="hidden" name="privacy_policy_accepted" id="privacy_policy_accepted" value="{{ $privacyAccepted ? 1 : 0 }}">
-    <input type="hidden" name="newsletter_opt_in" id="newsletter_opt_in" value="{{ $newsletterAccepted ? 1 : 0 }}">
-    <input type="hidden" name="agreement_accepted_at" id="agreement_accepted_at" value="{{ $existingData->agreement_accepted_at ?? '' }}">
+            @if(!empty($existingData->agreement_accepted_at))
+                <small style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
+                    Accepted At: {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}
+                </small>
+            @endif
+        </div>
 
-    <div class="vendor-page">
-        <div class="vendor-stack">
+        <form action="{{ route('surveyor.store') }}" method="POST" enctype="multipart/form-data" id="surveyorRegisterForm">
+            @csrf
+
+            <input type="hidden" name="agreement_terms_accepted" id="agreement_terms_accepted" value="{{ $termsAccepted ? 1 : 0 }}">
+            <input type="hidden" name="privacy_policy_accepted" id="privacy_policy_accepted" value="{{ $privacyAccepted ? 1 : 0 }}">
+            <input type="hidden" name="newsletter_opt_in" id="newsletter_opt_in" value="{{ $newsletterAccepted ? 1 : 0 }}">
+            <input type="hidden" name="agreement_accepted_at" id="agreement_accepted_at" value="{{ $existingData->agreement_accepted_at ?? '' }}">
 
             @if(session('success'))
                 <div style="background:#d1fae5;color:#065f46;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-weight:600;">
@@ -985,11 +1136,12 @@
                 <div class="top-badge">Trusted ConstructKaro Partner Onboarding</div>
             </div>
 
+            {{-- Business & Work Details --}}
             <div class="section-card">
                 <div class="section-head">
                     <div class="section-badge"><i class="fa-solid fa-briefcase"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Business & Work Details</h2>
+                        <h2>Business &amp; Work Details</h2>
                         <p>Select your survey specialization and project expertise</p>
                     </div>
                 </div>
@@ -1029,6 +1181,7 @@
                 </div>
             </div>
 
+            {{-- Basic Business Information --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
@@ -1043,7 +1196,7 @@
                 <div class="form-grid-2">
                     <div>
                         <div class="field-label">Years of Experience <span class="req">*</span></div>
-                        <select class="form-select" name="experience_years" id="experience_years">
+                        <select class="form-select" name="experience_years" id="experience_years" required>
                             <option value="" disabled {{ old('experience_years', $existingData->experience_years ?? '') == '' ? 'selected' : '' }}>
                                 Select years of experience
                             </option>
@@ -1058,7 +1211,7 @@
 
                     <div>
                         <div class="field-label">Team Size <span class="req">*</span></div>
-                        <select class="form-select" name="team_size">
+                        <select class="form-select" name="team_size" required>
                             <option value="" disabled {{ old('team_size', $existingData->team_size ?? '') == '' ? 'selected' : '' }}>
                                 Select team size
                             </option>
@@ -1098,6 +1251,7 @@
                             id="pincode_id"
                             name="pincode"
                             readonly
+                            required
                             placeholder="Pincodes auto-fill from selected areas"
                         >{{ $savedPincodes }}</textarea>
                     </div>
@@ -1112,6 +1266,7 @@
                             name="minimum_project_value"
                             value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
                             placeholder="Enter minimum project value"
+                            required
                         >
                         <small class="text-muted">
                             Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs. Do not write 5 Lakhs or 5L.
@@ -1120,13 +1275,14 @@
                 </div>
             </div>
 
+            {{-- Studio & Compliance Details --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
                 <div class="section-head">
                     <div class="section-badge"><i class="fa-solid fa-id-card"></i></div>
                     <div class="section-title-wrap">
-                        <h2>Studio & Compliance Details</h2>
+                        <h2>Studio &amp; Compliance Details</h2>
                         <p>Firm details, contact information and registrations</p>
                     </div>
                 </div>
@@ -1138,6 +1294,7 @@
                             type="text"
                             class="form-input"
                             name="company_name"
+                            id="companyNameInput"
                             placeholder="Enter company name"
                             value="{{ old('company_name', $existingData->company_name ?? '') }}"
                             required
@@ -1146,7 +1303,7 @@
 
                     <div>
                         <div class="field-label">Type of Entity <span class="req">*</span></div>
-                        <select class="form-select" name="entity_type">
+                        <select class="form-select" name="entity_type" required>
                             <option value="" selected disabled>Select entity type</option>
                             @foreach($entity_type as $entity)
                                 <option value="{{ $entity->id }}"
@@ -1162,6 +1319,7 @@
                         <textarea
                             class="form-textarea"
                             name="registered_address"
+                            id="registeredAddressInput"
                             placeholder="Enter registered office address"
                             required
                         >{{ old('registered_address', $existingData->registered_address ?? '') }}</textarea>
@@ -1175,6 +1333,7 @@
                             name="contact_person_name"
                             placeholder="Enter contact person name"
                             value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}"
+                            required
                         >
                     </div>
 
@@ -1186,6 +1345,7 @@
                             name="contact_person_designation"
                             placeholder="Enter designation"
                             value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}"
+                            required
                         >
                     </div>
 
@@ -1213,6 +1373,7 @@
                 </div>
             </div>
 
+            {{-- Documents & Work Proof --}}
             <div class="section-card">
                 <div class="section-divider"></div>
 
@@ -1221,7 +1382,7 @@
                         <i class="fa-solid fa-file-arrow-up"></i>
                     </div>
                     <div class="section-title-wrap">
-                        <h2>Documents & Work Proof</h2>
+                        <h2>Documents &amp; Work Proof</h2>
                         <p>Upload legal documents, company profile and work completion evidence</p>
                     </div>
                 </div>
@@ -1243,7 +1404,7 @@
 
                             @if(!empty($existingData->pan_card))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">
+                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank" class="existing-file-link">
                                         View PAN Certificate
                                     </a>
                                 </div>
@@ -1267,7 +1428,7 @@
 
                             @if(!empty($existingData->gst_certificate))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">
+                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank" class="existing-file-link">
                                         View GST Certificate
                                     </a>
                                 </div>
@@ -1291,7 +1452,7 @@
 
                             @if(!empty($existingData->aadhaar_card))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">
+                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank" class="existing-file-link">
                                         View Aadhaar Certificate
                                     </a>
                                 </div>
@@ -1315,7 +1476,7 @@
 
                             @if(!empty($existingData->company_profile))
                                 <div>
-                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">
+                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank" class="existing-file-link">
                                         View Company Profile
                                     </a>
                                 </div>
@@ -1325,30 +1486,59 @@
                 </div>
             </div>
 
-            
-
+            {{-- Submit Bar --}}
             <div class="submit-bar">
-                <button type="button" class="submit-btn" id="openAgreementBtn">
-                    <i class="fa-regular fa-paper-plane"></i>
-                    <span>Submit Surveyor Profile</span>
-                </button>
+                <div class="submit-bar-actions">
+
+                    <button type="button"
+                            id="openAgreementBtn"
+                            class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+                        <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+                        <span id="agreementBtnLabel">
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                        </span>
+                    </button>
+
+                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        Agreement acceptance required before submitting
+                    </div>
+
+                    <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Agreement Accepted
+                    </div>
+
+                    <button type="button"
+                            class="submit-btn"
+                            id="submitFormBtn"
+                            {{ $fullyAgreed ? '' : 'disabled' }}>
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Submit Surveyor Profile</span>
+                    </button>
+
+                </div>
 
                 <div class="submit-note">
                     By submitting, you agree to ConstructKaro’s surveyor verification and project lead matching process.
+                    @if(!$fullyAgreed)
+                        <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
+                    @endif
                 </div>
             </div>
 
-        </div>
+        </form>
     </div>
-</form>
+</div>
 
+{{-- Agreement Modal --}}
 <div class="agreement-modal-overlay" id="agreementModal">
-    <div class="agreement-modal">
+    <div class="agreement-modal" id="agreementModalInner">
 
         <div class="agreement-modal-header">
             <div>
-                <h2>Project Execution & Representation Agreement</h2>
-                <p>Please read and accept the agreement before submitting your Surveyor profile.</p>
+                <h2>Project Execution &amp; Representation Agreement</h2>
+                <p id="agreementModalSubtitle">Please read and accept the agreement before submitting your Surveyor profile.</p>
             </div>
 
             <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
@@ -1356,10 +1546,18 @@
             </button>
         </div>
 
+        <div class="agreement-readonly-banner">
+            <i class="fa-solid fa-circle-check"></i>
+            You have already accepted this agreement.
+            @if(!empty($existingData->agreement_accepted_at))
+                Accepted on {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}.
+            @endif
+        </div>
+
         <div class="agreement-modal-body">
             <div class="agreement-title-box">
                 <h1>CONSTRUCTKARO</h1>
-                <h4>PROJECT EXECUTION & REPRESENTATION AGREEMENT</h4>
+                <h4>PROJECT EXECUTION &amp; REPRESENTATION AGREEMENT</h4>
                 <p>This Agreement is executed on <strong>{{ $agreementDate }}</strong></p>
             </div>
 
@@ -1367,8 +1565,8 @@
             <p>
                 <strong>Swarajya Construction Private Limited</strong>, a company incorporated under the Companies Act, 2013,
                 having its registered office at Crescent Pearl B, B-G/1, Veena Nagar, Near St. Anthony Church,
-                Katrang Road, Khopoli-410203, operating under the brand name <strong>“ConstructKaro”</strong>,
-                shall hereinafter be referred to as <strong>“ConstructKaro”</strong>.
+                Katrang Road, Khopoli-410203, operating under the brand name <strong>"ConstructKaro"</strong>,
+                shall hereinafter be referred to as <strong>"ConstructKaro"</strong>.
             </p>
 
             <p><strong>AND</strong></p>
@@ -1377,14 +1575,14 @@
                 <strong id="agreementCompanyName">{{ old('company_name', $existingData->company_name ?? 'Surveyor Company Name') }}</strong>,
                 having its principal office at
                 <strong id="agreementCompanyAddress">{{ old('registered_address', $existingData->registered_address ?? 'Surveyor Office Address') }}</strong>,
-                shall hereinafter be referred to as <strong>“Surveyor”</strong>.
+                shall hereinafter be referred to as <strong>"Surveyor"</strong>.
             </p>
 
             <p>
-                ConstructKaro and Surveyor are individually referred to as a “Party” and collectively as the “Parties.”
+                ConstructKaro and Surveyor are individually referred to as a "Party" and collectively as the "Parties."
             </p>
 
-            <h3>2. PURPOSE & NATURE OF PLATFORM</h3>
+            <h3>2. PURPOSE &amp; NATURE OF PLATFORM</h3>
             <p>
                 ConstructKaro provides construction and project management services, overseeing execution of projects under its brand and contractual responsibility.
                 The Surveyor agrees to execute assigned work as per specifications, drawings, BOQ, timelines, quality standards, and project-specific requirements provided by ConstructKaro.
@@ -1417,7 +1615,7 @@
                 <li>Not subcontract or assign work without prior written approval from ConstructKaro.</li>
             </ul>
 
-            <h3>5. COMMERCIAL TERMS & PAYMENT STRUCTURE</h3>
+            <h3>5. COMMERCIAL TERMS &amp; PAYMENT STRUCTURE</h3>
             <p>
                 ConstructKaro shall share project BOQ, scope, drawings, and specifications with the Surveyor for submission of base rates.
                 ConstructKaro shall have the exclusive right to determine final project pricing offered to the customer.
@@ -1427,13 +1625,13 @@
                 Payment to the Surveyor shall be on a bill-to-bill basis and subject to receipt of corresponding payment from the customer and quality approval by ConstructKaro.
             </p>
 
-            <h3>6. QUALITY CHECK & PAYMENT RELEASE</h3>
+            <h3>6. QUALITY CHECK &amp; PAYMENT RELEASE</h3>
             <p>
                 ConstructKaro may appoint a Quality Check Officer to monitor and verify the quality of work.
                 Payment shall be released only after inspection, verification, and approval by ConstructKaro.
             </p>
 
-            <h3>7. NO GUARANTEE & RISK ACKNOWLEDGEMENT</h3>
+            <h3>7. NO GUARANTEE &amp; RISK ACKNOWLEDGEMENT</h3>
             <ul>
                 <li>ConstructKaro does not guarantee allocation or continuity of any project.</li>
                 <li>ConstructKaro does not guarantee specific project size, value, or volume.</li>
@@ -1441,7 +1639,7 @@
                 <li>ConstructKaro shall not be liable for delay due to customer non-payment, site conditions, scope changes, or regulatory issues.</li>
             </ul>
 
-            <h3>8. NON-CIRCUMVENTION & NON-SOLICITATION</h3>
+            <h3>8. NON-CIRCUMVENTION &amp; NON-SOLICITATION</h3>
             <p>
                 The Surveyor shall not directly or indirectly contact, solicit, negotiate, or execute work with any customer introduced, assigned, or handled by ConstructKaro except through ConstructKaro.
                 This restriction shall remain valid during the term of this Agreement and for thirty-six (36) months from completion or termination.
@@ -1450,18 +1648,18 @@
                 Breach may attract liquidated damages equal to 20% of total project value or ₹5,00,000, whichever is higher, in addition to legal remedies available to ConstructKaro.
             </p>
 
-            <h3>9. CONFIDENTIALITY & DATA PROTECTION</h3>
+            <h3>9. CONFIDENTIALITY &amp; DATA PROTECTION</h3>
             <p>
                 All project details, BOQs, drawings, pricing, specifications, customer information, and commercial terms shared by ConstructKaro shall remain confidential and shall not be disclosed or reused without written permission.
             </p>
 
-            <h3>10. INTELLECTUAL PROPERTY & BRANDING</h3>
+            <h3>10. INTELLECTUAL PROPERTY &amp; BRANDING</h3>
             <p>
                 ConstructKaro retains exclusive ownership of its brand name, logo, trademarks, systems, data, documents, drawings, BOQs, reports, and related intellectual property.
                 The Surveyor shall not use ConstructKaro’s name, logo, or project content for marketing or commercial purposes without prior written consent.
             </p>
 
-            <h3>11. LIABILITY & INDEMNITY</h3>
+            <h3>11. LIABILITY &amp; INDEMNITY</h3>
             <p>
                 The Surveyor shall indemnify and hold harmless ConstructKaro, its directors, employees, and representatives from claims, losses, damages, penalties, disputes, defective work, delay, negligence, third-party claims, or statutory non-compliance arising from the Surveyor’s work.
             </p>
@@ -1473,7 +1671,7 @@
             <p>
                 Customer-related communication and disputes shall be handled exclusively by ConstructKaro.
                 Any dispute between ConstructKaro and the Surveyor shall first be attempted to be resolved amicably within thirty (30) days.
-                If unresolved, the dispute shall be referred to arbitration under the Arbitration & Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
+                If unresolved, the dispute shall be referred to arbitration under the Arbitration &amp; Conciliation Act, 1996. The seat of arbitration shall be Khalapur Court.
             </p>
 
             <h3>13. TERMINATION</h3>
@@ -1482,7 +1680,7 @@
                 ConstructKaro may terminate immediately in case of breach, poor quality, delay, misconduct, fraud, negligence, confidentiality breach, or non-circumvention breach.
             </p>
 
-            <h3>14. GOVERNING LAW & JURISDICTION</h3>
+            <h3>14. GOVERNING LAW &amp; JURISDICTION</h3>
             <p>
                 This Agreement shall be governed by the laws of India. Courts at Khalapur, Maharashtra shall have exclusive jurisdiction.
             </p>
@@ -1502,7 +1700,7 @@
         <div class="agreement-checks">
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeTerms">
-                <span>I have read, understood, and agree to the Terms & Conditions of this Project Execution Agreement.</span>
+                <span>I have read, understood, and agree to the Terms &amp; Conditions of this Project Execution Agreement.</span>
             </label>
 
             <label class="agreement-check-row">
@@ -1519,7 +1717,7 @@
         <div class="agreement-modal-footer">
             <button type="button" class="agreement-cancel-btn" id="cancelAgreementBtn">Cancel</button>
             <button type="button" class="agreement-submit-btn" id="agreeSubmitBtn" disabled>
-                Agree & Submit
+                Agree &amp; Continue
             </button>
         </div>
 
@@ -1694,25 +1892,37 @@ $(document).ready(function () {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('surveyorRegisterForm');
-    const openBtn = document.getElementById('openAgreementBtn');
 
-    const modal = document.getElementById('agreementModal');
-    const closeBtn = document.getElementById('closeAgreementBtn');
-    const cancelBtn = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    const form             = document.getElementById('surveyorRegisterForm');
+    const openBtn          = document.getElementById('openAgreementBtn');
+    const submitFormBtn    = document.getElementById('submitFormBtn');
 
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreePrivacy = document.getElementById('agreePrivacy');
-    const agreeNewsletter = document.getElementById('agreeNewsletter');
+    const modal            = document.getElementById('agreementModal');
+    const modalInner       = document.getElementById('agreementModalInner');
+    const closeBtn         = document.getElementById('closeAgreementBtn');
+    const cancelBtn        = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
 
-    const hiddenTerms = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const agreeTerms       = document.getElementById('agreeTerms');
+    const agreePrivacy     = document.getElementById('agreePrivacy');
+    const agreeNewsletter  = document.getElementById('agreeNewsletter');
+
+    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    const agreementCompanyName = document.getElementById('agreementCompanyName');
-    const agreementCompanyAddress = document.getElementById('agreementCompanyAddress');
+    const pendingNotice    = document.getElementById('agreementPendingNotice');
+    const acceptedBadge    = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel= document.getElementById('agreementBtnLabel');
+
+    const companyNameInput = document.getElementById('companyNameInput');
+    const registeredAddrInput = document.getElementById('registeredAddressInput');
+    const modalCompanyName = document.getElementById('agreementCompanyName');
+    const modalCompanyAddr = document.getElementById('agreementCompanyAddress');
+
+    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
     function mysqlDateTimeNow() {
         const now = new Date();
@@ -1729,68 +1939,102 @@ document.addEventListener('DOMContentLoaded', function () {
             pad(now.getSeconds());
     }
 
-    function toggleSubmitButton() {
-        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
-    }
-
-    function refreshAgreementPartyDetails() {
-        const companyInput = form.querySelector('[name="company_name"]');
-        const addressInput = form.querySelector('[name="registered_address"]');
-
-        if (agreementCompanyName && companyInput && companyInput.value.trim() !== '') {
-            agreementCompanyName.textContent = companyInput.value.trim();
+    function openModal(readOnly) {
+        if (companyNameInput && modalCompanyName) {
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Surveyor Company Name';
         }
 
-        if (agreementCompanyAddress && addressInput && addressInput.value.trim() !== '') {
-            agreementCompanyAddress.textContent = addressInput.value.trim();
+        if (registeredAddrInput && modalCompanyAddr) {
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Surveyor Office Address';
         }
-    }
 
-    function openAgreementModal() {
-        refreshAgreementPartyDetails();
+        if (readOnly) {
+            modalInner.classList.add('readonly-mode');
+            modalSubtitle.textContent = 'You can review this agreement at any time.';
+        } else {
+            modalInner.classList.remove('readonly-mode');
+            modalSubtitle.textContent = 'Please read and accept the agreement before submitting your Surveyor profile.';
+
+            agreeTerms.checked      = false;
+            agreePrivacy.checked    = false;
+            agreeNewsletter.checked = hiddenNewsletter.value === '1';
+
+            agreeSubmitBtn.disabled = true;
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeAgreementModal() {
+    function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
+    function markAgreementAccepted(newsletterChecked) {
+        agreementAccepted = true;
+
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        hiddenAcceptedAt.value = mysqlDateTimeNow();
+
+        openBtn.classList.add('accepted');
+
+        const icon = openBtn.querySelector('i');
+        if (icon) {
+            icon.className = 'fa-solid fa-file-circle-check';
+        }
+
+        agreementBtnLabel.textContent = 'View Agreement';
+
+        pendingNotice.classList.add('hidden');
+        acceptedBadge.classList.add('visible');
+
+        submitFormBtn.disabled = false;
+    }
+
+    function toggleAgreeBtn() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
     openBtn.addEventListener('click', function () {
+        openModal(agreementAccepted);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    agreeTerms.addEventListener('change', toggleAgreeBtn);
+    agreePrivacy.addEventListener('change', toggleAgreeBtn);
+
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept the required Terms & Conditions and Privacy Policy.');
+            return;
+        }
+
+        markAgreementAccepted(agreeNewsletter.checked);
+        closeModal();
+    });
+
+    submitFormBtn.addEventListener('click', function () {
+        if (!agreementAccepted) {
+            alert('Please read and accept the Agreement first by clicking the "Read & Accept Agreement" button.');
+            return;
+        }
+
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
 
-        const alreadyAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
-
-        if (alreadyAccepted) {
-            form.submit();
-            return;
-        }
-
-        openAgreementModal();
-    });
-
-    closeBtn.addEventListener('click', closeAgreementModal);
-    cancelBtn.addEventListener('click', closeAgreementModal);
-
-    agreeTerms.addEventListener('change', toggleSubmitButton);
-    agreePrivacy.addEventListener('change', toggleSubmitButton);
-
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept required agreement terms and privacy policy.');
-            return;
-        }
-
-        hiddenTerms.value = '1';
-        hiddenPrivacy.value = '1';
-        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
-        hiddenAcceptedAt.value = mysqlDateTimeNow();
-
-        closeAgreementModal();
         form.submit();
     });
 });
