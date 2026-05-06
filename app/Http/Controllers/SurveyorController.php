@@ -303,10 +303,10 @@ public function store(Request $request)
         'gst_certificate' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
         'aadhaar_card' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
         'company_profile' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20480',
-        'agreement_terms_accepted' => 'required|accepted',
-'privacy_policy_accepted'  => 'required|accepted',
+        'agreement_terms_accepted' => 'nullable',
+'privacy_policy_accepted'  => 'nullable',
 'newsletter_opt_in'        => 'nullable',
-'agreement_accepted_at'    => 'nullable|date',
+'agreement_accepted_at'    => 'nullable',
     ]);
 
 

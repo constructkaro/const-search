@@ -47,10 +47,10 @@ public function store(Request $request)
         'supporting_documents' => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:20480',
         'portfolio_images.*' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
 
-        'agreement_terms_accepted' => 'required|accepted',
-        'privacy_policy_accepted' => 'required|accepted',
+        'agreement_terms_accepted' => 'nullable',
+        'privacy_policy_accepted' => 'nullable',
         'newsletter_opt_in' => 'nullable',
-        'agreement_accepted_at' => 'nullable|string',
+        'agreement_accepted_at' => 'nullable',
     ]);
 
     $existing = InteriorProvider::where('vendor_id', $vendorId)->first();

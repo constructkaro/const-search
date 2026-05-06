@@ -58,12 +58,12 @@ public function store(Request $request)
         'logo_file'            => 'nullable|file|mimes:jpg,jpeg,png,svg|max:40960',
 
         'company_name' => 'required|string|max:255',
-'registered_address' => 'required|string',
+        'registered_address' => 'required|string',
 
-'agreement_terms_accepted' => 'required|accepted',
-'privacy_policy_accepted' => 'required|accepted',
-'newsletter_opt_in' => 'nullable',
-'agreement_accepted_at' => 'nullable|date',
+        'agreement_terms_accepted' => 'nullable',
+        'privacy_policy_accepted' => 'nullable',
+        'newsletter_opt_in' => 'nullable',
+        'agreement_accepted_at' => 'nullable',
     ]);
 
     $provider = StructuralAuditProvider::where('vendor_id', $vendorId)->first();
