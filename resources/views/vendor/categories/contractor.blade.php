@@ -1759,24 +1759,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function markAgreementAccepted(newsletterChecked) {
-        agreementAccepted = true;
+    agreementAccepted = true;
 
-        /* Update hidden fields */
-        hiddenTerms.value      = '1';
-        hiddenPrivacy.value    = '1';
-        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
-        hiddenAcceptedAt.value = new Date().toISOString();
+    hiddenTerms.value      = '1';
+    hiddenPrivacy.value    = '1';
+    hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+    hiddenAcceptedAt.value = new Date().toISOString();
 
-        /* Update UI */
+    if (openBtn) {
         openBtn.classList.add('accepted');
-        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
+
+        const icon = openBtn.querySelector('i');
+        if (icon) {
+            icon.className = 'fa-solid fa-file-circle-check';
+        }
+    }
+
+    if (agreementBtnLabel) {
         agreementBtnLabel.textContent = 'View Agreement';
+    }
 
+    if (pendingNotice) {
         pendingNotice.classList.add('hidden');
-        acceptedBadge.classList.add('visible');
+    }
 
+    if (acceptedBadge) {
+        acceptedBadge.classList.add('visible');
+    }
+
+    if (submitFormBtn) {
         submitFormBtn.disabled = false;
     }
+}
+
 
     function toggleAgreeBtn() {
         agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
