@@ -1337,22 +1337,21 @@
                     </div>
 
                     {{-- ② Submit button — enabled only when agreement accepted --}}
-                    <button type="button"
-                            class="submit-btn"
-                            id="submitFormBtn"
-                            {{ $fullyAgreed ? '' : 'disabled' }}>
-                        <i class="fa-regular fa-paper-plane"></i>
-                        <span>Submit Contractor Profile</span>
-                    </button>
+                   <button type="button"
+        class="submit-btn"
+        id="submitFormBtn">
+    <i class="fa-regular fa-paper-plane"></i>
+    <span>Submit Contractor Profile</span>
+</button>
 
                 </div>
 
                 <div class="submit-note">
-                    By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
-                    @if(!$fullyAgreed)
-                        <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
-                    @endif
-                </div>
+    By submitting, your Contractor profile details will be saved or updated.
+    @if(!$fullyAgreed)
+        <br><strong style="color:#c2410c;">Agreement can be accepted separately using the agreement button.</strong>
+    @endif
+</div>
             </div>
 
         </div>
@@ -1812,21 +1811,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* ── Event: Submit form button ── */
-    submitFormBtn.addEventListener('click', function () {
-        /* Safety check: agreement must be accepted */
-        if (!agreementAccepted) {
-            alert('Please read and accept the Agreement first by clicking the "Read & Accept Agreement" button.');
-            return;
-        }
+   submitFormBtn.addEventListener('click', function () {
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
 
-        /* HTML5 validation */
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        form.submit();
-    });
+    form.submit();
+});
 });
 </script>
 

@@ -45,7 +45,7 @@ class ContractorController extends Controller
         }
 
 
-        
+
         $request->validate([
             'project_types' => 'required|array',
             'company_name' => 'required|string|max:255',
@@ -70,10 +70,10 @@ class ContractorController extends Controller
             'work_photo_2' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
             'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
 
-            'agreement_terms_accepted' => 'required|accepted',
-            'privacy_policy_accepted'  => 'required|accepted',
-            'newsletter_opt_in'        => 'nullable',
-            'agreement_accepted_at'    => 'nullable|string',
+            'agreement_terms_accepted' => 'nullable',
+'privacy_policy_accepted'  => 'nullable',
+'newsletter_opt_in'        => 'nullable',
+'agreement_accepted_at'    => 'nullable|string',
         ]);
 
         $existing = ContractorProvider::where('vendor_id', $vendorId)->first();
