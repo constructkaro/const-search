@@ -1327,10 +1327,10 @@
                     </button>
 
                     {{-- Status badges --}}
-                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
+                    <!-- <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         Agreement acceptance required before submitting
-                    </div>
+                    </div> -->
                     <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
                         <i class="fa-solid fa-circle-check"></i>
                         Agreement Accepted
