@@ -205,6 +205,9 @@ Route::get('/', [VendorController::class, 'welcome'])->name('vendor');
     ->name('vendor.notification.response');
 // 
 });
+// 
+
+
 
 
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');

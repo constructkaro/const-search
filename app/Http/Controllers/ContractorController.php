@@ -44,6 +44,8 @@ class ContractorController extends Controller
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
+
+        
         $request->validate([
             'project_types' => 'required|array',
             'company_name' => 'required|string|max:255',

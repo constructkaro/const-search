@@ -1713,6 +1713,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         markAgreementAccepted(agreeNewsletter.checked);
+        
         closeModal();
     });
 

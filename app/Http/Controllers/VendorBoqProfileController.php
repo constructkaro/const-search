@@ -190,6 +190,7 @@ public function store(Request $request)
         }
 
         if ($request->hasFile('gst_certificate')) {
+            
             $profile->gst_certificate = $request->file('gst_certificate')->store('vendor/boq/gst', 'public');
         }
 
