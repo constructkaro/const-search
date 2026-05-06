@@ -1787,11 +1787,7 @@
                         </span>
                     </button>
 
-                    <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Agreement required
-                    </div>
-
+                   
                     <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
                         <i class="fa-solid fa-circle-check"></i>
                         Agreement Accepted

@@ -127,7 +127,7 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
 // //vendor
 Route::domain('vendor.constructkaro.com')->group(function () {
-//     Route::get('/', function () {
+    // Route::get('/', function () {
     // Route::get('/vendor', function () {
     //      return view('vendor.welcome');
     // })->name('vendor');

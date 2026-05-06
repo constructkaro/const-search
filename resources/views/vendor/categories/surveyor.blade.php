@@ -1487,7 +1487,7 @@
             </div>
 
             {{-- Submit Bar --}}
-            <div class="submit-bar">
+            <!-- <div class="submit-bar">
                 <div class="submit-bar-actions">
 
                     <button type="button"
@@ -1499,10 +1499,6 @@
                         </span>
                     </button>
 
-                    <!-- <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Agreement acceptance required before submitting
-                    </div> -->
 
                     <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
                         <i class="fa-solid fa-circle-check"></i>
@@ -1525,7 +1521,39 @@
                         <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
                     @endif
                 </div>
-            </div>
+            </div> -->
+<div class="submit-bar">
+    <div class="submit-bar-actions">
+
+        {{-- View Agreement button — always visible --}}
+        <button type="button"
+                id="openAgreementBtn"
+                class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+            <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+            <span id="agreementBtnLabel">
+                {{ $fullyAgreed ? 'View Agreement' : 'Read Agreement' }}
+            </span>
+        </button>
+
+        <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+            <i class="fa-solid fa-circle-check"></i>
+            Agreement Accepted
+        </div>
+
+        {{-- Submit button — always enabled --}}
+        <button type="button"
+                class="submit-btn"
+                id="submitFormBtn">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Submit Architect Profile</span>
+        </button>
+
+    </div>
+
+    <div class="submit-note">
+        By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
+    </div>
+</div>
 
         </form>
     </div>
@@ -1893,7 +1921,7 @@ $(document).ready(function () {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    const form             = document.getElementById('surveyorRegisterForm');
+    const form             = document.getElementById('architectRegisterForm');
     const openBtn          = document.getElementById('openAgreementBtn');
     const submitFormBtn    = document.getElementById('submitFormBtn');
 
@@ -1924,28 +1952,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
-    function mysqlDateTimeNow() {
-        const now = new Date();
-
-        const pad = function (num) {
-            return String(num).padStart(2, '0');
-        };
-
-        return now.getFullYear() + '-' +
-            pad(now.getMonth() + 1) + '-' +
-            pad(now.getDate()) + ' ' +
-            pad(now.getHours()) + ':' +
-            pad(now.getMinutes()) + ':' +
-            pad(now.getSeconds());
-    }
-
     function openModal(readOnly) {
         if (companyNameInput && modalCompanyName) {
-            modalCompanyName.textContent = companyNameInput.value.trim() || 'Surveyor Company Name';
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Architect Company Name';
         }
 
         if (registeredAddrInput && modalCompanyAddr) {
-            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Surveyor Office Address';
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Architect Office Address';
         }
 
         if (readOnly) {
@@ -1953,7 +1966,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalSubtitle.textContent = 'You can review this agreement at any time.';
         } else {
             modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'Please read and accept the agreement before submitting your Surveyor profile.';
+            modalSubtitle.textContent = 'You may read and accept the agreement before or after submitting your Architect profile.';
 
             agreeTerms.checked      = false;
             agreePrivacy.checked    = false;
@@ -1977,21 +1990,14 @@ document.addEventListener('DOMContentLoaded', function () {
         hiddenTerms.value      = '1';
         hiddenPrivacy.value    = '1';
         hiddenNewsletter.value = newsletterChecked ? '1' : '0';
-        hiddenAcceptedAt.value = mysqlDateTimeNow();
+        hiddenAcceptedAt.value = new Date().toISOString();
 
         openBtn.classList.add('accepted');
-
-        const icon = openBtn.querySelector('i');
-        if (icon) {
-            icon.className = 'fa-solid fa-file-circle-check';
-        }
-
+        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
         agreementBtnLabel.textContent = 'View Agreement';
 
-        pendingNotice.classList.add('hidden');
-        acceptedBadge.classList.add('visible');
-
-        submitFormBtn.disabled = false;
+        if (pendingNotice) pendingNotice.classList.add('hidden');
+        if (acceptedBadge) acceptedBadge.classList.add('visible');
     }
 
     function toggleAgreeBtn() {
@@ -2006,9 +2012,7 @@ document.addEventListener('DOMContentLoaded', function () {
     cancelBtn.addEventListener('click', closeModal);
 
     modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-            closeModal();
-        }
+        if (e.target === modal) closeModal();
     });
 
     agreeTerms.addEventListener('change', toggleAgreeBtn);
@@ -2025,11 +2029,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     submitFormBtn.addEventListener('click', function () {
-        if (!agreementAccepted) {
-            alert('Please read and accept the Agreement first by clicking the "Read & Accept Agreement" button.');
-            return;
-        }
-
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
@@ -2039,5 +2038,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 
 @endsection

@@ -1352,7 +1352,7 @@
                 </div>
             </div>
 
-            <div class="form-footer">
+            <!-- <div class="form-footer">
                 <div class="form-footer-note">
                     Please read and accept the agreement before saving your BOQ / Estimation profile.
                     @if(!$fullyAgreed)
@@ -1386,7 +1386,38 @@
                     Save &amp; Continue
                 </button>
                 </div>
-            </div>
+            </div> -->
+            <div class="form-footer">
+    <div class="form-footer-actions">
+
+        <button type="button"
+                id="openAgreementBtn"
+                class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+            <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+            <span id="agreementBtnLabel">
+                {{ $fullyAgreed ? 'View Agreement' : 'Read Agreement' }}
+            </span>
+        </button>
+
+        <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+            <i class="fa-solid fa-circle-check"></i>
+            Agreement Accepted
+        </div>
+
+        <button type="button"
+                class="save-btn"
+                id="submitFormBtn">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Save &amp; Continue</span>
+        </button>
+
+    </div>
+
+    <div class="form-footer-note">
+        By submitting, you agree to ConstructKaro's vendor verification process and BOQ / estimation lead matching system.
+    </div>
+</div>
+
         </div>
     </form>
 </div>
@@ -1731,144 +1762,6 @@ $(document).ready(function () {
 });
 </script>
 
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function () {
-
-    const form             = document.getElementById('boqRegisterForm');
-    const openBtn          = document.getElementById('openAgreementBtn');
-    const submitFormBtn    = document.getElementById('submitFormBtn');
-
-    const modal            = document.getElementById('agreementModal');
-    const modalInner       = document.getElementById('agreementModalInner');
-    const closeBtn         = document.getElementById('closeAgreementBtn');
-    const cancelBtn        = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
-    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
-
-    const agreeTerms       = document.getElementById('agreeTerms');
-    const agreePrivacy     = document.getElementById('agreePrivacy');
-    const agreeNewsletter  = document.getElementById('agreeNewsletter');
-
-    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
-    const hiddenNewsletter = document.getElementById('newsletter_opt_in');
-    const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
-
-    const pendingNotice     = document.getElementById('agreementPendingNotice');
-    const acceptedBadge     = document.getElementById('agreementAcceptedBadge');
-    const agreementBtnLabel = document.getElementById('agreementBtnLabel');
-
-    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
-
-    function mysqlDateTimeNow() {
-        const now = new Date();
-
-        const pad = function (num) {
-            return String(num).padStart(2, '0');
-        };
-
-        return now.getFullYear() + '-' +
-            pad(now.getMonth() + 1) + '-' +
-            pad(now.getDate()) + ' ' +
-            pad(now.getHours()) + ':' +
-            pad(now.getMinutes()) + ':' +
-            pad(now.getSeconds());
-    }
-
-    function openModal(readOnly) {
-        if (readOnly) {
-            modalInner.classList.add('readonly-mode');
-            modalSubtitle.textContent = 'You can review this agreement at any time.';
-        } else {
-            modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'Please read and accept the agreement.';
-
-            agreeTerms.checked      = false;
-            agreePrivacy.checked    = false;
-            agreeNewsletter.checked = hiddenNewsletter.value === '1';
-
-            agreeSubmitBtn.disabled = true;
-        }
-
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    function markAgreementAccepted(newsletterChecked) {
-        agreementAccepted = true;
-
-        hiddenTerms.value      = '1';
-        hiddenPrivacy.value    = '1';
-        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
-        hiddenAcceptedAt.value = mysqlDateTimeNow();
-
-        openBtn.classList.add('accepted');
-
-        const icon = openBtn.querySelector('i');
-        if (icon) {
-            icon.className = 'fa-solid fa-file-circle-check';
-        }
-
-        agreementBtnLabel.textContent = 'View Agreement';
-
-        if (pendingNotice) {
-            pendingNotice.classList.add('hidden');
-        }
-
-        if (acceptedBadge) {
-            acceptedBadge.classList.add('visible');
-        }
-    }
-
-    function toggleAgreeBtn() {
-        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
-    }
-
-    // Agreement button click only opens agreement modal
-    openBtn.addEventListener('click', function () {
-        openModal(agreementAccepted);
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    agreeTerms.addEventListener('change', toggleAgreeBtn);
-    agreePrivacy.addEventListener('change', toggleAgreeBtn);
-
-    // Agreement accepted only updates hidden values, does not submit form
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept the required Terms & Conditions and Privacy Policy.');
-            return;
-        }
-
-        markAgreementAccepted(agreeNewsletter.checked);
-        closeModal();
-    });
-
-    // Save button only saves form. It will not open agreement modal.
-    submitFormBtn.addEventListener('click', function () {
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        form.submit();
-    });
-
-});
-</script> -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -1892,7 +1785,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    const pendingNotice     = document.getElementById('agreementPendingNotice');
     const acceptedBadge     = document.getElementById('agreementAcceptedBadge');
     const agreementBtnLabel = document.getElementById('agreementBtnLabel');
 
@@ -1919,7 +1811,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalSubtitle.textContent = 'You can review this agreement at any time.';
         } else {
             modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'Please read and accept the agreement.';
+            modalSubtitle.textContent = 'You may read and accept this agreement separately.';
 
             agreeTerms.checked      = false;
             agreePrivacy.checked    = false;
@@ -1952,10 +1844,8 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.className = 'fa-solid fa-file-circle-check';
         }
 
-        agreementBtnLabel.textContent = 'View Agreement';
-
-        if (pendingNotice) {
-            pendingNotice.classList.add('hidden');
+        if (agreementBtnLabel) {
+            agreementBtnLabel.textContent = 'View Agreement';
         }
 
         if (acceptedBadge) {
@@ -1991,17 +1881,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         markAgreementAccepted(agreeNewsletter.checked);
         closeModal();
-
-        /*
-        After accepting agreement, save form also.
-        If you do not want auto-save after accepting, remove these 6 lines.
-        */
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        form.submit();
     });
 
     submitFormBtn.addEventListener('click', function () {
@@ -2015,4 +1894,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
+
 @endsection

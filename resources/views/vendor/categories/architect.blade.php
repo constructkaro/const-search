@@ -1306,7 +1306,7 @@
             {{-- ══════════════════════════════════════
                  SUBMIT BAR — TWO SEPARATE BUTTONS
             ══════════════════════════════════════ --}}
-            <div class="submit-bar">
+            <!-- <div class="submit-bar">
                 <div class="submit-bar-actions">
 
                     {{-- ① View Agreement button — always visible --}}
@@ -1320,10 +1320,7 @@
                     </button>
 
                     {{-- Status badges --}}
-                    <!-- <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Agreement acceptance required before submitting
-                    </div> -->
+                   
                     <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
                         <i class="fa-solid fa-circle-check"></i>
                         Agreement Accepted
@@ -1346,7 +1343,40 @@
                         <br><strong style="color:#c2410c;">Please read and accept the agreement first.</strong>
                     @endif
                 </div>
-            </div>
+            </div> -->
+            <div class="submit-bar">
+    <div class="submit-bar-actions">
+
+        {{-- View Agreement button — always visible --}}
+        <button type="button"
+                id="openAgreementBtn"
+                class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+            <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+            <span id="agreementBtnLabel">
+                {{ $fullyAgreed ? 'View Agreement' : 'Read Agreement' }}
+            </span>
+        </button>
+
+        <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+            <i class="fa-solid fa-circle-check"></i>
+            Agreement Accepted
+        </div>
+
+        {{-- Submit button — always enabled --}}
+        <button type="button"
+                class="submit-btn"
+                id="submitFormBtn">
+            <i class="fa-regular fa-paper-plane"></i>
+            <span>Submit Architect Profile</span>
+        </button>
+
+    </div>
+
+    <div class="submit-note">
+        By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
+    </div>
+</div>
+
 
         </form>
     </div>
@@ -1604,7 +1634,7 @@ $(document).ready(function () {
 {{-- ══════════════════════════════════════
      AGREEMENT MODAL LOGIC (SEPARATED)
 ══════════════════════════════════════ --}}
-<script>
+<!-- <script>
 document.addEventListener('DOMContentLoaded', function () {
 
     const form             = document.getElementById('architectRegisterForm');
@@ -1729,6 +1759,127 @@ document.addEventListener('DOMContentLoaded', function () {
         form.submit();
     });
 });
+</script> -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form             = document.getElementById('architectRegisterForm');
+    const openBtn          = document.getElementById('openAgreementBtn');
+    const submitFormBtn    = document.getElementById('submitFormBtn');
+
+    const modal            = document.getElementById('agreementModal');
+    const modalInner       = document.getElementById('agreementModalInner');
+    const closeBtn         = document.getElementById('closeAgreementBtn');
+    const cancelBtn        = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
+
+    const agreeTerms       = document.getElementById('agreeTerms');
+    const agreePrivacy     = document.getElementById('agreePrivacy');
+    const agreeNewsletter  = document.getElementById('agreeNewsletter');
+
+    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
+    const hiddenNewsletter = document.getElementById('newsletter_opt_in');
+    const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
+
+    const pendingNotice    = document.getElementById('agreementPendingNotice');
+    const acceptedBadge    = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel= document.getElementById('agreementBtnLabel');
+
+    const companyNameInput = document.getElementById('companyNameInput');
+    const registeredAddrInput = document.getElementById('registeredAddressInput');
+    const modalCompanyName = document.getElementById('agreementCompanyName');
+    const modalCompanyAddr = document.getElementById('agreementCompanyAddress');
+
+    let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
+
+    function openModal(readOnly) {
+        if (companyNameInput && modalCompanyName) {
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Architect Company Name';
+        }
+
+        if (registeredAddrInput && modalCompanyAddr) {
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Architect Office Address';
+        }
+
+        if (readOnly) {
+            modalInner.classList.add('readonly-mode');
+            modalSubtitle.textContent = 'You can review this agreement at any time.';
+        } else {
+            modalInner.classList.remove('readonly-mode');
+            modalSubtitle.textContent = 'You may read and accept the agreement before or after submitting your Architect profile.';
+
+            agreeTerms.checked      = false;
+            agreePrivacy.checked    = false;
+            agreeNewsletter.checked = hiddenNewsletter.value === '1';
+
+            agreeSubmitBtn.disabled = true;
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function markAgreementAccepted(newsletterChecked) {
+        agreementAccepted = true;
+
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        hiddenAcceptedAt.value = new Date().toISOString();
+
+        openBtn.classList.add('accepted');
+        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
+        agreementBtnLabel.textContent = 'View Agreement';
+
+        if (pendingNotice) pendingNotice.classList.add('hidden');
+        if (acceptedBadge) acceptedBadge.classList.add('visible');
+    }
+
+    function toggleAgreeBtn() {
+        agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
+    }
+
+    openBtn.addEventListener('click', function () {
+        openModal(agreementAccepted);
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    agreeTerms.addEventListener('change', toggleAgreeBtn);
+    agreePrivacy.addEventListener('change', toggleAgreeBtn);
+
+    agreeSubmitBtn.addEventListener('click', function () {
+        if (!agreeTerms.checked || !agreePrivacy.checked) {
+            alert('Please accept the required Terms & Conditions and Privacy Policy.');
+            return;
+        }
+
+        markAgreementAccepted(agreeNewsletter.checked);
+        closeModal();
+    });
+
+    submitFormBtn.addEventListener('click', function () {
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        form.submit();
+    });
+});
 </script>
+
 
 @endsection
