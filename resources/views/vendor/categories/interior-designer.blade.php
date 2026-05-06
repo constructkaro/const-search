@@ -1383,16 +1383,15 @@
             </div>
 
             {{-- Submit --}}
-           <div class="submit-bar">
+         <div class="submit-bar">
     <div class="submit-bar-actions">
 
-        {{-- View Agreement button — always visible --}}
         <button type="button"
                 id="openAgreementBtn"
                 class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
             <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
             <span id="agreementBtnLabel">
-                {{ $fullyAgreed ? 'View Agreement' : 'Read Agreement' }}
+                {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
             </span>
         </button>
 
@@ -1401,18 +1400,17 @@
             Agreement Accepted
         </div>
 
-        {{-- Submit button — always enabled --}}
         <button type="button"
                 class="submit-btn"
                 id="submitFormBtn">
             <i class="fa-regular fa-paper-plane"></i>
-            <span>Submit Architect Profile</span>
+            <span>Submit Interior Designer Profile</span>
         </button>
 
     </div>
 
     <div class="submit-note">
-        By submitting, you agree to ConstructKaro's vendor verification process and project lead matching system.
+        You can submit your Interior Designer profile now. Agreement can be accepted separately using the agreement button.
     </div>
 </div>
 
@@ -1789,29 +1787,30 @@ $(document).ready(function () {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    const form             = document.getElementById('architectRegisterForm');
-    const openBtn          = document.getElementById('openAgreementBtn');
-    const submitFormBtn    = document.getElementById('submitFormBtn');
+    const form = document.getElementById('interiorRegisterForm');
 
-    const modal            = document.getElementById('agreementModal');
-    const modalInner       = document.getElementById('agreementModalInner');
-    const closeBtn         = document.getElementById('closeAgreementBtn');
-    const cancelBtn        = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
-    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
+    const openBtn = document.getElementById('openAgreementBtn');
+    const submitFormBtn = document.getElementById('submitFormBtn');
 
-    const agreeTerms       = document.getElementById('agreeTerms');
-    const agreePrivacy     = document.getElementById('agreePrivacy');
-    const agreeNewsletter  = document.getElementById('agreeNewsletter');
+    const modal = document.getElementById('agreementModal');
+    const modalInner = document.getElementById('agreementModalInner');
 
-    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
+    const closeBtn = document.getElementById('closeAgreementBtn');
+    const cancelBtn = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle = document.getElementById('agreementModalSubtitle');
+
+    const agreeTerms = document.getElementById('agreeTerms');
+    const agreePrivacy = document.getElementById('agreePrivacy');
+    const agreeNewsletter = document.getElementById('agreeNewsletter');
+
+    const hiddenTerms = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    const pendingNotice    = document.getElementById('agreementPendingNotice');
-    const acceptedBadge    = document.getElementById('agreementAcceptedBadge');
-    const agreementBtnLabel= document.getElementById('agreementBtnLabel');
+    const acceptedBadge = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel = document.getElementById('agreementBtnLabel');
 
     const companyNameInput = document.getElementById('companyNameInput');
     const registeredAddrInput = document.getElementById('registeredAddressInput');
@@ -1822,11 +1821,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function openModal(readOnly) {
         if (companyNameInput && modalCompanyName) {
-            modalCompanyName.textContent = companyNameInput.value.trim() || 'Architect Company Name';
+            modalCompanyName.textContent = companyNameInput.value.trim() || 'Interior Designer Company Name';
         }
 
         if (registeredAddrInput && modalCompanyAddr) {
-            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Architect Office Address';
+            modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Interior Designer Office Address';
         }
 
         if (readOnly) {
@@ -1834,10 +1833,10 @@ document.addEventListener('DOMContentLoaded', function () {
             modalSubtitle.textContent = 'You can review this agreement at any time.';
         } else {
             modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'You may read and accept the agreement before or after submitting your Architect profile.';
+            modalSubtitle.textContent = 'Please read and accept the agreement. You can submit your profile separately.';
 
-            agreeTerms.checked      = false;
-            agreePrivacy.checked    = false;
+            agreeTerms.checked = false;
+            agreePrivacy.checked = false;
             agreeNewsletter.checked = hiddenNewsletter.value === '1';
 
             agreeSubmitBtn.disabled = true;
@@ -1852,58 +1851,114 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.style.overflow = '';
     }
 
-    function markAgreementAccepted(newsletterChecked) {
-        agreementAccepted = true;
-
-        hiddenTerms.value      = '1';
-        hiddenPrivacy.value    = '1';
-        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
-        hiddenAcceptedAt.value = new Date().toISOString();
-
-        openBtn.classList.add('accepted');
-        openBtn.querySelector('i').className = 'fa-solid fa-file-circle-check';
-        agreementBtnLabel.textContent = 'View Agreement';
-
-        if (pendingNotice) pendingNotice.classList.add('hidden');
-        if (acceptedBadge) acceptedBadge.classList.add('visible');
-    }
-
-    function toggleAgreeBtn() {
+    function toggleAgreeButton() {
         agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
     }
 
-    openBtn.addEventListener('click', function () {
-        openModal(agreementAccepted);
-    });
+    function updateAgreementUI(acceptedAt = '') {
+        agreementAccepted = true;
 
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
+        hiddenTerms.value = '1';
+        hiddenPrivacy.value = '1';
+        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
+        hiddenAcceptedAt.value = acceptedAt || '1';
 
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) closeModal();
-    });
+        if (openBtn) {
+            openBtn.classList.add('accepted');
 
-    agreeTerms.addEventListener('change', toggleAgreeBtn);
-    agreePrivacy.addEventListener('change', toggleAgreeBtn);
-
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept the required Terms & Conditions and Privacy Policy.');
-            return;
+            const icon = openBtn.querySelector('i');
+            if (icon) {
+                icon.className = 'fa-solid fa-file-circle-check';
+            }
         }
 
-        markAgreementAccepted(agreeNewsletter.checked);
-        closeModal();
-    });
-
-    submitFormBtn.addEventListener('click', function () {
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
+        if (agreementBtnLabel) {
+            agreementBtnLabel.textContent = 'View Agreement';
         }
 
-        form.submit();
-    });
+        if (acceptedBadge) {
+            acceptedBadge.classList.add('visible');
+        }
+    }
+
+    if (openBtn) {
+        openBtn.addEventListener('click', function () {
+            openModal(agreementAccepted);
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    if (agreeTerms) {
+        agreeTerms.addEventListener('change', toggleAgreeButton);
+    }
+
+    if (agreePrivacy) {
+        agreePrivacy.addEventListener('change', toggleAgreeButton);
+    }
+
+    if (agreeSubmitBtn) {
+        agreeSubmitBtn.addEventListener('click', function () {
+            if (!agreeTerms.checked || !agreePrivacy.checked) {
+                alert('Please accept Terms & Conditions and Privacy Policy.');
+                return;
+            }
+
+            updateAgreementUI();
+            closeModal();
+
+            fetch("{{ route('interior.acceptAgreement') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    newsletter_opt_in: agreeNewsletter.checked ? 1 : 0
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === true) {
+                    updateAgreementUI(data.accepted_at);
+                    alert('Agreement accepted successfully.');
+                } else {
+                    alert('Agreement accepted. It will be saved when you submit your Interior Designer profile.');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Agreement accepted. It will be saved when you submit your Interior Designer profile.');
+            });
+        });
+    }
+
+    if (submitFormBtn) {
+        submitFormBtn.addEventListener('click', function () {
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            form.submit();
+        });
+    }
+
 });
 </script>
 

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Models\ArchitectProvider;
+use App\Models\ContractorProvider;
+use App\Models\InteriorProvider;
+use App\Models\SurveyorProvider;
+use App\Models\VendorBoqProfile;
 
 class VendorCategoryController extends Controller
 {
@@ -179,26 +184,189 @@ public function getPincodes(Request $request)
     return response()->json($pincodes);
 }
 
-// public function getPincodes(Request $request)
-// {
-//     $areaIds = $request->get('area_ids', []);
+public function acceptArchitectAgreement(Request $request)
+{
+    $vendorId = session('vendor_id');
 
-//     if (!is_array($areaIds)) {
-//         $areaIds = [$areaIds];
-//     }
+    if (!$vendorId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please login first.'
+        ], 401);
+    }
 
-//     $areaIds = array_filter($areaIds);
+    $architect = ArchitectProvider::where('vendor_id', $vendorId)->first();
 
-//     if (empty($areaIds)) {
-//         return response()->json([]);
-//     }
+    if (!$architect) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please submit architect profile first, then accept agreement.'
+        ], 422);
+    }
 
-//     $pincodes = DB::table('pincodes')
-//         ->whereIn('area_id', $areaIds)
-//         ->select('id', 'area_id', 'pincode')
-//         ->orderBy('pincode', 'asc')
-//         ->get();
+    $architect->agreement_terms_accepted = 1;
+    $architect->privacy_policy_accepted = 1;
+    $architect->newsletter_opt_in = $request->newsletter_opt_in == 1 ? 1 : 0;
 
-//     return response()->json($pincodes);
-// }
+    if (empty($architect->agreement_accepted_at)) {
+        $architect->agreement_accepted_at = date('Y-m-d H:i:s');
+    }
+
+    $architect->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Agreement accepted successfully.',
+        'accepted_at' => $architect->agreement_accepted_at
+    ]);
+}
+
+public function acceptContractorAgreement(Request $request)
+{
+    $vendorId = session('vendor_id');
+
+    if (!$vendorId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please login first.'
+        ], 401);
+    }
+
+    $contractor = ContractorProvider::where('vendor_id', $vendorId)->first();
+
+    if (!$contractor) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please submit contractor profile first, then accept agreement.'
+        ], 422);
+    }
+
+    $contractor->agreement_terms_accepted = 1;
+    $contractor->privacy_policy_accepted = 1;
+    $contractor->newsletter_opt_in = $request->newsletter_opt_in == 1 ? 1 : 0;
+
+    if (empty($contractor->agreement_accepted_at)) {
+        $contractor->agreement_accepted_at = date('Y-m-d H:i:s');
+    }
+
+    $contractor->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Agreement accepted successfully.',
+        'accepted_at' => $contractor->agreement_accepted_at
+    ]);
+}
+
+
+public function acceptInteriorAgreement(Request $request)
+{
+    $vendorId = session('vendor_id');
+
+    if (!$vendorId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please login first.'
+        ], 401);
+    }
+
+    $interior = InteriorProvider::where('vendor_id', $vendorId)->first();
+
+    if (!$interior) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Profile not found yet.'
+        ], 200);
+    }
+
+    $interior->agreement_terms_accepted = 1;
+    $interior->privacy_policy_accepted = 1;
+    $interior->newsletter_opt_in = $request->newsletter_opt_in == 1 ? 1 : 0;
+
+    if (empty($interior->agreement_accepted_at)) {
+        $interior->agreement_accepted_at = date('Y-m-d H:i:s');
+    }
+
+    $interior->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Agreement accepted successfully.',
+        'accepted_at' => $interior->agreement_accepted_at
+    ]);
+}
+
+public function acceptSurveyorAgreement(Request $request)
+{
+    $vendorId = session('vendor_id');
+
+    if (!$vendorId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please login first.'
+        ], 401);
+    }
+
+    $surveyor = SurveyorProvider::where('vendor_id', $vendorId)->first();
+
+    if (!$surveyor) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Profile not found yet.'
+        ], 200);
+    }
+
+    $surveyor->agreement_terms_accepted = 1;
+    $surveyor->privacy_policy_accepted = 1;
+    $surveyor->newsletter_opt_in = $request->newsletter_opt_in == 1 ? 1 : 0;
+
+    if (empty($surveyor->agreement_accepted_at)) {
+        $surveyor->agreement_accepted_at = date('Y-m-d H:i:s');
+    }
+
+    $surveyor->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Agreement accepted successfully.',
+        'accepted_at' => $surveyor->agreement_accepted_at
+    ]);
+}
+
+public function acceptBoqAgreement(Request $request)
+{
+    $vendorId = session('vendor_id');
+
+    if (!$vendorId) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please login first.'
+        ], 401);
+    }
+
+    $boq = VendorBoqProfile::where('vendor_id', $vendorId)->first();
+
+    if (!$boq) {
+        return response()->json([
+            'status' => false,
+            'message' => 'BOQ profile not found yet. Agreement will be saved when profile is submitted.'
+        ], 200);
+    }
+
+    $boq->agreement_terms_accepted = 1;
+    $boq->privacy_policy_accepted = 1;
+    $boq->newsletter_opt_in = $request->newsletter_opt_in == 1 ? 1 : 0;
+
+    if (empty($boq->agreement_accepted_at)) {
+        $boq->agreement_accepted_at = date('Y-m-d H:i:s');
+    }
+
+    $boq->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Agreement accepted successfully.',
+        'accepted_at' => $boq->agreement_accepted_at
+    ]);
+}
 }

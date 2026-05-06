@@ -1574,7 +1574,6 @@
 
 
 
-
 {{-- ══════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════ --}}
@@ -1586,27 +1585,37 @@
 function setupFilePreview(inputId, linkId) {
     const input = document.getElementById(inputId);
     const link  = document.getElementById(linkId);
+
     if (!input || !link) return;
+
     input.addEventListener('change', function () {
-        const file        = this.files[0];
+        const file = this.files[0];
         const fileNameBox = this.closest('.upload-box-wrap').querySelector('.file-name');
+
         if (file) {
-            link.href          = URL.createObjectURL(file);
+            link.href = URL.createObjectURL(file);
             link.style.display = 'inline-block';
-            link.textContent   = 'View File';
-            if (fileNameBox) fileNameBox.textContent = file.name;
+            link.textContent = 'View File';
+
+            if (fileNameBox) {
+                fileNameBox.textContent = file.name;
+            }
         } else {
-            link.href          = '#';
+            link.href = '#';
             link.style.display = 'none';
-            if (fileNameBox) fileNameBox.textContent = 'Choose and upload file';
+
+            if (fileNameBox) {
+                fileNameBox.textContent = 'Choose and upload file';
+            }
         }
     });
 }
+
 setupFilePreview('msme_certificate', 'msme_link');
-setupFilePreview('pan_card',         'pan_card_link');
-setupFilePreview('gst_certificate',  'gst_certificate_link');
-setupFilePreview('aadhaar_card',     'aadhaar_card_link');
-setupFilePreview('company_profile',  'company_profile_link');
+setupFilePreview('pan_card', 'pan_card_link');
+setupFilePreview('gst_certificate', 'gst_certificate_link');
+setupFilePreview('aadhaar_card', 'aadhaar_card_link');
+setupFilePreview('company_profile', 'company_profile_link');
 </script>
 
 {{-- Multi-city + Multi-area select --}}
@@ -1614,44 +1623,75 @@ setupFilePreview('company_profile',  'company_profile_link');
 $(document).ready(function () {
     const preSelectedCityIds = @json($selectedCityIds);
     const preSelectedAreaIds = @json($selectedAreaIds);
+
     const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
-    const pincodesRoute      = "{{ route('get.pincodes') }}";
+    const pincodesRoute = "{{ route('get.pincodes') }}";
 
-    $('#city_ids').select2({ placeholder: 'Select one or more cities', width: '100%', closeOnSelect: false });
-    $('#area_ids').select2({ placeholder: 'Select areas',              width: '100%', closeOnSelect: false });
+    $('#city_ids').select2({
+        placeholder: 'Select one or more cities',
+        width: '100%',
+        closeOnSelect: false
+    });
 
-    function loadAreasForCities(cityIds, preselectAreaIds) {
+    $('#area_ids').select2({
+        placeholder: 'Select areas',
+        width: '100%',
+        closeOnSelect: false
+    });
+
+    function loadAreasForCities(cityIds, preselectAreaIds = []) {
         if (!cityIds || cityIds.length === 0) {
             $('#area_ids').html('').trigger('change');
             $('#pincode_id').val('');
             return;
         }
+
         $('#areaLoading').addClass('visible');
         $('#area_ids').prop('disabled', true);
 
-        const requests = cityIds.map(cityId =>
-            $.ajax({ url: areasRouteTemplate.replace(':city_id', cityId), type: 'GET', dataType: 'json' })
-        );
+        const requests = cityIds.map(cityId => {
+            return $.ajax({
+                url: areasRouteTemplate.replace(':city_id', cityId),
+                type: 'GET',
+                dataType: 'json'
+            });
+        });
 
         $.when(...requests).then(function (...responses) {
             let allAreas = [];
+
             if (cityIds.length === 1) {
                 allAreas = responses[0];
             } else {
-                responses.forEach(res => { allAreas = allAreas.concat(res[0]); });
+                responses.forEach(res => {
+                    allAreas = allAreas.concat(res[0]);
+                });
             }
-            const seen   = new Set();
-            const unique = allAreas.filter(area => { if (seen.has(area.id)) return false; seen.add(area.id); return true; });
-            unique.sort((a, b) => a.name.localeCompare(b.name));
-            let html = '';
-            unique.forEach(area => {
-                const isSel = preselectAreaIds.includes(area.id.toString()) || preselectAreaIds.includes(area.id);
-                html += `<option value="${area.id}" ${isSel ? 'selected' : ''}>${area.name}</option>`;
+
+            const seen = new Set();
+
+            const uniqueAreas = allAreas.filter(area => {
+                if (seen.has(area.id)) return false;
+                seen.add(area.id);
+                return true;
             });
+
+            uniqueAreas.sort((a, b) => a.name.localeCompare(b.name));
+
+            let html = '';
+
+            uniqueAreas.forEach(area => {
+                const selected = preselectAreaIds.includes(area.id.toString()) || preselectAreaIds.includes(area.id);
+                html += `<option value="${area.id}" ${selected ? 'selected' : ''}>${area.name}</option>`;
+            });
+
             $('#area_ids').html(html).trigger('change');
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
-            if (preselectAreaIds.length > 0) { loadPincodes(preselectAreaIds); }
+
+            if (preselectAreaIds.length > 0) {
+                loadPincodes(preselectAreaIds);
+            }
         }).fail(function () {
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
@@ -1659,15 +1699,32 @@ $(document).ready(function () {
     }
 
     function loadPincodes(areaIds) {
-        if (!areaIds || areaIds.length === 0) { $('#pincode_id').val(''); return; }
+        if (!areaIds || areaIds.length === 0) {
+            $('#pincode_id').val('');
+            return;
+        }
+
         $.ajax({
-            url: pincodesRoute, type: 'GET', dataType: 'json', data: { area_ids: areaIds },
-            success: function (data) { $('#pincode_id').val([...new Set(data)].join(', ')); }
+            url: pincodesRoute,
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                area_ids: areaIds
+            },
+            success: function (data) {
+                $('#pincode_id').val([...new Set(data)].join(', '));
+            }
         });
     }
 
-    $('#city_ids').on('change', function () { loadAreasForCities($(this).val() || [], []); $('#pincode_id').val(''); });
-    $('#area_ids').on('change', function () { loadPincodes($(this).val() || []); });
+    $('#city_ids').on('change', function () {
+        loadAreasForCities($(this).val() || [], []);
+        $('#pincode_id').val('');
+    });
+
+    $('#area_ids').on('change', function () {
+        loadPincodes($(this).val() || []);
+    });
 
     if (preSelectedCityIds.length > 0) {
         $('#city_ids').val(preSelectedCityIds).trigger('change.select2');
@@ -1676,62 +1733,47 @@ $(document).ready(function () {
 });
 </script>
 
-{{-- ══════════════════════════════════════
-     AGREEMENT MODAL LOGIC (SEPARATED)
-     ──────────────────────────────────────
-     KEY BEHAVIOURS:
-     • "View/Accept Agreement" button always visible
-     • If NOT yet accepted → opens modal in ACCEPT mode
-       (checkboxes + "Agree & Continue" footer shown)
-     • If ALREADY accepted  → opens modal in READ-ONLY mode
-       (green banner shown, checkboxes/footer hidden)
-     • "Submit" button stays disabled until agreement accepted
-     • After accepting inside modal: hidden fields updated,
-       submit button unlocked, button label/style changes
-     • Submit button triggers form.checkValidity() then submits
-══════════════════════════════════════ --}}
+{{-- Agreement modal and AJAX save --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* ── Elements ── */
-    const form               = document.getElementById('contractorRegisterForm');
-    const openBtn            = document.getElementById('openAgreementBtn');
-    const submitFormBtn      = document.getElementById('submitFormBtn');
+    const form = document.getElementById('contractorRegisterForm');
 
-    const modal              = document.getElementById('agreementModal');
-    const modalInner         = document.getElementById('agreementModalInner');
-    const closeBtn           = document.getElementById('closeAgreementBtn');
-    const cancelBtn          = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn     = document.getElementById('agreeSubmitBtn');
-    const modalSubtitle      = document.getElementById('agreementModalSubtitle');
+    const openBtn = document.getElementById('openAgreementBtn');
+    const submitFormBtn = document.getElementById('submitFormBtn');
 
-    const agreeTerms         = document.getElementById('agreeTerms');
-    const agreePrivacy       = document.getElementById('agreePrivacy');
-    const agreeNewsletter    = document.getElementById('agreeNewsletter');
+    const modal = document.getElementById('agreementModal');
+    const modalInner = document.getElementById('agreementModalInner');
 
-    const hiddenTerms        = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy      = document.getElementById('privacy_policy_accepted');
-    const hiddenNewsletter   = document.getElementById('newsletter_opt_in');
-    const hiddenAcceptedAt   = document.getElementById('agreement_accepted_at');
+    const closeBtn = document.getElementById('closeAgreementBtn');
+    const cancelBtn = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle = document.getElementById('agreementModalSubtitle');
 
-    const pendingNotice      = document.getElementById('agreementPendingNotice');
-    const acceptedBadge      = document.getElementById('agreementAcceptedBadge');
-    const agreementBtnLabel  = document.getElementById('agreementBtnLabel');
+    const agreeTerms = document.getElementById('agreeTerms');
+    const agreePrivacy = document.getElementById('agreePrivacy');
+    const agreeNewsletter = document.getElementById('agreeNewsletter');
 
-    const companyNameInput   = document.getElementById('companyNameInput');
-    const registeredAddrInput= document.getElementById('registeredAddressInput');
-    const modalCompanyName   = document.getElementById('agreementCompanyName');
-    const modalCompanyAddr   = document.getElementById('agreementCompanyAddress');
+    const hiddenTerms = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const hiddenNewsletter = document.getElementById('newsletter_opt_in');
+    const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    /* ── State: is agreement already accepted (server-side)? ── */
+    const acceptedBadge = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel = document.getElementById('agreementBtnLabel');
+
+    const companyNameInput = document.getElementById('companyNameInput');
+    const registeredAddrInput = document.getElementById('registeredAddressInput');
+    const modalCompanyName = document.getElementById('agreementCompanyName');
+    const modalCompanyAddr = document.getElementById('agreementCompanyAddress');
+
     let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
-    /* ── Helpers ── */
     function openModal(readOnly) {
-        /* Sync live form values into agreement text */
         if (companyNameInput && modalCompanyName) {
             modalCompanyName.textContent = companyNameInput.value.trim() || 'Contractor Company Name';
         }
+
         if (registeredAddrInput && modalCompanyAddr) {
             modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Contractor Office Address';
         }
@@ -1741,12 +1783,13 @@ document.addEventListener('DOMContentLoaded', function () {
             modalSubtitle.textContent = 'You can review this agreement at any time.';
         } else {
             modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'Please read and accept the agreement before submitting your Contractor profile.';
-            /* Reset checkboxes on fresh open */
-            agreeTerms.checked     = false;
-            agreePrivacy.checked   = false;
-            agreeNewsletter.checked= hiddenNewsletter.value === '1';
-            agreeSubmitBtn.disabled= true;
+            modalSubtitle.textContent = 'Please read and accept the agreement.';
+
+            agreeTerms.checked = false;
+            agreePrivacy.checked = false;
+            agreeNewsletter.checked = hiddenNewsletter.value === '1';
+
+            agreeSubmitBtn.disabled = true;
         }
 
         modal.classList.add('active');
@@ -1758,82 +1801,129 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.style.overflow = '';
     }
 
-    function markAgreementAccepted(newsletterChecked) {
-    agreementAccepted = true;
-
-    hiddenTerms.value      = '1';
-    hiddenPrivacy.value    = '1';
-    hiddenNewsletter.value = newsletterChecked ? '1' : '0';
-    hiddenAcceptedAt.value = new Date().toISOString();
-
-    if (openBtn) {
-        openBtn.classList.add('accepted');
-
-        const icon = openBtn.querySelector('i');
-        if (icon) {
-            icon.className = 'fa-solid fa-file-circle-check';
-        }
-    }
-
-    if (agreementBtnLabel) {
-        agreementBtnLabel.textContent = 'View Agreement';
-    }
-
-    if (pendingNotice) {
-        pendingNotice.classList.add('hidden');
-    }
-
-    if (acceptedBadge) {
-        acceptedBadge.classList.add('visible');
-    }
-
-    if (submitFormBtn) {
-        submitFormBtn.disabled = false;
-    }
-}
-
-
-    function toggleAgreeBtn() {
+    function toggleAgreeButton() {
         agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
     }
 
-    /* ── Event: open agreement button ── */
-    openBtn.addEventListener('click', function () {
-        openModal(agreementAccepted);
-    });
+    function updateAgreementUI(acceptedAt) {
+        agreementAccepted = true;
 
-    /* ── Event: close / cancel ── */
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
+        hiddenTerms.value = '1';
+        hiddenPrivacy.value = '1';
+        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
+        hiddenAcceptedAt.value = acceptedAt || '1';
 
-    /* Close on overlay click */
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) closeModal();
-    });
-
-    /* ── Event: checkbox change ── */
-    agreeTerms.addEventListener('change',   toggleAgreeBtn);
-    agreePrivacy.addEventListener('change',  toggleAgreeBtn);
-
-    /* ── Event: "Agree & Continue" inside modal ── */
-    agreeSubmitBtn.addEventListener('click', function () {
-        if (!agreeTerms.checked || !agreePrivacy.checked) {
-            alert('Please accept the required Terms & Conditions and Privacy Policy.');
-            return;
+        if (submitFormBtn) {
+            submitFormBtn.disabled = false;
         }
-        markAgreementAccepted(agreeNewsletter.checked);
-        closeModal();
-    });
 
-    /* ── Event: Submit form button ── */
-   submitFormBtn.addEventListener('click', function () {
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
+        if (openBtn) {
+            openBtn.classList.add('accepted');
+
+            const icon = openBtn.querySelector('i');
+            if (icon) {
+                icon.className = 'fa-solid fa-file-circle-check';
+            }
+        }
+
+        if (agreementBtnLabel) {
+            agreementBtnLabel.textContent = 'View Agreement';
+        }
+
+        if (acceptedBadge) {
+            acceptedBadge.classList.add('visible');
+        }
     }
 
-    form.submit();
-});
+    if (openBtn) {
+        openBtn.addEventListener('click', function () {
+            openModal(agreementAccepted);
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    if (agreeTerms) {
+        agreeTerms.addEventListener('change', toggleAgreeButton);
+    }
+
+    if (agreePrivacy) {
+        agreePrivacy.addEventListener('change', toggleAgreeButton);
+    }
+
+    if (agreeSubmitBtn) {
+        agreeSubmitBtn.addEventListener('click', function () {
+            if (!agreeTerms.checked || !agreePrivacy.checked) {
+                alert('Please accept Terms & Conditions and Privacy Policy.');
+                return;
+            }
+
+            agreeSubmitBtn.disabled = true;
+            agreeSubmitBtn.innerText = 'Saving...';
+
+            fetch("{{ route('contractor.acceptAgreement') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    newsletter_opt_in: agreeNewsletter.checked ? 1 : 0
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === true) {
+                    updateAgreementUI(data.accepted_at);
+                    closeModal();
+                    alert('Agreement accepted successfully.');
+                } else {
+                    alert(data.message || 'Agreement not saved.');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Something went wrong while saving agreement.');
+            })
+            .finally(() => {
+                agreeSubmitBtn.innerText = 'Agree & Continue';
+                toggleAgreeButton();
+            });
+        });
+    }
+
+    if (submitFormBtn) {
+        submitFormBtn.addEventListener('click', function () {
+            if (!agreementAccepted) {
+                alert('Please read and accept agreement first.');
+                openModal(false);
+                return;
+            }
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            form.submit();
+        });
+    }
+
 });
 </script>
 
