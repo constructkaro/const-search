@@ -36,10 +36,10 @@ class ArchitectController extends Controller
     }
 
     $request->validate([
-        'agreement_terms_accepted' => 'required|accepted',
-        'privacy_policy_accepted'  => 'required|accepted',
+        'agreement_terms_accepted' => 'nullable',
+        'privacy_policy_accepted'  => 'nullable',
         'newsletter_opt_in'        => 'nullable',
-        'agreement_accepted_at'    => 'nullable|string',
+        'agreement_accepted_at'    => 'nullable',
         'project_types' => 'required|array',
         'experience_years' => 'required',
         'city_ids' => 'required|array',
