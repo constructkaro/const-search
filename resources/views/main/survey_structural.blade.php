@@ -120,7 +120,7 @@
      INTRO
   ═══════════════════════════════ */
   .sa-intro-title {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 900;
     color: #111;
     text-align: center;
@@ -222,7 +222,7 @@
   }
 
   .sa-test-title {
-    font-size: 14px;
+    font-size: 23px;
     font-weight: 800;
     color: #111;
     margin-bottom: 10px;
@@ -232,7 +232,7 @@
 
   .sa-test-card ul { list-style: none; padding: 0; }
   .sa-test-card ul li {
-    font-size: 13px;
+    font-size: 16px;
     color: #444;
     padding-left: 14px;
     position: relative;
