@@ -1238,7 +1238,7 @@
                     </div>
 
                     <div>
-                        <div class="field-label">Principal Designer Name <span class="req">*</span></div>
+                        <div class="field-label">Principal designation Name <span class="req">*</span></div>
                         <input type="text"
                                class="form-input"
                                name="contact_person_designation"
@@ -1246,6 +1246,15 @@
                                placeholder="Enter principal designer name"
                                value="{{ old('contact_person_designation', $existingData->contact_person_designation ?? '') }}">
                     </div>
+
+                    <div>
+                        <div class="field-label">Contact Person Name</div>
+                        <input type="text" class="form-input" name="contact_person_name"
+                               placeholder="Enter contact person name"
+                               value="{{ old('contact_person_name', $existingData->contact_person_name ?? '') }}">
+                    </div>
+
+                    
 
                     <div>
                         <div class="field-label">PAN Number</div>
