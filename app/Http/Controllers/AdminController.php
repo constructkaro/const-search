@@ -55,266 +55,203 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
 
- public function allvendors(Request $request)
-{
-    /*
-    |--------------------------------------------------------------------------
-    | City list for filter dropdown
-    |--------------------------------------------------------------------------
-    | Important: Your table name is city and column is name.
-    */
-    $cities = DB::table('city')
-        ->select('id', 'name')
-        ->orderBy('name', 'asc')
-        ->get();
+    public function allvendors(Request $request)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | City list for filter dropdown
+        |--------------------------------------------------------------------------
+        | Important: Your table name is city and column is name.
+        */
+        $cities = DB::table('city')
+            ->select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Area list
-    |--------------------------------------------------------------------------
-    | If your area table name is "area", keep area.
-    | If your table name is "areas", change DB::table('area') to DB::table('areas').
-    */
-    $areaTable = 'area';
+    
+        $areaTable = 'area';
 
-    $areas = DB::table($areaTable)
-        ->select('id', 'name')
-        ->orderBy('name', 'asc')
-        ->get();
+        $areas = DB::table($areaTable)
+            ->select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->get();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Main vendor query
-    |--------------------------------------------------------------------------
-    */
-    $query = DB::table('vendor_register')
-        ->select(
-            'vendor_register.id',
-            'vendor_register.full_name',
-            'vendor_register.mobile',
-            'vendor_register.email',
-            'vendor_register.company_name',
-            'vendor_register.city_ids',
-            'vendor_register.area_ids',
-            'vendor_register.business_address',
-            'vendor_register.business_entity',
-            'vendor_register.pincode'
-        );
+    
+        $query = DB::table('vendor_register')
+            ->select(
+                'vendor_register.id',
+                'vendor_register.full_name',
+                'vendor_register.mobile',
+                'vendor_register.email',
+                'vendor_register.company_name',
+                'vendor_register.city_ids',
+                'vendor_register.area_ids',
+                'vendor_register.business_address',
+                'vendor_register.business_entity',
+                'vendor_register.pincode'
+            );
 
-    /*
-    |--------------------------------------------------------------------------
-    | City filter
-    |--------------------------------------------------------------------------
-    | city_ids is JSON like ["2","5"]
-    */
-    if ($request->filled('city')) {
-        $cityId = (string) $request->city;
+        /*
+        |--------------------------------------------------------------------------
+        | City filter
+        |--------------------------------------------------------------------------
+        | city_ids is JSON like ["2","5"]
+        */
+        if ($request->filled('city')) {
+            $cityId = (string) $request->city;
 
-        $query->where(function ($q) use ($cityId) {
-            $q->whereJsonContains('city_ids', $cityId)
-              ->orWhereJsonContains('city_ids', (int) $cityId);
-        });
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Work Type filter
-    |--------------------------------------------------------------------------
-    */
-    if ($request->filled('work_type')) {
-        if ($request->work_type == 'Contractor') {
-            $query->whereNotNull('contractor_id');
+            $query->where(function ($q) use ($cityId) {
+                $q->whereJsonContains('city_ids', $cityId)
+                ->orWhereJsonContains('city_ids', (int) $cityId);
+            });
         }
 
-        if ($request->work_type == 'Architect') {
-            $query->whereNotNull('architect_id');
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | Work Type filter
+        |--------------------------------------------------------------------------
+        */
+        if ($request->filled('work_type')) {
+            if ($request->work_type == 'Contractor') {
+                $query->whereNotNull('contractor_id');
+            }
 
-        if ($request->work_type == 'Interior') {
-            $query->whereNotNull('interior_id');
-        }
+            if ($request->work_type == 'Architect') {
+                $query->whereNotNull('architect_id');
+            }
 
-        if ($request->work_type == 'Surveyor') {
-            $query->whereNotNull('surveyor_id');
-        }
+            if ($request->work_type == 'Interior') {
+                $query->whereNotNull('interior_id');
+            }
 
-        if ($request->work_type == 'BOQ') {
-            $query->whereNotNull('boq_id');
-        }
-    }
+            if ($request->work_type == 'Surveyor') {
+                $query->whereNotNull('surveyor_id');
+            }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Search filter
-    |--------------------------------------------------------------------------
-    */
-    if ($request->filled('search')) {
-        $search = $request->search;
-
-        $query->where(function ($q) use ($search) {
-            $q->where('full_name', 'like', '%' . $search . '%')
-              ->orWhere('company_name', 'like', '%' . $search . '%')
-              ->orWhere('mobile', 'like', '%' . $search . '%')
-              ->orWhere('email', 'like', '%' . $search . '%');
-        });
-    }
-
-    $allvendors = $query
-        ->orderBy('vendor_register.id', 'desc')
-        ->paginate(15);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Convert city_ids and area_ids into readable names
-    |--------------------------------------------------------------------------
-    */
-    $cityMap = $cities->pluck('name', 'id')->toArray();
-    $areaMap = $areas->pluck('name', 'id')->toArray();
-
-    $decodeIds = function ($value) {
-        if (empty($value)) {
-            return [];
-        }
-
-        if (is_array($value)) {
-            return $value;
-        }
-
-        $decoded = json_decode($value, true);
-
-        if (is_string($decoded)) {
-            $decoded = json_decode($decoded, true);
-        }
-
-        if (is_array($decoded)) {
-            return array_values(array_filter($decoded));
-        }
-
-        return array_values(array_filter(array_map('trim', explode(',', $value))));
-    };
-
-    $allvendors->getCollection()->transform(function ($vendor) use ($decodeIds, $cityMap, $areaMap) {
-        $cityIds = $decodeIds($vendor->city_ids);
-        $areaIds = $decodeIds($vendor->area_ids);
-
-        $cityNames = [];
-        foreach ($cityIds as $cityId) {
-            if (isset($cityMap[$cityId])) {
-                $cityNames[] = $cityMap[$cityId];
+            if ($request->work_type == 'BOQ') {
+                $query->whereNotNull('boq_id');
             }
         }
 
-        $areaNames = [];
-        foreach ($areaIds as $areaId) {
-            if (isset($areaMap[$areaId])) {
-                $areaNames[] = $areaMap[$areaId];
+        /*
+        |--------------------------------------------------------------------------
+        | Search filter
+        |--------------------------------------------------------------------------
+        */
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('full_name', 'like', '%' . $search . '%')
+                ->orWhere('company_name', 'like', '%' . $search . '%')
+                ->orWhere('mobile', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        $allvendors = $query
+            ->orderBy('vendor_register.id', 'desc')
+            ->paginate(15);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Convert city_ids and area_ids into readable names
+        |--------------------------------------------------------------------------
+        */
+        $cityMap = $cities->pluck('name', 'id')->toArray();
+        $areaMap = $areas->pluck('name', 'id')->toArray();
+
+        $decodeIds = function ($value) {
+            if (empty($value)) {
+                return [];
             }
-        }
 
-        $vendor->city = count($cityNames) ? implode(', ', $cityNames) : '-';
-        $vendor->area = count($areaNames) ? implode(', ', $areaNames) : '-';
+            if (is_array($value)) {
+                return $value;
+            }
 
-        $workTypes = [];
+            $decoded = json_decode($value, true);
 
-        if (!empty($vendor->contractor_id)) {
-            $workTypes[] = 'Contractor';
-        }
+            if (is_string($decoded)) {
+                $decoded = json_decode($decoded, true);
+            }
 
-        if (!empty($vendor->architect_id)) {
-            $workTypes[] = 'Architect';
-        }
+            if (is_array($decoded)) {
+                return array_values(array_filter($decoded));
+            }
 
-        if (!empty($vendor->interior_id)) {
-            $workTypes[] = 'Interior';
-        }
+            return array_values(array_filter(array_map('trim', explode(',', $value))));
+        };
 
-        if (!empty($vendor->surveyor_id)) {
-            $workTypes[] = 'Surveyor';
-        }
+        $allvendors->getCollection()->transform(function ($vendor) use ($decodeIds, $cityMap, $areaMap) {
+            $cityIds = $decodeIds($vendor->city_ids);
+            $areaIds = $decodeIds($vendor->area_ids);
 
-        if (!empty($vendor->boq_id)) {
-            $workTypes[] = 'BOQ';
-        }
+            $cityNames = [];
+            foreach ($cityIds as $cityId) {
+                if (isset($cityMap[$cityId])) {
+                    $cityNames[] = $cityMap[$cityId];
+                }
+            }
 
-        $vendor->work_type = count($workTypes) ? implode(', ', $workTypes) : '';
+            $areaNames = [];
+            foreach ($areaIds as $areaId) {
+                if (isset($areaMap[$areaId])) {
+                    $areaNames[] = $areaMap[$areaId];
+                }
+            }
 
-        return $vendor;
-    });
+            $vendor->city = count($cityNames) ? implode(', ', $cityNames) : '-';
+            $vendor->area = count($areaNames) ? implode(', ', $areaNames) : '-';
 
-    return view('admin.vendors.index', compact('allvendors', 'cities'));
-}
+            $workTypes = [];
 
-    // public function allvendors(Request $request)
-    // {
-    //     $query = DB::table('vendor_register')
-    //         ->leftJoin('contractor_providers', 'vendor_register.id', '=', 'contractor_providers.vendor_id')
-    //         ->leftJoin('architect_providers', 'vendor_register.id', '=', 'architect_providers.vendor_id')
-    //         ->leftJoin('interior_providers', 'vendor_register.id', '=', 'interior_providers.vendor_id')
-    //         ->leftJoin('surveyor_providers', 'vendor_register.id', '=', 'surveyor_providers.vendor_id')
-    //         ->leftJoin('boq_providers', 'vendor_register.id', '=', 'boq_providers.vendor_id')
-    //         ->select(
-    //             'vendor_register.*',
+            if (!empty($vendor->contractor_id)) {
+                $workTypes[] = 'Contractor';
+            }
 
-    //             'contractor_providers.id as contractor_id',
-    //             'architect_providers.id as architect_id',
-    //             'interior_providers.id as interior_id',
-    //             'surveyor_providers.id as surveyor_id',
-    //             'boq_providers.id as boq_id',
+            if (!empty($vendor->architect_id)) {
+                $workTypes[] = 'Architect';
+            }
 
-    //             DB::raw("
-    //                 CONCAT_WS(', ',
-    //                     CASE WHEN contractor_providers.id IS NOT NULL THEN 'Contractor' END,
-    //                     CASE WHEN architect_providers.id IS NOT NULL THEN 'Architect' END,
-    //                     CASE WHEN interior_providers.id IS NOT NULL THEN 'Interior' END,
-    //                     CASE WHEN surveyor_providers.id IS NOT NULL THEN 'Surveyor' END,
-    //                     CASE WHEN boq_providers.id IS NOT NULL THEN 'BOQ' END
-    //                 ) as work_type
-    //             ")
-    //         );
+            if (!empty($vendor->interior_id)) {
+                $workTypes[] = 'Interior';
+            }
 
-    //     if ($request->filled('city')) {
-    //         $query->where('vendor_register.city', $request->city);
-    //     }
+            if (!empty($vendor->surveyor_id)) {
+                $workTypes[] = 'Surveyor';
+            }
 
-    //     if ($request->filled('search')) {
-    //         $query->where(function ($q) use ($request) {
-    //             $q->where('vendor_register.full_name', 'like', '%' . $request->search . '%')
-    //             ->orWhere('vendor_register.company_name', 'like', '%' . $request->search . '%')
-    //             ->orWhere('vendor_register.mobile', 'like', '%' . $request->search . '%');
-    //         });
-    //     }
+            if (!empty($vendor->boq_id)) {
+                $workTypes[] = 'BOQ';
+            }
 
-    //     $allvendors = $query
-    //         ->orderBy('vendor_register.id', 'desc')
-    //         ->paginate(15);
-    // // dd($allvendors);
-    //     $cities = DB::table('vendor_register')
-    //         ->whereNotNull('city')
-    //         ->distinct()
-    //         ->orderBy('city')
-    //         ->pluck('city');
+            $vendor->work_type = count($workTypes) ? implode(', ', $workTypes) : '';
 
-    //     return view('admin.vendors.index', compact('allvendors', 'cities'));
-    // }
+            return $vendor;
+        });
+
+        return view('admin.vendors.index', compact('allvendors', 'cities'));
+    }
 
 
-public function vendorForms($vendorId)
-{
-    $vendor = DB::table('vendor_register')->where('id', $vendorId)->first();
+    public function vendorForms($vendorId)
+    {
+        $vendor = DB::table('vendor_register')->where('id', $vendorId)->first();
 
-    $contractor = DB::table('contractor_providers')->where('vendor_id', $vendorId)->first();
-    $architect  = DB::table('architect_providers')->where('vendor_id', $vendorId)->first();
-    $interior   = DB::table('interior_providers')->where('vendor_id', $vendorId)->first();
-    $surveyor   = DB::table('surveyor_providers')->where('vendor_id', $vendorId)->first();
-    $boq        = DB::table('boq_providers')->where('vendor_id', $vendorId)->first();
+        $contractor = DB::table('contractor_providers')->where('vendor_id', $vendorId)->first();
+        $architect  = DB::table('architect_providers')->where('vendor_id', $vendorId)->first();
+        $interior   = DB::table('interior_providers')->where('vendor_id', $vendorId)->first();
+        $surveyor   = DB::table('surveyor_providers')->where('vendor_id', $vendorId)->first();
+        $boq        = DB::table('boq_providers')->where('vendor_id', $vendorId)->first();
 
-    return view('admin.vendors.forms', compact(
-        'vendor',
-        'contractor',
-        'architect',
-        'interior',
-        'surveyor',
-        'boq'
-    ));
-}
+        return view('admin.vendors.forms', compact(
+            'vendor',
+            'contractor',
+            'architect',
+            'interior',
+            'surveyor',
+            'boq'
+        ));
+    }
 }

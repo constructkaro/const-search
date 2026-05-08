@@ -1464,8 +1464,8 @@ body {
                 </a>
             </div>
               <div class="ck-slide">
-                <a href="{{ route('survey.testing') }}">
-                    <img src="{{ asset('images/services/testing.png') }}" alt="Testing">
+                <a href="{{ route('survey.structural') }}">
+                    <img src="{{ asset('images/services/structural.png') }}" alt="structural">
                 </a>
             </div>
               <div class="ck-slide">

@@ -157,6 +157,10 @@ class HomeController extends Controller
         return view('main.survey_services');
     }
 
+      public function survey_structural(){
+        return view('main.survey_structural');
+    }
+
     public function survey_testing(){
         return view('main.survey_testing');
 
