@@ -11,6 +11,118 @@ use Illuminate\Support\Facades\DB;
 class StructuralAuditController extends Controller
 {
 
+// public function store(Request $request)
+// {
+//     $vendorId = session('vendor_id');
+
+//     if (!$vendorId) {
+//         return redirect()->route('login')->with('error', 'Login required');
+//     }
+
+//     $request->validate([
+//         'asset_types'       => 'required|array|min:1',
+//         'asset_types.*'     => 'string|max:255',
+
+//         'structure_types'   => 'required|array|min:1',
+//         'structure_types.*' => 'string|max:255',
+
+//         'audit_types'       => 'required|array|min:1',
+//         'audit_types.*'     => 'string|max:255',
+
+//         'deliverables'      => 'required|array|min:1',
+//         'deliverables.*'    => 'string|max:255',
+
+//         'team_size'             => 'nullable|string|max:100',
+//         'minimum_project_value' => 'nullable|numeric|min:0',
+
+//         'city_ids'   => 'required|array|min:1',
+//         'city_ids.*' => 'required',
+
+//         'area_ids'   => 'required|array|min:1',
+//         'area_ids.*' => 'required',
+
+//         'pincode' => 'required|string',
+
+//         'available_for_emergency_inspection' => 'nullable',
+//         'available_for_site_visit'           => 'nullable',
+//         'msme_udyam_registered'              => 'nullable',
+
+//         'gst_number' => 'nullable|string|max:50',
+//         'pan_number' => 'nullable|string|max:20',
+
+//         'service_description'  => 'nullable|string',
+//         'major_cities_covered' => 'nullable|string|max:500',
+
+//         'certificate_file'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:40960',
+//         'company_profile_file' => 'nullable|file|mimes:pdf,doc,docx|max:40960',
+//         'logo_file'            => 'nullable|file|mimes:jpg,jpeg,png,svg|max:40960',
+
+//         'company_name' => 'required|string|max:255',
+//         'registered_address' => 'required|string',
+
+//         'agreement_terms_accepted' => 'nullable',
+//         'privacy_policy_accepted' => 'nullable',
+//         'newsletter_opt_in' => 'nullable',
+//         'agreement_accepted_at' => 'nullable',
+//     ]);
+
+//     $provider = StructuralAuditProvider::where('vendor_id', $vendorId)->first();
+
+//     if (!$provider) {
+//         $provider = new StructuralAuditProvider();
+//         $provider->vendor_id = $vendorId;
+//     }
+
+//     $provider->asset_types     = $request->asset_types;
+//     $provider->structure_types = $request->structure_types;
+//     $provider->audit_types     = $request->audit_types;
+//     $provider->deliverables    = $request->deliverables;
+
+//     $provider->city_ids = $request->city_ids;
+//     $provider->area_ids = $request->area_ids;
+//     $provider->pincode  = $request->pincode;
+//     $provider->company_name = $request->company_name;
+//     $provider->registered_address = $request->registered_address;
+
+//     $provider->agreement_terms_accepted = $request->agreement_terms_accepted;
+//     $provider->privacy_policy_accepted = $request->privacy_policy_accepted;
+//     $provider->newsletter_opt_in = $request->newsletter_opt_in ?? 0;
+//     $provider->agreement_accepted_at = $request->agreement_accepted_at;
+
+//     $provider->team_size = $request->team_size;
+//     $provider->minimum_project_value = $request->minimum_project_value;
+
+//     $provider->available_for_emergency_inspection = $request->has('available_for_emergency_inspection') ? 1 : 0;
+//     $provider->available_for_site_visit = $request->has('available_for_site_visit') ? 1 : 0;
+//     $provider->msme_udyam_registered = $request->has('msme_udyam_registered') ? 1 : 0;
+
+//     $provider->gst_number = $request->gst_number;
+//     $provider->pan_number = $request->pan_number;
+
+//     $provider->service_description = $request->service_description;
+//     $provider->major_cities_covered = $request->major_cities_covered;
+
+//     if ($request->hasFile('certificate_file')) {
+//         $provider->certificate_file = $request->file('certificate_file')
+//             ->store('structural_audit/certificates', 'public');
+//     }
+
+//     if ($request->hasFile('company_profile_file')) {
+//         $provider->company_profile_file = $request->file('company_profile_file')
+//             ->store('structural_audit/company_profiles', 'public');
+//     }
+
+//     if ($request->hasFile('logo_file')) {
+//         $provider->logo_file = $request->file('logo_file')
+//             ->store('structural_audit/logos', 'public');
+//     }
+
+//     $provider->status = 'pending';
+//     $provider->save();
+
+//     return redirect()->back()
+//         ->with('success', 'Structural Audit Provider profile saved successfully.');
+// }
 public function store(Request $request)
 {
     $vendorId = session('vendor_id');
@@ -21,87 +133,62 @@ public function store(Request $request)
 
     $request->validate([
         'asset_types'       => 'required|array|min:1',
-        'asset_types.*'     => 'string|max:255',
-
         'structure_types'   => 'required|array|min:1',
-        'structure_types.*' => 'string|max:255',
-
         'audit_types'       => 'required|array|min:1',
-        'audit_types.*'     => 'string|max:255',
-
         'deliverables'      => 'required|array|min:1',
-        'deliverables.*'    => 'string|max:255',
-
-        'team_size'             => 'nullable|string|max:100',
-        'minimum_project_value' => 'nullable|numeric|min:0',
-
-        'city_ids'   => 'required|array|min:1',
-        'city_ids.*' => 'required',
-
-        'area_ids'   => 'required|array|min:1',
-        'area_ids.*' => 'required',
-
-        'pincode' => 'required|string',
-
-        'available_for_emergency_inspection' => 'nullable',
-        'available_for_site_visit'           => 'nullable',
-        'msme_udyam_registered'              => 'nullable',
-
-        'gst_number' => 'nullable|string|max:50',
-        'pan_number' => 'nullable|string|max:20',
-
-        'service_description'  => 'nullable|string',
-        'major_cities_covered' => 'nullable|string|max:500',
-
-        'certificate_file'     => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:40960',
-        'company_profile_file' => 'nullable|file|mimes:pdf,doc,docx|max:40960',
-        'logo_file'            => 'nullable|file|mimes:jpg,jpeg,png,svg|max:40960',
-
-        'company_name' => 'required|string|max:255',
-        'registered_address' => 'required|string',
-
-        'agreement_terms_accepted' => 'nullable',
-        'privacy_policy_accepted' => 'nullable',
-        'newsletter_opt_in' => 'nullable',
-        'agreement_accepted_at' => 'nullable',
+        'city_ids'          => 'required|array|min:1',
+        'area_ids'          => 'required|array|min:1',
+        'pincode'           => 'required|string',
+        'company_name'      => 'required|string|max:255',
+        'registered_address'=> 'required|string',
+        'team_size'                  => 'nullable|string|max:100',
+        'minimum_project_value'      => 'nullable|numeric|min:0',
+        'gst_number'                 => 'nullable|string|max:50',
+        'pan_number'                 => 'nullable|string|max:20',
+        'service_description'        => 'nullable|string',
+        'major_cities_covered'       => 'nullable|string|max:500',
+        'certificate_file'           => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:40960',
+        'company_profile_file'       => 'nullable|file|mimes:pdf,doc,docx|max:40960',
+        'logo_file'                  => 'nullable|file|mimes:jpg,jpeg,png,svg|max:40960',
+        'agreement_terms_accepted'   => 'nullable',
+        'privacy_policy_accepted'    => 'nullable',
+        'newsletter_opt_in'          => 'nullable',
+        'agreement_accepted_at'      => 'nullable',
     ]);
 
-    $provider = StructuralAuditProvider::where('vendor_id', $vendorId)->first();
+    $provider = StructuralAuditProvider::firstOrNew(['vendor_id' => $vendorId]);
 
-    if (!$provider) {
-        $provider = new StructuralAuditProvider();
-        $provider->vendor_id = $vendorId;
-    }
-
+    // Arrays — assigned directly, model $casts handles json_encode/decode
     $provider->asset_types     = $request->asset_types;
     $provider->structure_types = $request->structure_types;
     $provider->audit_types     = $request->audit_types;
     $provider->deliverables    = $request->deliverables;
+    $provider->city_ids        = $request->city_ids;
+    $provider->area_ids        = $request->area_ids;
 
-    $provider->city_ids = $request->city_ids;
-    $provider->area_ids = $request->area_ids;
-    $provider->pincode  = $request->pincode;
-    $provider->company_name = $request->company_name;
-$provider->registered_address = $request->registered_address;
-
-$provider->agreement_terms_accepted = $request->agreement_terms_accepted;
-$provider->privacy_policy_accepted = $request->privacy_policy_accepted;
-$provider->newsletter_opt_in = $request->newsletter_opt_in ?? 0;
-$provider->agreement_accepted_at = $request->agreement_accepted_at;
-
-    $provider->team_size = $request->team_size;
+    // Scalar fields
+    $provider->pincode               = $request->pincode;
+    $provider->company_name          = $request->company_name;
+    $provider->registered_address    = $request->registered_address;
+    $provider->team_size             = $request->team_size;
     $provider->minimum_project_value = $request->minimum_project_value;
+    $provider->gst_number            = $request->gst_number;
+    $provider->pan_number            = $request->pan_number;
+    $provider->service_description   = $request->service_description;
+    $provider->major_cities_covered  = $request->major_cities_covered;
 
-    $provider->available_for_emergency_inspection = $request->has('available_for_emergency_inspection') ? 1 : 0;
-    $provider->available_for_site_visit = $request->has('available_for_site_visit') ? 1 : 0;
-    $provider->msme_udyam_registered = $request->has('msme_udyam_registered') ? 1 : 0;
+    // Checkboxes — cast to boolean in model, store as 0/1
+    $provider->available_for_emergency_inspection = $request->boolean('available_for_emergency_inspection');
+    $provider->available_for_site_visit           = $request->boolean('available_for_site_visit');
+    $provider->msme_udyam_registered              = $request->boolean('msme_udyam_registered');
 
-    $provider->gst_number = $request->gst_number;
-    $provider->pan_number = $request->pan_number;
+    // Agreement
+    $provider->agreement_terms_accepted = $request->input('agreement_terms_accepted', 0);
+    $provider->privacy_policy_accepted  = $request->input('privacy_policy_accepted', 0);
+    $provider->newsletter_opt_in        = $request->input('newsletter_opt_in', 0);
+    $provider->agreement_accepted_at    = $request->input('agreement_accepted_at') ?: null;
 
-    $provider->service_description = $request->service_description;
-    $provider->major_cities_covered = $request->major_cities_covered;
-
+    // File uploads — only replace if a new file is uploaded
     if ($request->hasFile('certificate_file')) {
         $provider->certificate_file = $request->file('certificate_file')
             ->store('structural_audit/certificates', 'public');
@@ -120,8 +207,7 @@ $provider->agreement_accepted_at = $request->agreement_accepted_at;
     $provider->status = 'pending';
     $provider->save();
 
-    return redirect()->back()
-        ->with('success', 'Structural Audit Provider profile saved successfully.');
+    return redirect()->back()->with('success', 'Structural Audit Provider profile saved successfully.');
 }
 
 // public function store(Request $request)
