@@ -126,15 +126,15 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
 
 // //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
+// Route::domain('vendor.constructkaro.com')->group(function () {
     // Route::get('/', function () {
     // Route::get('/vendor', function () {
     //      return view('vendor.welcome');
     // })->name('vendor');
 
-    Route::get('/', [VendorController::class, 'welcome'])->name('vendor');
+    // Route::get('/', [VendorController::class, 'welcome'])->name('vendor');
 
-    // Route::get('/vendor', [VendorController::class, 'welcome'])->name('vendor');
+    Route::get('/vendor', [VendorController::class, 'welcome'])->name('vendor');
 
     Route::get('/vendor/boq-form', [VendorBoqProfileController::class, 'create'])->name('vendor.boq.form');
     Route::post('/vendor/boq-form', [VendorBoqProfileController::class, 'store'])->name('vendor.boq.store');
@@ -220,7 +220,7 @@ Route::domain('vendor.constructkaro.com')->group(function () {
     Route::post('/vendor/boq/accept-agreement', [VendorCategoryController::class, 'acceptBoqAgreement'])
     ->name('vendor.boq.acceptAgreement');
 // 
-});
+// });
 // 
 
 

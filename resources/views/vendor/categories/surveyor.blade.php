@@ -1488,35 +1488,35 @@
 
             {{-- Submit Bar --}}
             <div class="submit-bar">
-    <div class="submit-bar-actions">
+                <div class="submit-bar-actions">
 
-        <button type="button"
-                id="openAgreementBtn"
-                class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
-            <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
-            <span id="agreementBtnLabel">
-                {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
-            </span>
-        </button>
+                    <button type="button"
+                            id="openAgreementBtn"
+                            class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
+                        <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
+                        <span id="agreementBtnLabel">
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                        </span>
+                    </button>
 
-        <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
-            <i class="fa-solid fa-circle-check"></i>
-            Agreement Accepted
-        </div>
+                    <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Agreement Accepted
+                    </div>
 
-        <button type="button"
-                class="submit-btn"
-                id="submitFormBtn">
-            <i class="fa-regular fa-paper-plane"></i>
-            <span>Submit Surveyor Profile</span>
-        </button>
+                    <button type="button"
+                            class="submit-btn"
+                            id="submitFormBtn">
+                        <i class="fa-regular fa-paper-plane"></i>
+                        <span>Submit Surveyor Profile</span>
+                    </button>
 
-    </div>
+                </div>
 
-    <div class="submit-note">
-        You can submit your Surveyor profile now. Agreement can be accepted separately using the agreement button.
-    </div>
-</div>
+                <div class="submit-note">
+                    You can submit your Surveyor profile now. Agreement can be accepted separately using the agreement button.
+                </div>
+            </div>
 
         </form>
     </div>

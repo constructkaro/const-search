@@ -357,7 +357,7 @@
     }
 
     /* ══════════════════════════════════════
-       SUBMIT BAR — new two-button layout
+       SUBMIT BAR
     ══════════════════════════════════════ */
     .submit-bar{
         background: linear-gradient(135deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.93) 100%);
@@ -403,7 +403,6 @@
         color: #fff;
     }
 
-    /* If agreement already accepted — show green badge variant */
     .agreement-view-btn.accepted{
         border-color: #16a34a;
         color: #16a34a;
@@ -414,7 +413,7 @@
         color: #fff;
     }
 
-    /* Submit button */
+    /* Submit / Update button */
     .submit-btn{
         height: 68px;
         padding: 0 36px;
@@ -434,29 +433,19 @@
         white-space: nowrap;
     }
 
-    .submit-btn:disabled{
-        opacity: 0.45;
-        cursor: not-allowed;
-        box-shadow: none;
-    }
-
     .submit-btn:not(:disabled):hover{
         transform: translateY(-2px);
         box-shadow: 0 22px 44px rgba(235,122,47,0.28);
     }
 
-    /* Agreement pending notice inside submit bar */
-    .agreement-pending-notice{
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 700;
-        color: #c2410c;
-        background: #fff7ed;
-        border: 1px solid #fed7aa;
-        border-radius: 10px;
-        padding: 8px 14px;
+    /* Update button — distinct blue style */
+    .submit-btn.update-mode{
+        background: linear-gradient(135deg, #1e3766 0%, #2f6fed 100%);
+        box-shadow: 0 18px 38px rgba(47, 111, 237, 0.22);
+    }
+
+    .submit-btn.update-mode:not(:disabled):hover{
+        box-shadow: 0 22px 44px rgba(47, 111, 237, 0.32);
     }
 
     .agreement-accepted-badge{
@@ -474,9 +463,6 @@
 
     .agreement-accepted-badge.visible{
         display: flex;
-    }
-    .agreement-pending-notice.hidden{
-        display: none;
     }
 
     .submit-note{
@@ -578,6 +564,67 @@
         color: #fff !important;
     }
 
+    /* Toast notification */
+    .ck-toast{
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 999999;
+        min-width: 280px;
+        max-width: 420px;
+        padding: 16px 20px;
+        border-radius: 16px;
+        font-size: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        transform: translateY(80px);
+        opacity: 0;
+        transition: all .35s cubic-bezier(.34,1.56,.64,1);
+        pointer-events: none;
+    }
+
+    .ck-toast.show{
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ck-toast.toast-success{
+        background: #ecfdf3;
+        border: 1px solid #abefc6;
+        color: #027a48;
+    }
+
+    .ck-toast.toast-info{
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1d4ed8;
+    }
+
+    .ck-toast.toast-error{
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+    }
+
+    .ck-toast-icon{
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 15px;
+    }
+
+    .toast-success .ck-toast-icon{ background: #16a34a; color: #fff; }
+    .toast-info    .ck-toast-icon{ background: #2563eb; color: #fff; }
+    .toast-error   .ck-toast-icon{ background: #dc2626; color: #fff; }
+
     @media (max-width: 992px){
         .form-grid-2,
         .project-grid,
@@ -604,8 +651,8 @@
         .section-title-wrap h2{ font-size: 20px; }
         .vendor-bar{ grid-template-columns: 1fr; }
         .submit-bar{ flex-direction: column; align-items: stretch; }
+        .ck-toast{ bottom: 14px; right: 14px; left: 14px; max-width: none; }
     }
-
 
     /* ═══════════════════════════════════
        Agreement Modal
@@ -671,6 +718,7 @@
         font-size: 18px;
         cursor: pointer;
         box-shadow: var(--ck-shadow-sm);
+        flex-shrink: 0;
     }
 
     .agreement-modal-body{
@@ -718,7 +766,7 @@
         font-weight: 900;
     }
 
-    /* Read-only mode: hide checkboxes + footer actions, show close only */
+    /* Read-only mode */
     .agreement-modal.readonly-mode .agreement-checks,
     .agreement-modal.readonly-mode .agreement-modal-footer{
         display: none;
@@ -761,13 +809,16 @@
         color: var(--ck-text);
         font-size: 14px;
         font-weight: 600;
+        cursor: pointer;
     }
 
-    .agreement-check-row input{
+    .agreement-check-row input[type="checkbox"]{
+        display: inline-block;
         margin-top: 4px;
         width: 18px;
         height: 18px;
         flex-shrink: 0;
+        cursor: pointer;
     }
 
     .agreement-modal-footer{
@@ -787,17 +838,24 @@
         font-weight: 900;
         cursor: pointer;
         border: none;
+        font-size: 15px;
     }
 
     .agreement-cancel-btn{
         background: #f3f4f6;
         color: #374151;
+        transition: background .2s;
+    }
+
+    .agreement-cancel-btn:hover{
+        background: #e5e7eb;
     }
 
     .agreement-submit-btn{
         background: linear-gradient(135deg, var(--ck-orange), var(--ck-orange-2));
         color: #fff;
         box-shadow: var(--ck-shadow-lg);
+        transition: opacity .2s;
     }
 
     .agreement-submit-btn:disabled{
@@ -857,6 +915,7 @@
         font-size: 14px;
         font-weight: 800;
         color: #64748b;
+        transition: all .22s ease;
     }
 
     .agreement-status-item.accepted{
@@ -902,9 +961,10 @@
     $termsAccepted      = (int)($existingData->agreement_terms_accepted ?? 0) === 1;
     $privacyAccepted    = (int)($existingData->privacy_policy_accepted  ?? 0) === 1;
     $newsletterAccepted = (int)($existingData->newsletter_opt_in        ?? 0) === 1;
+    $fullyAgreed        = $termsAccepted && $privacyAccepted;
 
-    /* Both mandatory fields accepted = fully agreed */
-    $fullyAgreed = $termsAccepted && $privacyAccepted;
+    /* Determine if we're in edit/update mode */
+    $isUpdateMode = !empty($existingData->id);
 @endphp
 
 @php
@@ -931,25 +991,25 @@
 @endphp
 
 {{-- ── Agreement Acceptance Status Card ── --}}
-<div class="agreement-status-card">
+<div class="agreement-status-card" id="agreementStatusCard">
     <div class="agreement-status-title">Agreement Acceptance Status</div>
 
     <div class="agreement-status-grid">
-        <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}">
+        <div class="agreement-status-item {{ $termsAccepted ? 'accepted' : 'pending' }}" id="statusTerms">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $termsAccepted ? 'fa-check' : 'fa-clock' }}"></i>
             </span>
             <span>Terms &amp; Conditions {{ $termsAccepted ? 'Accepted' : 'Pending' }}</span>
         </div>
 
-        <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}">
+        <div class="agreement-status-item {{ $privacyAccepted ? 'accepted' : 'pending' }}" id="statusPrivacy">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $privacyAccepted ? 'fa-check' : 'fa-clock' }}"></i>
             </span>
             <span>Privacy Policy {{ $privacyAccepted ? 'Accepted' : 'Pending' }}</span>
         </div>
 
-        <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}">
+        <div class="agreement-status-item {{ $newsletterAccepted ? 'accepted' : 'pending' }}" id="statusNewsletter">
             <span class="agreement-status-icon">
                 <i class="fa-solid {{ $newsletterAccepted ? 'fa-check' : 'fa-minus' }}"></i>
             </span>
@@ -958,9 +1018,11 @@
     </div>
 
     @if(!empty($existingData->agreement_accepted_at))
-        <small style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
+        <small id="agreementAcceptedAtText" style="display:block;margin-top:12px;color:#71829b;font-weight:600;">
             Accepted At: {{ \Carbon\Carbon::parse($existingData->agreement_accepted_at)->format('d M Y, h:i A') }}
         </small>
+    @else
+        <small id="agreementAcceptedAtText" style="display:none;margin-top:12px;color:#71829b;font-weight:600;"></small>
     @endif
 </div>
 
@@ -1215,7 +1277,10 @@
                             </label>
                             <a href="#" class="uploaded-link" id="msme_link" target="_blank">View MSME</a>
                             @if(!empty($existingData->msme_certificate))
-                                <div><a href="{{ asset('storage/'.$existingData->msme_certificate) }}" target="_blank">View MSME Certificate</a></div>
+                                <div style="margin-top:8px;">
+                                    <a href="{{ asset('storage/'.$existingData->msme_certificate) }}" target="_blank"
+                                       style="color:#0d6efd;font-weight:600;">View Existing MSME Certificate</a>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -1247,7 +1312,10 @@
                             </label>
                             <a href="#" class="uploaded-link" id="pan_card_link" target="_blank">View PAN</a>
                             @if(!empty($existingData->pan_card))
-                                <div><a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank">View PAN Certificate</a></div>
+                                <div style="margin-top:8px;">
+                                    <a href="{{ asset('storage/'.$existingData->pan_card) }}" target="_blank"
+                                       style="color:#0d6efd;font-weight:600;">View Existing PAN Card</a>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -1265,7 +1333,10 @@
                             </label>
                             <a href="#" class="uploaded-link" id="gst_certificate_link" target="_blank">View GST</a>
                             @if(!empty($existingData->gst_certificate))
-                                <div><a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank">View GST Certificate</a></div>
+                                <div style="margin-top:8px;">
+                                    <a href="{{ asset('storage/'.$existingData->gst_certificate) }}" target="_blank"
+                                       style="color:#0d6efd;font-weight:600;">View Existing GST Certificate</a>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -1283,7 +1354,10 @@
                             </label>
                             <a href="#" class="uploaded-link" id="aadhaar_card_link" target="_blank">View Aadhaar</a>
                             @if(!empty($existingData->aadhaar_card))
-                                <div><a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank">View Aadhaar Certificate</a></div>
+                                <div style="margin-top:8px;">
+                                    <a href="{{ asset('storage/'.$existingData->aadhaar_card) }}" target="_blank"
+                                       style="color:#0d6efd;font-weight:600;">View Existing Aadhaar Card</a>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -1301,7 +1375,10 @@
                             </label>
                             <a href="#" class="uploaded-link" id="company_profile_link" target="_blank">View Certificate</a>
                             @if(!empty($existingData->company_profile))
-                                <div><a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank">View Company Profile</a></div>
+                                <div style="margin-top:8px;">
+                                    <a href="{{ asset('storage/'.$existingData->company_profile) }}" target="_blank"
+                                       style="color:#0d6efd;font-weight:600;">View Existing Company Profile</a>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -1309,49 +1386,49 @@
             </div>
 
             {{-- ══════════════════════════════════════
-                 SUBMIT BAR — TWO SEPARATE BUTTONS
-                 1. View/Accept Agreement (always visible)
-                 2. Submit (enabled only after agreement accepted)
+                 SUBMIT BAR — Agreement + Submit/Update
             ══════════════════════════════════════ --}}
             <div class="submit-bar">
                 <div class="submit-bar-actions">
 
-                    {{-- ① View Agreement button — always visible --}}
+                    {{-- Agreement button — always visible --}}
                     <button type="button"
                             id="openAgreementBtn"
                             class="agreement-view-btn {{ $fullyAgreed ? 'accepted' : '' }}">
                         <i class="fa-solid {{ $fullyAgreed ? 'fa-file-circle-check' : 'fa-file-signature' }}"></i>
                         <span id="agreementBtnLabel">
-                            {{ $fullyAgreed ? 'View Agreement' : 'Read & Accept Agreement' }}
+                            {{ $fullyAgreed ? 'View Agreement' : 'Read &amp; Accept Agreement' }}
                         </span>
                     </button>
 
-                    {{-- Status badges --}}
-                    <!-- <div class="agreement-pending-notice {{ $fullyAgreed ? 'hidden' : '' }}" id="agreementPendingNotice">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                        Agreement acceptance required before submitting
-                    </div> -->
+                    {{-- Accepted badge — shown after agreement accepted --}}
                     <div class="agreement-accepted-badge {{ $fullyAgreed ? 'visible' : '' }}" id="agreementAcceptedBadge">
                         <i class="fa-solid fa-circle-check"></i>
                         Agreement Accepted
                     </div>
 
-                    {{-- ② Submit button — enabled only when agreement accepted --}}
-                   <button type="button"
-        class="submit-btn"
-        id="submitFormBtn">
-    <i class="fa-regular fa-paper-plane"></i>
-    <span>Submit Contractor Profile</span>
-</button>
+                    {{-- Submit / Update button — ALWAYS enabled, no agreement gate --}}
+                    <button type="button"
+                            class="submit-btn {{ $isUpdateMode ? 'update-mode' : '' }}"
+                            id="submitFormBtn">
+                        @if($isUpdateMode)
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            <span>Update Contractor Profile</span>
+                        @else
+                            <i class="fa-regular fa-paper-plane"></i>
+                            <span>Submit Contractor Profile</span>
+                        @endif
+                    </button>
 
                 </div>
 
                 <div class="submit-note">
-    By submitting, your Contractor profile details will be saved or updated.
-    @if(!$fullyAgreed)
-        <br><strong style="color:#c2410c;">Agreement can be accepted separately using the agreement button.</strong>
-    @endif
-</div>
+                    @if($isUpdateMode)
+                        Update your Contractor profile details. Agreement can be reviewed or accepted separately using the agreement button.
+                    @else
+                        Submit your Contractor profile. You can read &amp; accept the agreement separately using the agreement button above.
+                    @endif
+                </div>
             </div>
 
         </div>
@@ -1362,16 +1439,18 @@
      AGREEMENT MODAL
 ══════════════════════════════════════ --}}
 <div class="agreement-modal-overlay" id="agreementModal">
-    {{--
-        JS adds class  "readonly-mode"  when opening in view-only mode
-        (i.e. agreement already accepted).
-    --}}
     <div class="agreement-modal" id="agreementModalInner">
 
         <div class="agreement-modal-header">
             <div>
                 <h2>Project Execution &amp; Representation Agreement</h2>
-                <p id="agreementModalSubtitle">Please read and accept the agreement before submitting your Contractor profile.</p>
+                <p id="agreementModalSubtitle">
+                    @if($fullyAgreed)
+                        You can review this agreement at any time.
+                    @else
+                        Read the agreement and accept it. You can also submit your profile without accepting.
+                    @endif
+                </p>
             </div>
             <button type="button" class="agreement-close-btn" id="closeAgreementBtn">
                 <i class="fa-solid fa-xmark"></i>
@@ -1556,7 +1635,7 @@
             </label>
             <label class="agreement-check-row">
                 <input type="checkbox" id="agreeNewsletter">
-                <span>I agree to receive communication, updates, and newsletters from ConstructKaro. Optional.</span>
+                <span>I agree to receive communication, updates, and newsletters from ConstructKaro. (Optional)</span>
             </label>
         </div>
 
@@ -1571,8 +1650,13 @@
     </div>
 </div>
 
-
-
+{{-- Toast notification --}}
+<div class="ck-toast" id="ckToast">
+    <div class="ck-toast-icon" id="ckToastIcon">
+        <i class="fa-solid fa-check" id="ckToastIconClass"></i>
+    </div>
+    <span id="ckToastMsg"></span>
+</div>
 
 {{-- ══════════════════════════════════════
      SCRIPTS
@@ -1580,12 +1664,31 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+{{-- Toast helper --}}
+<script>
+function showToast(msg, type = 'success') {
+    const toast  = document.getElementById('ckToast');
+    const msgEl  = document.getElementById('ckToastMsg');
+    const iconEl = document.getElementById('ckToastIconClass');
+
+    toast.className = 'ck-toast toast-' + type;
+    msgEl.textContent = msg;
+
+    const icons = { success: 'fa-check', info: 'fa-info', error: 'fa-xmark' };
+    iconEl.className = 'fa-solid ' + (icons[type] || 'fa-check');
+
+    toast.classList.add('show');
+
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 3800);
+}
+</script>
+
 {{-- File preview --}}
 <script>
 function setupFilePreview(inputId, linkId) {
     const input = document.getElementById(inputId);
     const link  = document.getElementById(linkId);
-
     if (!input || !link) return;
 
     input.addEventListener('change', function () {
@@ -1596,17 +1699,11 @@ function setupFilePreview(inputId, linkId) {
             link.href = URL.createObjectURL(file);
             link.style.display = 'inline-block';
             link.textContent = 'View File';
-
-            if (fileNameBox) {
-                fileNameBox.textContent = file.name;
-            }
+            if (fileNameBox) fileNameBox.textContent = file.name;
         } else {
             link.href = '#';
             link.style.display = 'none';
-
-            if (fileNameBox) {
-                fileNameBox.textContent = 'Choose and upload file';
-            }
+            if (fileNameBox) fileNameBox.textContent = 'Choose and upload file';
         }
     });
 }
@@ -1625,7 +1722,7 @@ $(document).ready(function () {
     const preSelectedAreaIds = @json($selectedAreaIds);
 
     const areasRouteTemplate = "{{ route('get.areas', ':city_id') }}";
-    const pincodesRoute = "{{ route('get.pincodes') }}";
+    const pincodesRoute      = "{{ route('get.pincodes') }}";
 
     $('#city_ids').select2({
         placeholder: 'Select one or more cities',
@@ -1649,37 +1746,27 @@ $(document).ready(function () {
         $('#areaLoading').addClass('visible');
         $('#area_ids').prop('disabled', true);
 
-        const requests = cityIds.map(cityId => {
-            return $.ajax({
-                url: areasRouteTemplate.replace(':city_id', cityId),
-                type: 'GET',
-                dataType: 'json'
-            });
-        });
+        const requests = cityIds.map(cityId =>
+            $.ajax({ url: areasRouteTemplate.replace(':city_id', cityId), type: 'GET', dataType: 'json' })
+        );
 
         $.when(...requests).then(function (...responses) {
             let allAreas = [];
-
             if (cityIds.length === 1) {
                 allAreas = responses[0];
             } else {
-                responses.forEach(res => {
-                    allAreas = allAreas.concat(res[0]);
-                });
+                responses.forEach(res => { allAreas = allAreas.concat(res[0]); });
             }
 
             const seen = new Set();
-
             const uniqueAreas = allAreas.filter(area => {
                 if (seen.has(area.id)) return false;
                 seen.add(area.id);
                 return true;
             });
-
             uniqueAreas.sort((a, b) => a.name.localeCompare(b.name));
 
             let html = '';
-
             uniqueAreas.forEach(area => {
                 const selected = preselectAreaIds.includes(area.id.toString()) || preselectAreaIds.includes(area.id);
                 html += `<option value="${area.id}" ${selected ? 'selected' : ''}>${area.name}</option>`;
@@ -1689,9 +1776,7 @@ $(document).ready(function () {
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
 
-            if (preselectAreaIds.length > 0) {
-                loadPincodes(preselectAreaIds);
-            }
+            if (preselectAreaIds.length > 0) loadPincodes(preselectAreaIds);
         }).fail(function () {
             $('#area_ids').prop('disabled', false);
             $('#areaLoading').removeClass('visible');
@@ -1699,18 +1784,12 @@ $(document).ready(function () {
     }
 
     function loadPincodes(areaIds) {
-        if (!areaIds || areaIds.length === 0) {
-            $('#pincode_id').val('');
-            return;
-        }
-
+        if (!areaIds || areaIds.length === 0) { $('#pincode_id').val(''); return; }
         $.ajax({
             url: pincodesRoute,
             type: 'GET',
             dataType: 'json',
-            data: {
-                area_ids: areaIds
-            },
+            data: { area_ids: areaIds },
             success: function (data) {
                 $('#pincode_id').val([...new Set(data)].join(', '));
             }
@@ -1733,47 +1812,61 @@ $(document).ready(function () {
 });
 </script>
 
-{{-- Agreement modal and AJAX save --}}
+{{-- ══════════════════════════════════════
+     Agreement modal — FIXED
+     • No alert/message on first open
+     • Submit button always works (no agreement gate)
+     • Status card updates live after acceptance
+     • Update vs Submit mode handled
+══════════════════════════════════════ --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    const form = document.getElementById('contractorRegisterForm');
+    /* ── DOM refs ── */
+    const form             = document.getElementById('contractorRegisterForm');
+    const openBtn          = document.getElementById('openAgreementBtn');
+    const submitFormBtn    = document.getElementById('submitFormBtn');
 
-    const openBtn = document.getElementById('openAgreementBtn');
-    const submitFormBtn = document.getElementById('submitFormBtn');
+    const modal            = document.getElementById('agreementModal');
+    const modalInner       = document.getElementById('agreementModalInner');
+    const closeBtn         = document.getElementById('closeAgreementBtn');
+    const cancelBtn        = document.getElementById('cancelAgreementBtn');
+    const agreeSubmitBtn   = document.getElementById('agreeSubmitBtn');
+    const modalSubtitle    = document.getElementById('agreementModalSubtitle');
 
-    const modal = document.getElementById('agreementModal');
-    const modalInner = document.getElementById('agreementModalInner');
+    const agreeTerms       = document.getElementById('agreeTerms');
+    const agreePrivacy     = document.getElementById('agreePrivacy');
+    const agreeNewsletter  = document.getElementById('agreeNewsletter');
 
-    const closeBtn = document.getElementById('closeAgreementBtn');
-    const cancelBtn = document.getElementById('cancelAgreementBtn');
-    const agreeSubmitBtn = document.getElementById('agreeSubmitBtn');
-    const modalSubtitle = document.getElementById('agreementModalSubtitle');
-
-    const agreeTerms = document.getElementById('agreeTerms');
-    const agreePrivacy = document.getElementById('agreePrivacy');
-    const agreeNewsletter = document.getElementById('agreeNewsletter');
-
-    const hiddenTerms = document.getElementById('agreement_terms_accepted');
-    const hiddenPrivacy = document.getElementById('privacy_policy_accepted');
+    const hiddenTerms      = document.getElementById('agreement_terms_accepted');
+    const hiddenPrivacy    = document.getElementById('privacy_policy_accepted');
     const hiddenNewsletter = document.getElementById('newsletter_opt_in');
     const hiddenAcceptedAt = document.getElementById('agreement_accepted_at');
 
-    const acceptedBadge = document.getElementById('agreementAcceptedBadge');
-    const agreementBtnLabel = document.getElementById('agreementBtnLabel');
+    const acceptedBadge    = document.getElementById('agreementAcceptedBadge');
+    const agreementBtnLabel= document.getElementById('agreementBtnLabel');
 
     const companyNameInput = document.getElementById('companyNameInput');
     const registeredAddrInput = document.getElementById('registeredAddressInput');
     const modalCompanyName = document.getElementById('agreementCompanyName');
     const modalCompanyAddr = document.getElementById('agreementCompanyAddress');
 
+    /* Status card elements */
+    const statusTerms      = document.getElementById('statusTerms');
+    const statusPrivacy    = document.getElementById('statusPrivacy');
+    const statusNewsletter = document.getElementById('statusNewsletter');
+    const acceptedAtText   = document.getElementById('agreementAcceptedAtText');
+
+    /* Track current acceptance state */
     let agreementAccepted = hiddenTerms.value === '1' && hiddenPrivacy.value === '1';
 
+    /* ── Helpers ── */
+
     function openModal(readOnly) {
+        /* Sync live company name / address into modal */
         if (companyNameInput && modalCompanyName) {
             modalCompanyName.textContent = companyNameInput.value.trim() || 'Contractor Company Name';
         }
-
         if (registeredAddrInput && modalCompanyAddr) {
             modalCompanyAddr.textContent = registeredAddrInput.value.trim() || 'Contractor Office Address';
         }
@@ -1783,12 +1876,12 @@ document.addEventListener('DOMContentLoaded', function () {
             modalSubtitle.textContent = 'You can review this agreement at any time.';
         } else {
             modalInner.classList.remove('readonly-mode');
-            modalSubtitle.textContent = 'Please read and accept the agreement.';
+            modalSubtitle.textContent = 'Read the agreement and accept it. You can also submit your profile without accepting.';
 
-            agreeTerms.checked = false;
-            agreePrivacy.checked = false;
+            /* Reset checkboxes — newsletter keeps prior value */
+            agreeTerms.checked      = false;
+            agreePrivacy.checked    = false;
             agreeNewsletter.checked = hiddenNewsletter.value === '1';
-
             agreeSubmitBtn.disabled = true;
         }
 
@@ -1805,121 +1898,127 @@ document.addEventListener('DOMContentLoaded', function () {
         agreeSubmitBtn.disabled = !(agreeTerms.checked && agreePrivacy.checked);
     }
 
-    function updateAgreementUI(acceptedAt) {
-        agreementAccepted = true;
-
-        hiddenTerms.value = '1';
-        hiddenPrivacy.value = '1';
-        hiddenNewsletter.value = agreeNewsletter.checked ? '1' : '0';
-        hiddenAcceptedAt.value = acceptedAt || '1';
-
-        if (submitFormBtn) {
-            submitFormBtn.disabled = false;
-        }
-
-        if (openBtn) {
-            openBtn.classList.add('accepted');
-
-            const icon = openBtn.querySelector('i');
-            if (icon) {
-                icon.className = 'fa-solid fa-file-circle-check';
-            }
-        }
-
-        if (agreementBtnLabel) {
-            agreementBtnLabel.textContent = 'View Agreement';
-        }
-
-        if (acceptedBadge) {
-            acceptedBadge.classList.add('visible');
+    /* Update the status card items dynamically */
+    function updateStatusItem(el, accepted, acceptedLabel, pendingLabel, pendingIcon) {
+        if (!el) return;
+        if (accepted) {
+            el.className = 'agreement-status-item accepted';
+            el.innerHTML = `
+                <span class="agreement-status-icon"><i class="fa-solid fa-check"></i></span>
+                <span>${acceptedLabel}</span>`;
+        } else {
+            el.className = 'agreement-status-item pending';
+            el.innerHTML = `
+                <span class="agreement-status-icon"><i class="fa-solid ${pendingIcon}"></i></span>
+                <span>${pendingLabel}</span>`;
         }
     }
 
+    /* Called after AJAX save succeeds (or optimistically on click) */
+    function updateAgreementUI(acceptedAt, newsletterChecked) {
+        agreementAccepted = true;
+
+        hiddenTerms.value      = '1';
+        hiddenPrivacy.value    = '1';
+        hiddenNewsletter.value = newsletterChecked ? '1' : '0';
+        if (acceptedAt) hiddenAcceptedAt.value = acceptedAt;
+
+        /* Button */
+        if (openBtn) {
+            openBtn.classList.add('accepted');
+            const icon = openBtn.querySelector('i');
+            if (icon) icon.className = 'fa-solid fa-file-circle-check';
+        }
+        if (agreementBtnLabel) agreementBtnLabel.textContent = 'View Agreement';
+
+        /* Badge */
+        if (acceptedBadge) acceptedBadge.classList.add('visible');
+
+        /* Status card */
+        updateStatusItem(statusTerms,      true,             'Terms & Conditions Accepted', 'Terms & Conditions Pending',  'fa-clock');
+        updateStatusItem(statusPrivacy,    true,             'Privacy Policy Accepted',      'Privacy Policy Pending',       'fa-clock');
+        updateStatusItem(statusNewsletter, newsletterChecked,'Newsletter Accepted',          'Newsletter Optional',          'fa-minus');
+
+        /* Timestamp */
+        if (acceptedAtText && acceptedAt && acceptedAt !== '1') {
+            acceptedAtText.textContent = 'Accepted At: ' + acceptedAt;
+            acceptedAtText.style.display = 'block';
+        }
+    }
+
+    /* ── Event listeners ── */
+
+    /* Open agreement — no alert, just opens */
     if (openBtn) {
         openBtn.addEventListener('click', function () {
             openModal(agreementAccepted);
         });
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-    }
+    if (closeBtn)  closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
 
-    if (cancelBtn) {
-        cancelBtn.addEventListener('click', closeModal);
-    }
-
+    /* Close on overlay click */
     if (modal) {
         modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         });
     }
 
-    if (agreeTerms) {
-        agreeTerms.addEventListener('change', toggleAgreeButton);
-    }
+    /* Enable Agree button only when both mandatory boxes checked */
+    if (agreeTerms)   agreeTerms.addEventListener('change', toggleAgreeButton);
+    if (agreePrivacy) agreePrivacy.addEventListener('change', toggleAgreeButton);
 
-    if (agreePrivacy) {
-        agreePrivacy.addEventListener('change', toggleAgreeButton);
-    }
-
+    /* Agree & Continue — save via AJAX, update UI optimistically */
     if (agreeSubmitBtn) {
         agreeSubmitBtn.addEventListener('click', function () {
-            if (!agreeTerms.checked || !agreePrivacy.checked) {
-                alert('Please accept Terms & Conditions and Privacy Policy.');
-                return;
-            }
+            if (!agreeTerms.checked || !agreePrivacy.checked) return;
 
-            agreeSubmitBtn.disabled = true;
-            agreeSubmitBtn.innerText = 'Saving...';
+            const newsletterChecked = agreeNewsletter.checked;
+
+            /* Optimistic UI update — close modal immediately */
+            updateAgreementUI('', newsletterChecked);
+            closeModal();
+            showToast('Agreement accepted. Saving…', 'info');
+
+            agreeSubmitBtn.disabled    = true;
+            agreeSubmitBtn.textContent = 'Saving…';
 
             fetch("{{ route('contractor.acceptAgreement') }}", {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Accept": "application/json"
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN':  '{{ csrf_token() }}',
+                    'Accept':        'application/json'
                 },
-                body: JSON.stringify({
-                    newsletter_opt_in: agreeNewsletter.checked ? 1 : 0
-                })
+                body: JSON.stringify({ newsletter_opt_in: newsletterChecked ? 1 : 0 })
             })
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
                 if (data.status === true) {
-                    updateAgreementUI(data.accepted_at);
-                    closeModal();
-                    alert('Agreement accepted successfully.');
+                    updateAgreementUI(data.accepted_at || '', newsletterChecked);
+                    showToast('Agreement saved successfully!', 'success');
                 } else {
-                    alert(data.message || 'Agreement not saved.');
+                    showToast('Agreement accepted locally. Will save on profile submit.', 'info');
                 }
             })
-            .catch(error => {
-                console.log(error);
-                alert('Something went wrong while saving agreement.');
+            .catch(() => {
+                showToast('Agreement accepted locally. Will save on profile submit.', 'info');
             })
             .finally(() => {
-                agreeSubmitBtn.innerText = 'Agree & Continue';
+                agreeSubmitBtn.textContent = 'Agree & Continue';
                 toggleAgreeButton();
             });
         });
     }
 
+    /* Submit / Update — ALWAYS allowed, no agreement gate */
     if (submitFormBtn) {
         submitFormBtn.addEventListener('click', function () {
-            if (!agreementAccepted) {
-                alert('Please read and accept agreement first.');
-                openModal(false);
-                return;
-            }
-
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
             }
-
             form.submit();
         });
     }
