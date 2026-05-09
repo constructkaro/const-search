@@ -20,6 +20,15 @@
                 <p><b>Project Types:</b> {{ $contractor->project_types }}</p>
                 <p><b>Experience:</b> {{ $contractor->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $contractor->team_size }}</p>
+                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+
+                <p><b>Agreement Accepted At:</b> 
+                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                </p>
             </div>
         </div>
     @endif
@@ -31,6 +40,15 @@
                 <p><b>Project Types:</b> {{ $architect->project_types }}</p>
                 <p><b>Experience:</b> {{ $architect->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $architect->team_size }}</p>
+                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+
+                <p><b>Agreement Accepted At:</b> 
+                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                </p>
             </div>
         </div>
     @endif
@@ -42,6 +60,15 @@
                 <p><b>Project Types:</b> {{ $interior->project_types }}</p>
                 <p><b>Experience:</b> {{ $interior->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $interior->team_size }}</p>
+                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+
+                <p><b>Agreement Accepted At:</b> 
+                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                </p>
             </div>
         </div>
     @endif
@@ -53,6 +80,15 @@
                 <p><b>Project Types:</b> {{ $surveyor->project_types }}</p>
                 <p><b>Experience:</b> {{ $surveyor->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $surveyor->team_size }}</p>
+                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+
+                <p><b>Agreement Accepted At:</b> 
+                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                </p>
             </div>
         </div>
     @endif
@@ -63,6 +99,15 @@
             <div class="card-body">
                 <p><b>Project Types:</b> {{ $boq->project_types }}</p>
                 <p><b>Turnaround Time:</b> {{ $boq->boq_turnaround_time }}</p>
+                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+
+                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+
+                <p><b>Agreement Accepted At:</b> 
+                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                </p>
             </div>
         </div>
     @endif
