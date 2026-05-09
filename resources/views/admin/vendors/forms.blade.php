@@ -20,15 +20,22 @@
                 <p><b>Project Types:</b> {{ $contractor->project_types }}</p>
                 <p><b>Experience:</b> {{ $contractor->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $contractor->team_size }}</p>
-                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+                @if($contractor)
+                    <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+                    <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+                    <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
 
-                <p><b>Agreement Accepted At:</b> 
-                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
-                </p>
+                    <p><b>Agreement Accepted At:</b>
+                        {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                    </p>
+                @else
+                    <p><b>Agreement Terms Accepted:</b> -</p>
+                    <p><b>Privacy Policy Accepted:</b> -</p>
+                    <p><b>Newsletter Opt In:</b> -</p>
+                    <p><b>Agreement Accepted At:</b> -</p>
+                @endif
             </div>
         </div>
     @endif
@@ -40,15 +47,22 @@
                 <p><b>Project Types:</b> {{ $architect->project_types }}</p>
                 <p><b>Experience:</b> {{ $architect->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $architect->team_size }}</p>
-                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+               @if($architect)
+                    <p><b>Agreement Terms Accepted:</b> {{ $architect->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+                    <p><b>Privacy Policy Accepted:</b> {{ $architect->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+                    <p><b>Newsletter Opt In:</b> {{ $architect->newsletter_opt_in ? 'Yes' : 'No' }}</p>
 
-                <p><b>Agreement Accepted At:</b> 
-                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
-                </p>
+                    <p><b>Agreement Accepted At:</b>
+                        {{ $architect->agreement_accepted_at ? \Carbon\Carbon::parse($architect->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                    </p>
+                @else
+                    <p><b>Agreement Terms Accepted:</b> -</p>
+                    <p><b>Privacy Policy Accepted:</b> -</p>
+                    <p><b>Newsletter Opt In:</b> -</p>
+                    <p><b>Agreement Accepted At:</b> -</p>
+                @endif
             </div>
         </div>
     @endif
@@ -60,15 +74,22 @@
                 <p><b>Project Types:</b> {{ $interior->project_types }}</p>
                 <p><b>Experience:</b> {{ $interior->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $interior->team_size }}</p>
-                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+                @if($interior)
+                    <p><b>Agreement Terms Accepted:</b> {{ $interior->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+                    <p><b>Privacy Policy Accepted:</b> {{ $interior->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+                    <p><b>Newsletter Opt In:</b> {{ $interior->newsletter_opt_in ? 'Yes' : 'No' }}</p>
 
-                <p><b>Agreement Accepted At:</b> 
-                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
-                </p>
+                    <p><b>Agreement Accepted At:</b>
+                        {{ $interior->agreement_accepted_at ? \Carbon\Carbon::parse($interior->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                    </p>
+                @else
+                    <p><b>Agreement Terms Accepted:</b> -</p>
+                    <p><b>Privacy Policy Accepted:</b> -</p>
+                    <p><b>Newsletter Opt In:</b> -</p>
+                    <p><b>Agreement Accepted At:</b> -</p>
+                @endif
             </div>
         </div>
     @endif
@@ -80,15 +101,22 @@
                 <p><b>Project Types:</b> {{ $surveyor->project_types }}</p>
                 <p><b>Experience:</b> {{ $surveyor->experience_years }}</p>
                 <p><b>Team Size:</b> {{ $surveyor->team_size }}</p>
-                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+               @if($surveyor)
+                    <p><b>Agreement Terms Accepted:</b> {{ $surveyor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+                    <p><b>Privacy Policy Accepted:</b> {{ $surveyor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+                    <p><b>Newsletter Opt In:</b> {{ $surveyor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
 
-                <p><b>Agreement Accepted At:</b> 
-                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
-                </p>
+                    <p><b>Agreement Accepted At:</b>
+                        {{ $surveyor->agreement_accepted_at ? \Carbon\Carbon::parse($surveyor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                    </p>
+                @else
+                    <p><b>Agreement Terms Accepted:</b> -</p>
+                    <p><b>Privacy Policy Accepted:</b> -</p>
+                    <p><b>Newsletter Opt In:</b> -</p>
+                    <p><b>Agreement Accepted At:</b> -</p>
+                @endif
             </div>
         </div>
     @endif
@@ -99,15 +127,22 @@
             <div class="card-body">
                 <p><b>Project Types:</b> {{ $boq->project_types }}</p>
                 <p><b>Turnaround Time:</b> {{ $boq->boq_turnaround_time }}</p>
-                <p><b>Agreement Terms Accepted:</b> {{ $contractor->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
+              @if($boq)
+                    <p><b>Agreement Terms Accepted:</b> {{ $boq->agreement_terms_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Privacy Policy Accepted:</b> {{ $contractor->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
+                    <p><b>Privacy Policy Accepted:</b> {{ $boq->privacy_policy_accepted ? 'Yes' : 'No' }}</p>
 
-                <p><b>Newsletter Opt In:</b> {{ $contractor->newsletter_opt_in ? 'Yes' : 'No' }}</p>
+                    <p><b>Newsletter Opt In:</b> {{ $boq->newsletter_opt_in ? 'Yes' : 'No' }}</p>
 
-                <p><b>Agreement Accepted At:</b> 
-                    {{ $contractor->agreement_accepted_at ? \Carbon\Carbon::parse($contractor->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
-                </p>
+                    <p><b>Agreement Accepted At:</b>
+                        {{ $boq->agreement_accepted_at ? \Carbon\Carbon::parse($boq->agreement_accepted_at)->format('d M Y, h:i A') : '-' }}
+                    </p>
+                @else
+                    <p><b>Agreement Terms Accepted:</b> -</p>
+                    <p><b>Privacy Policy Accepted:</b> -</p>
+                    <p><b>Newsletter Opt In:</b> -</p>
+                    <p><b>Agreement Accepted At:</b> -</p>
+                @endif
             </div>
         </div>
     @endif
