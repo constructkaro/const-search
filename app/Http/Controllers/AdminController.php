@@ -239,7 +239,7 @@ public function allvendors(Request $request)
 
     $query = DB::table('vendor_register')
         ->select(
-            'vendor_register.id',
+            'vendor_register.id','vendor_register.remark',
             'vendor_register.full_name',
             'vendor_register.mobile',
             'vendor_register.email',
@@ -420,4 +420,20 @@ public function allvendors(Request $request)
             'boq'
         ));
     }
+
+    public function updateVendorRemark(Request $request, $id)
+{
+    // dd($request);
+    $request->validate([
+        'remark' => 'nullable|string|max:2000',
+    ]);
+
+    DB::table('vendor_register')
+        ->where('id', $id)
+        ->update([
+            'remark' => $request->remark,
+        ]);
+
+    return back()->with('success', 'Vendor remark updated successfully.');
+}
 }

@@ -95,6 +95,7 @@
                     <th>Business Entity</th>
                     <th>Pincode</th>
                     <th>Area</th>
+                    <th style="min-width:260px;">Remark</th>
                     <th style="width:170px;">Action</th>
                 </tr>
             </thead>
@@ -135,7 +136,7 @@
                         </td>
 
                         <td>
-                            @if(!empty($vendor->work_type))
+                            @if(!empty($vendor->work_type) && $vendor->work_type != '-')
                                 @foreach(explode(',', $vendor->work_type) as $workType)
                                     <span class="badge bg-success mb-1">
                                         {{ trim($workType) }}
@@ -173,6 +174,21 @@
                         </td>
 
                         <td>
+                            <form method="POST" action="{{ route('admin.vendors.remark.update', $vendor->id) }}">
+                                @csrf
+
+                                <textarea name="remark"
+                                          class="form-control form-control-sm mb-2"
+                                          rows="2"
+                                          placeholder="Add remark...">{{ $vendor->remark ?? '' }}</textarea>
+
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    Update
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
                             <a href="{{ route('admin.vendors.forms', $vendor->id) }}"
                                class="btn btn-sm btn-primary">
                                 Check Inserted Forms
@@ -181,7 +197,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="12" class="text-center py-4 text-muted">
+                        <td colspan="13" class="text-center py-4 text-muted">
                             No vendors found.
                         </td>
                     </tr>

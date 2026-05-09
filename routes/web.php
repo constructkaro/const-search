@@ -124,6 +124,9 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
     ->name('vendors.forms');
     });
 
+    Route::post('/admin/vendors/{id}/remark-update', [AdminController::class, 'updateVendorRemark'])
+    ->name('admin.vendors.remark.update');
+
 
 // //vendor
 Route::domain('vendor.constructkaro.com')->group(function () {
