@@ -329,6 +329,9 @@ Route::get('interior-services', [HomeController::class, 'interior_services'])->n
 
 Route::get('survey-services', [HomeController::class, 'survey_services'])->name('survey.services');
 
+
+Route::get('/architectural-services/{slug}', [HomeController::class, 'architecturalServiceDetails'])
+    ->name('architectural.service.details');
 Route::get('survey-structural', [HomeController::class, 'survey_structural'])->name('survey.structural');
 
 Route::get('survey-testing', [HomeController::class, 'survey_testing'])->name('survey.testing');

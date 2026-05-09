@@ -177,119 +177,185 @@ class HomeController extends Controller
         return view('main.confused_guied_me', compact('cities'));
     }
 
-//   public function packageMaterial($city, $package)
-// {
-//     if (!in_array($package, ['standard', 'premium', 'luxury'])) {
-//         abort(404);
-//     }
 
-//     $allowedCities = [
-//         'pune',
-//         'mumbai',
-//         'navi-mumbai',
-//         'raigad',
-//         'thane',
-//         'pimpri-chinchwad'
-//     ];
+    public function packageMaterial($city, $package)
+    {
+        if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+            abort(404);
+        }
 
-//     if (!in_array($city, $allowedCities)) {
-//         abort(404);
-//     }
+        $allowedCities = [
+            'pune',
+            'mumbai',
+            'navi-mumbai',
+            'raigad',
+            'thane',
+            'pimpri-chinchwad'
+        ];
 
-//     $cities = DB::table('city')
-//         ->orderBy('name', 'asc')
-//         ->get();
+        if (!in_array($city, $allowedCities)) {
+            abort(404);
+        }
 
-//     $selectedCity = $city;
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
 
-//     return view('main.package_material', compact('package', 'cities', 'selectedCity'));
-// }
-public function packageMaterial($city, $package)
+        $selectedCity = $city;
+
+        $materials = [
+            'pune' => [
+                'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+                'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+                'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+            ],
+
+            'mumbai' => [
+                'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+                'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+                'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+            ],
+
+            'navi-mumbai' => [
+                'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
+                'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
+                'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
+            ],
+        ];
+
+        // Pimpri Chinchwad same as Pune
+        $materials['pimpri-chinchwad'] = $materials['pune'];
+
+        // Raigad and Thane same as Navi Mumbai for now
+        $materials['raigad'] = $materials['navi-mumbai'];
+        $materials['thane'] = $materials['navi-mumbai'];
+
+        $material = $materials[$selectedCity];
+
+        return view('main.package_material', compact(
+            'package',
+            'cities',
+            'selectedCity',
+            'material'
+        ));
+    }
+
+    public function turnkeyMaterial($city, $package)
+    {
+        if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+            abort(404);
+        }
+
+        $allowedCities = [
+            'pune',
+            'mumbai',
+            'navi-mumbai',
+            'raigad',
+            'thane',
+            'pimpri-chinchwad'
+        ];
+
+        if (!in_array($city, $allowedCities)) {
+            abort(404);
+        }
+
+        $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        $selectedCity = $city;
+
+        return view('main.turnkey_material', compact('cities', 'selectedCity', 'package'));
+    }
+
+
+
+
+public function architecturalServiceDetails($slug)
 {
-    if (!in_array($package, ['standard', 'premium', 'luxury'])) {
+    $services = [
+        'residential-architectural-planning' => [
+            'title' => 'Residential Architectural Planning',
+            'desc' => 'Planning for houses, villas, and residential layouts with proper space utilization.',
+        ],
+
+        'bungalow-and-villa-design' => [
+            'title' => 'Bungalow and Villa Design',
+            'desc' => 'Custom bungalow and villa designs based on plot size, lifestyle, and budget.',
+            'view' => 'services.bungalow-villa-design',
+        ],
+
+        'apartment-flat-layout-planning' => [
+            'title' => 'Apartment and Flat Layout Planning',
+            'desc' => 'Efficient flat layouts with ventilation, light, and functional design.',
+            'view' => 'services.apartment-flat-layout-planning',
+        ],
+
+        'commercial-building-design' => [
+            'title' => 'Commercial Building Design',
+            'desc' => 'Design for offices, shops, malls, and commercial spaces.',
+        ],
+
+        'office-and-showroom-planning' => [
+            'title' => 'Office and Showroom Planning',
+            'desc' => 'Modern office and showroom layouts for business needs.',
+        ],
+
+        'farmhouse-design' => [
+            'title' => 'Farmhouse Design',
+            'desc' => 'Farmhouse planning with landscape and open space concepts.',
+        ],
+
+        'plot-development-planning' => [
+            'title' => 'Plot Development Planning',
+            'desc' => 'Layout planning for plotting projects and land development.',
+        ],
+
+        'elevation-and-facade-design' => [
+            'title' => 'Elevation and Facade Design',
+            'desc' => 'Front elevation and facade design for modern and premium look.',
+        ],
+
+        'floor-plan-design' => [
+            'title' => 'Floor Plan Design',
+            'desc' => 'Detailed floor planning with proper space utilization.',
+        ],
+
+        'space-planning' => [
+            'title' => 'Space Planning',
+            'desc' => 'Smart space planning for better functionality and flow.',
+        ],
+
+        'concept-design' => [
+            'title' => 'Concept Design',
+            'desc' => 'Initial concept design based on your ideas and requirements.',
+        ],
+
+        'renovation-planning' => [
+            'title' => 'Renovation Planning',
+            'desc' => 'Planning for renovation and redesign of existing structures.',
+        ],
+
+        'approval-drawing-support' => [
+            'title' => 'Approval Drawing Support',
+            'desc' => 'Support for municipal approval drawings and documentation.',
+        ],
+
+        'submission-drawing-assistance' => [
+            'title' => 'Submission Drawing Assistance',
+            'desc' => 'Assistance in preparing drawings for submission process.',
+        ],
+
+        'basic-design-consultation' => [
+            'title' => 'Basic Design Consultation',
+            'desc' => 'Consultation for design ideas, layout, and planning guidance.',
+        ],
+    ];
+
+    if (!array_key_exists($slug, $services)) {
         abort(404);
     }
 
-    $allowedCities = [
-        'pune',
-        'mumbai',
-        'navi-mumbai',
-        'raigad',
-        'thane',
-        'pimpri-chinchwad'
-    ];
+    $service = $services[$slug];
 
-    if (!in_array($city, $allowedCities)) {
-        abort(404);
-    }
+    $view = $service['view'] ?? 'services.architectural-details';
 
-    $cities = DB::table('city')->orderBy('name', 'asc')->get();
-
-    $selectedCity = $city;
-
-    $materials = [
-        'pune' => [
-            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
-            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
-            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
-        ],
-
-        'mumbai' => [
-            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
-            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
-            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
-        ],
-
-        'navi-mumbai' => [
-            'cement' => ['standard' => 'Shree Cement', 'premium' => 'ACC Cement, Ambuja Cement, JK Super Cement', 'luxury' => 'UltraTech Cement'],
-            'steel' => ['standard' => 'Kamdhenu Steel, Pushpa steel, Samruddhi Composites (IS Certified)', 'premium' => 'Tata Steel, JSW Steel', 'luxury' => 'Tata Steel, JSW Steel'],
-            'bricks' => ['standard' => 'Local Clay Bricks (Quality Tested Bricks)', 'premium' => 'Fly Ash Bricks', 'luxury' => 'AAC Blocks (Siporex, Magicrete, Bigbloc Construction Ltd-NXT)'],
-        ],
-    ];
-
-    // Pimpri Chinchwad same as Pune
-    $materials['pimpri-chinchwad'] = $materials['pune'];
-
-    // Raigad and Thane same as Navi Mumbai for now
-    $materials['raigad'] = $materials['navi-mumbai'];
-    $materials['thane'] = $materials['navi-mumbai'];
-
-    $material = $materials[$selectedCity];
-
-    return view('main.package_material', compact(
-        'package',
-        'cities',
-        'selectedCity',
-        'material'
-    ));
+    return view($view, compact('service', 'slug'));
 }
-
-public function turnkeyMaterial($city, $package)
-{
-    if (!in_array($package, ['standard', 'premium', 'luxury'])) {
-        abort(404);
-    }
-
-    $allowedCities = [
-        'pune',
-        'mumbai',
-        'navi-mumbai',
-        'raigad',
-        'thane',
-        'pimpri-chinchwad'
-    ];
-
-    if (!in_array($city, $allowedCities)) {
-        abort(404);
-    }
-
-    $cities = DB::table('city')->orderBy('name', 'asc')->get();
-    $selectedCity = $city;
-
-    return view('main.turnkey_material', compact('cities', 'selectedCity', 'package'));
-}
-
-
-
 
 }
