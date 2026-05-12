@@ -744,7 +744,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
 
             if (data.status === true) {
-                const finalText = data.location.area_name + ", " + data.location.city_name;
+                const locationPincode = data.location.pincode ? " - " + data.location.pincode : "";
+                const finalText = data.location.area_name + ", " + data.location.city_name + locationPincode;
 
                 locationMessage.style.color = "green";
                 locationMessage.innerHTML = "Service available in your location.";

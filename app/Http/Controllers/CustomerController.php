@@ -335,6 +335,7 @@ public function verifyOtp(Request $request)
         |--------------------------------------------------------------------------
         */
           $pincode = $request->pincode ?? null;
+          $areaIdsJson = json_encode($request->input('area_ids', []) ?: []);
 
         if (!$customer_id) {
 
