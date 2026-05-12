@@ -284,6 +284,33 @@ body {
     font-size: 14px;
 }
 
+.location-powered-by {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+    color: #8a8a8a;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.google-wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    margin-left: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.google-wordmark .g-blue { color: #4285f4; }
+.google-wordmark .g-red { color: #ea4335; }
+.google-wordmark .g-yellow { color: #fbbc05; }
+.google-wordmark .g-green { color: #34a853; }
+}
+
 /* Coming Soon Box */
 #comingSoonLocationBox {
     display: none;
@@ -450,13 +477,20 @@ body {
         <div id="locationSuggestions" class="location-suggestions"></div>
 
         <p id="locationMessage"></p>
+
+        <div class="location-powered-by">
+            powered by
+            <span class="google-wordmark" aria-label="Google">
+                <span class="g-blue">G</span><span class="g-red">o</span><span class="g-yellow">o</span><span class="g-blue">g</span><span class="g-green">l</span><span class="g-red">e</span>
+            </span>
+        </div>
     </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const GEOAPIFY_KEY = "1481c05ac010419380c8f5d347103d42";
+    const GOOGLE_MAPS_KEY = @json(config('services.google_maps.browser_key'));
 
     const openLocationModal = document.getElementById("openLocationModal");
     const locationModal = document.getElementById("locationModal");
@@ -508,6 +542,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openLocationModal.addEventListener("click", function () {
         locationModal.style.display = "block";
         locationInput.focus();
+        loadGooglePlaces();
     });
 
     closeLocationModal.addEventListener("click", function () {
@@ -536,22 +571,74 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         typingTimer = setTimeout(function () {
-            fetchGeoapifySuggestions(search);
+            if (/^[0-9]{6}$/.test(search)) {
+                locationSuggestions.innerHTML = "";
+                locationSuggestions.style.display = "none";
+                checkLocationInDatabase("", "", search, search);
+                return;
+            }
+
+            fetchGoogleLocationSuggestions(search);
         }, 450);
     });
 
-    function fetchGeoapifySuggestions(search) {
+    function loadGooglePlaces(callback) {
+        if (window.google && google.maps && google.maps.places) {
+            if (callback) callback();
+            return;
+        }
+
+        if (!GOOGLE_MAPS_KEY) {
+            locationMessage.style.color = "red";
+            locationMessage.innerHTML = "Google Maps API key is not configured.";
+            return;
+        }
+
+        if (window.constructKaroGoogleMapsLoading) {
+            window.constructKaroGoogleMapsQueue.push(callback);
+            return;
+        }
+
+        window.constructKaroGoogleMapsLoading = true;
+        window.constructKaroGoogleMapsQueue = [callback];
+        window.constructKaroGoogleMapsReady = function () {
+            window.constructKaroGoogleMapsLoading = false;
+            window.constructKaroGoogleMapsQueue.forEach(function (queuedCallback) {
+                if (queuedCallback) queuedCallback();
+            });
+            window.constructKaroGoogleMapsQueue = [];
+        };
+
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_KEY)}&libraries=places&loading=async&callback=constructKaroGoogleMapsReady`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = function () {
+            window.constructKaroGoogleMapsLoading = false;
+            locationMessage.style.color = "red";
+            locationMessage.innerHTML = "Google location service failed to load.";
+        };
+        document.head.appendChild(script);
+    }
+
+    function fetchGoogleLocationSuggestions(search) {
         locationMessage.style.color = "#555";
         locationMessage.innerHTML = "Searching location...";
 
-        const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(search)}&filter=countrycode:in&limit=8&apiKey=${GEOAPIFY_KEY}`;
+        loadGooglePlaces(async function () {
+            try {
+                const { AutocompleteSuggestion, AutocompleteSessionToken } = await google.maps.importLibrary("places");
+                const sessionToken = new AutocompleteSessionToken();
+                const response = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+                    input: search,
+                    includedRegionCodes: ["in"],
+                    sessionToken: sessionToken
+                });
+                const suggestions = response.suggestions || [];
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
                 locationMessage.innerHTML = "";
 
-                if (!data.features || data.features.length === 0) {
+                if (suggestions.length === 0) {
                     locationMessage.style.color = "red";
                     locationMessage.innerHTML = "No location found.";
                     return;
@@ -560,37 +647,81 @@ document.addEventListener("DOMContentLoaded", function () {
                 locationSuggestions.innerHTML = "";
                 locationSuggestions.style.display = "block";
 
-                data.features.forEach(function (feature) {
-                    const props = feature.properties;
+                suggestions.slice(0, 8).forEach(function (suggestion) {
+                    const prediction = suggestion.placePrediction;
 
-                    const displayAddress = props.formatted || props.address_line1 || "Location";
-                    const area = props.suburb || props.district || props.city || props.county || "";
-                    const city = props.city || props.county || props.state_district || "";
-                    const pincode = props.postcode || "";
+                    if (!prediction) {
+                        return;
+                    }
+
+                    const mainText = prediction.mainText ? prediction.mainText.toString() : prediction.text.toString();
+                    const secondaryText = prediction.secondaryText ? prediction.secondaryText.toString() : "";
+                    const fullText = prediction.text.toString();
 
                     const item = document.createElement("div");
                     item.className = "location-suggestion-item";
 
                     item.innerHTML = `
-                        <strong>${displayAddress}</strong><br>
-                        <small>${pincode ? "Pincode: " + pincode : ""}</small>
+                        <strong>${mainText}</strong><br>
+                        <small>${secondaryText || fullText}</small>
                     `;
 
                     item.addEventListener("click", function () {
-                        locationInput.value = displayAddress;
+                        locationInput.value = fullText;
                         locationSuggestions.style.display = "none";
-
-                        checkLocationInDatabase(area, city, pincode, displayAddress);
+                        fetchGooglePlaceDetails(prediction, fullText);
                     });
 
                     locationSuggestions.appendChild(item);
                 });
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error(error);
                 locationMessage.style.color = "red";
-                locationMessage.innerHTML = "Location search failed. Please try again.";
+                locationMessage.innerHTML = "Google location API is blocked or not enabled for this key.";
+            }
+        });
+    }
+
+    async function fetchGooglePlaceDetails(prediction, fallbackAddress) {
+        locationMessage.style.color = "#555";
+        locationMessage.innerHTML = "Reading location details...";
+
+        try {
+            const place = prediction.toPlace();
+            await place.fetchFields({ fields: ["addressComponents", "formattedAddress"] });
+
+            const parsedLocation = parseGoogleAddressComponents(place.addressComponents || []);
+            const fullAddress = place.formattedAddress || fallbackAddress;
+
+            checkLocationInDatabase(
+                parsedLocation.area,
+                parsedLocation.city,
+                parsedLocation.pincode,
+                fullAddress
+            );
+        } catch (error) {
+            console.error(error);
+            locationMessage.style.color = "red";
+            locationMessage.innerHTML = "Could not read this location. Please try another one.";
+        }
+    }
+
+    function parseGoogleAddressComponents(components) {
+        const findComponent = function (types) {
+            const component = components.find(function (item) {
+                return types.some(function (type) {
+                    return item.types.includes(type);
+                });
             });
+
+            return component ? (component.longText || component.long_name || component.shortText || component.short_name || "") : "";
+        };
+
+        return {
+            area: findComponent(["sublocality_level_1", "sublocality", "neighborhood", "route"]),
+            city: findComponent(["locality", "administrative_area_level_3", "administrative_area_level_2"]),
+            pincode: findComponent(["postal_code"])
+        };
     }
 
     function checkLocationInDatabase(area, city, pincode, fullAddress) {

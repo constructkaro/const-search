@@ -41,4 +41,8 @@ return [
         'verify_sid' => env('TWILIO_VERIFY_SERVICE_SID'),
     ],
 
+    'google_maps' => [
+        'browser_key' => env('GOOGLE_MAPS_BROWSER_KEY'),
+    ],
+
 ];
