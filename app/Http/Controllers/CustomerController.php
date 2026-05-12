@@ -654,7 +654,7 @@ public function storeInteriorRequirement(Request $request)
         }
 
         $surveyBookings = DB::table('survey_bookings')
-            ->where('customer_id', $customerId)
+            // ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) {
                 return (object) [
@@ -672,7 +672,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $testingEnquiries = DB::table('testing_enquiries')
-            ->where('customer_id', $customerId)
+            // ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) {
                 $location = collect([
@@ -697,7 +697,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $boqEnquiries = DB::table('boq_enquiries')
-            ->where('customer_id', $customerId)
+            // ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) {
                 $location = collect([
@@ -722,7 +722,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $contractorBookings = DB::table('contractor_providers')
-            ->where('customer_id', $customerId)
+            // ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) {
                 $location = collect([
@@ -747,7 +747,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $interiorBookings = DB::table('interior_providers')
-            ->where('customer_id', $customerId)
+            // ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) {
                 $location = collect([
