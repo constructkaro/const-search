@@ -645,7 +645,7 @@ public function storeInteriorRequirement(Request $request)
  
 
 
-    public function myorder()
+ public function myorder()
     {
         $customerId = session('customer_id');
 
@@ -821,6 +821,42 @@ public function storeInteriorRequirement(Request $request)
             ->values();
 
         return view('customer.myorder', compact('allOrders'));
+    }
+
+    public function profile()
+    {
+        $customerId = session('customer_id');
+
+        if (!$customerId) {
+            return redirect()->back()->with('error', 'Customer session not found.');
+        }
+
+        $customer = Customer::find($customerId);
+
+        if (!$customer) {
+            session()->forget([
+                'customer_id',
+                'customer_name',
+                'customer_mobile',
+                'customer_logged_in',
+            ]);
+
+            return redirect('/')->with('error', 'Customer profile not found.');
+        }
+
+        $orderCounts = [
+            'survey' => DB::table('survey_bookings')->where('customer_id', $customerId)->count(),
+            'testing' => DB::table('testing_enquiries')->where('customer_id', $customerId)->count(),
+            'boq' => DB::table('boq_enquiries')->where('customer_id', $customerId)->count(),
+            'contractor' => DB::table('contractor_providers')->where('customer_id', $customerId)->count(),
+            // 'interior' => DB::table('interior_providers')->where('customer_id', $customerId)->count(),
+            'interior' => DB::table('interior_providers')->count(),
+
+        ];
+
+        $totalOrders = array_sum($orderCounts);
+
+        return view('customer.profile', compact('customer', 'orderCounts', 'totalOrders'));
     }
 
     public function track($service_key, $source_id)

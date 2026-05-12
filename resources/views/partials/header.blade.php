@@ -433,7 +433,7 @@ body {
 
                     <div class="customer-dropdown-menu" id="customerDropdownMenu">
                         <a href="{{ route('myorder') }}">My Orders</a>
-                        <a href="#">My Profile</a>
+                        <a href="{{ route('customer.profile') }}">My Profile</a>
 
                         <form method="GET" action="{{ route('customer.logout') }}">
                             <button type="submit">Log Out</button>

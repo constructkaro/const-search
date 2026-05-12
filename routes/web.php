@@ -272,6 +272,7 @@ Route::get('/post_for_interior', [CustomerController::class, 'post_for_interior'
 
 Route::post('/interior-requirement/store', [CustomerController::class, 'storeInteriorRequirement'])
     ->name('interior.requirement.store');
+Route::get('/my-profile', [CustomerController::class, 'profile'])->name('customer.profile');
 Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
 Route::get('/myorder/track/{service_key}/{source_id}', [CustomerController::class, 'track'])->name('myorder.track');
 
