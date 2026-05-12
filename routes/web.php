@@ -34,6 +34,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationCheckController;
 
 
 use App\Http\Controllers\ConstructionRequirementController;
@@ -41,6 +42,8 @@ use App\Http\Controllers\ConstructionRequirementController;
 Route::get('/test', [VendorController::class, 'test'])->name('test');
 
 
+Route::post('/check-service-location', [LocationCheckController::class, 'check'])
+    ->name('check.service.location');
 /*
 |--------------------------------------------------------------------------
 | Admin Login

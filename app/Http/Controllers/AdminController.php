@@ -222,13 +222,7 @@ public function allvendors(Request $request)
         ->orderBy('name', 'asc')
         ->get();
 
-    /*
-        IMPORTANT:
-        This assumes every provider table has vendor_id column.
-        Example:
-        contractor_providers.vendor_id = vendor_register.id
-        architect_providers.vendor_id = vendor_register.id
-    */
+   
     $providerTables = [
         'Contractor' => 'contractor_providers',
         'Architect'  => 'architect_providers',
@@ -422,18 +416,18 @@ public function allvendors(Request $request)
     }
 
     public function updateVendorRemark(Request $request, $id)
-{
-    // dd($request);
-    $request->validate([
-        'remark' => 'nullable|string|max:2000',
-    ]);
-
-    DB::table('vendor_register')
-        ->where('id', $id)
-        ->update([
-            'remark' => $request->remark,
+    {
+        // dd($request);
+        $request->validate([
+            'remark' => 'nullable|string|max:2000',
         ]);
 
-    return back()->with('success', 'Vendor remark updated successfully.');
-}
+        DB::table('vendor_register')
+            ->where('id', $id)
+            ->update([
+                'remark' => $request->remark,
+            ]);
+
+        return back()->with('success', 'Vendor remark updated successfully.');
+    }
 }

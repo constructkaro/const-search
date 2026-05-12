@@ -1180,6 +1180,29 @@ body {
     .ck-testimonial-card { padding: 76px 16px 22px; }
     .ck-testimonial-name { font-size: 15px; }
 }
+
+
+#comingSoonLocationBox {
+    max-width: 1100px;
+    margin: 45px auto;
+    padding: 38px 20px;
+    background: #fff4ec;
+    border: 1px solid #ffd6bd;
+    border-radius: 18px;
+    text-align: center;
+}
+
+#comingSoonLocationBox h2 {
+    color: #1c2c3e;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+#comingSoonLocationBox p {
+    color: #555;
+    font-size: 16px;
+}
 </style>
 
 <div class="home-page">
@@ -1225,55 +1248,65 @@ body {
     </section>
 
     {{-- ── MAIN SERVICE CARDS ── --}}
-    <section class="ck-services-section">
-        <div class="section-container">
-            <div class="ck-services-grid">
+  
+   
 
-                <div class="ck-service-card">
-                    <div class="ck-service-image">
-                        <img src="{{ asset('images/b1.png') }}" alt="Architect">
-                    </div>
-                    <h3 class="ck-service-title">Architect</h3>
-                    <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
+    <div id="comingSoonLocationBox" style="display:none;">
+        <h2>We are coming soon for this location</h2>
+        <p>Currently, our services are not available in your selected area. We are expanding soon.</p>
+    </div>
+ <section class="ck-services-section" id="mainServicesSection">
+    <div class="section-container">
+        <div class="ck-services-grid">
+
+            <div class="ck-service-card">
+                <div class="ck-service-image">
+                    <img src="{{ asset('images/b1.png') }}" alt="Architect">
+                </div>
+                <h3 class="ck-service-title">Architect</h3>
+                <div class="ck-service-line"></div>
+                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
+                @if($isCustomerLoggedIn)
                     <a href="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn">Post Your Requirement</a>
-                </div>
-
-                <div class="ck-service-card">
-                    <div class="ck-service-image">
-                        <img src="{{ asset('images/b2.png') }}" alt="Contractor">
-                    </div>
-                    <h3 class="ck-service-title">Contractor</h3>
-                    <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
-                </div>
-
-                <!-- <div class="ck-service-card">
-                    <div class="ck-service-image">
-                        <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
-                    </div>
-                    <h3 class="ck-service-title">Interior Designer</h3>
-                    <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
-                </div> -->
-                <div class="ck-service-card">
-                    <div class="ck-service-image">
-                        <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
-                    </div>
-                    <h3 class="ck-service-title">Interior Designer</h3>
-                    <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
-                </div>
-
+                @else
+                    <a href="javascript:void(0)" data-redirect="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                @endif
             </div>
-        </div>
-    </section>
 
+            <div class="ck-service-card">
+                <div class="ck-service-image">
+                    <img src="{{ asset('images/b2.png') }}" alt="Contractor">
+                </div>
+                <h3 class="ck-service-title">Contractor</h3>
+                <div class="ck-service-line"></div>
+                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
+                @if($isCustomerLoggedIn)
+                    <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
+                @else
+                    <a href="javascript:void(0)" data-redirect="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                @endif
+            </div>
+
+            <div class="ck-service-card">
+                <div class="ck-service-image">
+                    <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
+                </div>
+                <h3 class="ck-service-title">Interior Designer</h3>
+                <div class="ck-service-line"></div>
+                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
+                @if($isCustomerLoggedIn)
+                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
+                @else
+                    <a href="javascript:void(0)" data-redirect="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                @endif
+            </div>
+
+        </div>
+    </div>
+</section>
     {{-- ── EXPLORE MORE SERVICES ── --}}
-    <section class="explore-services-section">
+    <!-- <section class="explore-services-section"> -->
+        <section class="explore-services-section" id="exploreServicesSection">
         <div class="section-container">
             <div class="section-heading">
                 <h2>Explore More Services</h2>
@@ -1289,7 +1322,11 @@ body {
                     <div class="explore-card-body">
                         <h3>Survey Services</h3>
                         <p>Explore All Categories of Survey Services</p>
-                        <a href="{{ route('customer.survey') }}" class="explore-btn orange-btn">Get Started</a>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.survey') }}" class="explore-btn orange-btn">Get Started</a>
+                        @else
+                            <a href="javascript:void(0)" data-redirect="{{ route('customer.survey') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
+                        @endif
                     </div>
                 </div>
 
@@ -1310,7 +1347,11 @@ body {
                     <div class="explore-card-body">
                         <h3>Structural Audit</h3>
                         <p>Explore All Categories of structural Services</p>
-                        <a href="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn">Get Started</a>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn">Get Started</a>
+                        @else
+                            <a href="javascript:void(0)" data-redirect="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
+                        @endif
                     </div>
                 </div>
 
@@ -1321,7 +1362,11 @@ body {
                     <div class="explore-card-body">
                         <h3>BOQ / Estimation</h3>
                         <p>Explore All Categories of BOQ / Estimation Services</p>
-                        <a href="{{ route('customer.boq') }}" class="explore-btn orange-btn">Get Started</a>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.boq') }}" class="explore-btn orange-btn">Get Started</a>
+                        @else
+                            <a href="javascript:void(0)" data-redirect="{{ route('customer.boq') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
+                        @endif
                     </div>
                 </div>
 
@@ -1345,9 +1390,7 @@ body {
                     From initial planning to complete project execution, ConstructKaro
                     guides you with the right services at every stage.
                 </p>
-                <a href="" class="ck-guide-btn">
-                <!-- <a href="{{route('confused_guide_me')}}" class="ck-guide-btn"> -->
-
+                <a href="{{ route('confused_guide_me') }}" class="ck-guide-btn">
                     Let ConstructKaro Guide Me
                 </a>
             </div>
@@ -1679,5 +1722,37 @@ document.querySelectorAll('.ck-slide').forEach(function (slide) {
     });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    const mainServicesSection = document.getElementById("mainServicesSection");
+    const exploreServicesSection = document.getElementById("exploreServicesSection");
+    const comingSoonLocationBox = document.getElementById("comingSoonLocationBox");
+
+    function showServices() {
+        if (mainServicesSection) mainServicesSection.style.display = "block";
+        if (exploreServicesSection) exploreServicesSection.style.display = "block";
+        if (comingSoonLocationBox) comingSoonLocationBox.style.display = "none";
+    }
+
+    function showComingSoon() {
+        if (mainServicesSection) mainServicesSection.style.display = "none";
+        if (exploreServicesSection) exploreServicesSection.style.display = "none";
+        if (comingSoonLocationBox) comingSoonLocationBox.style.display = "block";
+    }
+
+    // Default page load: show services
+    const locationAllowed = localStorage.getItem("location_allowed");
+
+    if (locationAllowed === "no") {
+        showComingSoon();
+    } else {
+        showServices();
+    }
+
+    // Make functions globally available for header location script
+    window.showServices = showServices;
+    window.showComingSoon = showComingSoon;
+});
+</script>
 @endsection
