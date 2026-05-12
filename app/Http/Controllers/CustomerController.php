@@ -790,7 +790,27 @@ public function storeInteriorRequirement(Request $request)
             ->first();
 
         if (!$tracking) {
-            return redirect()->back()->with('error', 'Tracking template not assigned by admin yet.');
+            $service = $service_key;
+            $id = $source_id;
+
+            $orderSteps = DB::table('tracking_templates')
+                ->where('service_key', $service_key)
+                ->where('tab_type', 'order')
+                ->orderBy('step_order')
+                ->get();
+
+            $executionSteps = DB::table('tracking_templates')
+                ->where('service_key', $service_key)
+                ->where('tab_type', 'execution')
+                ->orderBy('step_order')
+                ->get();
+
+            return view('customer.dynamic-order-track', compact(
+                'service',
+                'id',
+                'orderSteps',
+                'executionSteps'
+            ));
         }
 
         $trackingSteps = OrderTrackingStep::where('order_tracking_id', $tracking->id)
