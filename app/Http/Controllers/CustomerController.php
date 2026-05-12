@@ -645,7 +645,7 @@ public function storeInteriorRequirement(Request $request)
  
 
 
- public function myorder()
+    public function myorder()
     {
         $customerId = session('customer_id');
 
@@ -653,17 +653,53 @@ public function storeInteriorRequirement(Request $request)
             return redirect()->back()->with('error', 'Customer session not found.');
         }
 
+        $cityNames = DB::table('city')->pluck('name', 'id');
+
+        $resolveCityNames = function ($value) use ($cityNames) {
+            if (empty($value)) {
+                return null;
+            }
+
+            if (is_array($value)) {
+                $cityIds = $value;
+            } else {
+                $decoded = json_decode($value, true);
+                $cityIds = json_last_error() === JSON_ERROR_NONE && is_array($decoded)
+                    ? $decoded
+                    : explode(',', (string) $value);
+            }
+
+            $names = collect($cityIds)
+                ->map(fn ($cityId) => trim((string) $cityId))
+                ->filter()
+                ->map(function ($cityId) use ($cityNames) {
+                    return $cityNames[$cityId] ?? $cityId;
+                })
+                ->filter()
+                ->unique()
+                ->values();
+
+            return $names->isNotEmpty() ? $names->implode(', ') : null;
+        };
+
         $surveyBookings = DB::table('survey_bookings')
             // ->where('customer_id', $customerId)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_id ?? $item->city ?? null);
+                $location = collect([
+                    $item->full_address ?? null,
+                    $cityName,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
                 return (object) [
                     'id' => $item->id,
                     'type' => 'Survey Booking',
                     'service_key' => 'survey',
                     'service_name' => $item->service_name ?? 'Survey Service',
                     'title' => $item->service_name ?? 'Survey Service',
-                    'location' => $item->full_address ?? '-',
+                    'location' => $location ?: '-',
                     'scope' => trim(($item->land_area ?? '-') . ' ' . ($item->area_unit ?? '')),
                     'description' => $item->description ?? '-',
                     'created_at' => $item->created_at,
@@ -674,11 +710,12 @@ public function storeInteriorRequirement(Request $request)
         $testingEnquiries = DB::table('testing_enquiries')
             // ->where('customer_id', $customerId)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
                 $location = collect([
                     $item->house_building_name ?? null,
                     $item->road_area_colony ?? null,
-                    $item->city ?? null,
+                    $cityName,
                     $item->pincode ?? null,
                 ])->filter()->implode(', ');
 
@@ -699,11 +736,12 @@ public function storeInteriorRequirement(Request $request)
         $boqEnquiries = DB::table('boq_enquiries')
             // ->where('customer_id', $customerId)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
                 $location = collect([
                     $item->house_building_name ?? null,
                     $item->road_area_colony ?? null,
-                    $item->city ?? null,
+                    $cityName,
                     $item->pincode ?? null,
                 ])->filter()->implode(', ');
 
@@ -724,11 +762,12 @@ public function storeInteriorRequirement(Request $request)
         $contractorBookings = DB::table('contractor_providers')
             // ->where('customer_id', $customerId)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
                 $location = collect([
                     $item->house_building_name ?? null,
                     $item->road_area_colony ?? null,
-                    $item->city ?? null,
+                    $cityName,
                     $item->pincode ?? null,
                 ])->filter()->implode(', ');
 
@@ -749,11 +788,12 @@ public function storeInteriorRequirement(Request $request)
         $interiorBookings = DB::table('interior_providers')
             // ->where('customer_id', $customerId)
             ->get()
-            ->map(function ($item) {
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
                 $location = collect([
                     $item->house_building_name ?? null,
                     $item->road_area_colony ?? null,
-                    $item->city ?? null,
+                    $cityName,
                     $item->pincode ?? null,
                 ])->filter()->implode(', ');
 
