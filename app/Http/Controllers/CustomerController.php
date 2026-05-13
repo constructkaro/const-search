@@ -648,7 +648,7 @@ public function storeInteriorRequirement(Request $request)
  public function myorder()
     {
         $customerId = session('customer_id');
-
+// dd($customerId);
         if (!$customerId) {
             return redirect()->back()->with('error', 'Customer session not found.');
         }
@@ -683,7 +683,7 @@ public function storeInteriorRequirement(Request $request)
         };
 
         $surveyBookings = DB::table('survey_bookings')
-            // ->where('customer_id', $customerId)
+            ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) use ($resolveCityNames) {
                 $cityName = $resolveCityNames($item->city_id ?? $item->city ?? null);
@@ -708,7 +708,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $testingEnquiries = DB::table('testing_enquiries')
-            // ->where('customer_id', $customerId)
+            ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) use ($resolveCityNames) {
                 $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
@@ -734,7 +734,7 @@ public function storeInteriorRequirement(Request $request)
             });
 
         $boqEnquiries = DB::table('boq_enquiries')
-            // ->where('customer_id', $customerId)
+            ->where('customer_id', $customerId)
             ->get()
             ->map(function ($item) use ($resolveCityNames) {
                 $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
@@ -759,64 +759,64 @@ public function storeInteriorRequirement(Request $request)
                 ];
             });
 
-        $contractorBookings = DB::table('contractor_providers')
-            // ->where('customer_id', $customerId)
-            ->get()
-            ->map(function ($item) use ($resolveCityNames) {
-                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
-                $location = collect([
-                    $item->house_building_name ?? null,
-                    $item->road_area_colony ?? null,
-                    $cityName,
-                    $item->pincode ?? null,
-                ])->filter()->implode(', ');
+        // $contractorBookings = DB::table('contractor_providers')
+        //     ->where('customer_id', $customerId)
+        //     ->get()
+        //     ->map(function ($item) use ($resolveCityNames) {
+        //         $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
+        //         $location = collect([
+        //             $item->house_building_name ?? null,
+        //             $item->road_area_colony ?? null,
+        //             $cityName,
+        //             $item->pincode ?? null,
+        //         ])->filter()->implode(', ');
 
-                return (object) [
-                    'id' => $item->id,
-                    'type' => 'Contractor Booking',
-                    'service_key' => 'contractor',
-                    'service_name' => $item->service_name ?? 'Contractor Service',
-                    'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
-                    'location' => $location ?: '-',
-                    'scope' => $item->project_type ?? '-',
-                    'description' => $item->additional_details ?? '-',
-                    'created_at' => $item->created_at,
-                    'raw_data' => $item,
-                ];
-            });
+        //         return (object) [
+        //             'id' => $item->id,
+        //             'type' => 'Contractor Booking',
+        //             'service_key' => 'contractor',
+        //             'service_name' => $item->service_name ?? 'Contractor Service',
+        //             'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
+        //             'location' => $location ?: '-',
+        //             'scope' => $item->project_type ?? '-',
+        //             'description' => $item->additional_details ?? '-',
+        //             'created_at' => $item->created_at,
+        //             'raw_data' => $item,
+        //         ];
+        //     });
 
-        $interiorBookings = DB::table('interior_providers')
-            // ->where('customer_id', $customerId)
-            ->get()
-            ->map(function ($item) use ($resolveCityNames) {
-                $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
-                $location = collect([
-                    $item->house_building_name ?? null,
-                    $item->road_area_colony ?? null,
-                    $cityName,
-                    $item->pincode ?? null,
-                ])->filter()->implode(', ');
+        // $interiorBookings = DB::table('interior_providers')
+        //     ->where('customer_id', $customerId)
+        //     ->get()
+        //     ->map(function ($item) use ($resolveCityNames) {
+        //         $cityName = $resolveCityNames($item->city_ids ?? $item->city_id ?? $item->city ?? null);
+        //         $location = collect([
+        //             $item->house_building_name ?? null,
+        //             $item->road_area_colony ?? null,
+        //             $cityName,
+        //             $item->pincode ?? null,
+        //         ])->filter()->implode(', ');
 
-                return (object) [
-                    'id' => $item->id,
-                    'type' => 'Interior Booking',
-                    'service_key' => 'interior',
-                    'service_name' => $item->service_name ?? 'Interior Service',
-                    'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
-                    'location' => $location ?: '-',
-                    'scope' => $item->project_type ?? '-',
-                    'description' => $item->additional_details ?? '-',
-                    'created_at' => $item->created_at,
-                    'raw_data' => $item,
-                ];
-            });
+        //         return (object) [
+        //             'id' => $item->id,
+        //             'type' => 'Interior Booking',
+        //             'service_key' => 'interior',
+        //             'service_name' => $item->service_name ?? 'Interior Service',
+        //             'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
+        //             'location' => $location ?: '-',
+        //             'scope' => $item->project_type ?? '-',
+        //             'description' => $item->additional_details ?? '-',
+        //             'created_at' => $item->created_at,
+        //             'raw_data' => $item,
+        //         ];
+        //     });
 
         $allOrders = collect()
             ->concat($surveyBookings)
             ->concat($testingEnquiries)
             ->concat($boqEnquiries)
-            ->concat($contractorBookings)
-            ->concat($interiorBookings)
+            // ->concat($contractorBookings)
+            // ->concat($interiorBookings)
             ->sortByDesc('created_at')
             ->values();
 
@@ -897,31 +897,30 @@ public function storeInteriorRequirement(Request $request)
         return view('customer.order_track', compact('tracking', 'trackingSteps'));
     }
   
-public function orderTrack($service, $id)
-{
-    // dd($id);
-    $orderSteps = DB::table('tracking_templates')
-        ->where('service_key', $service)
-        ->where('tab_type', 'order')
-        ->orderBy('step_order')
-        ->get();
+    public function orderTrack($service, $id)
+    {
+        // dd($id);
+        $orderSteps = DB::table('tracking_templates')
+            ->where('service_key', $service)
+            ->where('tab_type', 'order')
+            ->orderBy('step_order')
+            ->get();
 
-    $executionSteps = DB::table('tracking_templates')
-        ->where('service_key', $service)
-        ->where('tab_type', 'execution')
-        ->orderBy('step_order')
-        ->get();
+        $executionSteps = DB::table('tracking_templates')
+            ->where('service_key', $service)
+            ->where('tab_type', 'execution')
+            ->orderBy('step_order')
+            ->get();
 
-    return view('customer.dynamic-order-track', compact(
-        'service',
-        'id',
-        'orderSteps',
-        'executionSteps'
-    ));
-}
+        return view('customer.dynamic-order-track', compact(
+            'service',
+            'id',
+            'orderSteps',
+            'executionSteps'
+        ));
+    }
 
 
- 
     public function logout()
     {
         session()->forget([
