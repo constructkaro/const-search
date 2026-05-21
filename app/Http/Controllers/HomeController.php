@@ -153,6 +153,35 @@ class HomeController extends Controller
 
     }
 
+    public function contractor_services_new(){
+        return view('main.constractor_services_new');
+
+    }
+
+    public function contractorServiceDetails($slug)
+    {
+        $views = [
+            'residential-contractor' => 'main.contractor_service_residential',
+            'road-highway-contractor' => 'main.contractor_service_road_highway',
+            'bridge-contractor' => 'main.contractor_service_bridge',
+            'earthwork-excavation-contractor' => 'main.contractor_service_earthwork_excavation',
+            'culverts-contractor' => 'main.contractor_service_culverts',
+            'commercial-contractor' => 'main.contractor_service_commercial',
+            'industrial-civil-contractor' => 'main.contractor_service_industrial_civil',
+            'landscaping-contractor' => 'main.contractor_service_landscaping',
+            'mep-contractor' => 'main.contractor_service_mep',
+            'paint-contractor' => 'main.contractor_service_paint',
+            'waterproofing-contractor' => 'main.contractor_service_waterproofing',
+            'labour-contractor' => 'main.contractor_service_labour',
+        ];
+
+        if (!array_key_exists($slug, $views)) {
+            abort(404);
+        }
+
+        return view($views[$slug]);
+    }
+
     public function survey_services(){
         return view('main.survey_services');
     }
@@ -168,6 +197,26 @@ class HomeController extends Controller
 
     public function boq_testing(){
         return view('main.boq_testing');
+    }
+
+    public function residential_boq(){
+        return view('main.residential_boq');
+    }
+
+    public function commercial_boq(){
+        return view('main.commercial_boq');
+    }
+
+    public function structural_boq(){
+        return view('main.structural_boq');
+    }
+
+    public function interior_boq(){
+        return view('main.interior_boq');
+    }
+
+    public function renovation_repair_estimation(){
+        return view('main.renovation_repair_estimation');
     }
 
     public function confused_guide_me(){
@@ -296,54 +345,70 @@ public function architecturalServiceDetails($slug)
             'desc' => 'Modern office and showroom layouts for business needs.',
         ],
 
+        'showroom-planning' => [
+            'title' => 'Showroom Planning',
+            'desc' => 'Modern showroom layouts for retail, bike, car, and product display spaces.',
+            'view' => 'services.showroom-planning',
+        ],
+
         'farmhouse-design' => [
             'title' => 'Farmhouse Design',
             'desc' => 'Farmhouse planning with landscape and open space concepts.',
+            'view' => 'services.farmhouse-design',
         ],
 
         'plot-development-planning' => [
             'title' => 'Plot Development Planning',
             'desc' => 'Layout planning for plotting projects and land development.',
+            'view' => 'services.plot-development-planning',
         ],
 
         'elevation-and-facade-design' => [
             'title' => 'Elevation and Facade Design',
             'desc' => 'Front elevation and facade design for modern and premium look.',
+            'view' => 'services.elevation-and-facade-design',
         ],
 
         'floor-plan-design' => [
             'title' => 'Floor Plan Design',
             'desc' => 'Detailed floor planning with proper space utilization.',
+            'view' => 'services.floor-plan-design',
         ],
 
         'space-planning' => [
             'title' => 'Space Planning',
             'desc' => 'Smart space planning for better functionality and flow.',
+            'view' => 'services.space-planning',
         ],
 
         'concept-design' => [
             'title' => 'Concept Design',
             'desc' => 'Initial concept design based on your ideas and requirements.',
+            'view' => 'services.concept-design',
         ],
 
         'renovation-planning' => [
             'title' => 'Renovation Planning',
             'desc' => 'Planning for renovation and redesign of existing structures.',
+            'view' => 'services.renovation-planning',
         ],
 
         'approval-drawing-support' => [
             'title' => 'Approval Drawing Support',
             'desc' => 'Support for municipal approval drawings and documentation.',
+            'view' => 'services.approval-drawing-support',
         ],
 
         'submission-drawing-assistance' => [
             'title' => 'Submission Drawing Assistance',
             'desc' => 'Assistance in preparing drawings for submission process.',
+            'view' => 'services.submission-drawing-assistance',
         ],
 
         'basic-design-consultation' => [
             'title' => 'Basic Design Consultation',
             'desc' => 'Consultation for design ideas, layout, and planning guidance.',
+            'view' => 'services.basic-design-consultation',
         ],
     ];
 

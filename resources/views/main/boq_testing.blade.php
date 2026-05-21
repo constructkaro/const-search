@@ -86,7 +86,7 @@
         border-radius:50px;
         background:linear-gradient(90deg,#ffd1b5 0%,#d7ecff 100%);
         box-shadow:0 6px 12px rgba(0,0,0,.18);
-        font-size:28px;
+        font-size:22px;
         font-weight:900;
         display:flex;
         flex-wrap:wrap;
@@ -114,6 +114,19 @@
         border-radius:20px;
         overflow:hidden;
         box-shadow:0 8px 16px rgba(0,0,0,.25);
+        display:block;
+        text-decoration:none;
+        transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    .boq-card:hover{
+        transform:translateY(-5px);
+        box-shadow:0 14px 26px rgba(0,0,0,.28);
+    }
+
+    .boq-card:focus-visible{
+        outline:4px solid rgba(30,115,190,.35);
+        outline-offset:5px;
     }
 
     .boq-card.blue{
@@ -491,32 +504,32 @@
     <p class="boq-subtitle">We provide estimation services for various project types:</p>
 
     <div class="boq-card-grid">
-        <div class="boq-card">
+        <a class="boq-card" href="{{ route('residential.boq') }}">
             <img src="{{ asset('images/logo/b2.png') }}" alt="Residential BOQ">
             <h3>Residential BOQ</h3>
-        </div>
+        </a>
 
-        <div class="boq-card blue">
+        <a class="boq-card blue" href="{{ route('commercial.boq') }}">
             <img src="{{ asset('images/logo/b3.png') }}" alt="Commercial BOQ">
             <h3>Commercial<br>BOQ</h3>
-        </div>
+        </a>
 
-        <div class="boq-card">
+        <a class="boq-card" href="{{ route('structural.boq') }}">
             <img src="{{ asset('images/logo/b4.png') }}" alt="Structural BOQ">
             <h3>Structural BOQ</h3>
-        </div>
+        </a>
     </div>
 
     <div class="boq-card-grid two">
-        <div class="boq-card blue">
+        <a class="boq-card blue" href="{{ route('interior.boq') }}">
             <img src="{{ asset('images/logo/b5.png') }}" alt="Interior BOQ">
             <h3>Interior BOQ</h3>
-        </div>
+        </a>
 
-        <div class="boq-card">
+        <a class="boq-card" href="{{ route('renovation.repair.estimation') }}">
             <img src="{{ asset('images/logo/b6.png') }}" alt="Renovation Repair Estimation">
             <h3>Renovation & Repair<br>Estimation</h3>
-        </div>
+        </a>
     </div>
 </section>
 

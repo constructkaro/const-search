@@ -1,5 +1,8 @@
 <style>
-* {
+.header,
+.header *,
+.location-modal,
+.location-modal * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -24,7 +27,7 @@ body {
     padding-top: 76px;
 }
 
-.container {
+.header .container {
     width: 100%;
     max-width: 1320px;
     margin: 0 auto;
@@ -33,14 +36,14 @@ body {
     gap: 24px;
 }
 
-.logo img {
+.header .logo img {
     width: 200px;
     max-height: 90px;
     object-fit: contain;
     display: block;
 }
 
-.location {
+.header .location {
     display: flex;
     align-items: center;
     background: #e9e9e9;
@@ -52,12 +55,12 @@ body {
     cursor: pointer;
 }
 
-.location svg {
+.header .location svg {
     width: 28px;
     height: 28px;
 }
 
-#selectedLocationText {
+.header #selectedLocationText {
     font-size: 14px;
     color: #333;
     max-width: 190px;
@@ -66,14 +69,14 @@ body {
     text-overflow: ellipsis;
 }
 
-.nav {
+.header .nav {
     display: flex;
     align-items: center;
     gap: 25px;
     margin-left: 0;
 }
 
-.nav a {
+.header .nav a {
     text-decoration: none;
     color: #555;
     font-size: 15px;
@@ -81,12 +84,12 @@ body {
     white-space: nowrap;
 }
 
-.nav a.active {
+.header .nav a.active {
     color: #007bff;
     font-weight: 600;
 }
 
-.nav a.active::after {
+.header .nav a.active::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -96,14 +99,14 @@ body {
     left: 0;
 }
 
-.header-right {
+.header .header-right {
     display: flex;
     align-items: center;
     gap: 14px;
     flex-shrink: 0;
 }
 
-.header-login-btn {
+.header .header-login-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -118,13 +121,22 @@ body {
     background: linear-gradient(180deg, #f08b39 0%, #df7122 100%);
     box-shadow: 0 6px 14px rgba(223, 113, 34, 0.22);
     white-space: nowrap;
+    transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
 }
 
-.customer-dropdown-wrap {
+.header .header-login-btn:hover {
+    color: #fff;
+    opacity: .94;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(223, 113, 34, 0.26);
+}
+
+.header .customer-dropdown-wrap {
     position: relative;
 }
 
-.customer-profile-btn {
+.header .customer-profile-btn {
     width: 42px;
     height: 42px;
     border-radius: 50%;
@@ -135,14 +147,21 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
 }
 
-.customer-profile-btn svg {
+.header .customer-profile-btn:hover {
+    background: #263c54;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(28,44,62,.18);
+}
+
+.header .customer-profile-btn svg {
     width: 22px;
     height: 22px;
 }
 
-.customer-dropdown-menu {
+.header .customer-dropdown-menu {
     position: absolute;
     right: 0;
     top: 52px;
@@ -155,12 +174,12 @@ body {
     z-index: 9999;
 }
 
-.customer-dropdown-menu.show {
+.header .customer-dropdown-menu.show {
     display: block;
 }
 
-.customer-dropdown-menu a,
-.customer-dropdown-menu button {
+.header .customer-dropdown-menu a,
+.header .customer-dropdown-menu button {
     width: 100%;
     display: block;
     padding: 10px 12px;
@@ -174,12 +193,12 @@ body {
     border-radius: 8px;
 }
 
-.customer-dropdown-menu a:hover,
-.customer-dropdown-menu button:hover {
+.header .customer-dropdown-menu a:hover,
+.header .customer-dropdown-menu button:hover {
     background: #f5f5f5;
 }
 
-.menu-toggle {
+.header .menu-toggle {
     width: 42px;
     height: 42px;
     border: none;
@@ -190,9 +209,10 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 
-.menu-toggle svg {
+.header .menu-toggle svg {
     width: 24px;
     height: 24px;
 }
@@ -309,7 +329,6 @@ body {
 .google-wordmark .g-red { color: #ea4335; }
 .google-wordmark .g-yellow { color: #fbbc05; }
 .google-wordmark .g-green { color: #34a853; }
-}
 
 /* Coming Soon Box */
 #comingSoonLocationBox {
@@ -341,11 +360,11 @@ body {
         padding: 10px 16px;
     }
 
-    .container {
+    .header .container {
         flex-wrap: wrap;
     }
 
-    .nav {
+    .header .nav {
         width: 100%;
         order: 5;
         display: none;
@@ -356,36 +375,36 @@ body {
         margin-left: 0;
     }
 
-    .nav.show {
+    .header .nav.show {
         display: flex;
     }
 
-    .menu-toggle {
+    .header .menu-toggle {
         display: flex;
     }
 
-    .location {
+    .header .location {
         order: 4;
         width: 100%;
         margin-left: 0;
         justify-content: center;
     }
 
-    .logo img {
+    .header .logo img {
         width: 140px;
         max-height: 54px;
     }
 }
 
 @media (max-width: 576px) {
-    .header-login-btn {
+    .header .header-login-btn {
         min-width: auto;
         height: 40px;
         padding: 0 14px;
         font-size: 13px;
     }
 
-    .logo img {
+    .header .logo img {
         width: 125px;
         max-height: 50px;
     }
@@ -418,7 +437,7 @@ body {
         <nav class="nav" id="mainNav">
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
             <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}">About Us</a>
-            <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') ? 'active' : '' }}">Knowledge Hub</a>
+            <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') ? 'active' : '' }}">Constructshala</a>
         </nav>
 
         <div class="header-right">

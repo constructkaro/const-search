@@ -590,7 +590,8 @@ public function storeInteriorRequirement(Request $request)
         'space_selection' => 'nullable|string|max:100',
         'approx_area' => 'nullable|string|max:100',
 
-        'furniture_requirement' => 'nullable|string|max:255',
+        'furniture_requirement' => 'nullable|array',
+        'furniture_requirement.*' => 'nullable|string|max:100',
         'design_style' => 'nullable|string|max:100',
         'color_theme' => 'nullable|string|max:100',
         'budget_from' => 'nullable|string|max:100',
@@ -599,6 +600,7 @@ public function storeInteriorRequirement(Request $request)
     ]);
 
     $areaIds = implode(',', $request->area_ids);
+    $furnitureRequirement = implode(',', array_filter($request->input('furniture_requirement', [])));
 
     DB::table('interior_requirements')->insert([
         'user_id' => $customer_id,
@@ -618,7 +620,7 @@ public function storeInteriorRequirement(Request $request)
         'space_selection' => $request->space_selection,
         'approx_area' => $request->approx_area,
 
-        'furniture_requirement' => $request->furniture_requirement,
+        'furniture_requirement' => $furnitureRequirement,
         'design_style' => $request->design_style,
         'color_theme' => $request->color_theme,
         'budget_from' => $request->budget_from,

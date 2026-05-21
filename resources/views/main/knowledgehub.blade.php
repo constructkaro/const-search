@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Knowledge Hub')
+@section('title', 'constructshala')
 
 @section('content')
 
@@ -120,7 +120,7 @@
     /* EXPLORE TOPICS - IMAGE ONLY */
     .topics-grid {
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 18px;
     }
 
@@ -141,11 +141,11 @@
     }
 
     .topic-image-card img {
-        width: 89%;
-        height: 98%;
-        object-fit: cover;
-        display: block;
-    }
+    width: 71%;
+    height: 96%;
+    object-fit: cover;
+    display: block;
+}
 
     /* FEATURED INSIGHTS - IMAGE ONLY */
     .featured-image-grid {
@@ -292,9 +292,9 @@
                     <img src="{{ asset('images/topics/blogs-insights.png') }}" alt="Blogs & Insights">
                 </a>
 
-                <a href="#" class="topic-image-card">
+                <!-- <a href="#" class="topic-image-card">
                     <img src="{{ asset('images/topics/social-feed.png') }}" alt="Social Feed">
-                </a>
+                </a> -->
 
                 <a href="#" class="topic-image-card">
                     <img src="{{ asset('images/topics/case-studies.png') }}" alt="Case Studies">

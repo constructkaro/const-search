@@ -228,7 +228,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);}
 
                     <div class="req-inner">
                         <div class="g3" style="margin-bottom:26px;">
-                            <div class="field"><label class="lbl">Furniture Requirement</label><select name="furniture_requirement" class="sel"><option value="">Select Requirement</option><option>Modular Kitchen</option><option>Wardrobe</option><option>TV Unit</option><option>Bed</option><option>Sofa</option><option>Office Table</option><option>Reception Counter</option><option>Other</option></select></div>
+                            <div class="field"><label class="lbl">Furniture Requirement</label><select name="furniture_requirement[]" id="furniture_requirement" class="sel" multiple><option>Modular Kitchen</option><option>Wardrobe</option><option>TV Unit</option><option>Bed</option><option>Sofa</option><option>Office Table</option><option>Reception Counter</option><option>Other</option></select></div>
                             <div class="field"><label class="lbl">Design Style</label><select name="design_style" class="sel"><option value="">Select Design Style</option><option>Modern</option><option>Minimal</option><option>Luxury</option><option>Traditional</option><option>Contemporary</option></select></div>
                             <div class="field"><label class="lbl">Colour Theme</label><select name="color_theme" class="sel"><option value="">Select Colour Theme</option><option>Light Theme</option><option>Dark Theme</option><option>Wooden Theme</option><option>White & Gold</option><option>Custom</option></select></div>
                         </div>
@@ -313,6 +313,12 @@ $(document).ready(function(){
 
     $('#area_id').select2({
         placeholder:'Select Area(s)',
+        width:'100%',
+        closeOnSelect:false
+    });
+
+    $('#furniture_requirement').select2({
+        placeholder:'Select Requirement(s)',
         width:'100%',
         closeOnSelect:false
     });

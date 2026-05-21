@@ -246,17 +246,23 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
 .ck-services-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 14px;
 }
 
 .ck-service-card {
-    border-radius: var(--r2);
+    border-radius: 8px;
     overflow: hidden;
-    background: var(--white);
-    box-shadow: var(--shadow);
+    background: rgba(30, 77, 183, 0.08);
+    box-shadow: 0 4px 12px rgba(15,25,35,0.09);
     transition: all 0.28s ease;
     cursor: default;
-    border: 2px solid transparent;
+    border: 2px solid var(--bl2);
+    text-decoration: none;
+}
+
+.ck-service-card:nth-child(even) {
+    background: rgba(235, 122, 47, 0.12);
+    border-color: var(--or2);
 }
 
 .ck-service-card:hover {
@@ -264,31 +270,33 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
     box-shadow: 0 20px 48px rgba(15,25,35,0.13);
 }
 
-.ck-service-card:nth-child(odd):hover { border-color: var(--or); }
-.ck-service-card:nth-child(even):hover { border-color: var(--bl); }
+.ck-service-card:nth-child(odd):hover { border-color: var(--bl); }
+.ck-service-card:nth-child(even):hover { border-color: var(--or); }
 
 .ck-service-img {
     width: 100%;
-    height: 190px;
+    aspect-ratio: 1.42 / 1;
+    height: auto;
     object-fit: cover;
     display: block;
 }
 
 .ck-service-foot {
-    padding: 16px 18px 18px;
-    border-top: 3px solid transparent;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px 10px;
 }
-
-.ck-service-card:nth-child(odd) .ck-service-foot { border-top-color: var(--or); }
-.ck-service-card:nth-child(even) .ck-service-foot { border-top-color: var(--bl); }
 
 .ck-service-foot h3 {
     font-family: 'Manrope', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--dark);
-    line-height: 1.3;
+    line-height: 1.15;
     text-align: center;
+    margin: 0;
 }
 
 /* ════════════════════════════════════════
@@ -299,81 +307,21 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
     background: var(--white);
 }
 
-.ck-why-grid {
+.ck-why-image-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.ck-why-card {
-    border-radius: var(--r2);
-    padding: 32px 24px 28px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.25s ease;
-}
-
-.ck-why-card:nth-child(odd) {
-    background: #fff5ee;
-    border: 1.5px solid #f5d5be;
-}
-
-.ck-why-card:nth-child(even) {
-    background: #edf2fc;
-    border: 1.5px solid #c5d5f0;
-}
-
-.ck-why-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow);
-}
-
-.ck-why-num {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
+    gap: 28px;
     align-items: center;
-    justify-content: center;
-    font-family: 'Manrope', sans-serif;
-    font-size: 15px;
-    font-weight: 900;
-    color: #fff;
+    justify-items: center;
 }
 
-.ck-why-card:nth-child(odd) .ck-why-num { background: var(--or); }
-.ck-why-card:nth-child(even) .ck-why-num { background: var(--bl); }
-
-.ck-why-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin-bottom: 18px;
-}
-
-.ck-why-card:nth-child(odd) .ck-why-icon { background: rgba(235,122,47,0.12); }
-.ck-why-card:nth-child(even) .ck-why-icon { background: rgba(30,77,183,0.1); }
-
-.ck-why-card h3 {
-    font-family: 'Manrope', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--dark);
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
-
-.ck-why-card p {
-    font-size: 14px;
-    color: var(--soft);
-    line-height: 1.7;
+.ck-why-image {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 16px rgba(15,25,35,0.12));
 }
 
 /* ════════════════════════════════════════
@@ -545,14 +493,14 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
     .ck-hero-left { padding: 48px 24px; }
     .ck-hero-left::after { display: none; }
     .ck-hero-right { height: 240px; }
-    .ck-why-grid { grid-template-columns: 1fr 1fr; }
+    .ck-why-image-grid { grid-template-columns: repeat(2, 1fr); }
     .ck-meta-grid { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (max-width: 600px) {
     .ck-services-grid { grid-template-columns: 1fr; }
     .ck-intro-grid { grid-template-columns: 1fr; }
-    .ck-why-grid { grid-template-columns: 1fr; }
+    .ck-why-image-grid { grid-template-columns: 1fr; gap: 18px; }
 }
 
 
@@ -600,17 +548,17 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
             <h2>Civil Contractor Services in Navi Mumbai, Mumbai, Raigad, Thane &amp; Pune</h2>
             <div class="ck-divider"></div>
         </div>
-
-        <div class="ck-intro-grid">
-            <div class="ck-intro-card">
+<div>
+        <!-- <div class="ck-intro-grid"> -->
+            <!-- <div class="ck-intro-card"> -->
                 <p>Looking for <strong>reliable Civil Contractor Services</strong> in Navi Mumbai, Mumbai, Raigad, Thane, or Pune? ConstructKaro brings you a trusted platform where your construction project is handled by experienced professionals under one streamlined system.</p>
-            </div>
-            <div class="ck-intro-card">
+            <!-- </div> -->
+            <!-- <div class="ck-intro-card"> -->
                 <p>We are not just another listing platform. <strong>ConstructKaro</strong> takes responsibility for your project execution, ensuring quality, transparency, and timely delivery by assigning the right civil construction contractors for your needs.</p>
-            </div>
-            <div class="ck-intro-card">
+            <!-- </div> -->
+            <!-- <div class="ck-intro-card"> -->
                 <p>Whether you're planning a home, commercial space, industrial project, or infrastructure work, we connect you with the best <strong>civil construction contractors</strong> and manage the process end-to-end.</p>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 </section>
@@ -629,29 +577,30 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
         <div class="ck-services-grid">
             @php
                 $services = [
-                    ['title' => 'Residential Contractor',         'img' => '/images/logo/c1.png'],
-                    ['title' => 'Road & Highway Contractor',       'img' => '/images/logo/c2.png'],
-                    ['title' => 'Bridges, Culverts Contractor',    'img' => '/images/logo/c3.png'],
-                    ['title' => 'Earthwork Excavation Contractor', 'img' => '/images/logo/c4.png'],
-                    ['title' => 'Building Construction Contractor','img' => '/images/logo/c5.png'],
-                    ['title' => 'Drainage & Sewerage Contractor',  'img' => '/images/logo/c6.png'],
-                    ['title' => 'Retaining Wall Contractor',       'img' => '/images/logo/c7.png'],
-                    ['title' => 'Industrial civil Contractor',     'img' => '/images/logo/c8.png'],
+                    ['title' => 'Residential Contractor', 'img' => 'images/logo/c1.png', 'url' => route('contractor.service.details', 'residential-contractor')],
+                    ['title' => 'Road & Highway Contractor', 'img' => 'images/logo/c2.png', 'url' => route('contractor.service.details', 'road-highway-contractor')],
+                    ['title' => 'Bridge Contractor', 'img' => 'images/logo/c3.png', 'url' => route('contractor.service.details', 'bridge-contractor')],
+                    ['title' => 'Earthwork Excavation Contractor', 'img' => 'images/logo/c4.png', 'url' => route('contractor.service.details', 'earthwork-excavation-contractor')],
+                    ['title' => 'MEP Contractor', 'img' => 'images/logo/c5.png', 'url' => route('contractor.service.details', 'mep-contractor')],
+                    ['title' => 'Paint Contractor', 'img' => 'images/logo/c6.png', 'url' => route('contractor.service.details', 'paint-contractor')],
+                    ['title' => 'Waterproofing Contractor', 'img' => 'images/logo/c7.png', 'url' => route('contractor.service.details', 'waterproofing-contractor')],
+                    ['title' => 'Labour Contractor', 'img' => 'images/logo/c8.png', 'url' => route('contractor.service.details', 'labour-contractor')],
 
 
-                    ['title' => 'Landscaping Contractor',  'img' => '/images/logo/c9.png'],
-                    ['title' => 'Commercial Contractor',       'img' => '/images/logo/c10.png'],
-                    ['title' => 'Inductrrial Contractor ',     'img' => '/images/logo/c11.png'],
+                    ['title' => 'Landscaping Contractor', 'img' => 'images/logo/c9.png', 'url' => route('contractor.service.details', 'landscaping-contractor')],
+                    ['title' => 'Commercial Contractor', 'img' => 'images/logo/c10.png', 'url' => route('contractor.service.details', 'commercial-contractor')],
+                    ['title' => 'Industrial Civil Contractor', 'img' => 'images/logo/c11.png', 'url' => route('contractor.service.details', 'industrial-civil-contractor')],
+                    ['title' => 'Culverts Contractor', 'img' => 'images/logo/c3.png', 'url' => route('contractor.service.details', 'culverts-contractor')],
                 ];
             @endphp
 
             @foreach($services as $s)
-                <div class="ck-service-card">
-                    <img class="ck-service-img" src="{{ $s['img'] }}" alt="{{ $s['title'] }}">
+                <a class="ck-service-card" href="{{ $s['url'] ?? 'javascript:void(0)' }}">
+                    <img class="ck-service-img" src="{{ asset($s['img']) }}" alt="{{ $s['title'] }}">
                     <div class="ck-service-foot">
                         <h3>{{ $s['title'] }}</h3>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
@@ -667,25 +616,20 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
             <div class="ck-divider"></div>
         </div>
 
-        <div class="ck-why-grid">
+        <div class="ck-why-image-grid">
             @php
-                $whys = [
-                    ['num'=>'1','icon'=>'✅','title'=>'Verified & Experienced Contractors','desc'=>'Every civil contractor on our platform is background-checked, license-verified, and evaluated on past project quality before onboarding.'],
-                    ['num'=>'2','icon'=>'🔄','title'=>'End-to-End Project Management','desc'=>'From initial planning and contractor assignment to site monitoring and final handover — ConstructKaro manages every milestone.'],
-                    ['num'=>'3','icon'=>'💰','title'=>'Transparent Pricing Structure','desc'=>'No hidden charges. Get itemised quotations upfront so you know exactly what you are paying for before work begins.'],
-                    ['num'=>'4','icon'=>'🏆','title'=>'Quality Assurance & Standards','desc'=>'We enforce IS standards and conduct quality checks at each stage of construction to ensure your project meets specifications.'],
-                    ['num'=>'5','icon'=>'⏱','title'=>'On-Time Project Delivery','desc'=>'Our milestone-based tracking system keeps contractors accountable, reducing delays and keeping your project on schedule.'],
-                    ['num'=>'6','icon'=>'📍','title'=>'Local Expertise, Pan-City Coverage','desc'=>'Our contractor network spans Navi Mumbai, Mumbai, Thane, Pune, and Raigad — giving you local knowledge with city-wide reach.'],
+                $whyImages = [
+                    ['img' => 'images/logo/c13.png', 'alt' => 'Verified contractor service'],
+                    ['img' => 'images/logo/c18.png', 'alt' => 'On-ground project management'],
+                    ['img' => 'images/logo/c17.png', 'alt' => 'Transparent pricing'],
+                    ['img' => 'images/logo/c14.png', 'alt' => 'Quality assurance'],
+                    ['img' => 'images/logo/c16.png', 'alt' => 'On-time construction delivery'],
+                    ['img' => 'images/logo/c15.png', 'alt' => 'Multi-city contractor coverage'],
                 ];
             @endphp
 
-            @foreach($whys as $w)
-                <div class="ck-why-card">
-                    <span class="ck-why-num">{{ $w['num'] }}</span>
-                    <div class="ck-why-icon">{{ $w['icon'] }}</div>
-                    <h3>{{ $w['title'] }}</h3>
-                    <p>{{ $w['desc'] }}</p>
-                </div>
+            @foreach($whyImages as $image)
+                <img class="ck-why-image" src="{{ asset($image['img']) }}" alt="{{ $image['alt'] }}">
             @endforeach
         </div>
     </div>

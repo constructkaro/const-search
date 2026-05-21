@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Knowledge Hub')
+@section('title', 'constructshala')
 
 @section('content')
 <style>

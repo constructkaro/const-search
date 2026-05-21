@@ -91,115 +91,80 @@
         margin:0 0 16px;
     }
 
-    /* SERVICE ACCORDION */
+    /* SERVICE BUTTONS */
     .arch-service-list{
-        max-width:900px;
+        max-width:1180px;
         margin:0 auto;
         display:grid;
-        gap:16px;
+        grid-template-columns:1fr;
+        gap:10px;
         text-align:left;
     }
 
-    .arch-accordion-item{
-        background:#fff;
-        border:1px solid var(--ck-border);
-        border-radius:12px;
-        overflow:hidden;
-        box-shadow:0 8px 22px rgba(28,44,62,.08);
-    }
-
-    .arch-accordion-header{
-        width:100%;
-        border:0;
-        background:#fff;
-        padding:18px 22px;
-        font-size:23px;
-        font-weight:800;
-        color:#222;
-        cursor:pointer;
+    .arch-service-button{
+        min-height:46px;
         display:flex;
-        justify-content:space-between;
         align-items:center;
-        text-align:left;
-    }
-
-    .arch-accordion-header:hover{
-        background:#f8fafc;
-    }
-
-    .arch-accordion-icon{
-        color:var(--ck-blue);
-        font-size:22px;
-        font-weight:900;
-        line-height:1;
-        margin-left:15px;
-    }
-
-    .arch-accordion-body{
-        max-height:0;
-        overflow:hidden;
-        padding:0 22px;
-        transition:all .3s ease;
-        color:#555;
-        font-size:15px;
-        line-height:1.7;
-        background:#fff;
-    }
-
-    .arch-accordion-item.active .arch-accordion-body{
-        max-height:180px;
-        padding:0 22px 18px;
-    }
-
-    .arch-detail-link{
-        display:inline-block;
-        margin-top:10px;
-        color:var(--ck-orange);
+        justify-content:flex-start;
+        background:#ffeadc;
+        border:1px solid #c9c9c9;
+        border-radius:6px;
+        padding:10px 12px;
+        box-shadow:0 2px 5px rgba(28,44,62,.18);
+        color:#4d5661;
+        font-size:16px;
         font-weight:800;
+        line-height:1.25;
         text-decoration:none;
+        transition:background-color .22s ease, border-color .22s ease, color .22s ease, transform .22s ease;
     }
 
-    .arch-detail-link:hover{
-        text-decoration:underline;
+    .arch-service-button:hover{
+        transform:translateY(-1px);
+        background:#ffe0cc;
+        border-color:var(--ck-orange);
+        color:var(--ck-navy);
+        text-decoration:none;
     }
 
     /* WHO CAN USE CARDS */
     .arch-use-cards{
         display:grid;
         grid-template-columns:repeat(3,1fr);
-        gap:28px;
-        max-width:1050px;
+        gap:32px;
+        max-width:900px;
         margin:0 auto;
+        align-items:start;
     }
 
     .arch-use-card{
-        background:#ffffff;
-        border:1px solid #eef0f3;
-        border-radius:24px;
-        overflow:hidden;
-        box-shadow:0 14px 35px rgba(28,44,62,.10);
+        background:transparent;
+        border:0;
+        border-radius:0;
+        overflow:visible;
+        box-shadow:none;
         transition:all .3s ease;
         text-align:center;
     }
 
     .arch-use-card:hover{
         transform:translateY(-6px);
-        box-shadow:0 22px 50px rgba(28,44,62,.16);
-        border-color:var(--ck-orange);
     }
 
     .arch-use-img-box{
         width:100%;
-        height:230px;
-        background:#f6f8fb;
-        overflow:hidden;
+        aspect-ratio:1274 / 1094;
+        border-radius:16px;
+        overflow:visible;
     }
 
     .arch-use-img{
         width:100%;
-        height:100%;
-        object-fit:cover;
+        height:auto;
+        aspect-ratio:1274 / 1094;
+        object-fit:contain;
         display:block;
+        filter:drop-shadow(0 14px 18px rgba(28,44,62,.16));
     }
 
     .arch-use-content{
@@ -223,12 +188,13 @@
 
     /* WHY CHOOSE */
     .arch-why{
-        max-width:980px;
+        max-width:1180px;
         margin:0 auto;
+        text-align:left;
     }
 
     .arch-why-item{
-        margin-bottom:30px;
+        margin-bottom:28px;
     }
 
     .arch-why-item h3{
@@ -253,8 +219,9 @@
     }
 
     .arch-footer-info{
-        max-width:980px;
+        max-width:1180px;
         margin:45px auto 0;
+        text-align:left;
     }
 
     .arch-footer-info h3{
@@ -314,22 +281,23 @@
             font-size:15px;
         }
 
-        .arch-service-list{
-            gap:12px;
-        }
-
-        .arch-accordion-header{
-            font-size:14px;
-            padding:16px 18px;
-        }
-
         .arch-use-cards{
             grid-template-columns:1fr;
             gap:22px;
         }
 
+        .arch-service-button{
+            min-height:42px;
+            padding:9px 10px;
+            font-size:14px;
+        }
+
+        .arch-use-cards{
+            max-width:320px;
+        }
+
         .arch-use-img-box{
-            height:220px;
+            height:auto;
         }
 
         .arch-why-item h3{
@@ -402,9 +370,14 @@
                 'desc' => 'Design for offices, shops, malls, and commercial spaces.',
             ],
             [
-                'title' => 'Office and showroom planning',
+                'title' => 'Office planning',
                 'slug' => 'office-and-showroom-planning',
-                'desc' => 'Modern office and showroom layouts for business needs.',
+                'desc' => 'Modern office layouts for business needs.',
+            ],
+            [
+                'title' => 'Showroom planning',
+                'slug' => 'showroom-planning',
+                'desc' => 'Modern showroom layouts for business needs.',
             ],
             [
                 'title' => 'Farmhouse design',
@@ -461,22 +434,9 @@
 
     <div class="arch-service-list">
         @foreach($services as $service)
-            <div class="arch-accordion-item">
-                <button type="button" class="arch-accordion-header">
-                    <span>{{ $service['title'] }}</span>
-                    <span class="arch-accordion-icon">+</span>
-                </button>
-
-                <div class="arch-accordion-body">
-                    {{ $service['desc'] }}
-
-                    <br>
-
-                    <a href="{{ route('architectural.service.details', $service['slug']) }}" class="arch-detail-link">
-                        View Details
-                    </a>
-                </div>
-            </div>
+            <a href="{{ route('architectural.service.details', $service['slug']) }}" class="arch-service-button">
+                <span>{{ $service['title'] }}</span>
+            </a>
         @endforeach
     </div>
 </section>
@@ -508,7 +468,7 @@
                 <img
                     class="arch-use-img"
                     src="{{ asset('images/logo/as2.png') }}"
-                    alt="3D Elevation"
+                    alt="Architectural Walkthrough"
                 >
             </div>
 
@@ -520,7 +480,7 @@
                 <img
                     class="arch-use-img"
                     src="{{ asset('images/logo/as3.png') }}"
-                    alt="Architectural Walkthrough"
+                    alt="3D Elevation"
                 >
             </div>
 
@@ -572,30 +532,5 @@
         <p>Contractor Services | Interior Design Services | Survey Services | Testing Services | BOQ/Estimation Services</p>
     </div>
 </section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.arch-accordion-header').forEach(function (button) {
-            button.addEventListener('click', function () {
-                let parent = this.closest('.arch-accordion-item');
-
-                document.querySelectorAll('.arch-accordion-item').forEach(function (item) {
-                    if (item !== parent) {
-                        item.classList.remove('active');
-                        let icon = item.querySelector('.arch-accordion-icon');
-                        if (icon) icon.innerHTML = '+';
-                    }
-                });
-
-                parent.classList.toggle('active');
-
-                let icon = parent.querySelector('.arch-accordion-icon');
-                if (icon) {
-                    icon.innerHTML = parent.classList.contains('active') ? '-' : '+';
-                }
-            });
-        });
-    });
-</script>
 
 @endsection

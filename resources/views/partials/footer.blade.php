@@ -99,6 +99,7 @@
 
 .footer-col ul li a:hover {
     color: #f0822f;
+    padding-left: 3px;
 }
 
 .footer-contact-list {
@@ -199,10 +200,10 @@
             <div class="footer-col">
                 <h4>Company</h4>
                 <ul>
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="{{ route('aboutus') }}">About Us</a></li>
                     <li><a href="#">Careers</a></li>
-                    <li><a href="#">Knowledge Hub</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a href="{{ route('knowledgehub') }}">constructshala</a></li>
+                    <li><a href="{{ route('welcome') }}#mainServicesSection">Services</a></li>
                 </ul>
             </div>
 

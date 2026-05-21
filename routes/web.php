@@ -331,6 +331,8 @@ Route::get('architect-services', [HomeController::class, 'architect_services'])-
 
 
 Route::get('contractor-services', [HomeController::class, 'contractor_services'])->name('contractor.services');
+Route::get('contractor-services-new', [HomeController::class, 'contractor_services_new'])->name('contractor.services.new');
+Route::get('contractor-services/{slug}', [HomeController::class, 'contractorServiceDetails'])->name('contractor.service.details');
 
 Route::get('interior-services', [HomeController::class, 'interior_services'])->name('interior.services');
 
@@ -343,6 +345,11 @@ Route::get('survey-structural', [HomeController::class, 'survey_structural'])->n
 
 Route::get('survey-testing', [HomeController::class, 'survey_testing'])->name('survey.testing');
 Route::get('boq-testing', [HomeController::class, 'boq_testing'])->name('boq.testing');
+Route::get('residential-boq', [HomeController::class, 'residential_boq'])->name('residential.boq');
+Route::get('commercial-boq', [HomeController::class, 'commercial_boq'])->name('commercial.boq');
+Route::get('structural-boq', [HomeController::class, 'structural_boq'])->name('structural.boq');
+Route::get('interior-boq', [HomeController::class, 'interior_boq'])->name('interior.boq');
+Route::get('renovation-repair-estimation', [HomeController::class, 'renovation_repair_estimation'])->name('renovation.repair.estimation');
 
 Route::get('guide-me', [HomeController::class, 'confused_guide_me'])->name('confused_guide_me');
 
