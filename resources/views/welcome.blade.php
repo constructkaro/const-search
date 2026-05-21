@@ -841,6 +841,7 @@ html {
     gap: 8px;
     overflow: hidden;
     align-items: stretch;
+    touch-action: pan-x;
 }
 
 .ck-slide {
@@ -859,11 +860,6 @@ html {
 .ck-slide:hover {
     transform: translateY(-4px);
     box-shadow: 0 14px 28px rgba(0,0,0,.20);
-}
-
-.ck-slide a {
-    display: block;
-    height: 100%;
 }
 
 .ck-slide img {
@@ -902,24 +898,13 @@ html {
     white-space: nowrap;
 }
 
-.ck-slide-btn { display: none; }
-
-.ck-slide.active .ck-slide-btn {
-    display: inline-flex;
-    position: absolute;
-    left: 50%;
-    bottom: 16px;
-    translate: -50% 0;
-    width: 170px;
-    height: 34px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #2f89d0, #1d6eb3);
-    color: #fff;
+.ck-slide a {
+    display: block;
+    height: 100%;
+    color: inherit;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 /* ============================================================
@@ -1323,19 +1308,24 @@ html {
         max-width: calc(100% - 32px);
         flex-direction: row;
         gap: 6px;
-        overflow: hidden;
-        padding: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        padding: 0 0 12px;
     }
 
     .ck-slide,
     .ck-slide.active {
         height: 100%;
-        min-width: 36px;
+        min-width: 0;
         width: auto;
+        scroll-snap-align: center;
     }
 
-    .ck-slide { flex: 1; }
-    .ck-slide.active { flex: 3.2; }
+    .ck-slide { flex: 0 0 58px; }
+    .ck-slide.active { flex: 0 0 min(70vw, 330px); }
 
     .ck-slide img { filter: grayscale(0%); }
 
@@ -1360,14 +1350,6 @@ html {
         font-size: 13px;
     }
 
-    .ck-slide.active .ck-slide-btn {
-        width: min(132px, 52%);
-        height: 30px;
-        left: 58%;
-        translate: -50% 0;
-        bottom: 14px;
-        font-size: 12px;
-    }
 }
 
 @media (max-width: 576px) {
@@ -1524,7 +1506,7 @@ html {
 
     .ck-slide,
     .ck-slide.active {
-        min-width: 30px;
+        min-width: 0;
     }
 
     .ck-service-slider {
@@ -1540,11 +1522,8 @@ html {
         padding: 7px 4px;
     }
 
-    .ck-slide.active .ck-slide-btn {
-        width: 104px;
-        height: 28px;
-        font-size: 11px;
-    }
+    .ck-slide { flex-basis: 48px; }
+    .ck-slide.active { flex-basis: min(72vw, 260px); }
 }
 
 
@@ -1766,57 +1745,57 @@ html {
     {{-- ── UPCOMING SERVICES ── --}}
    
     <section class="upcoming-services-section">
-    <div class="upcoming-services-heading">
-        <h2>Our Upcoming Services</h2>
-        <div class="upcoming-heading-line"></div>
-    </div>
-
-    <div class="upcoming-auto-scroll-wrap">
-        <div class="upcoming-auto-scroll-track">
-
-            @php
-                $services = [
-                    ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
-                    ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                    ['testing-services.jpeg','Testing Services','blue-border'],
-                    ['machinaryonhire.png','Machinery On Hire','orange-border'],
-                    ['facade-services.png','Facade Services','blue-border'],
-                    ['StructuralAudit.jpeg','Structural Audit','blue-border']
-
-                ];
-            @endphp
-
-            {{-- ORIGINAL --}}
-            @foreach ($services as $upcoming)
-                <div class="upcoming-card {{ $upcoming[2] }}">
-                    <span class="upcoming-badge">Coming Soon</span>
-                    <div class="upcoming-card-image">
-                        <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
-                    </div>
-                    <div class="upcoming-card-body">
-                        <h3>{{ $upcoming[1] }}</h3>
-                        <p>Launching soon on ConstructKaro</p>
-                    </div>
-                </div>
-            @endforeach
-
-            {{-- DUPLICATE (IMPORTANT for seamless loop) --}}
-            @foreach ($services as $upcoming)
-                <div class="upcoming-card {{ $upcoming[2] }}">
-                    <span class="upcoming-badge">Coming Soon</span>
-                    <div class="upcoming-card-image">
-                        <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
-                    </div>
-                    <div class="upcoming-card-body">
-                        <h3>{{ $upcoming[1] }}</h3>
-                        <p>Launching soon on ConstructKaro</p>
-                    </div>
-                </div>
-            @endforeach
-
+        <div class="upcoming-services-heading">
+            <h2>Our Upcoming Services</h2>
+            <div class="upcoming-heading-line"></div>
         </div>
-    </div>
-</section>
+
+        <div class="upcoming-auto-scroll-wrap">
+            <div class="upcoming-auto-scroll-track">
+
+                @php
+                    $services = [
+                        ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
+                        ['welding-fabrication.png','Welding & Fabrication','blue-border'],
+                        ['testing-services.jpeg','Testing Services','blue-border'],
+                        ['machinaryonhire.png','Machinery On Hire','orange-border'],
+                        ['facade-services.png','Facade Services','blue-border'],
+                        ['StructuralAudit.jpeg','Structural Audit','blue-border']
+
+                    ];
+                @endphp
+
+                {{-- ORIGINAL --}}
+                @foreach ($services as $upcoming)
+                    <div class="upcoming-card {{ $upcoming[2] }}">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>{{ $upcoming[1] }}</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- DUPLICATE (IMPORTANT for seamless loop) --}}
+                @foreach ($services as $upcoming)
+                    <div class="upcoming-card {{ $upcoming[2] }}">
+                        <span class="upcoming-badge">Coming Soon</span>
+                        <div class="upcoming-card-image">
+                            <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
+                        </div>
+                        <div class="upcoming-card-body">
+                            <h3>{{ $upcoming[1] }}</h3>
+                            <p>Launching soon on ConstructKaro</p>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+    </section>
 
     {{-- ── VENDOR ── --}}
     <section class="ck-vendor-section">
@@ -1851,35 +1830,41 @@ html {
 
         <div class="ck-service-slider">
             <!-- <div class="ck-slide"><img src="{{ asset('images/services/contractor.png') }}" alt="Contractor"></div> -->
-            <div class="ck-slide">
+            <div class="ck-slide active">
                 <a href="{{ route('contractor.services') }}">
-                    <img src="{{ asset('images/services/contractor.png') }}" alt="Architect">
+                    <img src="{{ asset('images/services/contractor.png') }}" alt="Contractor">
+                    <!-- <span class="ck-slide-label">Contractor</span> -->
                 </a>
             </div>
             <!-- <div class="ck-slide"><img src="{{ asset('images/services/architect.png') }}"  alt="contractor"></div> -->
             <div class="ck-slide">
                 <a href="{{ route('architect.services') }}">
                     <img src="{{ asset('images/services/architect.png') }}" alt="Architect">
+                    <!-- <span class="ck-slide-label">Architect</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('interior.services') }}">
                     <img src="{{ asset('images/services/interior.png') }}" alt="Interior Designing">
+                    <!-- <span class="ck-slide-label">Interior</span> -->
                 </a>
             </div>
             <div class="ck-slide">
                 <a href="{{ route('survey.services') }}">
                     <img src="{{ asset('images/services/survey.png') }}" alt="Survey">
+                    <!-- <span class="ck-slide-label">Survey</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('survey.structural') }}">
-                    <img src="{{ asset('images/services/structural.png') }}" alt="structural">
+                    <img src="{{ asset('images/services/structural.png') }}" alt="Structural">
+                    <!-- <span class="ck-slide-label">Structural</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('boq.testing') }}">
                     <img src="{{ asset('images/services/boq.png') }}" alt="BOQ">
+                    <!-- <span class="ck-slide-label">BOQ</span> -->
                 </a>
             </div>
         </div>
@@ -2081,19 +2066,46 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
 </script>
 
 <script>
+const serviceSlider = document.querySelector('.ck-service-slider');
+let serviceSwipeStartX = 0;
+let serviceSwipeStartY = 0;
+let serviceSwipeMoved = false;
+
+if (serviceSlider) {
+    serviceSlider.addEventListener('pointerdown', function (event) {
+        serviceSwipeStartX = event.clientX;
+        serviceSwipeStartY = event.clientY;
+        serviceSwipeMoved = false;
+    });
+
+    serviceSlider.addEventListener('pointermove', function (event) {
+        const moveX = Math.abs(event.clientX - serviceSwipeStartX);
+        const moveY = Math.abs(event.clientY - serviceSwipeStartY);
+
+        if (moveX > 10 && moveX > moveY) {
+            serviceSwipeMoved = true;
+        }
+    });
+}
+
 document.querySelectorAll('.ck-slide').forEach(function (slide) {
-    if (!document.querySelector('.ck-slide.active')) {
+    function activateSlide() {
+        document.querySelectorAll('.ck-slide').forEach(s => s.classList.remove('active'));
         slide.classList.add('active');
     }
 
-    slide.addEventListener('click', function () {
-        document.querySelectorAll('.ck-slide').forEach(s => s.classList.remove('active'));
-        slide.classList.add('active');
+    slide.addEventListener('click', function (event) {
+        if (serviceSwipeMoved) {
+            event.preventDefault();
+            serviceSwipeMoved = false;
+            return;
+        }
+
+        activateSlide();
     });
 
     slide.addEventListener('mouseenter', function () {
-        document.querySelectorAll('.ck-slide').forEach(s => s.classList.remove('active'));
-        slide.classList.add('active');
+        activateSlide();
     });
 });
 </script>
