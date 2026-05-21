@@ -10,6 +10,7 @@ class LocationCheckController extends Controller
     public function check(Request $request)
     {
         $area = trim($request->area ?? '');
+        $city = trim($request->city ?? '');
         $pincode = trim($request->pincode ?? '');
 
         $location = DB::table('pincodes')
@@ -20,13 +21,17 @@ class LocationCheckController extends Controller
                 'area.name as area_name',
                 'pincodes.pincode'
             )
-            ->where(function ($query) use ($area, $pincode) {
+            ->where(function ($query) use ($area, $city, $pincode) {
                 if (!empty($pincode)) {
                     $query->where('pincodes.pincode', $pincode);
                 }
 
                 if (!empty($area)) {
                     $query->orWhere('area.name', 'LIKE', '%' . $area . '%');
+                }
+
+                if (!empty($city)) {
+                    $query->orWhere('city.name', 'LIKE', '%' . $city . '%');
                 }
             })
             ->first();

@@ -615,6 +615,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let typingTimer = null;
 
+    function checkTypedLocationSearch(search) {
+        const cleanSearch = (search || "").trim();
+
+        if (!cleanSearch) {
+            return;
+        }
+
+        if (/^[0-9]{6}$/.test(cleanSearch)) {
+            checkLocationInDatabase("", "", cleanSearch, cleanSearch);
+            return;
+        }
+
+        checkLocationInDatabase(cleanSearch, cleanSearch, "", cleanSearch);
+    }
+
     locationInput.addEventListener("input", function () {
         const search = this.value.trim();
 
@@ -632,7 +647,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (/^[0-9]{6}$/.test(search)) {
                 locationSuggestions.innerHTML = "";
                 locationSuggestions.style.display = "none";
-                checkLocationInDatabase("", "", search, search);
+                checkTypedLocationSearch(search);
                 return;
             }
 
@@ -698,7 +713,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (suggestions.length === 0) {
                     locationMessage.style.color = "red";
-                    locationMessage.innerHTML = "No location found.";
+                    locationMessage.innerHTML = "No Google suggestion found. Checking city availability...";
+                    checkTypedLocationSearch(search);
                     return;
                 }
 
@@ -734,8 +750,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             } catch (error) {
                 console.error(error);
-                locationMessage.style.color = "red";
-                locationMessage.innerHTML = "Google location API is blocked or not enabled for this key.";
+                locationMessage.style.color = "#555";
+                locationMessage.innerHTML = "Checking city availability...";
+                checkTypedLocationSearch(search);
             }
         });
     }
