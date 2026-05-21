@@ -48,11 +48,18 @@ html {
 
 .home-page {
     overflow: hidden;
+    width: 100%;
 }
 
 .home-page img {
     max-width: 100%;
     display: block;
+}
+
+.home-page a,
+.home-page button,
+.home-page input {
+    min-width: 0;
 }
 
 .home-page section {
@@ -74,7 +81,7 @@ html {
 }
 
 .section-heading h2 {
-    font-size: 38px;
+    font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
     color: #1f1f1f;
     line-height: 1.15;
@@ -210,7 +217,7 @@ html {
 }
 
 .ck-trust-title {
-    font-size: 24px;
+    font-size: clamp(16px, 2vw, 24px);
     font-weight: 700;
     color: #111;
     line-height: 1.4;
@@ -643,9 +650,10 @@ html {
 }
 
 .upcoming-card-body h3 {
-    font-size: 20px;
+    font-size: clamp(16px, 1.6vw, 20px);
     font-weight: 800;
     color: #1f1f1f;
+    line-height: 1.25;
 }
 
 .upcoming-card-body p {
@@ -791,7 +799,7 @@ html {
 }
 
 .ck-city-card {
-    width: 180px;
+    width: clamp(128px, 14vw, 180px);
 }
 
 .ck-city-card img {
@@ -811,7 +819,7 @@ html {
 }
 
 .ck-all-services-title {
-    font-size: 38px;
+    font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
     color: #1f1f1f;
 }
@@ -928,13 +936,13 @@ html {
 }
 
 .ck-testimonial-heading h2 {
-    font-size: 38px;
+    font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
     color: #1f1f1f;
 }
 
 .ck-testimonial-line {
-    width: 420px;
+    width: min(420px, 82vw);
     height: 4px;
     margin: 12px auto 0;
     border-radius: 50px;
@@ -1249,6 +1257,10 @@ html {
 }
 
 @media (max-width: 991px) {
+    .section-heading {
+        margin-bottom: 36px;
+    }
+
     .hero-banner {
         min-height: 420px;
         background-position: 62% center;
@@ -1265,8 +1277,8 @@ html {
 
     .ck-services-grid,
     .explore-services-grid {
-        grid-template-columns: 1fr;
-        gap: 72px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 72px 28px;
     }
 
     .ck-service-card,
@@ -1294,47 +1306,75 @@ html {
         min-height: 260px;
         aspect-ratio: 16 / 8;
     }
+
+    .ck-city-grid {
+        gap: 26px;
+    }
 }
 
 @media (max-width: 768px) {
+    .ck-services-grid,
+    .explore-services-grid {
+        grid-template-columns: 1fr;
+    }
+
     .ck-service-slider {
-        height: auto;
-        flex-direction: column;
+        height: clamp(250px, 58vw, 360px);
+        max-width: calc(100% - 32px);
+        flex-direction: row;
+        gap: 6px;
+        overflow: hidden;
+        padding: 0;
     }
 
     .ck-slide,
     .ck-slide.active {
-        flex: unset;
-        height: 240px;
-        min-width: unset;
-        width: 100%;
+        height: 100%;
+        min-width: 36px;
+        width: auto;
     }
+
+    .ck-slide { flex: 1; }
+    .ck-slide.active { flex: 3.2; }
 
     .ck-slide img { filter: grayscale(0%); }
 
     .ck-slide-label {
-        writing-mode: initial;
-        transform: none;
-        left: 14px;
-        bottom: 14px;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        left: 8px;
+        bottom: 12px;
         translate: 0;
-        white-space: normal;
+        padding: 8px 5px;
+        font-size: 13px;
+        white-space: nowrap;
     }
 
     .ck-slide.active .ck-slide-label {
-        left: 14px;
-        bottom: 58px;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        left: 8px;
+        bottom: 12px;
         translate: 0;
+        padding: 8px 5px;
+        font-size: 13px;
     }
 
     .ck-slide.active .ck-slide-btn {
-        left: 14px;
-        translate: 0;
-        bottom: 16px;
+        width: min(132px, 52%);
+        height: 30px;
+        left: 58%;
+        translate: -50% 0;
+        bottom: 14px;
+        font-size: 12px;
     }
 }
 
 @media (max-width: 576px) {
+    :root {
+        --container-w: calc(100% - 32px);
+    }
+
     .section-container,
     .ck-trust-container,
     .ck-guide-container,
@@ -1344,19 +1384,32 @@ html {
     }
 
     .hero-banner {
-        min-height: 390px;
-        padding: 46px 0;
-        background-position: 68% center;
+        min-height: auto;
+        padding: 64px 0;
+        background-image:
+            linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.66)),
+            url("{{ asset('images/banner.jpg') }}");
+        background-position: 70% center;
     }
 
     .hero-inner {
         width: calc(100% - 32px);
     }
 
-    .hero-title        { font-size: 28px; }
+    .hero-content      { max-width: 100%; }
+    .hero-title        { font-size: clamp(28px, 8vw, 34px); }
     .hero-subtitle     { font-size: 17px; }
     .hero-description  { font-size: 13px; }
-    .hero-field-search { max-width: none; }
+    .hero-field-search {
+        max-width: none;
+        height: auto;
+        min-height: 50px;
+        border-radius: 12px;
+    }
+
+    .hero-field-search input {
+        font-size: 13px;
+    }
 
     .section-heading h2,
     .ck-all-services-title,
@@ -1364,9 +1417,15 @@ html {
     .upcoming-services-heading h2,
     .ck-city-title {
         font-size: 28px;
+        line-height: 1.2;
     }
 
-    .ck-testimonial-line { width: 240px; }
+    .heading-bar,
+    .upcoming-heading-line,
+    .ck-all-services-line,
+    .ck-testimonial-line {
+        width: min(240px, 72vw);
+    }
 
     .ck-trust-section { padding: 42px 0; }
     .ck-trust-container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
@@ -1383,6 +1442,16 @@ html {
 
     .explore-card-image { aspect-ratio: 16 / 9; }
 
+    .ck-guide-section,
+    .ck-vendor-section,
+    .ck-city-section,
+    .ck-all-services-section,
+    .ck-testimonial-section,
+    .faq-section {
+        padding-top: 46px;
+        padding-bottom: 46px;
+    }
+
     .ck-guide-image-box,
     .ck-guide-content-box,
     .ck-vendor-content-box,
@@ -1398,16 +1467,20 @@ html {
 
     .ck-guide-title   { font-size: 21px; }
     .ck-guide-text    { font-size: 15px; }
-    .ck-guide-btn     { font-size: 16px; padding: 0 20px; width: 100%; }
+    .ck-guide-btn     { font-size: 15px; padding: 0 16px; width: 100%; white-space: normal; min-height: 50px; height: auto; }
 
     .ck-vendor-title  { font-size: 22px; }
     .ck-vendor-text   { font-size: 16px; }
-    .ck-vendor-btn    { width: 100%; font-size: 16px; }
+    .ck-vendor-btn    { width: 100%; font-size: 16px; min-height: 50px; height: auto; padding: 12px 18px; }
     .ck-vendor-image-box { min-height: 220px; }
 
-    .ck-city-card     { width: 130px; }
+    .ck-city-grid     { gap: 18px 14px; }
+    .ck-city-card     { width: calc(50% - 14px); max-width: 138px; }
 
-    .upcoming-card    { width: 260px; min-width: 260px; }
+    .upcoming-services-section { padding: 46px 0; }
+    .upcoming-services-heading { margin-bottom: 26px; }
+    .upcoming-auto-scroll-track { gap: 16px; animation-duration: 30s; }
+    .upcoming-card    { width: 76vw; min-width: 76vw; max-width: 290px; border-radius: 16px; }
     .upcoming-card-image { height: 170px; }
 
     .ck-testimonial-grid {
@@ -1417,6 +1490,61 @@ html {
 
     .ck-testimonial-card { padding: 76px 16px 22px; }
     .ck-testimonial-name { font-size: 15px; }
+
+    #comingSoonLocationBox {
+        width: calc(100% - 32px);
+        margin: 32px auto;
+        padding: 28px 18px;
+    }
+
+    #comingSoonLocationBox h2 {
+        font-size: 23px;
+        line-height: 1.25;
+    }
+
+    #comingSoonLocationBox p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 380px) {
+    .ck-trust-container {
+        grid-template-columns: 1fr;
+    }
+
+    .ck-trust-item {
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
+    .ck-service-card,
+    .explore-card {
+        border-radius: 14px;
+    }
+
+    .ck-slide,
+    .ck-slide.active {
+        min-width: 30px;
+    }
+
+    .ck-service-slider {
+        height: 230px;
+        gap: 5px;
+    }
+
+    .ck-slide-label,
+    .ck-slide.active .ck-slide-label {
+        left: 6px;
+        bottom: 10px;
+        font-size: 11px;
+        padding: 7px 4px;
+    }
+
+    .ck-slide.active .ck-slide-btn {
+        width: 104px;
+        height: 28px;
+        font-size: 11px;
+    }
 }
 
 
@@ -1954,6 +2082,15 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
 
 <script>
 document.querySelectorAll('.ck-slide').forEach(function (slide) {
+    if (!document.querySelector('.ck-slide.active')) {
+        slide.classList.add('active');
+    }
+
+    slide.addEventListener('click', function () {
+        document.querySelectorAll('.ck-slide').forEach(s => s.classList.remove('active'));
+        slide.classList.add('active');
+    });
+
     slide.addEventListener('mouseenter', function () {
         document.querySelectorAll('.ck-slide').forEach(s => s.classList.remove('active'));
         slide.classList.add('active');

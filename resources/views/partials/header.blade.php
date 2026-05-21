@@ -362,6 +362,7 @@ body {
 
     .header .container {
         flex-wrap: wrap;
+        gap: 14px;
     }
 
     .header .nav {
@@ -397,20 +398,58 @@ body {
 }
 
 @media (max-width: 576px) {
+    .header {
+        padding: 9px 12px;
+    }
+
+    .header .container {
+        gap: 8px;
+    }
+
     .header .header-login-btn {
         min-width: auto;
-        height: 40px;
-        padding: 0 14px;
-        font-size: 13px;
+        height: 38px;
+        padding: 0 10px;
+        font-size: 12px;
     }
 
     .header .logo img {
-        width: 125px;
-        max-height: 50px;
+        width: 112px;
+        max-height: 46px;
+    }
+
+    .header .header-right {
+        gap: 8px;
+    }
+
+    .header .menu-toggle,
+    .header .customer-profile-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .header .location {
+        padding: 6px 10px;
+    }
+
+    .header #selectedLocationText {
+        max-width: calc(100vw - 94px);
+        font-size: 13px;
     }
 
     .location-modal-content {
         margin: 90px auto;
+    }
+}
+
+@media (max-width: 360px) {
+    .header .logo img {
+        width: 104px;
+    }
+
+    .header .header-login-btn {
+        padding: 0 8px;
+        font-size: 11px;
     }
 }
 </style>
