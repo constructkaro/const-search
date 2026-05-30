@@ -6,6 +6,11 @@
         padding:18px;
     }
 
+    .vendor-name{
+        font-weight:700;
+        color:#1c2c3e;
+    }
+
     .vendor-custom-table{
         margin-bottom:0;
         vertical-align:middle;
@@ -27,23 +32,7 @@
         color:#475569;
         border-bottom:1px solid #eef2f7;
         vertical-align:middle;
-    }
-
-    .vendor-name{
-        font-weight:700;
-        color:#1c2c3e;
-    }
-
-    .vendor-chip{
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        background:#eef4ff;
-        color:#1d4ed8;
-        padding:7px 12px;
-        border-radius:999px;
-        font-size:12px;
-        font-weight:700;
+        white-space:nowrap;
     }
 
     .select-vendor-btn{
@@ -79,9 +68,12 @@
                         <th>Mobile</th>
                         <th>Email</th>
                         <th>City</th>
+                        <th>Area</th>
                         <th>Project Types</th>
                         <th>Experience</th>
                         <th>Team Size</th>
+                        <th>Pincode</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -89,33 +81,28 @@
                     @foreach($vendors as $vendor)
                         @php
                             $types = json_decode($vendor->project_types, true);
+                            $typeText = is_array($types) && count($types)
+                                ? implode(', ', array_filter($types))
+                                : ($vendor->project_types ?? '-');
                             $alreadyNotified = !empty($vendor->notification_id);
                         @endphp
 
                         <tr>
                             <td>{{ $vendor->id }}</td>
-
                             <td>
                                 <span class="vendor-name">
                                     {{ $vendor->company_name ?? $vendor->full_name ?? '-' }}
                                 </span>
                             </td>
-
                             <td>{{ $vendor->mobile ?? '-' }}</td>
                             <td>{{ $vendor->email ?? '-' }}</td>
                             <td>{{ $vendor->city ?? '-' }}</td>
-
-                            <td>
-                                @if(is_array($types) && count($types))
-                                    {{ implode(', ', $types) }}
-                                @else
-                                    {{ $vendor->project_types ?? '-' }}
-                                @endif
-                            </td>
-
+                            <td>{{ $vendor->area ?? '-' }}</td>
+                            <td>{{ $typeText ?: '-' }}</td>
                             <td>{{ $vendor->experience_years ?? '-' }}</td>
                             <td>{{ $vendor->team_size ?? '-' }}</td>
-
+                            <td>{{ $vendor->provider_pincode ?? $vendor->vendor_pincode ?? '-' }}</td>
+                            <td>{{ $vendor->provider_status ?? '-' }}</td>
                             <td>
                                 @if($alreadyNotified)
                                     <button

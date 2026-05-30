@@ -491,6 +491,16 @@ public function getVendorsByPost($postId)
         return DB::raw('NULL as ' . $alias);
     };
 
+    $vendorColumn = function ($column, $alias = null) use ($vendorColumns) {
+        $alias = $alias ?: $column;
+
+        if (in_array($column, $vendorColumns, true)) {
+            return $alias === $column ? 'vr.' . $column : 'vr.' . $column . ' as ' . $alias;
+        }
+
+        return DB::raw('NULL as ' . $alias);
+    };
+
     if (in_array('project_types', $providerColumns, true)) {
         $projectTypesColumn = 'p.project_types';
     } elseif (in_array('services', $providerColumns, true)) {
@@ -499,13 +509,18 @@ public function getVendorsByPost($postId)
         $projectTypesColumn = DB::raw('NULL as project_types');
     }
 
+    $providerDetailColumns = collect($providerColumns)
+        ->reject(fn ($column) => in_array($column, ['id', 'vendor_id'], true))
+        ->map(fn ($column) => 'p.' . $column . ' as provider_' . $column)
+        ->all();
+
     $vendors = DB::table('vendor_register as vr')
         ->join($providerTable . ' as p', 'vr.id', '=', 'p.vendor_id')
         ->leftJoin('vendor_project_notifications as vpn', function ($join) use ($postId) {
             $join->on('vr.id', '=', 'vpn.vendor_id')
                  ->where('vpn.post_id', '=', $postId);
         })
-        ->select(
+        ->select(array_merge([
             'vr.id',
             'vr.full_name',
             'vr.mobile',
@@ -513,6 +528,12 @@ public function getVendorsByPost($postId)
             'vr.company_name',
             in_array('city', $vendorColumns, true) ? 'vr.city' : DB::raw('NULL as city'),
             in_array('city_ids', $vendorColumns, true) ? 'vr.city_ids as vendor_city_ids' : DB::raw('NULL as vendor_city_ids'),
+            $vendorColumn('area_ids', 'vendor_area_ids'),
+            $vendorColumn('business_address'),
+            $vendorColumn('business_entity'),
+            $vendorColumn('pincode', 'vendor_pincode'),
+            $vendorColumn('remark'),
+            $vendorColumn('created_at', 'vendor_created_at'),
             DB::raw("'" . $serviceType . "' as service_type"),
             'p.id as provider_id',
             $projectTypesColumn,
@@ -524,7 +545,7 @@ public function getVendorsByPost($postId)
             $providerColumn('city_ids', 'provider_city_ids'),
             $providerColumn('area_ids'),
             'vpn.id as notification_id'
-        )
+        ], $providerDetailColumns))
         ->get();
 
     $decodeIds = function ($value) {
@@ -560,7 +581,47 @@ public function getVendorsByPost($postId)
         ? DB::table('city')->whereIn('id', $cityIds)->pluck('name', 'id')
         : collect();
 
-    $vendors->transform(function ($vendor) use ($decodeIds, $cityNames) {
+    $areaIds = $vendors
+        ->flatMap(function ($vendor) use ($decodeIds) {
+            return array_merge(
+                $decodeIds($vendor->area_ids ?? null),
+                $decodeIds($vendor->vendor_area_ids ?? null)
+            );
+        })
+        ->filter()
+        ->unique()
+        ->values();
+
+    $areaNames = $areaIds->isNotEmpty()
+        ? DB::table('areas')
+            ->whereIn('id', $areaIds)
+            ->get()
+            ->mapWithKeys(function ($area) {
+                $parts = array_filter([$area->pincode ?? null, $area->city ?? null, $area->state ?? null]);
+                return [$area->id => implode(' - ', $parts)];
+            })
+        : collect();
+
+    $formatValue = function ($value) {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (is_bool($value)) {
+            return $value ? 'Yes' : 'No';
+        }
+
+        $decoded = is_string($value) ? json_decode($value, true) : null;
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            return implode(', ', array_filter($decoded, fn ($item) => $item !== null && $item !== ''));
+        }
+
+        return $value;
+    };
+
+    $label = fn ($column) => ucwords(str_replace('_', ' ', $column));
+
+    $vendors->transform(function ($vendor) use ($decodeIds, $cityNames, $areaNames, $providerColumns, $formatValue, $label) {
         $ids = $decodeIds($vendor->provider_city_ids ?? null);
 
         if (empty($ids)) {
@@ -580,6 +641,59 @@ public function getVendorsByPost($postId)
         if (!empty($names)) {
             $vendor->city = implode(', ', $names);
         }
+
+        $areaIds = $decodeIds($vendor->area_ids ?? null);
+
+        if (empty($areaIds)) {
+            $areaIds = $decodeIds($vendor->vendor_area_ids ?? null);
+        }
+
+        $areaNamesList = collect($areaIds)
+            ->map(fn ($id) => $areaNames[$id] ?? null)
+            ->filter()
+            ->values()
+            ->all();
+
+        $vendor->area = !empty($areaNamesList) ? implode(', ', $areaNamesList) : null;
+
+        $vendor->vendor_details = collect([
+            'full_name' => $vendor->full_name ?? null,
+            'company_name' => $vendor->company_name ?? null,
+            'mobile' => $vendor->mobile ?? null,
+            'email' => $vendor->email ?? null,
+            'business_entity' => $vendor->business_entity ?? null,
+            'business_address' => $vendor->business_address ?? null,
+            'city' => $vendor->city ?? null,
+            'area' => $vendor->area ?? null,
+            'pincode' => $vendor->vendor_pincode ?? null,
+            'remark' => $vendor->remark ?? null,
+            'registered_on' => $vendor->vendor_created_at ?? null,
+        ])
+            ->map(fn ($value, $key) => ['label' => $label($key), 'value' => $formatValue($value)])
+            ->filter(fn ($detail) => $detail['value'] !== null)
+            ->values();
+
+        $vendor->provider_details = collect($providerColumns)
+            ->reject(fn ($column) => in_array($column, ['id', 'vendor_id'], true))
+            ->map(function ($column) use ($vendor, $formatValue, $label) {
+                $value = $formatValue($vendor->{'provider_' . $column} ?? null);
+
+                if ($value === null) {
+                    return null;
+                }
+
+                if ($column === 'city_ids' || $column === 'city_id') {
+                    $value = $vendor->city ?? $value;
+                }
+
+                if ($column === 'area_ids') {
+                    $value = $vendor->area ?? $value;
+                }
+
+                return ['label' => $label($column), 'value' => $value];
+            })
+            ->filter()
+            ->values();
 
         return $vendor;
     });

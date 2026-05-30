@@ -230,6 +230,10 @@
         box-shadow:0 20px 50px rgba(15,23,42,0.18);
     }
 
+    .vendor-modal .modal-dialog{
+        max-width:96vw;
+    }
+
     .vendor-modal .modal-header{
         background:linear-gradient(135deg, #1c2c3e, #2f4a66);
         color:#fff;
