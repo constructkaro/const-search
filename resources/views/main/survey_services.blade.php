@@ -97,6 +97,24 @@
         border-radius:20px;
         overflow:hidden;
         box-shadow:0 8px 16px rgba(0,0,0,.25);
+        transition:transform .25s ease, box-shadow .25s ease;
+    }
+
+    .survey-card-link{
+        display:block;
+        color:inherit;
+        text-decoration:none;
+        height:100%;
+    }
+
+    .survey-card-link:hover{
+        color:inherit;
+        text-decoration:none;
+    }
+
+    .survey-card.clickable:hover{
+        transform:translateY(-6px);
+        box-shadow:0 14px 26px rgba(0,0,0,.25);
     }
 
     .survey-card.blue{
@@ -443,21 +461,28 @@
     <div class="survey-card-grid">
         @php
             $surveyTypes = [
-                ['Boundary Survey<br>(Demarcation)', 'images/logo/s2.png', 'orange'],
-                ['Topographic Survey', 'images/logo/s3.png', 'blue'],
-                ['Total Station Survey', 'images/logo/s4.png', 'orange'],
-                ['DGPS Survey<br>(Differential GPS)', 'images/logo/s9.png', 'blue'],
-                ['Layout & Plotting<br>Survey', 'images/logo/s5.png', 'blue'],
-                ['Construction Layout<br>Survey', 'images/logo/s6.png', 'orange'],
-                ['Drone Survey', 'images/logo/s7.png', 'blue'],
-                ['Road & Infrastructure<br>Survey', 'images/logo/s8.png', 'orange'],
+                ['Boundary Survey<br>(Demarcation)', 'images/logo/s2.png', 'orange', route('boundary.survey.services')],
+                ['Topographic Survey', 'images/logo/s3.png', 'blue', route('topographic.survey.services')],
+                ['Total Station Survey', 'images/logo/s4.png', 'orange', null],
+                ['DGPS Survey<br>(Differential GPS)', 'images/logo/s9.png', 'blue', null],
+                ['Layout & Plotting<br>Survey', 'images/logo/s5.png', 'blue', null],
+                ['Construction Layout<br>Survey', 'images/logo/s6.png', 'orange', null],
+                ['Drone Survey', 'images/logo/s7.png', 'blue', null],
+                ['Road & Infrastructure<br>Survey', 'images/logo/s8.png', 'orange', null],
             ];
         @endphp
 
         @foreach($surveyTypes as $item)
-            <div class="survey-card {{ $item[2] == 'blue' ? 'blue' : '' }}">
-                <img src="{{ asset($item[1]) }}" alt="{!! strip_tags($item[0]) !!}">
-                <h3>{!! $item[0] !!}</h3>
+            <div class="survey-card {{ $item[2] == 'blue' ? 'blue' : '' }} {{ $item[3] ? 'clickable' : '' }}">
+                @if($item[3])
+                    <a href="{{ $item[3] }}" class="survey-card-link">
+                        <img src="{{ asset($item[1]) }}" alt="{!! strip_tags($item[0]) !!}">
+                        <h3>{!! $item[0] !!}</h3>
+                    </a>
+                @else
+                    <img src="{{ asset($item[1]) }}" alt="{!! strip_tags($item[0]) !!}">
+                    <h3>{!! $item[0] !!}</h3>
+                @endif
             </div>
         @endforeach
     </div>

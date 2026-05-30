@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
- use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
 class PostLeadController extends Controller
@@ -478,6 +478,26 @@ public function getVendorsByPost($postId)
     }
 
     $providerTable = $providerTables[$serviceType];
+    $providerColumns = Schema::getColumnListing($providerTable);
+    $vendorColumns = Schema::getColumnListing('vendor_register');
+
+    $providerColumn = function ($column, $alias = null) use ($providerColumns) {
+        $alias = $alias ?: $column;
+
+        if (in_array($column, $providerColumns, true)) {
+            return $alias === $column ? 'p.' . $column : 'p.' . $column . ' as ' . $alias;
+        }
+
+        return DB::raw('NULL as ' . $alias);
+    };
+
+    if (in_array('project_types', $providerColumns, true)) {
+        $projectTypesColumn = 'p.project_types';
+    } elseif (in_array('services', $providerColumns, true)) {
+        $projectTypesColumn = 'p.services as project_types';
+    } else {
+        $projectTypesColumn = DB::raw('NULL as project_types');
+    }
 
     $vendors = DB::table('vendor_register as vr')
         ->join($providerTable . ' as p', 'vr.id', '=', 'p.vendor_id')
@@ -491,19 +511,78 @@ public function getVendorsByPost($postId)
             'vr.mobile',
             'vr.email',
             'vr.company_name',
-            'vr.city',
+            in_array('city', $vendorColumns, true) ? 'vr.city' : DB::raw('NULL as city'),
+            in_array('city_ids', $vendorColumns, true) ? 'vr.city_ids as vendor_city_ids' : DB::raw('NULL as vendor_city_ids'),
             DB::raw("'" . $serviceType . "' as service_type"),
             'p.id as provider_id',
-            'p.project_types',
-            'p.experience_years',
-            'p.team_size',
-            'p.state',
-            'p.region',
-            'p.city_id',
-            'p.area_ids',
+            $projectTypesColumn,
+            $providerColumn('experience_years'),
+            $providerColumn('team_size'),
+            $providerColumn('state'),
+            $providerColumn('region'),
+            $providerColumn('city_id'),
+            $providerColumn('city_ids', 'provider_city_ids'),
+            $providerColumn('area_ids'),
             'vpn.id as notification_id'
         )
         ->get();
+
+    $decodeIds = function ($value) {
+        if (empty($value)) {
+            return [];
+        }
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        $decoded = json_decode($value, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+            return $decoded;
+        }
+
+        return preg_split('/\s*,\s*/', trim((string) $value, "[] \t\n\r\0\x0B"));
+    };
+
+    $cityIds = $vendors
+        ->flatMap(function ($vendor) use ($decodeIds) {
+            return array_merge(
+                $decodeIds($vendor->provider_city_ids ?? null),
+                $decodeIds($vendor->city_id ?? null),
+                $decodeIds($vendor->vendor_city_ids ?? null)
+            );
+        })
+        ->filter()
+        ->unique()
+        ->values();
+
+    $cityNames = $cityIds->isNotEmpty()
+        ? DB::table('city')->whereIn('id', $cityIds)->pluck('name', 'id')
+        : collect();
+
+    $vendors->transform(function ($vendor) use ($decodeIds, $cityNames) {
+        $ids = $decodeIds($vendor->provider_city_ids ?? null);
+
+        if (empty($ids)) {
+            $ids = $decodeIds($vendor->city_id ?? null);
+        }
+
+        if (empty($ids)) {
+            $ids = $decodeIds($vendor->vendor_city_ids ?? null);
+        }
+
+        $names = collect($ids)
+            ->map(fn ($id) => $cityNames[$id] ?? null)
+            ->filter()
+            ->values()
+            ->all();
+
+        if (!empty($names)) {
+            $vendor->city = implode(', ', $names);
+        }
+
+        return $vendor;
+    });
 
     $html = view('admin.project.partials.vendor_modal_list', compact('vendors', 'post', 'serviceType'))->render();
 

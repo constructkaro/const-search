@@ -186,6 +186,14 @@ class HomeController extends Controller
         return view('main.survey_services');
     }
 
+    public function boundary_survey_services(){
+        return view('main.boundary_survey_services');
+    }
+
+    public function topographic_survey_services(){
+        return view('main.topographic_survey_services');
+    }
+
       public function survey_structural(){
         return view('main.survey_structural');
     }
