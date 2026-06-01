@@ -684,6 +684,31 @@ public function storeInteriorRequirement(Request $request)
             return $names->isNotEmpty() ? $names->implode(', ') : null;
         };
 
+        $postedProjects = DB::table('posts')
+            ->where('user_id', $customerId)
+            ->get()
+            ->map(function ($item) use ($resolveCityNames) {
+                $cityName = $resolveCityNames($item->city_id ?? $item->city ?? null);
+                $location = collect([
+                    $item->area ?? null,
+                    $cityName,
+                    $item->pincode ?? null,
+                ])->filter()->implode(', ');
+
+                return (object) [
+                    'id' => $item->id,
+                    'type' => 'Posted Project',
+                    'service_key' => 'project',
+                    'service_name' => 'Project',
+                    'title' => $item->title ?? 'Project',
+                    'location' => $location ?: '-',
+                    'scope' => $item->area ?? '-',
+                    'description' => $item->description ?? '-',
+                    'created_at' => $item->created_at,
+                    'raw_data' => $item,
+                ];
+            });
+
         $surveyBookings = DB::table('survey_bookings')
             ->where('customer_id', $customerId)
             ->get()
@@ -814,6 +839,7 @@ public function storeInteriorRequirement(Request $request)
         //     });
 
         $allOrders = collect()
+            ->concat($postedProjects)
             ->concat($surveyBookings)
             ->concat($testingEnquiries)
             ->concat($boqEnquiries)

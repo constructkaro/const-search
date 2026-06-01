@@ -116,6 +116,10 @@ class HomeController extends Controller
         return view('main.blogsinsightspage');
     }
 
+    public function mumbaiPuneMissingLinkCaseStudy(){
+        return view('main.mumbai_pune_missing_link_case_study');
+    }
+
     public function aboutus(){
         return view('main.aboutus');
     }
@@ -146,6 +150,26 @@ class HomeController extends Controller
 
     public function interior_services(){
         return view('main.interior_services');
+    }
+
+    public function residential_interior_design(){
+        return view('main.residential_interior_design');
+    }
+
+    public function commercial_interior_design(){
+        return view('main.commercial_interior_design');
+    }
+
+    public function retail_showroom_interior(){
+        return view('main.retail_showroom_interior');
+    }
+
+    public function hospitality_interior_design(){
+        return view('main.hospitality_interior_design');
+    }
+
+    public function industrial_specialized_interior(){
+        return view('main.industrial_specialized_interior');
     }
 
     public function contractor_services(){

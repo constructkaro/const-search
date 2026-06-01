@@ -118,6 +118,25 @@
         transform: translateY(-1px);
     }
 
+    .btn-track {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 10px 16px;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+
+    .btn-track:hover {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
     .empty-box {
         background: #fff;
         border-radius: 18px;
@@ -414,8 +433,8 @@
                         @foreach($notifications as $key => $item)
                             @php
                                 $notificationData = [
-                                    'id' => $item->id ?? '',
-                                    'post_id' => $item->post_id ?? '',
+                                    'id' => $item->notification_id ?? $item->id ?? '',
+                                    'post_id' => $item->project_id ?? $item->post_id ?? '',
                                     'title' => $item->title ?? '',
                                     'contact_name' => $item->contact_name ?? '',
                                    
@@ -460,6 +479,9 @@
                                             data-notification='@json($notificationData)'>
                                         View Details
                                     </button>
+                                    <a href="{{ route('vendor.project.track', $item->project_id ?? $item->post_id) }}" class="btn-track">
+                                        Track
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -9,6 +9,7 @@
         font-family:"Poppins","Segoe UI",sans-serif;
         background:#eeeeee;
         color:#222;
+        font-size:18px;
     }
 
     .id-hero{
@@ -25,7 +26,7 @@
 
     .id-hero h1{
         color:#fff;
-        font-size:54px;
+        font-size:64px;
         line-height:1.18;
         font-weight:900;
         max-width:850px;
@@ -44,7 +45,7 @@
 
     .id-title{
         text-align:center;
-        font-size:42px;
+        font-size:48px;
         font-weight:900;
         line-height:1.25;
         margin:0;
@@ -61,7 +62,7 @@
 
     .id-subtitle{
         text-align:center;
-        font-size:20px;
+        font-size:24px;
         color:#555;
         font-weight:700;
         margin-bottom:45px;
@@ -73,7 +74,7 @@
     }
 
     .id-content p{
-        font-size:22px;
+        font-size:26px;
         color:#555;
         line-height:1.45;
         margin-bottom:28px;
@@ -98,11 +99,21 @@
     }
 
     .category-card{
+        display:block;
         background:#fff0e6;
         border:4px solid #f37021;
         border-radius:20px;
         overflow:hidden;
         box-shadow:0 8px 16px rgba(0,0,0,.25);
+        text-decoration:none;
+        transition:.25s ease;
+        color:inherit;
+    }
+
+    .category-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 14px 26px rgba(0,0,0,.28);
+        color:inherit;
     }
 
     .category-card.blue{
@@ -123,7 +134,7 @@
         align-items:center;
         justify-content:center;
         text-align:center;
-        font-size:34px;
+        font-size:40px;
         line-height:1.25;
         font-weight:900;
         padding:20px;
@@ -181,7 +192,7 @@
 
     .offer-card h3{
         text-align:center;
-        font-size:31px;
+        font-size:36px;
         line-height:1.25;
         font-weight:900;
         margin:0 0 22px;
@@ -190,7 +201,7 @@
 
     .offer-card p,
     .offer-card li{
-        font-size:21px;
+        font-size:24px;
         color:#555;
         font-weight:700;
         line-height:1.45;
@@ -214,7 +225,7 @@
     }
 
     .why-item h3{
-        font-size:36px;
+        font-size:40px;
         line-height:1.25;
         font-weight:900;
         margin:0 0 12px;
@@ -222,7 +233,7 @@
 
     .why-item p,
     .why-item li{
-        font-size:27px;
+        font-size:30px;
         line-height:1.45;
         color:#555;
         font-weight:600;
@@ -238,7 +249,7 @@
     .work-list{
         max-width:1200px;
         margin:0 auto;
-        font-size:32px;
+        font-size:36px;
         line-height:1.45;
         color:#555;
         font-weight:900;
@@ -254,7 +265,7 @@
     }
 
     .location-list li{
-        font-size:30px;
+        font-size:34px;
         line-height:1.45;
         color:#555;
         font-weight:900;
@@ -279,7 +290,7 @@
         background:#fff;
         text-align:left;
         padding:35px 45px;
-        font-size:28px;
+        font-size:32px;
         font-weight:900;
         cursor:pointer;
         display:flex;
@@ -298,7 +309,7 @@
         overflow:hidden;
         padding:0 45px;
         transition:.3s ease;
-        font-size:20px;
+        font-size:22px;
         line-height:1.6;
         color:#555;
     }
@@ -314,13 +325,13 @@
     }
 
     .footer-links h3{
-        font-size:36px;
+        font-size:40px;
         font-weight:900;
         margin:0 0 18px;
     }
 
     .footer-links p{
-        font-size:27px;
+        font-size:30px;
         line-height:1.5;
         color:#555;
         margin:0 0 45px;
@@ -334,7 +345,7 @@
         }
 
         .id-hero h1{
-            font-size:42px;
+            font-size:52px;
         }
     }
 
@@ -345,7 +356,7 @@
         }
 
         .id-hero h1{
-            font-size:30px;
+            font-size:36px;
         }
 
         .id-section{
@@ -353,12 +364,12 @@
         }
 
         .id-title{
-            font-size:28px;
+            font-size:32px;
         }
 
         .id-content p,
         .id-subtitle{
-            font-size:16px;
+            font-size:18px;
         }
 
         .category-grid,
@@ -372,7 +383,7 @@
         }
 
         .category-card h3{
-            font-size:25px;
+            font-size:28px;
             min-height:100px;
         }
 
@@ -382,16 +393,16 @@
         }
 
         .offer-card h3{
-            font-size:24px;
+            font-size:28px;
         }
 
         .offer-card p,
         .offer-card li{
-            font-size:16px;
+            font-size:18px;
         }
 
         .why-item h3{
-            font-size:25px;
+            font-size:28px;
         }
 
         .why-item p,
@@ -399,20 +410,20 @@
         .work-list,
         .location-list li,
         .footer-links p{
-            font-size:18px;
+            font-size:20px;
         }
 
         .footer-links h3{
-            font-size:26px;
+            font-size:30px;
         }
 
         .faq-question{
-            font-size:18px;
+            font-size:20px;
             padding:22px;
         }
 
         .faq-answer{
-            font-size:15px;
+            font-size:17px;
             padding:0 22px;
         }
 
@@ -473,32 +484,32 @@
     </p>
 
     <div class="category-grid">
-        <div class="category-card">
+        <a href="{{ route('residential.interior.design') }}" class="category-card">
             <img src="{{ asset('images/logo/i2.png') }}" alt="Residential Interior Design">
             <h3>Residential<br>Interior Design</h3>
-        </div>
+        </a>
 
-        <div class="category-card blue">
+        <a href="{{ route('commercial.interior.design') }}" class="category-card blue">
             <img src="{{ asset('images/logo/i3.png') }}" alt="Commercial Interior Design">
             <h3>Commercial<br>Interior Design</h3>
-        </div>
+        </a>
 
-        <div class="category-card">
+        <a href="{{ route('retail.showroom.interior') }}" class="category-card">
             <img src="{{ asset('images/logo/i4.png') }}" alt="Retail Showroom Interiors">
             <h3>Retail & Showroom<br>Interiors</h3>
-        </div>
+        </a>
     </div>
 
     <div class="category-grid two">
-        <div class="category-card blue">
+        <a href="{{ route('hospitality.interior.design') }}" class="category-card blue">
             <img src="{{ asset('images/logo/i5.png') }}" alt="Hospitality Interior Design">
             <h3>Hospitality<br>Interior Design</h3>
-        </div>
+        </a>
 
-        <div class="category-card">
+        <a href="{{ route('industrial.specialized.interior') }}" class="category-card">
             <img src="{{ asset('images/logo/i6.png') }}" alt="Industrial Specialized Interiors">
             <h3>Industrial &<br>Specialized Interiors</h3>
-        </div>
+        </a>
     </div>
 </section>
 

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
- use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
+use App\Models\OrderTracking;
+use App\Models\OrderTrackingStep;
 class VendorController extends Controller
 {
   
@@ -94,6 +96,8 @@ public function notifications()
         ->select(
             'vpn.*',
             'p.*',
+            'vpn.id as notification_id',
+            'p.id as project_id',
             'vr.is_interested',
             'vr.boq_file'
         )
@@ -164,5 +168,44 @@ public function notificationResponse(Request $request)
             'message' => 'Your response has been submitted successfully.'
         ]);
 
+}
+
+public function projectTrack($postId)
+{
+    $vendorId = session('vendor_id');
+
+    if (!$vendorId) {
+        return redirect()->route('vendor.login.form')->with('error', 'Please login to view project tracking.');
+    }
+
+    $notification = DB::table('vendor_project_notifications')
+        ->where('vendor_id', $vendorId)
+        ->where('post_id', $postId)
+        ->first();
+
+    if (!$notification) {
+        abort(403, 'You are not assigned to this project.');
+    }
+
+    $post = DB::table('posts')->where('id', $postId)->first();
+
+    if (!$post) {
+        abort(404, 'Project not found.');
+    }
+
+    $tracking = OrderTracking::where('service_key', 'project')
+        ->where('source_id', $postId)
+        ->first();
+
+    $trackingSteps = collect();
+
+    if ($tracking) {
+        $trackingSteps = OrderTrackingStep::where('order_tracking_id', $tracking->id)
+            ->orderBy('tab_type')
+            ->orderBy('step_order')
+            ->get();
+    }
+
+    return view('vendor.project_track', compact('post', 'tracking', 'trackingSteps'));
 }
 }

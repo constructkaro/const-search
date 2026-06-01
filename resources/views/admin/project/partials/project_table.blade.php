@@ -65,6 +65,7 @@
     .btn-view   { background: #e0f2fe; color: #0369a1; }
     .btn-edit   { background: #fef3c7; color: #b45309; }
     .btn-delete { background: #fee2e2; color: #dc2626; }
+    .btn-track  { background: #dcfce7; color: #15803d; }
 
     .empty-row {
         text-align: center;
@@ -149,6 +150,7 @@
                             <div class="action-buttons">
                                 <a href="{{ route('admin.post-leads.show', $post->id) }}" class="btn-action btn-view">View</a>
                                 <a href="{{ route('admin.post-leads.edit', $post->id) }}" class="btn-action btn-edit">Edit</a>
+                                <a href="{{ route('admin.projects.tracking.start', $post->id) }}" class="btn-action btn-track">Tracking</a>
                                 <form action="{{ route('admin.post-leads.destroy', $post->id) }}" method="POST"
                                       style="display:inline-block;"
                                       onsubmit="return confirm('Are you sure you want to delete this lead?');">

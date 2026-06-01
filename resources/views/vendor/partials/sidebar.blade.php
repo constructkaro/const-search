@@ -12,7 +12,7 @@
             <span>Categories</span>
         </a>
 
-        <a href="{{ route('vendor.notifications') }}" class="{{ request()->routeIs('vendor.notifications') ? 'active' : '' }}">
+        <a href="{{ route('vendor.notifications') }}" class="{{ request()->routeIs('vendor.notifications') || request()->routeIs('vendor.project.track') ? 'active' : '' }}">
             <i class="fa-solid fa-bell"></i>
             <span>Notifications</span>
 

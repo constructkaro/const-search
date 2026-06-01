@@ -317,7 +317,8 @@
                             request()->routeIs('admin.orders.survey') ||
                             request()->routeIs('admin.orders.testing') ||
                             request()->routeIs('admin.orders.boq') ||
-                            request()->routeIs('admin.tracking_templates.*');
+                            request()->routeIs('admin.tracking_templates.*') ||
+                            request()->routeIs('admin.order_tracking.*');
                     @endphp
 
                     <button
@@ -371,7 +372,7 @@
 
                         <a href="{{ route('admin.order_tracking.index') }}"
                            class="{{ request()->routeIs('admin.order_tracking.*') ? 'active' : '' }}">
-                            Order Tracking
+                            Project Tracking
                         </a>
                     </div>
 

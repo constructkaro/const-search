@@ -15,30 +15,44 @@
     left: 0;
     z-index: 9998;
     width: 100%;
-    height: 76px;
+    height: 82px;
     background: #f5f5f5;
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
 body {
-    padding-top: 76px;
+    padding-top: 82px;
 }
 
 .header .container {
     width: 100%;
-    max-width: 1320px;
+    max-width: 1600px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 28px;
+    min-height: 82px;
 }
 
-.header .logo img {
-    width: 200px;
-    max-height: 90px;
+.header .logo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* .header .logo img {
+    width: 190px;
+    max-height: 58px;
+    object-fit: contain;
+    display: block;
+} */
+
+    .header .logo img {
+    width: 215px;
+    max-height: 102px;
     object-fit: contain;
     display: block;
 }
@@ -46,22 +60,26 @@ body {
 .header .location {
     display: flex;
     align-items: center;
+    justify-content: center;
+    min-height: 46px;
     background: #e9e9e9;
-    padding: 6px 12px;
-    border-radius: 20px;
-    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    gap: 8px;
     flex-shrink: 0;
     margin-left: auto;
     cursor: pointer;
+    border: 1px solid rgba(28,44,62,.04);
 }
 
 .header .location svg {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
+    display: block;
 }
 
 .header #selectedLocationText {
-    font-size: 14px;
+    font-size: 15px;
     color: #333;
     max-width: 190px;
     white-space: nowrap;
@@ -72,16 +90,21 @@ body {
 .header .nav {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
     margin-left: 0;
+    flex-shrink: 0;
 }
 
 .header .nav a {
     text-decoration: none;
     color: #555;
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 1;
     position: relative;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
 }
 
 .header .nav a.active {
@@ -102,7 +125,8 @@ body {
 .header .header-right {
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: flex-end;
+    gap: 12px;
     flex-shrink: 0;
 }
 
@@ -363,6 +387,7 @@ body {
     .header .container {
         flex-wrap: wrap;
         gap: 14px;
+        min-height: 56px;
     }
 
     .header .nav {
@@ -389,6 +414,7 @@ body {
         width: 100%;
         margin-left: 0;
         justify-content: center;
+        min-height: 42px;
     }
 
     .header .logo img {
@@ -476,7 +502,7 @@ body {
         <nav class="nav" id="mainNav">
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
             <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}">About Us</a>
-            <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') ? 'active' : '' }}">Constructshala</a>
+            <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') || request()->routeIs('case-study.*') || request()->routeIs('blogsinsights*') || request()->routeIs('constructionarticle') || request()->routeIs('chooserightcontractor') || request()->routeIs('differentconsultant') ? 'active' : '' }}">Constructshala</a>
         </nav>
 
         <div class="header-right">

@@ -77,6 +77,15 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller'])->prefix('admin'
     Route::post('/order-tracking/step-update/{id}', [TrackingTemplateController::class, 'updateStep'])
         ->name('order_tracking.step_update');
 
+    Route::post('/order-tracking/{trackingId}/steps/store', [TrackingTemplateController::class, 'storeStep'])
+        ->name('order_tracking.step_store');
+
+    Route::post('/order-tracking/step-delete/{id}', [TrackingTemplateController::class, 'deleteStep'])
+        ->name('order_tracking.step_delete');
+
+    Route::get('/projects/{postId}/tracking/start', [TrackingTemplateController::class, 'startProjectTracking'])
+        ->name('projects.tracking.start');
+
 
     Route::get('/engineer-desk/create', [EngineerDeskController::class, 'create'])->name('engineer-desk.create');
     Route::post('/engineer-desk/store', [EngineerDeskController::class, 'store'])->name('engineer-desk.store');
@@ -207,6 +216,8 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
     Route::get('/vendor/notifications', [VendorController::class, 'notifications'])->name('vendor.notifications');
 
+    Route::get('/vendor/project-track/{post_id}', [VendorController::class, 'projectTrack'])->name('vendor.project.track');
+
     Route::post('/vendor/notification-response', [VendorController::class, 'notificationResponse'])
     ->name('vendor.notification.response');
 
@@ -315,6 +326,7 @@ Route::get('different-consultant', [HomeController::class, 'differentconsultant'
 
 Route::get('blogs-insights', [HomeController::class, 'blogsinsights'])->name('blogsinsights');
 Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])->name('blogsinsightspage');
+Route::get('case-study/mumbai-pune-missing-link-project', [HomeController::class, 'mumbaiPuneMissingLinkCaseStudy'])->name('case-study.mumbai-pune-missing-link');
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
@@ -335,6 +347,15 @@ Route::get('contractor-services-new', [HomeController::class, 'contractor_servic
 Route::get('contractor-services/{slug}', [HomeController::class, 'contractorServiceDetails'])->name('contractor.service.details');
 
 Route::get('interior-services', [HomeController::class, 'interior_services'])->name('interior.services');
+Route::get('residential-interior-design', [HomeController::class, 'residential_interior_design'])->name('residential.interior.design');
+Route::get('commercial-interior-design', [HomeController::class, 'commercial_interior_design'])->name('commercial.interior.design');
+Route::get('retail-showroom-interior', [HomeController::class, 'retail_showroom_interior'])->name('retail.showroom.interior');
+Route::get('hospitality-interior-design', [HomeController::class, 'hospitality_interior_design'])->name('hospitality.interior.design');
+Route::get('industrial-specialized-interior', [HomeController::class, 'industrial_specialized_interior'])->name('industrial.specialized.interior');
+// Commercial interior design static page
+Route::get('commercial-interior', function(){
+    return view('main.commercial_interior');
+})->name('commercial.interior');
 
 Route::get('survey-services', [HomeController::class, 'survey_services'])->name('survey.services');
 Route::get('boundary-survey-services', [HomeController::class, 'boundary_survey_services'])->name('boundary.survey.services');

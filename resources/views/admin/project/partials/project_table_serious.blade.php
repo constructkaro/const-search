@@ -80,6 +80,11 @@
         color: #dc2626;
     }
 
+    .btn-track {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
     .empty-row {
         text-align: center;
         padding: 30px !important;
@@ -187,6 +192,7 @@
                         <td>
                             <div class="action-buttons">
                                 <a href="{{ route('admin.post-leads.showdata', $post->id) }}" class="btn-action btn-view">View</a>
+                                <a href="{{ route('admin.projects.tracking.start', $post->id) }}" class="btn-action btn-track">Tracking</a>
                                
                                 <form action="{{ route('admin.post-leads.destroy', $post->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this lead?');">
                                     @csrf
