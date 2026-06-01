@@ -50,7 +50,7 @@ body {
     display: block;
 } */
 
-    .header .logo img {
+.header .logo img {
     width: 215px;
     max-height: 102px;
     object-fit: contain;

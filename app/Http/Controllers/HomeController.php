@@ -120,6 +120,10 @@ class HomeController extends Controller
         return view('main.mumbai_pune_missing_link_case_study');
     }
 
+    public function houseConstructionPlotCaseStudy(){
+        return view('main.house_construction_plot_case_study');
+    }
+
     public function aboutus(){
         return view('main.aboutus');
     }

@@ -216,6 +216,13 @@
                 <img src="{{ asset('images/topics/soiltest.png') }}" alt="Importance of Soil Testing Before Construction">
             </a>
 
+             <a href="{{route('case-study.mumbai-pune-missing-link')}}" class="blog-image-card">
+                <img src="{{ asset('images/topics/misinline.png') }}" alt="Importance of Soil Testing Before Construction">
+            </a>
+
+             
+            
+
         </div>
 
     </div>

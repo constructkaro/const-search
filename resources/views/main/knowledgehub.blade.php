@@ -296,7 +296,7 @@
                     <img src="{{ asset('images/topics/social-feed.png') }}" alt="Social Feed">
                 </a> -->
 
-                <a href="{{ route('case-study.mumbai-pune-missing-link') }}" class="topic-image-card">
+                <a href="{{ route('case-study.house-construction-plot') }}" class="topic-image-card">
                     <img src="{{ asset('images/topics/case-studies.png') }}" alt="Case Studies">
                 </a>
             </div>

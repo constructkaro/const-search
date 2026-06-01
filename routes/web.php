@@ -327,6 +327,7 @@ Route::get('different-consultant', [HomeController::class, 'differentconsultant'
 Route::get('blogs-insights', [HomeController::class, 'blogsinsights'])->name('blogsinsights');
 Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])->name('blogsinsightspage');
 Route::get('case-study/mumbai-pune-missing-link-project', [HomeController::class, 'mumbaiPuneMissingLinkCaseStudy'])->name('case-study.mumbai-pune-missing-link');
+Route::get('case-study/how-to-start-house-construction-on-your-plot', [HomeController::class, 'houseConstructionPlotCaseStudy'])->name('case-study.house-construction-plot');
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
