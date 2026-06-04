@@ -366,6 +366,11 @@ Route::get('topographic-survey-services', [HomeController::class, 'topographic_s
 Route::get('/architectural-services/{slug}', [HomeController::class, 'architecturalServiceDetails'])
     ->name('architectural.service.details');
 Route::get('survey-structural', [HomeController::class, 'survey_structural'])->name('survey.structural');
+Route::get('residential-structural-audit', [HomeController::class, 'residential_structural_audit'])->name('residential.structural.audit');
+Route::get('commercial-structural-audit', [HomeController::class, 'commercial_structural_audit'])->name('commercial.structural.audit');
+Route::get('industrial-structural-audit', [HomeController::class, 'industrial_structural_audit'])->name('industrial.structural.audit');
+Route::get('pre-purchase-structural-inspection', [HomeController::class, 'pre_purchase_structural_inspection'])->name('pre.purchase.structural.inspection');
+Route::get('renovation-repair-structural-audit', [HomeController::class, 'renovation_repair_structural_audit'])->name('renovation.repair.structural.audit');
 
 Route::get('survey-testing', [HomeController::class, 'survey_testing'])->name('survey.testing');
 Route::get('boq-testing', [HomeController::class, 'boq_testing'])->name('boq.testing');

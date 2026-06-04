@@ -226,6 +226,26 @@ class HomeController extends Controller
         return view('main.survey_structural');
     }
 
+    public function residential_structural_audit(){
+        return view('main.residential_structural_audit');
+    }
+
+    public function commercial_structural_audit(){
+        return view('main.commercial_structural_audit');
+    }
+
+    public function industrial_structural_audit(){
+        return view('main.industrial_structural_audit');
+    }
+
+    public function pre_purchase_structural_inspection(){
+        return view('main.pre_purchase_structural_inspection');
+    }
+
+    public function renovation_repair_structural_audit(){
+        return view('main.renovation_repair_structural_audit');
+    }
+
     public function survey_testing(){
         return view('main.survey_testing');
 

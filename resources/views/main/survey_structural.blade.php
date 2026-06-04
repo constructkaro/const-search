@@ -178,6 +178,11 @@
     box-shadow: 0 2px 14px rgba(0,0,0,0.07);
     transition: transform .22s ease, box-shadow .22s ease;
   }
+  a.sa-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
   .sa-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.13);
@@ -403,39 +408,39 @@
     <p class="sa-subtitle">We offer complete civil works services across residential, commercial, and infrastructure projects.</p>
 
     <div class="sa-cards-top">
-      <div class="sa-card blue">
+      <a href="{{ route('residential.structural.audit') }}" class="sa-card blue">
         <img src="{{ asset('images/logo/st2.png') }}"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80'"
              alt="Residential Structural Audit">
         <div class="sa-card-label">Residential Structural<br>Audit</div>
-      </div>
-      <div class="sa-card orange">
+      </a>
+      <a href="{{ route('commercial.structural.audit') }}" class="sa-card orange">
         <img src="{{ asset('images/logo/st3.png') }}"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80'"
              alt="Commercial Structural Audit">
         <div class="sa-card-label">Commercial<br>Structural Audit</div>
-      </div>
-      <div class="sa-card blue">
+      </a>
+      <a href="{{ route('industrial.structural.audit') }}" class="sa-card blue">
         <img src="{{ asset('images/logo/st4.png') }}"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1581094480313-b95a8aeaa13f?w=600&q=80'"
              alt="Industrial Structural Audit">
         <div class="sa-card-label">Industrial Structural<br>Audit</div>
-      </div>
+      </a>
     </div>
 
     <div class="sa-cards-bottom">
-      <div class="sa-card orange">
+      <a href="{{ route('pre.purchase.structural.inspection') }}" class="sa-card orange">
         <img src="{{ asset('images/logo/st5.png') }}"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80'"
              alt="Pre-Purchase Structural Audit">
         <div class="sa-card-label">Pre-Purchase Structural<br>Audit</div>
-      </div>
-      <div class="sa-card blue">
+      </a>
+      <a href="{{ route('renovation.repair.structural.audit') }}" class="sa-card blue">
         <img src="{{ asset('images/logo/st6.png') }}"
              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80'"
              alt="Renovation Structural Audit">
         <div class="sa-card-label">Renovation &amp; Repair<br>Structural Audit</div>
-      </div>
+      </a>
     </div>
   </div>
 </div>
