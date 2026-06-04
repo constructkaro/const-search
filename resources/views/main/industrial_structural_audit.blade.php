@@ -18,8 +18,8 @@
     .isa-hero {
         min-height: 280px;
         background:
-            linear-gradient(90deg, rgba(2, 8, 16, .95) 0%, rgba(2, 8, 16, .72) 42%, rgba(2, 8, 16, .04) 100%),
-            url("{{ asset('images/logo/st4.png') }}");
+            /* linear-gradient(90deg, rgba(2, 8, 16, .95) 0%, rgba(2, 8, 16, .72) 42%, rgba(2, 8, 16, .04) 100%), */
+            url("{{ asset('images/logo/is1.png') }}");
         background-size: cover;
         background-position: center right;
         display: flex;
@@ -364,6 +364,145 @@
         font-weight: 500;
     }
 
+    /* Design polish: larger readable text, stronger cards, and better spacing */
+    .isa-wrap {
+        max-width: 1200px;
+        padding: 34px 28px 0;
+    }
+
+    .isa-section {
+        margin-bottom: 42px;
+    }
+
+    .isa-title {
+        font-size: 30px;
+        margin-bottom: 12px;
+    }
+
+    .isa-title.small {
+        font-size: 26px;
+    }
+
+    .isa-line {
+        width: 190px;
+        height: 5px;
+        margin-bottom: 24px;
+    }
+
+    .isa-copy {
+        font-size: 16px;
+        line-height: 1.72;
+    }
+
+    .isa-audit-strip {
+        gap: 12px;
+    }
+
+    .isa-step {
+        min-height: 72px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        line-height: 1.25;
+    }
+
+    .isa-note {
+        font-size: 15px;
+        line-height: 1.45;
+    }
+
+    .isa-services,
+    .isa-services.bottom {
+        max-width: 1040px;
+        gap: 28px;
+    }
+
+    .isa-service-card {
+        min-height: 192px;
+        border-radius: 12px;
+        padding: 38px 24px 24px;
+        box-shadow: 0 8px 24px rgba(17, 24, 39, .10);
+    }
+
+    .isa-service-card .badge {
+        width: 32px;
+        height: 32px;
+        top: -16px;
+        font-size: 15px;
+        line-height: 32px;
+    }
+
+    .isa-service-card h3 {
+        font-size: 18px;
+        line-height: 1.25;
+        margin-bottom: 12px;
+    }
+
+    .isa-service-card li,
+    .isa-list-grid li,
+    .isa-location-list li,
+    .isa-service-area li,
+    .isa-industries li {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .isa-property-grid {
+        gap: 24px;
+    }
+
+    .isa-property-card {
+        border-radius: 12px;
+        box-shadow: 0 8px 22px rgba(17, 24, 39, .10);
+    }
+
+    .isa-property-card img {
+        height: 178px;
+    }
+
+    .isa-property-card h3 {
+        min-height: 68px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.25;
+    }
+
+    .isa-benefit strong {
+        font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .isa-benefit span {
+        width: 24px;
+        height: 24px;
+        font-size: 13px;
+    }
+
+    .isa-process-step {
+        min-height: 76px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .isa-service-area h3,
+    .isa-industries h3 {
+        font-size: 21px;
+        margin-bottom: 12px;
+    }
+
+    .isa-faq summary {
+        padding: 16px 20px;
+        font-size: 15px;
+    }
+
+    .isa-faq p {
+        padding: 0 20px 18px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
     @media (max-width: 992px) {
         .isa-hero {
             padding: 38px 28px;
@@ -431,7 +570,7 @@
 
 <main class="isa-page">
     <section class="isa-hero">
-        <h1>Industrial<br>Structural Audit</h1>
+        <!-- <h1>Industrial<br>Structural Audit</h1> -->
     </section>
 
     <div class="isa-wrap">

@@ -18,8 +18,8 @@
     .csa-hero {
         min-height: 280px;
         background:
-            linear-gradient(90deg, rgba(2, 8, 16, .95) 0%, rgba(2, 8, 16, .72) 42%, rgba(2, 8, 16, .04) 100%),
-            url("{{ asset('images/logo/st3.png') }}");
+            /* linear-gradient(90deg, rgba(2, 8, 16, .95) 0%, rgba(2, 8, 16, .72) 42%, rgba(2, 8, 16, .04) 100%), */
+            url("{{ asset('images/logo/csa1.png') }}");
         background-size: cover;
         background-position: center right;
         display: flex;
@@ -364,6 +364,145 @@
         font-weight: 500;
     }
 
+    /* Design polish: larger readable text, stronger cards, and better spacing */
+    .csa-wrap {
+        max-width: 1200px;
+        padding: 34px 28px 0;
+    }
+
+    .csa-section {
+        margin-bottom: 42px;
+    }
+
+    .csa-title {
+        font-size: 30px;
+        margin-bottom: 12px;
+    }
+
+    .csa-title.small {
+        font-size: 26px;
+    }
+
+    .csa-line {
+        width: 190px;
+        height: 5px;
+        margin-bottom: 24px;
+    }
+
+    .csa-copy {
+        font-size: 16px;
+        line-height: 1.72;
+    }
+
+    .csa-audit-strip {
+        gap: 12px;
+    }
+
+    .csa-step {
+        min-height: 72px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        font-size: 14px;
+        line-height: 1.25;
+    }
+
+    .csa-note {
+        font-size: 15px;
+        line-height: 1.45;
+    }
+
+    .csa-services,
+    .csa-services.bottom {
+        max-width: 1040px;
+        gap: 28px;
+    }
+
+    .csa-service-card {
+        min-height: 192px;
+        border-radius: 12px;
+        padding: 38px 24px 24px;
+        box-shadow: 0 8px 24px rgba(17, 24, 39, .10);
+    }
+
+    .csa-service-card .badge {
+        width: 32px;
+        height: 32px;
+        top: -16px;
+        font-size: 15px;
+        line-height: 32px;
+    }
+
+    .csa-service-card h3 {
+        font-size: 18px;
+        line-height: 1.25;
+        margin-bottom: 12px;
+    }
+
+    .csa-service-card li,
+    .csa-list-grid li,
+    .csa-location-list li,
+    .csa-service-area li,
+    .csa-industries li {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .csa-property-grid {
+        gap: 24px;
+    }
+
+    .csa-property-card {
+        border-radius: 12px;
+        box-shadow: 0 8px 22px rgba(17, 24, 39, .10);
+    }
+
+    .csa-property-card img {
+        height: 178px;
+    }
+
+    .csa-property-card h3 {
+        min-height: 68px;
+        padding: 12px 14px;
+        font-size: 15px;
+        line-height: 1.25;
+    }
+
+    .csa-benefit strong {
+        font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .csa-benefit span {
+        width: 24px;
+        height: 24px;
+        font-size: 13px;
+    }
+
+    .csa-process-step {
+        min-height: 76px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .csa-service-area h3,
+    .csa-industries h3 {
+        font-size: 21px;
+        margin-bottom: 12px;
+    }
+
+    .csa-faq summary {
+        padding: 16px 20px;
+        font-size: 15px;
+    }
+
+    .csa-faq p {
+        padding: 0 20px 18px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
     @media (max-width: 992px) {
         .csa-hero {
             padding: 38px 28px;
@@ -431,7 +570,7 @@
 
 <main class="csa-page">
     <section class="csa-hero">
-        <h1>Commercial<br>Structural Audit</h1>
+        <!-- <h1>Commercial<br>Structural Audit</h1> -->
     </section>
 
     <div class="csa-wrap">

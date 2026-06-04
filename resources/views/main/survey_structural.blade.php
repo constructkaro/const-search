@@ -299,6 +299,78 @@
   /* ═══════════════════════════════
      RESPONSIVE
   ═══════════════════════════════ */
+  /* Design polish: improve readability and card alignment on the hub page */
+  .sa-section {
+    padding: 58px 80px;
+  }
+
+  .sa-inner {
+    max-width: 1200px;
+  }
+
+  .sa-intro-title,
+  .sa-what-title,
+  .sa-title {
+    font-size: 32px;
+  }
+
+  .sa-intro-text,
+  .sa-what-text,
+  .sa-subtitle,
+  .sa-loc-text,
+  .sa-loc-links {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .sa-cards-top,
+  .sa-cards-bottom {
+    gap: 28px;
+  }
+
+  .sa-cards-bottom {
+    max-width: 74%;
+  }
+
+  .sa-card {
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, .10);
+  }
+
+  .sa-card img {
+    height: 240px;
+  }
+
+  .sa-card-label {
+    min-height: 92px;
+    padding: 18px 16px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sa-test-grid {
+    gap: 18px;
+  }
+
+  .sa-test-card {
+    min-height: 170px;
+    border-radius: 12px;
+    padding: 22px 18px;
+    box-shadow: 0 8px 22px rgba(17, 24, 39, .09);
+  }
+
+  .sa-test-title {
+    font-size: 20px;
+  }
+
+  .sa-test-card ul li,
+  .sa-why-list li {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
   @media (max-width: 1100px) {
     .sa-test-grid { grid-template-columns: repeat(3, 1fr); }
   }
