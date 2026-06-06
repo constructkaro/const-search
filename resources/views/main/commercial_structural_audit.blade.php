@@ -450,7 +450,7 @@
     .csa-property-grid {
         gap: 24px;
     }
-
+4
     .csa-property-card {
         border-radius: 12px;
         box-shadow: 0 8px 22px rgba(17, 24, 39, .10);

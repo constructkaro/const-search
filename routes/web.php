@@ -332,6 +332,7 @@ Route::get('case-study/how-to-start-house-construction-on-your-plot', [HomeContr
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
 Route::get('our-baground', [HomeController::class, 'ourbaround'])->name('ourbaround');
+Route::get('privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy.policy');
 
 Route::get('about-who-me', [HomeController::class, 'aboutwhome'])->name('aboutwhome');
 Route::get('core-problem', [HomeController::class, 'coreproblem'])->name('coreproblem');

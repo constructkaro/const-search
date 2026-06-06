@@ -128,6 +128,10 @@ class HomeController extends Controller
         return view('main.aboutus');
     }
 
+    public function privacy_policy(){
+        return view('main.privacy_policy');
+    }
+
     public function aboutwhome(){
         return view('main.aboutwhome');
     }

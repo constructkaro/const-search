@@ -10,13 +10,17 @@
     overflow: hidden;
 }
 
+.footer-section,
+.footer-section * {
+    box-sizing: border-box;
+}
+
 .footer-container {
     width: 92%;
     max-width: 1280px;
     margin: 0 auto;
 }
 
-/* social bar */
 .footer-social-bar {
     position: absolute;
     top: 16px;
@@ -44,22 +48,29 @@
     transition: all 0.3s ease;
 }
 
+.footer-social-bar svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+    fill: currentColor;
+}
+
 .footer-social-bar a:hover {
     transform: translateY(-2px);
     color: #f0822f;
 }
 
-/* grid */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.8fr 1fr 1fr 1.2fr;
-    gap: 46px;
+    grid-template-columns: minmax(280px, 1.7fr) minmax(150px, .8fr) minmax(150px, .9fr) minmax(230px, 1fr);
+    gap: 36px;
     align-items: start;
     padding-top: 6px;
 }
 
 .footer-brand img {
-    max-width: 285px;
+    width: 190px;
+    max-width: 100%;
     height: auto;
     display: block;
     margin-bottom: 18px;
@@ -94,6 +105,7 @@
     color: rgba(255,255,255,0.82);
     text-decoration: none;
     font-size: 15px;
+    line-height: 1.4;
     transition: 0.3s ease;
 }
 
@@ -115,6 +127,7 @@
     color: rgba(255,255,255,0.82);
     font-size: 15px;
     line-height: 1.5;
+    word-break: break-word;
 }
 
 .footer-contact-item i {
@@ -124,7 +137,25 @@
     font-size: 14px;
 }
 
-/* bottom */
+.footer-contact-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+    color: rgba(255,255,255,0.8);
+    flex: 0 0 16px;
+}
+
+.footer-contact-icon svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .footer-bottom {
     margin-top: 28px;
     padding-top: 14px;
@@ -139,7 +170,6 @@
     font-weight: 500;
 }
 
-/* responsive */
 @media (max-width: 1100px) {
     .footer-grid {
         grid-template-columns: 1fr 1fr;
@@ -153,7 +183,7 @@
 
 @media (max-width: 767px) {
     .footer-section {
-        padding: 74px 0 18px;
+        padding: 78px 0 18px;
     }
 
     .footer-social-bar {
@@ -163,11 +193,11 @@
 
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 26px;
     }
 
     .footer-brand img {
-        max-width: 220px;
+        width: 165px;
     }
 
     .footer-brand p,
@@ -176,20 +206,39 @@
     .footer-bottom p {
         font-size: 14px;
     }
+
+    .footer-col ul li {
+        margin-bottom: 10px;
+    }
 }
 </style>
 
 <footer class="footer-section">
     <div class="footer-social-bar">
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 8.5h3V5h-3.3C10.9 5 9 6.9 9 9.8V12H6v3.6h3V22h4v-6.4h3.1L16.7 12H13V9.9c0-.9.4-1.4 1-1.4Z"/>
+            </svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7.6 2h8.8A5.6 5.6 0 0 1 22 7.6v8.8a5.6 5.6 0 0 1-5.6 5.6H7.6A5.6 5.6 0 0 1 2 16.4V7.6A5.6 5.6 0 0 1 7.6 2Zm4.4 5.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 2.5a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4Zm5-2.6a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"/>
+            </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4.8 8.8H9V22H4.8V8.8ZM6.9 2A2.4 2.4 0 1 1 7 6.8 2.4 2.4 0 0 1 6.9 2Zm5.4 6.8h4v1.8h.1c.6-1.1 2-2.2 4.1-2.2 4.4 0 5.2 2.9 5.2 6.7V22h-4.2v-6.1c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V22h-4.2V8.8Z"/>
+            </svg>
+        </a>
+        <a href="#" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2a9.7 9.7 0 0 0-8.3 14.7L2.5 22l5.4-1.4A9.8 9.8 0 1 0 12 2Zm5.4 14.1c-.2.6-1.2 1.1-1.7 1.2-.5.1-1.2.2-3.6-.8-3-1.3-5-4.4-5.2-4.6-.1-.2-1.2-1.6-1.2-3s.8-2.2 1.1-2.5c.2-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5l.9 2.1c.1.3.1.5 0 .7l-.5.7c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.1 1.4 2.4 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.5-.2.8-.1l2 .9c.4.2.6.3.7.5 0 .1 0 .6-.2 1.1Z"/>
+            </svg>
+        </a>
     </div>
 
     <div class="footer-container">
         <div class="footer-grid">
-
             <div class="footer-brand">
                 <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo">
                 <p>
@@ -202,7 +251,7 @@
                 <ul>
                     <li><a href="{{ route('aboutus') }}">About Us</a></li>
                     <li><a href="#">Careers</a></li>
-                    <li><a href="{{ route('knowledgehub') }}">constructshala</a></li>
+                    <li><a href="{{ route('knowledgehub') }}">Constructshala</a></li>
                     <li><a href="{{ route('welcome') }}#mainServicesSection">Services</a></li>
                 </ul>
             </div>
@@ -210,9 +259,9 @@
             <div class="footer-col">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="{{route('helpcenter')}}">Help Center</a></li>
+                    <li><a href="{{ route('helpcenter') }}">Help Center</a></li>
                     <li><a href="#">Terms &amp; Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="{{ route('privacy.policy') }}">Privacy Policy</a></li>
                 </ul>
             </div>
 
@@ -220,24 +269,37 @@
                 <h4>Contact</h4>
                 <div class="footer-contact-list">
                     <div class="footer-contact-item">
-                        <i class="far fa-envelope"></i>
+                        <span class="footer-contact-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 6h16v12H4z"/>
+                                <path d="m4 7 8 6 8-6"/>
+                            </svg>
+                        </span>
                         <span>connect@constructkaro.com</span>
                     </div>
                     <div class="footer-contact-item">
-                        <i class="fas fa-phone-alt"></i>
+                        <span class="footer-contact-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1A19.4 19.4 0 0 1 5.2 13 19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 1.9Z"/>
+                            </svg>
+                        </span>
                         <span>+91 73858 82657</span>
                     </div>
                     <div class="footer-contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="footer-contact-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </span>
                         <span>Maharashtra, India</span>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="footer-bottom">
-            <p>© 2026 ConstructKaro. All rights reserved.</p>
+            <p>&copy; 2026 ConstructKaro. All rights reserved.</p>
         </div>
     </div>
 </footer>

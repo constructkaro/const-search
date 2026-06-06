@@ -1,70 +1,81 @@
 <style>
-    .vendor-footer {
+.vendor-footer {
     background: #0f1430;
     padding: 32px 0;
 }
 
-.footer-container {
+.vendor-footer,
+.vendor-footer * {
+    box-sizing: border-box;
+}
+
+.vendor-footer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 30px;
+    width: 92%;
+    max-width: 1180px;
+    margin: 0 auto;
 }
 
-.footer-left h3 {
+.vendor-footer-left h3 {
     color: #ffffff;
     font-size: 24px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
 }
 
-.footer-left p {
+.vendor-footer-left p {
     color: rgba(255, 255, 255, 0.72);
     font-size: 16px;
     line-height: 1.6;
     max-width: 500px;
+    margin: 0;
 }
 
-.footer-right {
+.vendor-footer-right {
     display: flex;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
 }
 
-.footer-right a {
+.vendor-footer-right a {
     color: rgba(255, 255, 255, 0.80);
     font-size: 15px;
+    line-height: 1.4;
     text-decoration: none;
     transition: 0.25s ease;
 }
 
-.footer-right a:hover {
+.vendor-footer-right a:hover {
     color: #f5a623;
 }
 
 @media (max-width: 768px) {
-    .footer-container {
+    .vendor-footer-container {
         flex-direction: column;
         text-align: center;
     }
 
-    .footer-right {
+    .vendor-footer-right {
         justify-content: center;
+        gap: 12px 18px;
     }
 }
 </style>
 <footer class="vendor-footer">
-    <div class="container footer-container">
-        <div class="footer-left">
+    <div class="vendor-footer-container">
+        <div class="vendor-footer-left">
             <h3>ConstructKaro</h3>
             <p>Connecting verified construction professionals with genuine project opportunities.</p>
         </div>
 
-        <div class="footer-right">
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy Policy</a>
+        <div class="vendor-footer-right">
+            <a href="{{ route('aboutus') }}">About</a>
+            <a href="{{ route('helpcenter') }}">Contact</a>
+            <a href="{{ route('privacy.policy') }}">Privacy Policy</a>
             <a href="#">Terms</a>
         </div>
     </div>
