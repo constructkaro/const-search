@@ -463,12 +463,12 @@
             $surveyTypes = [
                 ['Boundary Survey<br>(Demarcation)', 'images/logo/s2.png', 'orange', route('boundary.survey.services')],
                 ['Topographic Survey', 'images/logo/s3.png', 'blue', route('topographic.survey.services')],
-                ['Total Station Survey', 'images/logo/s4.png', 'orange', null],
-                ['DGPS Survey<br>(Differential GPS)', 'images/logo/s9.png', 'blue', null],
-                ['Layout & Plotting<br>Survey', 'images/logo/s5.png', 'blue', null],
-                ['Construction Layout<br>Survey', 'images/logo/s6.png', 'orange', null],
-                ['Drone Survey', 'images/logo/s7.png', 'blue', null],
-                ['Road & Infrastructure<br>Survey', 'images/logo/s8.png', 'orange', null],
+                ['Total Station Survey', 'images/logo/s4.png', 'orange', route('total.station.survey.services')],
+                ['DGPS Survey<br>(Differential GPS)', 'images/logo/s9.png', 'blue', route('dgps.survey.services')],
+                ['Layout & Plotting<br>Survey', 'images/logo/s5.png', 'blue', route('layout.plotting.survey.services')],
+                ['Construction Layout<br>Survey', 'images/logo/s6.png', 'orange', route('construction.layout.survey.services')],
+                ['Drone Survey', 'images/logo/s7.png', 'blue', route('drone.survey.services')],
+                ['Road & Infrastructure<br>Survey', 'images/logo/s8.png', 'orange', route('road.infrastructure.survey.services')],
             ];
         @endphp
 

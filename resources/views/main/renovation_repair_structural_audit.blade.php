@@ -423,7 +423,7 @@
         height: 32px;
         top: -16px;
         font-size: 15px;
-        line-height: 32px;
+        line-height: 32px;  
     }
 
     .rrsa-service-card h3 {

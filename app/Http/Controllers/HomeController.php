@@ -116,6 +116,10 @@ class HomeController extends Controller
         return view('main.blogsinsightspage');
     }
 
+    public function caseStudies(){
+        return view('main.case_studies');
+    }
+
     public function mumbaiPuneMissingLinkCaseStudy(){
         return view('main.mumbai_pune_missing_link_case_study');
     }
@@ -224,6 +228,30 @@ class HomeController extends Controller
 
     public function topographic_survey_services(){
         return view('main.topographic_survey_services');
+    }
+
+    public function total_station_survey_services(){
+        return view('main.total_station_survey_services');
+    }
+
+    public function dgps_survey_services(){
+        return view('main.dgps_survey_services');
+    }
+
+    public function layout_plotting_survey_services(){
+        return view('main.layout_plotting_survey_services');
+    }
+
+    public function construction_layout_survey_services(){
+        return view('main.construction_layout_survey_services');
+    }
+
+    public function drone_survey_services(){
+        return view('main.drone_survey_services');
+    }
+
+    public function road_infrastructure_survey_services(){
+        return view('main.road_infrastructure_survey_services');
     }
 
       public function survey_structural(){

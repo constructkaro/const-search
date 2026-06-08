@@ -326,12 +326,13 @@ Route::get('different-consultant', [HomeController::class, 'differentconsultant'
 
 Route::get('blogs-insights', [HomeController::class, 'blogsinsights'])->name('blogsinsights');
 Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])->name('blogsinsightspage');
+Route::get('case-studies', [HomeController::class, 'caseStudies'])->name('case-studies');
 Route::get('case-study/mumbai-pune-missing-link-project', [HomeController::class, 'mumbaiPuneMissingLinkCaseStudy'])->name('case-study.mumbai-pune-missing-link');
 Route::get('case-study/how-to-start-house-construction-on-your-plot', [HomeController::class, 'houseConstructionPlotCaseStudy'])->name('case-study.house-construction-plot');
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
-Route::get('our-baground', [HomeController::class, 'ourbaround'])->name('ourbaround');
+Route::get('Our-Background', [HomeController::class, 'ourbaround'])->name('ourbaround');
 Route::get('privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy.policy');
 
 Route::get('about-who-me', [HomeController::class, 'aboutwhome'])->name('aboutwhome');
@@ -362,6 +363,12 @@ Route::get('commercial-interior', function(){
 Route::get('survey-services', [HomeController::class, 'survey_services'])->name('survey.services');
 Route::get('boundary-survey-services', [HomeController::class, 'boundary_survey_services'])->name('boundary.survey.services');
 Route::get('topographic-survey-services', [HomeController::class, 'topographic_survey_services'])->name('topographic.survey.services');
+Route::get('total-station-survey-services', [HomeController::class, 'total_station_survey_services'])->name('total.station.survey.services');
+Route::get('dgps-survey-services', [HomeController::class, 'dgps_survey_services'])->name('dgps.survey.services');
+Route::get('layout-plotting-survey-services', [HomeController::class, 'layout_plotting_survey_services'])->name('layout.plotting.survey.services');
+Route::get('construction-layout-survey-services', [HomeController::class, 'construction_layout_survey_services'])->name('construction.layout.survey.services');
+Route::get('drone-survey-services', [HomeController::class, 'drone_survey_services'])->name('drone.survey.services');
+Route::get('road-infrastructure-survey-services', [HomeController::class, 'road_infrastructure_survey_services'])->name('road.infrastructure.survey.services');
 
 
 Route::get('/architectural-services/{slug}', [HomeController::class, 'architecturalServiceDetails'])
