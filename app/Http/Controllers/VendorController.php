@@ -207,9 +207,7 @@ public function projectTrack($postId)
             ->get();
     }
 
-    if ($trackingSteps->isEmpty()) {
-        $trackingSteps = DefaultProjectTrackingSteps::all();
-    }
+    $trackingSteps = DefaultProjectTrackingSteps::allWithAdminSteps($trackingSteps);
 
     return view('vendor.project_track', compact('post', 'tracking', 'trackingSteps'));
 }

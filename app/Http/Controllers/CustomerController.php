@@ -910,9 +910,8 @@ public function storeInteriorRequirement(Request $request)
                 ->orderBy('step_order')
                 ->get();
 
-            if ($service_key === 'project' && $orderSteps->isEmpty() && $executionSteps->isEmpty()) {
-                $orderSteps = DefaultProjectTrackingSteps::order();
-                $executionSteps = DefaultProjectTrackingSteps::execution();
+            if ($service_key === 'project') {
+                $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
             }
 
             return view('customer.dynamic-order-track', compact(
@@ -934,10 +933,7 @@ public function storeInteriorRequirement(Request $request)
             $orderSteps = $trackingSteps->where('tab_type', 'order')->values();
             $executionSteps = $trackingSteps->where('tab_type', 'execution')->values();
 
-            if ($orderSteps->isEmpty() && $executionSteps->isEmpty()) {
-                $orderSteps = DefaultProjectTrackingSteps::order();
-                $executionSteps = DefaultProjectTrackingSteps::execution();
-            }
+            $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
 
             return view('customer.dynamic-order-track', compact(
                 'service',
@@ -965,9 +961,8 @@ public function storeInteriorRequirement(Request $request)
             ->orderBy('step_order')
             ->get();
 
-        if ($service === 'project' && $orderSteps->isEmpty() && $executionSteps->isEmpty()) {
-            $orderSteps = DefaultProjectTrackingSteps::order();
-            $executionSteps = DefaultProjectTrackingSteps::execution();
+        if ($service === 'project') {
+            $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
         }
 
         return view('customer.dynamic-order-track', compact(
