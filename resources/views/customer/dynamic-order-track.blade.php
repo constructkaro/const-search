@@ -293,7 +293,7 @@
                                     </div>
                                 @endif
 
-                                @if($stepType === 'choice')
+                                @if($stepType === 'choice' && empty($step->input_value))
                                     <div class="action-row">
                                         @if(!empty($step->id))
                                             <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
@@ -368,7 +368,7 @@
                                     </div>
                                 @endif
 
-                                @if($stepType === 'choice')
+                                @if($stepType === 'choice' && empty($step->input_value))
                                     <div class="action-row">
                                         @if(!empty($step->id))
                                             <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
