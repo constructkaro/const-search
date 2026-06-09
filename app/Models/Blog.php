@@ -12,6 +12,7 @@ class Blog extends Model
         'excerpt',
         'content',
         'image',
+        'hero_image',
         'published_at',
         'is_published',
     ];

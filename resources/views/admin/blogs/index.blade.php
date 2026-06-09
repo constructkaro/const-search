@@ -87,6 +87,11 @@
                 <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
                 <small class="text-muted">Upload the full card image shown on Blogs / Articles.</small>
             </div>
+            <div class="col-md-3">
+                <label class="form-label">Heading Image</label>
+                <input type="file" name="hero_image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                <small class="text-muted">Shown at the top of the blog detail page.</small>
+            </div>
             <div class="col-md-12">
                 <label class="form-label">Short Description</label>
                 <input type="text" name="excerpt" class="form-control" maxlength="500">
@@ -131,6 +136,11 @@
                         <label class="form-label">Change Blog Card Image</label>
                         <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
                         <small class="text-muted">This image is shown directly on Blogs / Articles.</small>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Change Heading Image</label>
+                        <input type="file" name="hero_image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                        <small class="text-muted">This image is shown at the top of the blog detail page.</small>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Short Description</label>

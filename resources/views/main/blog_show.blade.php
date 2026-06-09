@@ -83,8 +83,9 @@
 </style>
 
 @php
-    $heroImage = $blog->image
-        ? \Illuminate\Support\Facades\Storage::disk('public')->url($blog->image)
+    $heroImagePath = $blog->hero_image ?: $blog->image;
+    $heroImage = $heroImagePath
+        ? \Illuminate\Support\Facades\Storage::disk('public')->url($heroImagePath)
         : asset('images/topics/blogs-insights.png');
 @endphp
 

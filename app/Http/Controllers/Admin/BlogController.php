@@ -24,6 +24,7 @@ class BlogController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
         ]);
@@ -33,6 +34,10 @@ class BlogController extends Controller
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('blogs', 'public');
+        }
+
+        if ($request->hasFile('hero_image')) {
+            $data['hero_image'] = $request->file('hero_image')->store('blogs', 'public');
         }
 
         Blog::create($data);
@@ -47,6 +52,7 @@ class BlogController extends Controller
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
         ]);
@@ -65,6 +71,14 @@ class BlogController extends Controller
             $data['image'] = $request->file('image')->store('blogs', 'public');
         }
 
+        if ($request->hasFile('hero_image')) {
+            if ($blog->hero_image) {
+                Storage::disk('public')->delete($blog->hero_image);
+            }
+
+            $data['hero_image'] = $request->file('hero_image')->store('blogs', 'public');
+        }
+
         $blog->update($data);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog updated successfully.');
@@ -74,6 +88,10 @@ class BlogController extends Controller
     {
         if ($blog->image) {
             Storage::disk('public')->delete($blog->image);
+        }
+
+        if ($blog->hero_image) {
+            Storage::disk('public')->delete($blog->hero_image);
         }
 
         $blog->delete();
