@@ -8,7 +8,6 @@ use App\Models\OrderTrackingStep;
 use App\Models\TrackingTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class TrackingTemplateController extends Controller
 {
@@ -362,20 +361,28 @@ public function updateStep(Request $request, $id)
         'status' => 'required|string',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
-        'download_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
+        'attachments' => 'nullable|array',
+        'attachments.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
     ]);
 
     $extraData = $step->extra_data ?: [];
 
-    if ($request->hasFile('download_file')) {
-        if (!empty($extraData['download_file'])) {
-            Storage::disk('public')->delete($extraData['download_file']);
-        }
+    if (!empty($extraData['download_file'])) {
+        $extraData['attachments'] = array_merge($extraData['attachments'] ?? [], [[
+            'path' => $extraData['download_file'],
+            'name' => $extraData['download_file_name'] ?? basename($extraData['download_file']),
+        ]]);
+        unset($extraData['download_file'], $extraData['download_file_name']);
+    }
 
-        $file = $request->file('download_file');
-        $fileName = time().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
-        $extraData['download_file'] = $file->storeAs('tracking_downloads', $fileName, 'public');
-        $extraData['download_file_name'] = $file->getClientOriginalName();
+    if ($request->hasFile('attachments')) {
+        foreach ($request->file('attachments') as $file) {
+            $fileName = time().'_'.uniqid().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $extraData['attachments'][] = [
+                'path' => $file->storeAs('tracking_attachments', $fileName, 'public'),
+                'name' => $file->getClientOriginalName(),
+            ];
+        }
     }
 
     $step->update([
@@ -406,16 +413,20 @@ public function storeStep(Request $request, $trackingId)
         'status' => 'required|string',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
-        'download_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
+        'attachments' => 'nullable|array',
+        'attachments.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
     ]);
 
     $extraData = [];
 
-    if ($request->hasFile('download_file')) {
-        $file = $request->file('download_file');
-        $fileName = time().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
-        $extraData['download_file'] = $file->storeAs('tracking_downloads', $fileName, 'public');
-        $extraData['download_file_name'] = $file->getClientOriginalName();
+    if ($request->hasFile('attachments')) {
+        foreach ($request->file('attachments') as $file) {
+            $fileName = time().'_'.uniqid().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $extraData['attachments'][] = [
+                'path' => $file->storeAs('tracking_attachments', $fileName, 'public'),
+                'name' => $file->getClientOriginalName(),
+            ];
+        }
     }
 
     \App\Models\OrderTrackingStep::create([

@@ -3,7 +3,13 @@
         @foreach($steps as $step)
             @php
                 $status = $step->status ?: 'pending';
-                $downloadFile = $step->extra_data['download_file'] ?? null;
+                $attachments = $step->extra_data['attachments'] ?? [];
+                if (!empty($step->extra_data['download_file'])) {
+                    $attachments[] = [
+                        'path' => $step->extra_data['download_file'],
+                        'name' => $step->extra_data['download_file_name'] ?? basename($step->extra_data['download_file']),
+                    ];
+                }
             @endphp
             <div class="step-card">
                 <div>
@@ -19,11 +25,16 @@
                             <strong>Update:</strong> {{ $step->input_value }}
                         </div>
                     @endif
-                    @if(($step->step_type ?? null) === 'download' && $downloadFile)
+                    @if(!empty($attachments))
                         <div class="update-box">
-                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($downloadFile) }}" download>
-                                {{ $step->button_text ?: 'Download File' }}
-                            </a>
+                            <strong>Attachments:</strong>
+                            @foreach($attachments as $attachment)
+                                @if(!empty($attachment['path']))
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($attachment['path']) }}" download class="d-block">
+                                        {{ $attachment['name'] ?? basename($attachment['path']) }}
+                                    </a>
+                                @endif
+                            @endforeach
                         </div>
                     @endif
                 </div>

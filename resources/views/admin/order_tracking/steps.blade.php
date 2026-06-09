@@ -303,9 +303,9 @@
                 <label class="form-label">Current Update</label>
                 <input type="text" name="input_value" class="form-control" placeholder="Optional update or remark">
             </div>
-            <div class="col-md-4 js-download-file">
-                <label class="form-label">Download File</label>
-                <input type="file" name="download_file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
+            <div class="col-md-4">
+                <label class="form-label">Attachments</label>
+                <input type="file" name="attachments[]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="save-btn w-100 justify-content-center">
@@ -379,12 +379,24 @@
                                     <label class="form-label">Current Update</label>
                                     <input type="text" name="input_value" value="{{ $step->input_value }}" class="form-control">
                                 </div>
-                                <div class="span-2 js-download-file">
-                                    <label class="form-label">Download File</label>
-                                    <input type="file" name="download_file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
-                                    @if(!empty($step->extra_data['download_file']))
+                                <div class="span-2">
+                                    <label class="form-label">Attachments</label>
+                                    <input type="file" name="attachments[]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
+                                    @php
+                                        $attachments = $step->extra_data['attachments'] ?? [];
+                                        if (!empty($step->extra_data['download_file'])) {
+                                            $attachments[] = [
+                                                'path' => $step->extra_data['download_file'],
+                                                'name' => $step->extra_data['download_file_name'] ?? basename($step->extra_data['download_file']),
+                                            ];
+                                        }
+                                    @endphp
+                                    @if(!empty($attachments))
                                         <small class="text-muted d-block mt-1">
-                                            Current file: {{ $step->extra_data['download_file_name'] ?? basename($step->extra_data['download_file']) }}
+                                            Current files:
+                                            @foreach($attachments as $attachment)
+                                                <span class="d-block">{{ $attachment['name'] ?? basename($attachment['path'] ?? '') }}</span>
+                                            @endforeach
                                         </small>
                                     @endif
                                 </div>
@@ -411,23 +423,4 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('form').forEach(function (form) {
-            const typeSelect = form.querySelector('.js-step-type');
-            const fileField = form.querySelector('.js-download-file');
-
-            if (!typeSelect || !fileField) {
-                return;
-            }
-
-            const toggleFileField = function () {
-                fileField.style.display = typeSelect.value === 'download' ? '' : 'none';
-            };
-
-            typeSelect.addEventListener('change', toggleFileField);
-            toggleFileField();
-        });
-    });
-</script>
 @endsection
