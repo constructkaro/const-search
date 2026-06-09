@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\OrderTracking;
 use App\Models\OrderTrackingStep;
+use App\Support\DefaultProjectTrackingSteps;
 class VendorController extends Controller
 {
   
@@ -204,6 +205,10 @@ public function projectTrack($postId)
             ->orderBy('tab_type')
             ->orderBy('step_order')
             ->get();
+    }
+
+    if ($trackingSteps->isEmpty()) {
+        $trackingSteps = DefaultProjectTrackingSteps::all();
     }
 
     return view('vendor.project_track', compact('post', 'tracking', 'trackingSteps'));

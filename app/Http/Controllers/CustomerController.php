@@ -12,6 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Twilio\Rest\Client;
 use App\Models\OrderTracking;
 use App\Models\OrderTrackingStep;
+use App\Support\DefaultProjectTrackingSteps;
 use Illuminate\Support\Collection;
 
 use Throwable;
@@ -909,6 +910,11 @@ public function storeInteriorRequirement(Request $request)
                 ->orderBy('step_order')
                 ->get();
 
+            if ($service_key === 'project' && $orderSteps->isEmpty() && $executionSteps->isEmpty()) {
+                $orderSteps = DefaultProjectTrackingSteps::order();
+                $executionSteps = DefaultProjectTrackingSteps::execution();
+            }
+
             return view('customer.dynamic-order-track', compact(
                 'service',
                 'id',
@@ -921,6 +927,25 @@ public function storeInteriorRequirement(Request $request)
             ->orderBy('tab_type')
             ->orderBy('step_order')
             ->get();
+
+        if ($service_key === 'project') {
+            $service = $service_key;
+            $id = $source_id;
+            $orderSteps = $trackingSteps->where('tab_type', 'order')->values();
+            $executionSteps = $trackingSteps->where('tab_type', 'execution')->values();
+
+            if ($orderSteps->isEmpty() && $executionSteps->isEmpty()) {
+                $orderSteps = DefaultProjectTrackingSteps::order();
+                $executionSteps = DefaultProjectTrackingSteps::execution();
+            }
+
+            return view('customer.dynamic-order-track', compact(
+                'service',
+                'id',
+                'orderSteps',
+                'executionSteps'
+            ));
+        }
 
         return view('customer.order_track', compact('tracking', 'trackingSteps'));
     }
@@ -939,6 +964,11 @@ public function storeInteriorRequirement(Request $request)
             ->where('tab_type', 'execution')
             ->orderBy('step_order')
             ->get();
+
+        if ($service === 'project' && $orderSteps->isEmpty() && $executionSteps->isEmpty()) {
+            $orderSteps = DefaultProjectTrackingSteps::order();
+            $executionSteps = DefaultProjectTrackingSteps::execution();
+        }
 
         return view('customer.dynamic-order-track', compact(
             'service',

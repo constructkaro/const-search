@@ -253,7 +253,11 @@
             @if($orderSteps->count())
                 <div class="tracking-box">
                     @foreach($orderSteps as $step)
-                        <div class="tracking-step-row {{ $step->status_default }}">
+                        @php
+                            $status = $step->status_default ?? $step->status ?? 'pending';
+                            $stepType = $step->step_type ?? 'normal';
+                        @endphp
+                        <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
                                 <div class="step-icon-wrap">
                                     <div class="step-icon">{{ $step->step_order }}</div>
@@ -268,24 +272,24 @@
                                     <p>{{ $step->step_description }}</p>
                                 @endif
 
-                                <div class="step-status {{ $step->status_default }}">
-                                    {{ ucfirst($step->status_default) }}
+                                <div class="step-status {{ $status }}">
+                                    {{ ucfirst($status) }}
                                 </div>
 
-                                @if($step->step_type === 'choice')
+                                @if($stepType === 'choice')
                                     <div class="action-row">
                                         <button class="mini-btn orange">Yes</button>
                                         <button class="mini-btn light">No</button>
                                     </div>
-                                @elseif($step->step_type === 'download')
+                                @elseif($stepType === 'download')
                                     <div class="action-row">
                                         <a href="#" class="mini-btn orange">{{ $step->button_text ?: 'Download' }}</a>
                                     </div>
-                                @elseif($step->step_type === 'payment')
+                                @elseif($stepType === 'payment')
                                     <div class="action-row">
                                         <a href="#" class="mini-btn orange">{{ $step->button_text ?: 'Payment' }}</a>
                                     </div>
-                                @elseif($step->step_type === 'textarea')
+                                @elseif($stepType === 'textarea')
                                     <div class="text-input-box">
                                         <textarea placeholder="Write your response here"></textarea>
                                     </div>
@@ -305,7 +309,11 @@
             @if($executionSteps->count())
                 <div class="tracking-box">
                     @foreach($executionSteps as $step)
-                        <div class="tracking-step-row {{ $step->status_default }}">
+                        @php
+                            $status = $step->status_default ?? $step->status ?? 'pending';
+                            $stepType = $step->step_type ?? 'normal';
+                        @endphp
+                        <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
                                 <div class="step-icon-wrap">
                                     <div class="step-icon">{{ $step->step_order }}</div>
@@ -320,24 +328,24 @@
                                     <p>{{ $step->step_description }}</p>
                                 @endif
 
-                                <div class="step-status {{ $step->status_default }}">
-                                    {{ ucfirst($step->status_default) }}
+                                <div class="step-status {{ $status }}">
+                                    {{ ucfirst($status) }}
                                 </div>
 
-                                @if($step->step_type === 'choice')
+                                @if($stepType === 'choice')
                                     <div class="action-row">
                                         <button class="mini-btn blue">Yes</button>
                                         <button class="mini-btn light">No</button>
                                     </div>
-                                @elseif($step->step_type === 'download')
+                                @elseif($stepType === 'download')
                                     <div class="action-row">
                                         <a href="#" class="mini-btn blue">{{ $step->button_text ?: 'Download' }}</a>
                                     </div>
-                                @elseif($step->step_type === 'payment')
+                                @elseif($stepType === 'payment')
                                     <div class="action-row">
                                         <a href="#" class="mini-btn blue">{{ $step->button_text ?: 'Payment' }}</a>
                                     </div>
-                                @elseif($step->step_type === 'textarea')
+                                @elseif($stepType === 'textarea')
                                     <div class="text-input-box">
                                         <textarea placeholder="Write your response here"></textarea>
                                     </div>

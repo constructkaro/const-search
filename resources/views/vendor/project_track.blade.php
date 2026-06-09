@@ -198,22 +198,18 @@
             <a href="{{ route('vendor.notifications') }}" class="btn-track">Back to Notifications</a>
         </div>
 
-        @if(!$tracking)
-            <div class="empty-box">Tracking is not assigned for this project yet.</div>
-        @else
-            <div class="track-tabs">
-                <button type="button" class="track-tab active" data-tab="orderTrackPanel">Order Tracking</button>
-                <button type="button" class="track-tab" data-tab="executionTrackPanel">Project Execution Progress</button>
-            </div>
+        <div class="track-tabs">
+            <button type="button" class="track-tab active" data-tab="orderTrackPanel">Order Tracking</button>
+            <button type="button" class="track-tab" data-tab="executionTrackPanel">Project Execution Progress</button>
+        </div>
 
-            <div class="track-panel active" id="orderTrackPanel">
-                @include('vendor.partials.project-tracking-steps', ['steps' => $orderSteps])
-            </div>
+        <div class="track-panel active" id="orderTrackPanel">
+            @include('vendor.partials.project-tracking-steps', ['steps' => $orderSteps])
+        </div>
 
-            <div class="track-panel" id="executionTrackPanel">
-                @include('vendor.partials.project-tracking-steps', ['steps' => $executionSteps])
-            </div>
-        @endif
+        <div class="track-panel" id="executionTrackPanel">
+            @include('vendor.partials.project-tracking-steps', ['steps' => $executionSteps])
+        </div>
     </div>
 </div>
 
