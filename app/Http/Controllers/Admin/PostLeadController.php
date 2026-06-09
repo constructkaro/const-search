@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
@@ -119,42 +118,44 @@ class PostLeadController extends Controller
         }
 
         $insertId = DB::transaction(function () use ($request, $areaIdsJson, $pincode, $filePath) {
-            $userEmail = $request->email ?: 'lead_'.preg_replace('/\D+/', '', $request->mobile).'@constone.local';
-            $hasMobileColumn = Schema::hasColumn('users', 'mobile');
-
-            $user = DB::table('users')
-                ->where('email', $userEmail)
-                ->when($hasMobileColumn, function ($query) use ($request) {
-                    $query->orWhere('mobile', $request->mobile);
+            $customer = DB::table('customers')
+                ->where('mobile', $request->mobile)
+                ->when($request->filled('email'), function ($query) use ($request) {
+                    $query->orWhere('email', $request->email);
                 })
                 ->first();
 
-            if ($user) {
-                $userId = $user->id;
+            if ($customer) {
+                $customerId = $customer->id;
+
+                $customerUpdates = [];
+
+                if (empty($customer->name) && $request->filled('contact_name')) {
+                    $customerUpdates['name'] = $request->contact_name;
+                }
+
+                if (empty($customer->email) && $request->filled('email')) {
+                    $customerUpdates['email'] = $request->email;
+                }
+
+                if (! empty($customerUpdates)) {
+                    $customerUpdates['updated_at'] = now();
+                    DB::table('customers')->where('id', $customerId)->update($customerUpdates);
+                }
             } else {
                 $now = now();
 
-                $userData = [
+                $customerId = DB::table('customers')->insertGetId([
                     'name' => $request->contact_name,
-                    'email' => $userEmail,
-                    'password' => Hash::make('123456789'),
+                    'mobile' => $request->mobile,
+                    'email' => $request->email,
                     'created_at' => $now,
                     'updated_at' => $now,
-                ];
-
-                if ($hasMobileColumn) {
-                    $userData['mobile'] = $request->mobile;
-                }
-
-                if (Schema::hasColumn('users', 'role')) {
-                    $userData['role'] = 'pending';
-                }
-
-                $userId = DB::table('users')->insertGetId($userData);
+                ]);
             }
 
             return DB::table('posts')->insertGetId([
-                'user_id' => $userId,
+                'user_id' => $customerId,
                 'title' => $request->title,
                 'work_subtype_id' => $request->work_subtype_id ?: null,
                 'work_type_id' => $request->work_type_id ?: null,
