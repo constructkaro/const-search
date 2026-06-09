@@ -32,7 +32,7 @@ class DefaultProjectTrackingSteps
 
     public static function orderWithAdminSteps(Collection $adminSteps): Collection
     {
-        return self::commonOrder()->merge(self::renumberAdminOrderSteps($adminSteps));
+        return self::commonOrder()->merge($adminSteps);
     }
 
     public static function allWithAdminSteps(Collection $adminSteps): Collection
@@ -41,16 +41,6 @@ class DefaultProjectTrackingSteps
         $executionSteps = $adminSteps->where('tab_type', 'execution')->values();
 
         return $orderSteps->merge($executionSteps);
-    }
-
-    private static function renumberAdminOrderSteps(Collection $steps): Collection
-    {
-        return $steps->values()->map(function ($step, $index) {
-            $step = clone $step;
-            $step->step_order = $index + 4;
-
-            return $step;
-        });
     }
 
     private static function step(

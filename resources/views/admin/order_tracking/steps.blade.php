@@ -229,7 +229,7 @@
 </style>
 
 @php
-    $nextOrder = ($steps->max('step_order') ?? 0) + 1;
+    $nextOrder = max(($steps->max('step_order') ?? 3) + 1, 4);
 @endphp
 
 <div class="milestone-page">
