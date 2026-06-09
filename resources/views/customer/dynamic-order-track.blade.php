@@ -191,6 +191,10 @@
         cursor:pointer;
     }
 
+    .mini-btn.selected{
+        box-shadow:0 0 0 3px rgba(22,163,74,0.18);
+    }
+
     .mini-btn.orange{
         background:#f18a2a;
         color:#fff;
@@ -224,6 +228,13 @@
         padding:10px 12px;
         resize:vertical;
         font-size:14px;
+    }
+
+    .response-box{
+        margin-top:10px;
+        color:#111827;
+        font-size:13px;
+        font-weight:700;
     }
 
     @media(max-width:767px){
@@ -276,10 +287,29 @@
                                     {{ ucfirst($status) }}
                                 </div>
 
+                                @if(!empty($step->input_value))
+                                    <div class="response-box">
+                                        Selected: {{ $step->input_value }}
+                                    </div>
+                                @endif
+
                                 @if($stepType === 'choice')
                                     <div class="action-row">
-                                        <button class="mini-btn orange">Yes</button>
-                                        <button class="mini-btn light">No</button>
+                                        @if(!empty($step->id))
+                                            <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
+                                                @csrf
+                                                <input type="hidden" name="choice" value="Yes">
+                                                <button type="submit" class="mini-btn orange {{ ($step->input_value ?? '') === 'Yes' ? 'selected' : '' }}">Yes</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
+                                                @csrf
+                                                <input type="hidden" name="choice" value="No">
+                                                <button type="submit" class="mini-btn light {{ ($step->input_value ?? '') === 'No' ? 'selected' : '' }}">No</button>
+                                            </form>
+                                        @else
+                                            <button type="button" class="mini-btn orange">Yes</button>
+                                            <button type="button" class="mini-btn light">No</button>
+                                        @endif
                                     </div>
                                 @elseif($stepType === 'download')
                                     <div class="action-row">
@@ -332,10 +362,29 @@
                                     {{ ucfirst($status) }}
                                 </div>
 
+                                @if(!empty($step->input_value))
+                                    <div class="response-box">
+                                        Selected: {{ $step->input_value }}
+                                    </div>
+                                @endif
+
                                 @if($stepType === 'choice')
                                     <div class="action-row">
-                                        <button class="mini-btn blue">Yes</button>
-                                        <button class="mini-btn light">No</button>
+                                        @if(!empty($step->id))
+                                            <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
+                                                @csrf
+                                                <input type="hidden" name="choice" value="Yes">
+                                                <button type="submit" class="mini-btn blue {{ ($step->input_value ?? '') === 'Yes' ? 'selected' : '' }}">Yes</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('myorder.track.choice', $step->id) }}">
+                                                @csrf
+                                                <input type="hidden" name="choice" value="No">
+                                                <button type="submit" class="mini-btn light {{ ($step->input_value ?? '') === 'No' ? 'selected' : '' }}">No</button>
+                                            </form>
+                                        @else
+                                            <button type="button" class="mini-btn blue">Yes</button>
+                                            <button type="button" class="mini-btn light">No</button>
+                                        @endif
                                     </div>
                                 @elseif($stepType === 'download')
                                     <div class="action-row">

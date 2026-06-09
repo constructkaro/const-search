@@ -286,6 +286,7 @@ Route::post('/interior-requirement/store', [CustomerController::class, 'storeInt
 Route::get('/my-profile', [CustomerController::class, 'profile'])->name('customer.profile');
 Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
 Route::get('/myorder/track/{service_key}/{source_id}', [CustomerController::class, 'track'])->name('myorder.track');
+Route::post('/myorder/track/step/{step}/choice', [CustomerController::class, 'saveTrackingChoice'])->name('myorder.track.choice');
 
 Route::post('/save-post', [CustomerController::class, 'savepost'])->name('save.post');
 Route::get('/get-project-types/{workType}', [CustomerController::class, 'getProjectTypes']);

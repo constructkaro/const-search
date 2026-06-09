@@ -945,6 +945,32 @@ public function storeInteriorRequirement(Request $request)
 
         return view('customer.order_track', compact('tracking', 'trackingSteps'));
     }
+
+    public function saveTrackingChoice(Request $request, OrderTrackingStep $step)
+    {
+        $validated = $request->validate([
+            'choice' => 'required|in:Yes,No',
+        ]);
+
+        $tracking = $step->tracking;
+
+        if (!$tracking || $step->step_type !== 'choice') {
+            return redirect()->back()->with('error', 'This tracking step cannot accept a choice.');
+        }
+
+        $customerId = session('customer_id');
+
+        if ($customerId && $tracking->customer_id && (int) $tracking->customer_id !== (int) $customerId) {
+            return redirect()->back()->with('error', 'You are not allowed to update this tracking step.');
+        }
+
+        $step->update([
+            'input_value' => $validated['choice'],
+            'status' => 'completed',
+        ]);
+
+        return redirect()->back()->with('success', 'Your response has been saved.');
+    }
   
     public function orderTrack($service, $id)
     {
