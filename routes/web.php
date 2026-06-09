@@ -33,6 +33,7 @@ use App\Http\Controllers\TestingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationCheckController;
 
@@ -106,6 +107,10 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
+        Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+        Route::post('/blogs/store', [BlogController::class, 'store'])->name('blogs.store');
+        Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('blogs.update');
+        Route::delete('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
@@ -326,6 +331,7 @@ Route::get('construction-article', [HomeController::class, 'constructionarticle'
 Route::get('different-consultant', [HomeController::class, 'differentconsultant'])->name('differentconsultant');
 
 Route::get('blogs-insights', [HomeController::class, 'blogsinsights'])->name('blogsinsights');
+Route::get('blogs-insights/{slug}', [HomeController::class, 'blogShow'])->name('blogs.show');
 Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])->name('blogsinsightspage');
 Route::get('case-studies', [HomeController::class, 'caseStudies'])->name('case-studies');
 Route::get('case-study/mumbai-pune-missing-link-project', [HomeController::class, 'mumbaiPuneMissingLinkCaseStudy'])->name('case-study.mumbai-pune-missing-link');

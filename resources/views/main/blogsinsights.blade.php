@@ -133,6 +133,22 @@
         object-fit: cover;
     }
 
+    .dynamic-blog-empty-card {
+        display: flex;
+        min-height: 330px;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #f25c05;
+        border-radius: 22px;
+        background: #fff1e7;
+        color: #1f1f1f;
+        padding: 22px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: 900;
+    }
+
     @media (max-width: 1199px) {
         .blog-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -178,6 +194,10 @@
             font-size: 13px;
             border-radius: 10px;
         }
+
+        .dynamic-blog-empty-card {
+            min-height: 220px;
+        }
     }
 </style>
 
@@ -185,9 +205,9 @@
     <div class="blog-article-wrapper">
 
         <div class="blog-search-wrap">
-            <form class="blog-search-bar" action="#" method="GET">
+            <form class="blog-search-bar" action="{{ route('blogsinsights') }}" method="GET">
                 <div class="blog-search-icon">&#128269;</div>
-                <input type="text" name="search" placeholder="Search for How to Choose the Right Contractor in India?">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for How to Choose the Right Contractor in India?">
                 <button type="submit">search</button>
             </form>
         </div>
@@ -199,29 +219,41 @@
         </div>
 
         <div class="blog-grid">
+            @foreach($blogs ?? [] as $blog)
+                @if($blog->image)
+                    <a href="{{ route('blogs.show', $blog->slug) }}" class="blog-image-card">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($blog->image) }}" alt="{{ $blog->title }}">
+                    </a>
+                @else
+                    <a href="{{ route('blogs.show', $blog->slug) }}" class="dynamic-blog-empty-card">
+                        {{ $blog->title }}
+                    </a>
+                @endif
+            @endforeach
 
-            <a href="{{route('chooserightcontractor')}}" class="blog-image-card ">
-                <img src="{{ asset('images/topics/contractor-guide.png') }}" alt="How to Choose the Right Contractor in India">
-            </a>
+            @if(!request('search'))
+                <a href="{{route('chooserightcontractor')}}" class="blog-image-card ">
+                    <img src="{{ asset('images/topics/contractor-guide.png') }}" alt="How to Choose the Right Contractor in India">
+                </a>
 
-            <a href="{{route('constructionarticle')}}" class="blog-image-card">
-                <img src="{{ asset('images/topics/cost-breakdown.png') }}" alt="House Construction Cost Breakdown in India">
-            </a>
+                <a href="{{route('constructionarticle')}}" class="blog-image-card">
+                    <img src="{{ asset('images/topics/cost-breakdown.png') }}" alt="House Construction Cost Breakdown in India">
+                </a>
 
-            <a href="{{route('differentconsultant')}}" class="blog-image-card">
-                <img src="{{ asset('images/topics/professional-difference.png') }}" alt="Difference Between Contractor Architect Interior Designer Surveyor and Consultant">
-            </a>
+                <a href="{{route('differentconsultant')}}" class="blog-image-card">
+                    <img src="{{ asset('images/topics/professional-difference.png') }}" alt="Difference Between Contractor Architect Interior Designer Surveyor and Consultant">
+                </a>
 
-            <a href="{{route('blogsinsightspage')}}" class="blog-image-card">
-                <img src="{{ asset('images/topics/soiltest.png') }}" alt="Importance of Soil Testing Before Construction">
-            </a>
+                <a href="{{route('blogsinsightspage')}}" class="blog-image-card">
+                    <img src="{{ asset('images/topics/soiltest.png') }}" alt="Importance of Soil Testing Before Construction">
+                </a>
 
-             <a href="{{route('case-study.mumbai-pune-missing-link')}}" class="blog-image-card">
-                <img src="{{ asset('images/topics/misinline.png') }}" alt="Importance of Soil Testing Before Construction">
-            </a>
-
-             
-            
+                 <a href="{{route('case-study.mumbai-pune-missing-link')}}" class="blog-image-card">
+                    <img src="{{ asset('images/topics/misinline.png') }}" alt="Mumbai Pune Missing Link Project">
+                </a>
+            @elseif(($blogs ?? collect())->isEmpty())
+                <div class="empty-box">No blogs found.</div>
+            @endif
 
         </div>
 

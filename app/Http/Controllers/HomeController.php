@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -109,11 +110,32 @@ class HomeController extends Controller
     }
 
     public function blogsinsights(){
-        return view('main.blogsinsights');
+        $blogs = Blog::where('is_published', true)
+            ->when(request('search'), function ($query, $search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('excerpt', 'like', '%'.$search.'%')
+                        ->orWhere('content', 'like', '%'.$search.'%');
+                });
+            })
+            ->orderByDesc('published_at')
+            ->latest()
+            ->get();
+
+        return view('main.blogsinsights', compact('blogs'));
     }
     
     public function blogsinsightspage(){
         return view('main.blogsinsightspage');
+    }
+
+    public function blogShow($slug)
+    {
+        $blog = Blog::where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
+
+        return view('main.blog_show', compact('blog'));
     }
 
     public function caseStudies(){

@@ -309,6 +309,14 @@
                         </span>
                     </a>
 
+                    <a href="{{ route('admin.blogs.index') }}"
+                       class="{{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+                        <span class="menu-left">
+                            <i class="bi bi-journal-richtext"></i>
+                            <span>Blogs</span>
+                        </span>
+                    </a>
+
                     @php
                         $ordersMenuOpen =
                             request()->routeIs('admin.orders.index') ||
