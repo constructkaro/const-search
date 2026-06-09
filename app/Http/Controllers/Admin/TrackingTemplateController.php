@@ -8,6 +8,7 @@ use App\Models\OrderTrackingStep;
 use App\Models\TrackingTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TrackingTemplateController extends Controller
 {
@@ -361,7 +362,21 @@ public function updateStep(Request $request, $id)
         'status' => 'required|string',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
+        'download_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
     ]);
+
+    $extraData = $step->extra_data ?: [];
+
+    if ($request->hasFile('download_file')) {
+        if (!empty($extraData['download_file'])) {
+            Storage::disk('public')->delete($extraData['download_file']);
+        }
+
+        $file = $request->file('download_file');
+        $fileName = time().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
+        $extraData['download_file'] = $file->storeAs('tracking_downloads', $fileName, 'public');
+        $extraData['download_file_name'] = $file->getClientOriginalName();
+    }
 
     $step->update([
         'tab_type' => $request->tab_type ?: $step->tab_type,
@@ -372,6 +387,7 @@ public function updateStep(Request $request, $id)
         'status' => $request->status,
         'input_value' => $request->input_value,
         'button_text' => $request->button_text,
+        'extra_data' => $extraData,
     ]);
 
     return redirect()->back()->with('success', 'Step updated successfully.');
@@ -390,7 +406,17 @@ public function storeStep(Request $request, $trackingId)
         'status' => 'required|string',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
+        'download_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
     ]);
+
+    $extraData = [];
+
+    if ($request->hasFile('download_file')) {
+        $file = $request->file('download_file');
+        $fileName = time().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
+        $extraData['download_file'] = $file->storeAs('tracking_downloads', $fileName, 'public');
+        $extraData['download_file_name'] = $file->getClientOriginalName();
+    }
 
     \App\Models\OrderTrackingStep::create([
         'order_tracking_id' => $tracking->id,
@@ -405,6 +431,7 @@ public function storeStep(Request $request, $trackingId)
         'status' => $request->status,
         'button_text' => $request->button_text,
         'input_value' => $request->input_value,
+        'extra_data' => $extraData,
     ]);
 
     return redirect()->back()->with('success', 'Milestone added successfully.');

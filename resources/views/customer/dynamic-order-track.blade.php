@@ -267,6 +267,7 @@
                         @php
                             $status = $step->status_default ?? $step->status ?? 'pending';
                             $stepType = $step->step_type ?? 'normal';
+                            $downloadFile = $step->extra_data['download_file'] ?? null;
                         @endphp
                         <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
@@ -313,7 +314,11 @@
                                     </div>
                                 @elseif($stepType === 'download')
                                     <div class="action-row">
-                                        <a href="#" class="mini-btn orange">{{ $step->button_text ?: 'Download' }}</a>
+                                        @if($downloadFile)
+                                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($downloadFile) }}" class="mini-btn orange" download>{{ $step->button_text ?: 'Download' }}</a>
+                                        @else
+                                            <button type="button" class="mini-btn light">File not uploaded</button>
+                                        @endif
                                     </div>
                                 @elseif($stepType === 'payment')
                                     <div class="action-row">
@@ -342,6 +347,7 @@
                         @php
                             $status = $step->status_default ?? $step->status ?? 'pending';
                             $stepType = $step->step_type ?? 'normal';
+                            $downloadFile = $step->extra_data['download_file'] ?? null;
                         @endphp
                         <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
@@ -388,7 +394,11 @@
                                     </div>
                                 @elseif($stepType === 'download')
                                     <div class="action-row">
-                                        <a href="#" class="mini-btn blue">{{ $step->button_text ?: 'Download' }}</a>
+                                        @if($downloadFile)
+                                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($downloadFile) }}" class="mini-btn blue" download>{{ $step->button_text ?: 'Download' }}</a>
+                                        @else
+                                            <button type="button" class="mini-btn light">File not uploaded</button>
+                                        @endif
                                     </div>
                                 @elseif($stepType === 'payment')
                                     <div class="action-row">

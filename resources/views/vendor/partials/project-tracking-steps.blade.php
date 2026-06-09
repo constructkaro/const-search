@@ -3,6 +3,7 @@
         @foreach($steps as $step)
             @php
                 $status = $step->status ?: 'pending';
+                $downloadFile = $step->extra_data['download_file'] ?? null;
             @endphp
             <div class="step-card">
                 <div>
@@ -16,6 +17,13 @@
                     @if($step->input_value)
                         <div class="update-box">
                             <strong>Update:</strong> {{ $step->input_value }}
+                        </div>
+                    @endif
+                    @if(($step->step_type ?? null) === 'download' && $downloadFile)
+                        <div class="update-box">
+                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($downloadFile) }}" download>
+                                {{ $step->button_text ?: 'Download File' }}
+                            </a>
                         </div>
                     @endif
                 </div>

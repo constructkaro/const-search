@@ -256,7 +256,7 @@
 
     <div class="form-panel">
         <div class="panel-title"><i class="bi bi-plus-circle-fill"></i> Add New Milestone</div>
-        <form action="{{ route('admin.order_tracking.step_store', $tracking->id) }}" method="POST" class="row g-3 align-items-end">
+        <form action="{{ route('admin.order_tracking.step_store', $tracking->id) }}" method="POST" enctype="multipart/form-data" class="row g-3 align-items-end">
             @csrf
             <div class="col-md-2">
                 <label class="form-label">Visible Under</label>
@@ -279,7 +279,7 @@
             </div>
             <div class="col-md-1">
                 <label class="form-label">Type</label>
-                <select name="step_type" class="form-select">
+                <select name="step_type" class="form-select js-step-type">
                     <option value="normal">Normal</option>
                     <option value="choice">Choice</option>
                     <option value="download">Download</option>
@@ -302,6 +302,10 @@
             <div class="col-md-6">
                 <label class="form-label">Current Update</label>
                 <input type="text" name="input_value" class="form-control" placeholder="Optional update or remark">
+            </div>
+            <div class="col-md-4 js-download-file">
+                <label class="form-label">Download File</label>
+                <input type="file" name="download_file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="save-btn w-100 justify-content-center">
@@ -327,7 +331,7 @@
                             <span class="status-chip {{ $status }}">{{ ucfirst($status) }}</span>
                         </div>
 
-                        <form id="stepEditForm{{ $step->id }}" action="{{ route('admin.order_tracking.step_update', $step->id) }}" method="POST">
+                        <form id="stepEditForm{{ $step->id }}" action="{{ route('admin.order_tracking.step_update', $step->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="edit-grid">
                                 <div>
@@ -351,7 +355,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label">Type</label>
-                                    <select name="step_type" class="form-select">
+                                    <select name="step_type" class="form-select js-step-type">
                                         <option value="normal" {{ $step->step_type == 'normal' ? 'selected' : '' }}>Normal</option>
                                         <option value="choice" {{ $step->step_type == 'choice' ? 'selected' : '' }}>Choice</option>
                                         <option value="download" {{ $step->step_type == 'download' ? 'selected' : '' }}>Download</option>
@@ -375,6 +379,15 @@
                                     <label class="form-label">Current Update</label>
                                     <input type="text" name="input_value" value="{{ $step->input_value }}" class="form-control">
                                 </div>
+                                <div class="span-2 js-download-file">
+                                    <label class="form-label">Download File</label>
+                                    <input type="file" name="download_file" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
+                                    @if(!empty($step->extra_data['download_file']))
+                                        <small class="text-muted d-block mt-1">
+                                            Current file: {{ $step->extra_data['download_file_name'] ?? basename($step->extra_data['download_file']) }}
+                                        </small>
+                                    @endif
+                                </div>
                             </div>
                         </form>
 
@@ -397,4 +410,24 @@
         @endif
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('form').forEach(function (form) {
+            const typeSelect = form.querySelector('.js-step-type');
+            const fileField = form.querySelector('.js-download-file');
+
+            if (!typeSelect || !fileField) {
+                return;
+            }
+
+            const toggleFileField = function () {
+                fileField.style.display = typeSelect.value === 'download' ? '' : 'none';
+            };
+
+            typeSelect.addEventListener('change', toggleFileField);
+            toggleFileField();
+        });
+    });
+</script>
 @endsection
