@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://constructkaro.com/sitemap.xml
