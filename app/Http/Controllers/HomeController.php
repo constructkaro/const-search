@@ -115,7 +115,8 @@ class HomeController extends Controller
                 $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('title', 'like', '%'.$search.'%')
                         ->orWhere('excerpt', 'like', '%'.$search.'%')
-                        ->orWhere('content', 'like', '%'.$search.'%');
+                        ->orWhere('content', 'like', '%'.$search.'%')
+                        ->orWhere('content_blocks', 'like', '%'.$search.'%');
                 });
             })
             ->orderByDesc('published_at')

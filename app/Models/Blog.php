@@ -11,6 +11,7 @@ class Blog extends Model
         'slug',
         'excerpt',
         'content',
+        'content_blocks',
         'image',
         'hero_image',
         'published_at',
@@ -18,6 +19,7 @@ class Blog extends Model
     ];
 
     protected $casts = [
+        'content_blocks' => 'array',
         'published_at' => 'date',
         'is_published' => 'boolean',
     ];
