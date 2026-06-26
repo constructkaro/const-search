@@ -106,6 +106,56 @@
             box-shadow: 0 0 0 0.15rem rgba(242, 92, 5, 0.15);
         }
 
+        .password-field {
+            position: relative;
+        }
+
+        .password-field .form-control {
+            padding-right: 52px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            width: 34px;
+            height: 34px;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #6b7280;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .toggle-password:hover,
+        .toggle-password:focus {
+            color: #f25c05;
+            background: rgba(242, 92, 5, 0.08);
+            outline: none;
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .toggle-password .eye-off-icon {
+            display: none;
+        }
+
+        .toggle-password.is-visible .eye-icon {
+            display: none;
+        }
+
+        .toggle-password.is-visible .eye-off-icon {
+            display: block;
+        }
+
         .login-btn {
             width: 100%;
             height: 50px;
@@ -203,13 +253,34 @@
 
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                class="form-control"
-                                placeholder="Enter your password"
-                                required
-                            >
+                            <div class="password-field">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="adminPassword"
+                                    class="form-control"
+                                    placeholder="Enter your password"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    id="togglePassword"
+                                    aria-label="Show password"
+                                    aria-pressed="false"
+                                >
+                                    <svg class="eye-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <svg class="eye-off-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M10.6 10.6A2 2 0 0 0 13.4 13.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M9.9 5.3A10.5 10.5 0 0 1 12 5c6.5 0 10 7 10 7a18.6 18.6 0 0 1-3.2 4.1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6.6 6.7C3.6 8.7 2 12 2 12s3.5 7 10 7c1.8 0 3.4-.5 4.7-1.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -234,6 +305,20 @@
 
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('adminPassword');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', () => {
+            const isPasswordVisible = passwordInput.type === 'text';
+
+            passwordInput.type = isPasswordVisible ? 'password' : 'text';
+            togglePassword.classList.toggle('is-visible', !isPasswordVisible);
+            togglePassword.setAttribute('aria-label', isPasswordVisible ? 'Show password' : 'Hide password');
+            togglePassword.setAttribute('aria-pressed', String(!isPasswordVisible));
+        });
+    </script>
 
 </body>
 </html>
