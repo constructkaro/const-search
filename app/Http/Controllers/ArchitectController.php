@@ -132,7 +132,7 @@ public function store(Request $request)
         'contact_person_designation' => 'required',
 
         // DB मध्ये enum('Y','N') आहे म्हणून Y/N use करा
-        'msme_registered' => 'required|in:Yes,No,Y,N',
+        'msme_registered' => 'required|in:Yes,No',
     ]);
 
     $existing = ArchitectProvider::where('vendor_id', $vendorId)->first();
@@ -149,7 +149,7 @@ public function store(Request $request)
     $privacyAccepted   = $request->boolean('privacy_policy_accepted');
     $newsletterOptIn   = $request->boolean('newsletter_opt_in');
 
-    $msmeRegistered = in_array($request->msme_registered, ['Yes', 'Y'], true) ? 'Y' : 'N';
+    // $msmeRegistered = in_array($request->msme_registered, ['Yes', 'Y'], true) ? 'Y' : 'N';
 
     $data = [
         'vendor_id' => $vendorId,
@@ -174,8 +174,8 @@ public function store(Request $request)
         'website' => $request->website,
         'esic_number' => $request->esic_number,
         'pf_number' => $request->pf_number,
-        'msme_registered' => $msmeRegistered,
-
+        // 'msme_registered' => $msmeRegistered,
+        'msme_registered' => $request->msme_registered,
         'pan_card' => $uploadFile($request, 'pan_card', 'architects/pan', $existing?->pan_card),
         'gst_certificate' => $uploadFile($request, 'gst_certificate', 'architects/gst', $existing?->gst_certificate),
         'aadhaar_card' => $uploadFile($request, 'aadhaar_card', 'architects/aadhaar', $existing?->aadhaar_card),
