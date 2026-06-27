@@ -27,7 +27,88 @@ class ArchitectController extends Controller
         return view('vendor.categories.architect',compact('workType', 'projectTypes'));
     }
 
-    public function store(Request $request)
+//     public function store(Request $request)
+// {
+//     $vendorId = session('vendor_id');
+
+//     if (!$vendorId) {
+//         return redirect()->route('login')->with('error', 'Login required');
+//     }
+
+//     $request->validate([
+//         'agreement_terms_accepted' => 'nullable',
+//         'privacy_policy_accepted'  => 'nullable',
+//         'newsletter_opt_in'        => 'nullable',
+//         'agreement_accepted_at'    => 'nullable',
+//         'project_types' => 'required|array',
+//         'experience_years' => 'required',
+//         'city_ids' => 'required|array',
+//         'area_ids' => 'required|array',
+//         'pincode' => 'required',
+//         'minimum_project_value' => 'required|numeric',
+//         'company_name' => 'required',
+//         'registered_address' => 'required',
+//         'contact_person_designation' => 'required',
+//         'msme_registered' => 'required|in:Yes,No',
+//     ]);
+
+//     $existing = ArchitectProvider::where('vendor_id', $vendorId)->first();
+
+//     $uploadFile = function ($request, $field, $path, $existingFile = null) {
+//         if ($request->hasFile($field)) {
+//             return $request->file($field)->store($path, 'public');
+//         }
+//         return $existingFile;
+//     };
+
+//     $data = [
+//         'vendor_id' => $vendorId,
+//         'project_types' => $request->project_types,
+//         'experience_years' => $request->experience_years,
+//         'city_ids' => $request->city_ids,
+//         'area_ids' => $request->area_ids,
+//         'pincode' => $request->pincode,
+//         'minimum_project_value' => $request->minimum_project_value,
+//         'company_name' => $request->company_name,
+//         'entity_type' => $request->entity_type,
+//         'registered_address' => $request->registered_address,
+//         'contact_person_name' => $request->contact_person_name,
+//         'contact_person_designation' => $request->contact_person_designation,
+//         'pan_number' => $request->pan_number,
+//         'tan_number' => $request->tan_number,
+//         'gst_number' => $request->gst_number,
+//         'coa_number' => $request->coa_number,
+//         'website' => $request->website,
+//         'esic_number' => $request->esic_number,
+//         'pf_number' => $request->pf_number,
+//         'msme_registered' => $request->msme_registered,
+
+//         'pan_card' => $uploadFile($request, 'pan_card', 'architects/pan', $existing?->pan_card),
+//         'gst_certificate' => $uploadFile($request, 'gst_certificate', 'architects/gst', $existing?->gst_certificate),
+//         'aadhaar_card' => $uploadFile($request, 'aadhaar_card', 'architects/aadhaar', $existing?->aadhaar_card),
+//         'company_profile' => $uploadFile($request, 'company_profile', 'architects/profile', $existing?->company_profile),
+//         'msme_certificate' => $uploadFile($request, 'msme_certificate', 'architects/msme', $existing?->msme_certificate),
+
+//         'portfolio_image_1' => $uploadFile($request, 'portfolio_image_1', 'architects/portfolio', $existing?->portfolio_image_1),
+//         'portfolio_image_2' => $uploadFile($request, 'portfolio_image_2', 'architects/portfolio', $existing?->portfolio_image_2),
+//         'portfolio_image_3' => $uploadFile($request, 'portfolio_image_3', 'architects/portfolio', $existing?->portfolio_image_3),
+
+//         'status' => 'pending',
+//         'agreement_terms_accepted' => $request->agreement_terms_accepted,
+//         'privacy_policy_accepted'  => $request->privacy_policy_accepted,
+//         'newsletter_opt_in'        => $request->newsletter_opt_in ?? 0,
+//         'agreement_accepted_at'    => $request->agreement_accepted_at,
+//     ];
+
+//     if ($existing) {
+//         $existing->update($data);
+//     } else {
+//         ArchitectProvider::create($data);
+//     }
+
+//     return back()->with('success', 'Saved successfully');
+// }
+public function store(Request $request)
 {
     $vendorId = session('vendor_id');
 
@@ -39,7 +120,7 @@ class ArchitectController extends Controller
         'agreement_terms_accepted' => 'nullable',
         'privacy_policy_accepted'  => 'nullable',
         'newsletter_opt_in'        => 'nullable',
-        'agreement_accepted_at'    => 'nullable',
+
         'project_types' => 'required|array',
         'experience_years' => 'required',
         'city_ids' => 'required|array',
@@ -49,7 +130,9 @@ class ArchitectController extends Controller
         'company_name' => 'required',
         'registered_address' => 'required',
         'contact_person_designation' => 'required',
-        'msme_registered' => 'required|in:Yes,No',
+
+        // DB मध्ये enum('Y','N') आहे म्हणून Y/N use करा
+        'msme_registered' => 'required|in:Yes,No,Y,N',
     ]);
 
     $existing = ArchitectProvider::where('vendor_id', $vendorId)->first();
@@ -58,22 +141,32 @@ class ArchitectController extends Controller
         if ($request->hasFile($field)) {
             return $request->file($field)->store($path, 'public');
         }
+
         return $existingFile;
     };
 
+    $agreementAccepted = $request->boolean('agreement_terms_accepted');
+    $privacyAccepted   = $request->boolean('privacy_policy_accepted');
+    $newsletterOptIn   = $request->boolean('newsletter_opt_in');
+
+    $msmeRegistered = in_array($request->msme_registered, ['Yes', 'Y'], true) ? 'Y' : 'N';
+
     $data = [
         'vendor_id' => $vendorId,
+
         'project_types' => $request->project_types,
         'experience_years' => $request->experience_years,
         'city_ids' => $request->city_ids,
         'area_ids' => $request->area_ids,
         'pincode' => $request->pincode,
         'minimum_project_value' => $request->minimum_project_value,
+
         'company_name' => $request->company_name,
         'entity_type' => $request->entity_type,
         'registered_address' => $request->registered_address,
         'contact_person_name' => $request->contact_person_name,
         'contact_person_designation' => $request->contact_person_designation,
+
         'pan_number' => $request->pan_number,
         'tan_number' => $request->tan_number,
         'gst_number' => $request->gst_number,
@@ -81,7 +174,7 @@ class ArchitectController extends Controller
         'website' => $request->website,
         'esic_number' => $request->esic_number,
         'pf_number' => $request->pf_number,
-        'msme_registered' => $request->msme_registered,
+        'msme_registered' => $msmeRegistered,
 
         'pan_card' => $uploadFile($request, 'pan_card', 'architects/pan', $existing?->pan_card),
         'gst_certificate' => $uploadFile($request, 'gst_certificate', 'architects/gst', $existing?->gst_certificate),
@@ -94,10 +187,16 @@ class ArchitectController extends Controller
         'portfolio_image_3' => $uploadFile($request, 'portfolio_image_3', 'architects/portfolio', $existing?->portfolio_image_3),
 
         'status' => 'pending',
-        'agreement_terms_accepted' => $request->agreement_terms_accepted,
-        'privacy_policy_accepted'  => $request->privacy_policy_accepted,
-        'newsletter_opt_in'        => $request->newsletter_opt_in ?? 0,
-        'agreement_accepted_at'    => $request->agreement_accepted_at,
+
+        // Checkbox values
+        'agreement_terms_accepted' => $agreementAccepted ? 1 : 0,
+        'privacy_policy_accepted'  => $privacyAccepted ? 1 : 0,
+        'newsletter_opt_in'        => $newsletterOptIn ? 1 : 0,
+
+        // Datetime value
+        'agreement_accepted_at' => $agreementAccepted
+            ? ($existing?->agreement_accepted_at ?? now())
+            : null,
     ];
 
     if ($existing) {
@@ -108,5 +207,4 @@ class ArchitectController extends Controller
 
     return back()->with('success', 'Saved successfully');
 }
-
 }
