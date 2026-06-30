@@ -301,6 +301,7 @@
     function blockFields(type, index, block = {}) {
         const value = (key) => escapeHtml(block[key]);
         const name = (field) => `blocks[${index}][${field}]`;
+        const imageSize = ['small', 'medium', 'large', 'full'].includes(block.image_size) ? block.image_size : 'full';
         const imagePosition = ['left', 'right'].includes(block.image_position) ? block.image_position : 'left';
         const currentImage = block.image
             ? `<img src="${escapeHtml(block.image_url)}" class="current-block-image" alt="">
@@ -319,7 +320,16 @@
 
         if (['image', 'image_text'].includes(type)) {
             html += `<div class="col-md-4"><label class="form-label">Image</label>${currentImage}<input type="file" name="${name('image')}" class="form-control" accept=".jpg,.jpeg,.png,.webp"></div>
-                     <div class="col-md-8"><label class="form-label">Image Alt Text</label><input type="text" name="${name('image_alt')}" class="form-control" value="${value('image_alt')}"></div>`;
+                     <div class="col-md-5"><label class="form-label">Image Alt Text</label><input type="text" name="${name('image_alt')}" class="form-control" value="${value('image_alt')}"></div>
+                     <div class="col-md-3">
+                        <label class="form-label">Image Size</label>
+                        <select name="${name('image_size')}" class="form-control">
+                            <option value="full" ${imageSize === 'full' ? 'selected' : ''}>Full Width</option>
+                            <option value="large" ${imageSize === 'large' ? 'selected' : ''}>Large</option>
+                            <option value="medium" ${imageSize === 'medium' ? 'selected' : ''}>Medium</option>
+                            <option value="small" ${imageSize === 'small' ? 'selected' : ''}>Small</option>
+                        </select>
+                     </div>`;
         }
 
         if (type === 'image_text') {

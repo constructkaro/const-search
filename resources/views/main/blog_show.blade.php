@@ -111,6 +111,36 @@
         object-fit: cover;
     }
 
+    .blog-builder-image.is-size-small {
+        max-width: 360px;
+    }
+
+    .blog-builder-image.is-size-medium {
+        max-width: 560px;
+    }
+
+    .blog-builder-image.is-size-large {
+        max-width: 820px;
+    }
+
+    .blog-builder-image-wrap {
+        display: flex;
+        justify-content: center;
+    }
+
+    .blog-builder-image-text .blog-builder-image.is-size-small {
+        max-width: 280px;
+    }
+
+    .blog-builder-image-text .blog-builder-image.is-size-medium {
+        max-width: 420px;
+    }
+
+    .blog-builder-image-text .blog-builder-image.is-size-large,
+    .blog-builder-image-text .blog-builder-image.is-size-full {
+        max-width: 100%;
+    }
+
     .blog-builder-image-text {
         display: grid;
         grid-template-columns: minmax(260px, 0.9fr) minmax(280px, 1.1fr);
@@ -222,6 +252,9 @@
                         $image = ! empty($block['image'])
                             ? \Illuminate\Support\Facades\Storage::disk('public')->url($block['image'])
                             : null;
+                        $imageSize = in_array($block['image_size'] ?? 'full', ['small', 'medium', 'large', 'full'], true)
+                            ? $block['image_size'] ?? 'full'
+                            : 'full';
                         $imagePosition = ($block['image_position'] ?? 'left') === 'right' ? 'right' : 'left';
                     @endphp
 
@@ -239,13 +272,13 @@
                             @endif
                         </section>
                     @elseif($type === 'image' && $image)
-                        <section>
-                            <img src="{{ $image }}" class="blog-builder-image" alt="{{ $block['image_alt'] ?? $blog->title }}">
+                        <section class="blog-builder-image-wrap">
+                            <img src="{{ $image }}" class="blog-builder-image is-size-{{ $imageSize }}" alt="{{ $block['image_alt'] ?? $blog->title }}">
                         </section>
                     @elseif($type === 'image_text')
                         <section class="blog-builder-image-text {{ $imagePosition === 'right' ? 'is-image-right' : '' }}">
                             @if($image)
-                                <img src="{{ $image }}" class="blog-builder-image" alt="{{ $block['image_alt'] ?? $blog->title }}">
+                                <img src="{{ $image }}" class="blog-builder-image is-size-{{ $imageSize }}" alt="{{ $block['image_alt'] ?? $blog->title }}">
                             @endif
                             <div class="blog-builder-copy">
                                 @if(! empty($block['heading']))

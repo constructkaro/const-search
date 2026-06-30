@@ -32,6 +32,7 @@ class BlogController extends Controller
             'blocks.*.heading' => 'nullable|string|max:255',
             'blocks.*.body' => 'nullable|string',
             'blocks.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'blocks.*.image_size' => 'nullable|in:small,medium,large,full',
             'blocks.*.image_position' => 'nullable|in:left,right',
             'blocks.*.image_alt' => 'nullable|string|max:255',
             'blocks.*.question' => 'nullable|string|max:255',
@@ -74,6 +75,7 @@ class BlogController extends Controller
             'blocks.*.body' => 'nullable|string',
             'blocks.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'blocks.*.existing_image' => 'nullable|string|max:500',
+            'blocks.*.image_size' => 'nullable|in:small,medium,large,full',
             'blocks.*.image_position' => 'nullable|in:left,right',
             'blocks.*.image_alt' => 'nullable|string|max:255',
             'blocks.*.question' => 'nullable|string|max:255',
@@ -158,11 +160,13 @@ class BlogController extends Controller
             }
 
             $imagePosition = $block['image_position'] ?? 'left';
+            $imageSize = $block['image_size'] ?? 'full';
 
             $prepared = [
                 'type' => $type,
                 'heading' => trim($block['heading'] ?? ''),
                 'body' => trim($block['body'] ?? ''),
+                'image_size' => in_array($imageSize, ['small', 'medium', 'large', 'full'], true) ? $imageSize : 'full',
                 'image_position' => in_array($imagePosition, ['left', 'right'], true) ? $imagePosition : 'left',
                 'image_alt' => trim($block['image_alt'] ?? ''),
                 'question' => trim($block['question'] ?? ''),
