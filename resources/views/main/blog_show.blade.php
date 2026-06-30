@@ -118,6 +118,14 @@
         align-items: center;
     }
 
+    .blog-builder-image-text.is-image-right .blog-builder-image {
+        order: 2;
+    }
+
+    .blog-builder-image-text.is-image-right .blog-builder-copy {
+        order: 1;
+    }
+
     .blog-builder-faq {
         border: 1px solid #e5e7eb;
         border-radius: 10px;
@@ -214,6 +222,7 @@
                         $image = ! empty($block['image'])
                             ? \Illuminate\Support\Facades\Storage::disk('public')->url($block['image'])
                             : null;
+                        $imagePosition = ($block['image_position'] ?? 'left') === 'right' ? 'right' : 'left';
                     @endphp
 
                     @if($type === 'heading' && ! empty($block['heading']))
@@ -234,11 +243,11 @@
                             <img src="{{ $image }}" class="blog-builder-image" alt="{{ $block['image_alt'] ?? $blog->title }}">
                         </section>
                     @elseif($type === 'image_text')
-                        <section class="blog-builder-image-text">
+                        <section class="blog-builder-image-text {{ $imagePosition === 'right' ? 'is-image-right' : '' }}">
                             @if($image)
                                 <img src="{{ $image }}" class="blog-builder-image" alt="{{ $block['image_alt'] ?? $blog->title }}">
                             @endif
-                            <div>
+                            <div class="blog-builder-copy">
                                 @if(! empty($block['heading']))
                                     <h2>{{ $block['heading'] }}</h2>
                                 @endif

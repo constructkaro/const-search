@@ -286,6 +286,7 @@
     function blockFields(type, index, block = {}) {
         const value = (key) => escapeHtml(block[key]);
         const name = (field) => `blocks[${index}][${field}]`;
+        const imagePosition = ['left', 'right'].includes(block.image_position) ? block.image_position : 'left';
         const currentImage = block.image
             ? `<img src="${escapeHtml(block.image_url)}" class="current-block-image" alt="">
                <input type="hidden" name="${name('existing_image')}" value="${value('image')}">`
@@ -304,6 +305,16 @@
         if (['image', 'image_text'].includes(type)) {
             html += `<div class="col-md-4"><label class="form-label">Image</label>${currentImage}<input type="file" name="${name('image')}" class="form-control" accept=".jpg,.jpeg,.png,.webp"></div>
                      <div class="col-md-8"><label class="form-label">Image Alt Text</label><input type="text" name="${name('image_alt')}" class="form-control" value="${value('image_alt')}"></div>`;
+        }
+
+        if (type === 'image_text') {
+            html += `<div class="col-md-4">
+                        <label class="form-label">Image Position</label>
+                        <select name="${name('image_position')}" class="form-control">
+                            <option value="left" ${imagePosition === 'left' ? 'selected' : ''}>Image Left</option>
+                            <option value="right" ${imagePosition === 'right' ? 'selected' : ''}>Image Right</option>
+                        </select>
+                    </div>`;
         }
 
         if (type === 'faq') {
