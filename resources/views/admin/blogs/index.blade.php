@@ -97,7 +97,7 @@
         flex-wrap: wrap;
         gap: 6px;
         align-items: center;
-        padding: 8px;
+        padding: 6px 8px;
         border-bottom: 1px solid #e8edf4;
         background: #f8fafc;
     }
@@ -135,13 +135,28 @@
         cursor: pointer;
     }
     .rich-editor {
-        min-height: 170px;
-        height: auto;
+        height: 130px;
+        min-height: 130px;
+        max-height: 130px;
         border: 0;
         border-radius: 0;
-        padding: 14px 16px;
-        overflow: auto;
-        line-height: 1.7;
+        padding: 10px 14px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+    .rich-editor p,
+    .rich-editor div {
+        margin: 0 0 6px;
+    }
+    .rich-editor ul,
+    .rich-editor ol {
+        margin: 0 0 6px 18px;
+        padding: 0;
+    }
+    .rich-editor li {
+        margin: 0 0 3px;
     }
     .rich-editor:empty::before {
         content: attr(data-placeholder);
