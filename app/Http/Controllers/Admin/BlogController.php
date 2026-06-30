@@ -40,7 +40,7 @@ class BlogController extends Controller
         ]);
 
         $data['slug'] = $this->uniqueSlug($data['title']);
-        $data['content'] = $data['content'] ?? '';
+        $data['content'] = $this->cleanRichText($data['content'] ?? '');
         $data['is_published'] = $request->boolean('is_published');
         $data['content_blocks'] = $this->prepareBlocks($request);
 
@@ -84,7 +84,7 @@ class BlogController extends Controller
             $data['slug'] = $this->uniqueSlug($data['title'], $blog->id);
         }
 
-        $data['content'] = $data['content'] ?? '';
+        $data['content'] = $this->cleanRichText($data['content'] ?? '');
         $data['is_published'] = $request->boolean('is_published');
         $data['content_blocks'] = $this->prepareBlocks($request, $blog);
 
@@ -210,6 +210,101 @@ class BlogController extends Controller
         }
 
         return false;
+    }
+
+    private function cleanRichText(string $html): string
+    {
+        $html = trim($html);
+
+        if ($html === '') {
+            return '';
+        }
+
+        $allowedTags = '<p><div><br><strong><b><em><i><u><span><ul><ol><li><h2><h3><h4><a>';
+        $html = strip_tags($html, $allowedTags);
+
+        if (! class_exists(\DOMDocument::class)) {
+            return $html;
+        }
+
+        $document = new \DOMDocument();
+        libxml_use_internal_errors(true);
+        $document->loadHTML(
+            '<?xml encoding="UTF-8"><div>'.$html.'</div>',
+            LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+        );
+        libxml_clear_errors();
+
+        $this->cleanRichTextNode($document->documentElement);
+
+        $output = '';
+        foreach ($document->documentElement->childNodes as $child) {
+            $output .= $document->saveHTML($child);
+        }
+
+        return trim($output);
+    }
+
+    private function cleanRichTextNode(\DOMNode $node): void
+    {
+        if ($node instanceof \DOMElement) {
+            $allowedAttributes = $node->tagName === 'a' ? ['href', 'target', 'rel'] : [];
+
+            if ($node->tagName === 'span') {
+                $allowedAttributes[] = 'style';
+            }
+
+            foreach (iterator_to_array($node->attributes) as $attribute) {
+                if (! in_array($attribute->name, $allowedAttributes, true)) {
+                    $node->removeAttribute($attribute->name);
+                }
+            }
+
+            if ($node->tagName === 'span' && $node->hasAttribute('style')) {
+                $style = $this->cleanRichTextStyle($node->getAttribute('style'));
+
+                if ($style === '') {
+                    $node->removeAttribute('style');
+                } else {
+                    $node->setAttribute('style', $style);
+                }
+            }
+
+            if ($node->tagName === 'a') {
+                $href = $node->getAttribute('href');
+
+                if (! preg_match('/^(https?:\/\/|mailto:|tel:|\/|#)/i', $href)) {
+                    $node->removeAttribute('href');
+                }
+
+                $node->setAttribute('rel', 'noopener');
+            }
+        }
+
+        foreach (iterator_to_array($node->childNodes) as $child) {
+            $this->cleanRichTextNode($child);
+        }
+    }
+
+    private function cleanRichTextStyle(string $style): string
+    {
+        $safe = [];
+
+        foreach (explode(';', $style) as $rule) {
+            [$property, $value] = array_pad(explode(':', $rule, 2), 2, '');
+            $property = strtolower(trim($property));
+            $value = trim($value);
+
+            if ($property === 'color' && preg_match('/^(#[0-9a-f]{3,6}|rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\))$/i', $value)) {
+                $safe[] = 'color: '.$value;
+            }
+
+            if ($property === 'font-size' && preg_match('/^(14|16|20|26)px$/', $value)) {
+                $safe[] = 'font-size: '.$value;
+            }
+        }
+
+        return implode('; ', $safe);
     }
 
     private function deleteBlockImages(array $blocks): void

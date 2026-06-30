@@ -86,6 +86,71 @@
         border: 1px solid #e5e7eb;
         margin-bottom: 8px;
     }
+    .rich-editor-wrap {
+        border: 1px solid #d8e0eb;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+    }
+    .rich-editor-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid #e8edf4;
+        background: #f8fafc;
+    }
+    .rich-editor-toolbar button,
+    .rich-editor-toolbar select,
+    .rich-color-btn {
+        min-height: 34px;
+        border: 1px solid #d8e0eb;
+        border-radius: 8px;
+        background: #fff;
+        color: #1c2c3e;
+        font-weight: 800;
+    }
+    .rich-editor-toolbar button,
+    .rich-color-btn {
+        width: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .rich-color-btn {
+        position: relative;
+    }
+    .rich-editor-toolbar select {
+        width: 104px;
+        padding: 0 8px;
+    }
+    .rich-color-btn input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .rich-editor {
+        min-height: 170px;
+        height: auto;
+        border: 0;
+        border-radius: 0;
+        padding: 14px 16px;
+        overflow: auto;
+        line-height: 1.7;
+    }
+    .rich-editor:empty::before {
+        content: attr(data-placeholder);
+        color: #64748b;
+    }
+    .rich-editor:focus {
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, .18);
+        outline: none;
+    }
 </style>
 
 <div class="blog-admin-grid">
@@ -145,6 +210,61 @@
 
 @push('scripts')
 <script>
+    function syncRichEditor(wrapper) {
+        const editor = wrapper.querySelector('.js-rich-editor');
+        const input = wrapper.querySelector('.js-rich-editor-input');
+        input.value = editor.innerHTML.trim();
+    }
+
+    function applyRichStyle(editor, styles) {
+        editor.focus();
+        const selection = window.getSelection();
+
+        if (!selection.rangeCount || selection.isCollapsed || !editor.contains(selection.anchorNode)) {
+            return;
+        }
+
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        Object.entries(styles).forEach(([key, value]) => span.style[key] = value);
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
+    function initRichEditors() {
+        document.querySelectorAll('.js-rich-editor-wrap').forEach((wrapper) => {
+            const editor = wrapper.querySelector('.js-rich-editor');
+            const form = wrapper.closest('form');
+
+            wrapper.querySelectorAll('[data-rich-command]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    editor.focus();
+                    document.execCommand(button.dataset.richCommand, false, null);
+                    syncRichEditor(wrapper);
+                });
+            });
+
+            wrapper.querySelector('[data-rich-color]').addEventListener('input', (event) => {
+                applyRichStyle(editor, { color: event.target.value });
+                syncRichEditor(wrapper);
+            });
+
+            wrapper.querySelector('[data-rich-size]').addEventListener('change', (event) => {
+                if (event.target.value) {
+                    applyRichStyle(editor, { fontSize: event.target.value });
+                    event.target.value = '';
+                    syncRichEditor(wrapper);
+                }
+            });
+
+            editor.addEventListener('input', () => syncRichEditor(wrapper));
+            form.addEventListener('submit', () => syncRichEditor(wrapper));
+            syncRichEditor(wrapper);
+        });
+    }
+
     const blockLabels = {
         heading: 'heading',
         text: 'text section',
@@ -224,5 +344,7 @@
         const existingBlocks = JSON.parse(form.querySelector('.js-existing-blocks').textContent || '[]');
         existingBlocks.forEach((block) => addBlock(form, block.type, block));
     });
+
+    initRichEditors();
 </script>
 @endpush

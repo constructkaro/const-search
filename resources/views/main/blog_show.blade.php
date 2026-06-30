@@ -58,12 +58,27 @@
         font-size: 15px;
         line-height: 1.8;
         font-weight: 500;
-        white-space: pre-line;
     }
 
     .blog-detail-content strong {
         color: #222;
         font-weight: 900;
+    }
+
+    .blog-detail-content p,
+    .blog-detail-content div {
+        margin: 0 0 14px;
+    }
+
+    .blog-detail-content ul,
+    .blog-detail-content ol {
+        margin: 0 0 14px 22px;
+        padding: 0;
+    }
+
+    .blog-detail-content a {
+        color: #f37021;
+        font-weight: 800;
     }
 
     .blog-builder {
@@ -188,7 +203,7 @@
         @endif
 
         @if($blog->content)
-            <div class="blog-detail-content">{{ $blog->content }}</div>
+            <div class="blog-detail-content">{!! $blog->content !!}</div>
         @endif
 
         @if(! empty($blog->content_blocks))

@@ -1,4 +1,6 @@
 @php
+    $contentValue = old('content', $blog->content ?? '');
+    $editorContent = session()->hasOldInput('content') ? e($contentValue) : $contentValue;
     $blockPayload = collect($blocks)->map(function ($block) {
         if (! empty($block['image'])) {
             $block['image_url'] = \Illuminate\Support\Facades\Storage::disk('public')->url($block['image']);
@@ -32,7 +34,28 @@
 </div>
 <div class="col-md-12">
     <label class="form-label">Main Content</label>
-    <textarea name="content" class="form-control" rows="5" placeholder="Use this for simple text. Use blocks below for images, FAQs and page sections.">{{ old('content', $blog->content ?? '') }}</textarea>
+    <div class="rich-editor-wrap js-rich-editor-wrap">
+        <div class="rich-editor-toolbar" aria-label="Main content formatting tools">
+            <button type="button" data-rich-command="bold" title="Bold"><i class="bi bi-type-bold"></i></button>
+            <button type="button" data-rich-command="italic" title="Italic"><i class="bi bi-type-italic"></i></button>
+            <button type="button" data-rich-command="underline" title="Underline"><i class="bi bi-type-underline"></i></button>
+            <label class="rich-color-btn" title="Text color">
+                <i class="bi bi-palette"></i>
+                <input type="color" data-rich-color value="#f37021">
+            </label>
+            <select data-rich-size title="Font size">
+                <option value="">Size</option>
+                <option value="14px">Small</option>
+                <option value="16px">Normal</option>
+                <option value="20px">Large</option>
+                <option value="26px">Heading</option>
+            </select>
+            <button type="button" data-rich-command="insertUnorderedList" title="Bullet list"><i class="bi bi-list-ul"></i></button>
+            <button type="button" data-rich-command="insertOrderedList" title="Number list"><i class="bi bi-list-ol"></i></button>
+        </div>
+        <div class="rich-editor form-control js-rich-editor" contenteditable="true" data-placeholder="Use this for formatted text. Use blocks below for images, FAQs and page sections.">{!! $editorContent !!}</div>
+        <textarea name="content" class="js-rich-editor-input d-none">{{ $contentValue }}</textarea>
+    </div>
 </div>
 <div class="col-md-12">
     <label class="form-label fw-bold">Page Details / Flexible Sections</label>
