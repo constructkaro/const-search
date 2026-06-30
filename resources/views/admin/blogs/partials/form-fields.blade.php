@@ -28,6 +28,23 @@
     <input type="file" name="hero_image" class="form-control" accept=".jpg,.jpeg,.png,.webp">
     <small class="text-muted">Shown at top of detail page.</small>
 </div>
+<div class="col-md-3">
+    <label class="form-label">Heading Image Size</label>
+    <select name="hero_image_height" class="form-control">
+        @php($heroHeight = old('hero_image_height', $blog->hero_image_height ?? 'medium'))
+        <option value="small" {{ $heroHeight === 'small' ? 'selected' : '' }}>Small</option>
+        <option value="medium" {{ $heroHeight === 'medium' ? 'selected' : '' }}>Medium</option>
+        <option value="large" {{ $heroHeight === 'large' ? 'selected' : '' }}>Large</option>
+    </select>
+</div>
+<div class="col-md-3">
+    <label class="form-label">Heading Image Fit</label>
+    <select name="hero_image_fit" class="form-control">
+        @php($heroFit = old('hero_image_fit', $blog->hero_image_fit ?? 'cover'))
+        <option value="cover" {{ $heroFit === 'cover' ? 'selected' : '' }}>Fill Area</option>
+        <option value="contain" {{ $heroFit === 'contain' ? 'selected' : '' }}>Show Full Image</option>
+    </select>
+</div>
 <div class="col-md-12">
     <label class="form-label">Short Description</label>
     <input type="text" name="excerpt" value="{{ old('excerpt', $blog->excerpt ?? '') }}" class="form-control" maxlength="500">

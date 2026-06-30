@@ -25,6 +25,8 @@ class BlogController extends Controller
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'hero_image_fit' => 'nullable|in:cover,contain',
+            'hero_image_height' => 'nullable|in:small,medium,large',
             'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
             'blocks' => 'nullable|array',
@@ -43,6 +45,8 @@ class BlogController extends Controller
 
         $data['slug'] = $this->uniqueSlug($data['title']);
         $data['content'] = $this->cleanRichText($data['content'] ?? '');
+        $data['hero_image_fit'] = $data['hero_image_fit'] ?? 'cover';
+        $data['hero_image_height'] = $data['hero_image_height'] ?? 'medium';
         $data['is_published'] = $request->boolean('is_published');
         $data['content_blocks'] = $this->prepareBlocks($request);
 
@@ -67,6 +71,8 @@ class BlogController extends Controller
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
+            'hero_image_fit' => 'nullable|in:cover,contain',
+            'hero_image_height' => 'nullable|in:small,medium,large',
             'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
             'blocks' => 'nullable|array',
@@ -89,6 +95,8 @@ class BlogController extends Controller
         }
 
         $data['content'] = $this->cleanRichText($data['content'] ?? '');
+        $data['hero_image_fit'] = $data['hero_image_fit'] ?? 'cover';
+        $data['hero_image_height'] = $data['hero_image_height'] ?? 'medium';
         $data['is_published'] = $request->boolean('is_published');
         $data['content_blocks'] = $this->prepareBlocks($request, $blog);
 

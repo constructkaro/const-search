@@ -15,11 +15,20 @@
         background:
             linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.68) 42%, rgba(0,0,0,.18) 100%),
             var(--blog-hero-image);
-        background-size: cover;
-        background-position: center;
+        background-size: cover, var(--blog-hero-fit, cover);
+        background-position: center, center;
+        background-repeat: no-repeat, no-repeat;
         display: flex;
         align-items: center;
         padding: 48px 26px;
+    }
+
+    .blog-detail-hero.is-hero-small {
+        min-height: 240px;
+    }
+
+    .blog-detail-hero.is-hero-large {
+        min-height: 460px;
     }
 
     .blog-detail-hero h1 {
@@ -200,6 +209,14 @@
             padding: 34px 20px;
         }
 
+        .blog-detail-hero.is-hero-small {
+            min-height: 210px;
+        }
+
+        .blog-detail-hero.is-hero-large {
+            min-height: 340px;
+        }
+
         .blog-detail-hero h1 {
             font-size: 28px;
         }
@@ -223,9 +240,13 @@
     $heroImage = $heroImagePath
         ? \Illuminate\Support\Facades\Storage::disk('public')->url($heroImagePath)
         : asset('images/topics/blogs-insights.png');
+    $heroImageFit = $blog->hero_image_fit ?? 'cover';
+    $heroImageFit = in_array($heroImageFit, ['cover', 'contain'], true) ? $heroImageFit : 'cover';
+    $heroImageHeight = $blog->hero_image_height ?? 'medium';
+    $heroImageHeight = in_array($heroImageHeight, ['small', 'medium', 'large'], true) ? $heroImageHeight : 'medium';
 @endphp
 
-<section class="blog-detail-hero" style="--blog-hero-image: url('{{ $heroImage }}')">
+<section class="blog-detail-hero is-hero-{{ $heroImageHeight }}" style="--blog-hero-image: url('{{ $heroImage }}'); --blog-hero-fit: {{ $heroImageFit }}">
     <h1>{{ $blog->title }}</h1>
 </section>
 

@@ -14,6 +14,8 @@ class Blog extends Model
         'content_blocks',
         'image',
         'hero_image',
+        'hero_image_fit',
+        'hero_image_height',
         'published_at',
         'is_published',
     ];
