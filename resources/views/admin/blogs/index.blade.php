@@ -158,6 +158,13 @@
     .rich-editor li {
         margin: 0 0 3px;
     }
+    .rich-editor img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+        border-radius: 10px;
+    }
     .rich-editor:empty::before {
         content: attr(data-placeholder);
         color: #64748b;
@@ -248,10 +255,89 @@
         selection.addRange(range);
     }
 
+    const richImageUploadUrl = @json(route('admin.blogs.content-image.store'));
+    const richImageUploadToken = @json(csrf_token());
+
+    function selectionInsideEditor(editor) {
+        const selection = window.getSelection();
+
+        if (!selection.rangeCount) {
+            return null;
+        }
+
+        const range = selection.getRangeAt(0);
+        return editor.contains(range.commonAncestorContainer) ? range.cloneRange() : null;
+    }
+
+    function insertRichImage(editor, wrapper, imageUrl, range = null) {
+        editor.focus();
+
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+
+        if (range) {
+            selection.addRange(range);
+        }
+
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = '';
+        image.loading = 'lazy';
+
+        const spacer = document.createElement('p');
+        spacer.appendChild(document.createElement('br'));
+
+        const activeRange = selection.rangeCount ? selection.getRangeAt(0) : document.createRange();
+
+        if (!selection.rangeCount) {
+            activeRange.selectNodeContents(editor);
+            activeRange.collapse(false);
+        }
+
+        activeRange.deleteContents();
+        activeRange.insertNode(spacer);
+        activeRange.insertNode(image);
+
+        const nextRange = document.createRange();
+        nextRange.setStart(spacer, 0);
+        nextRange.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(nextRange);
+
+        syncRichEditor(wrapper);
+    }
+
+    async function uploadRichImage(file) {
+        const formData = new FormData();
+        formData.append('content_image', file);
+
+        const response = await fetch(richImageUploadUrl, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': richImageUploadToken,
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Image upload failed.');
+        }
+
+        return response.json();
+    }
+
     function initRichEditors() {
         document.querySelectorAll('.js-rich-editor-wrap').forEach((wrapper) => {
             const editor = wrapper.querySelector('.js-rich-editor');
             const form = wrapper.closest('form');
+            const imageButton = wrapper.querySelector('[data-rich-image]');
+            const imageInput = wrapper.querySelector('[data-rich-image-input]');
+            let savedRange = null;
+
+            const rememberSelection = () => {
+                savedRange = selectionInsideEditor(editor) || savedRange;
+            };
 
             wrapper.querySelectorAll('[data-rich-command]').forEach((button) => {
                 button.addEventListener('click', () => {
@@ -274,7 +360,35 @@
                 }
             });
 
+            imageButton.addEventListener('click', () => {
+                savedRange = selectionInsideEditor(editor) || savedRange;
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                imageButton.disabled = true;
+
+                try {
+                    const result = await uploadRichImage(file);
+                    insertRichImage(editor, wrapper, result.url, savedRange);
+                } catch (error) {
+                    alert('Image upload failed. Please try another JPG, PNG or WebP image.');
+                } finally {
+                    imageButton.disabled = false;
+                    imageInput.value = '';
+                }
+            });
+
             editor.addEventListener('input', () => syncRichEditor(wrapper));
+            editor.addEventListener('keyup', rememberSelection);
+            editor.addEventListener('mouseup', rememberSelection);
+            editor.addEventListener('blur', rememberSelection);
             form.addEventListener('submit', () => syncRichEditor(wrapper));
             syncRichEditor(wrapper);
         });

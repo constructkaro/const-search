@@ -138,6 +138,20 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully.');
     }
 
+    public function uploadContentImage(Request $request)
+    {
+        $data = $request->validate([
+            'content_image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
+
+        $path = $data['content_image']->store('blogs/content', 'public');
+
+        return response()->json([
+            'path' => $path,
+            'url' => Storage::disk('public')->url($path),
+        ]);
+    }
+
     private function uniqueSlug(string $title, ?int $ignoreId = null): string
     {
         $baseSlug = Str::slug($title);
@@ -237,7 +251,7 @@ class BlogController extends Controller
             return '';
         }
 
-        $allowedTags = '<p><div><br><strong><b><em><i><u><span><ul><ol><li><h2><h3><h4><a>';
+        $allowedTags = '<p><div><br><strong><b><em><i><u><span><ul><ol><li><h2><h3><h4><a><img>';
         $html = strip_tags($html, $allowedTags);
 
         if (! class_exists(\DOMDocument::class)) {
@@ -271,6 +285,10 @@ class BlogController extends Controller
                 $allowedAttributes[] = 'style';
             }
 
+            if ($node->tagName === 'img') {
+                $allowedAttributes = ['src', 'alt', 'loading'];
+            }
+
             foreach (iterator_to_array($node->attributes) as $attribute) {
                 if (! in_array($attribute->name, $allowedAttributes, true)) {
                     $node->removeAttribute($attribute->name);
@@ -295,6 +313,17 @@ class BlogController extends Controller
                 }
 
                 $node->setAttribute('rel', 'noopener');
+            }
+
+            if ($node->tagName === 'img') {
+                $src = $node->getAttribute('src');
+
+                if (! preg_match('/^(https?:\/\/|\/storage\/|storage\/)/i', $src)) {
+                    $node->parentNode?->removeChild($node);
+                    return;
+                }
+
+                $node->setAttribute('loading', 'lazy');
             }
         }
 

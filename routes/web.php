@@ -109,6 +109,7 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
 
         Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
         Route::post('/blogs/store', [BlogController::class, 'store'])->name('blogs.store');
+        Route::post('/blogs/content-image', [BlogController::class, 'uploadContentImage'])->name('blogs.content-image.store');
         Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('blogs.update');
         Route::delete('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.destroy');
 

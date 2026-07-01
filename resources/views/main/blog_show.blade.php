@@ -90,6 +90,14 @@
         font-weight: 800;
     }
 
+    .blog-detail-content img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 18px 0;
+        border-radius: 12px;
+    }
+
     .blog-builder {
         margin-top: 26px;
         display: grid;

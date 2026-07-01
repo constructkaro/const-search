@@ -69,8 +69,10 @@
             </select>
             <button type="button" data-rich-command="insertUnorderedList" title="Bullet list"><i class="bi bi-list-ul"></i></button>
             <button type="button" data-rich-command="insertOrderedList" title="Number list"><i class="bi bi-list-ol"></i></button>
+            <button type="button" data-rich-image title="Add image"><i class="bi bi-image"></i></button>
+            <input type="file" class="d-none" data-rich-image-input accept=".jpg,.jpeg,.png,.webp">
         </div>
-        <div class="rich-editor form-control js-rich-editor" contenteditable="true" data-placeholder="Use this for formatted text. Use blocks below for images, FAQs and page sections.">{!! $editorContent !!}</div>
+        <div class="rich-editor form-control js-rich-editor" contenteditable="true" data-placeholder="Use this for formatted text. Use toolbar image button or blocks below for images, FAQs and page sections.">{!! $editorContent !!}</div>
         <textarea name="content" class="js-rich-editor-input d-none">{{ $contentValue }}</textarea>
     </div>
 </div>
