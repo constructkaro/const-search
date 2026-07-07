@@ -54,7 +54,7 @@ class MobileAppController extends Controller
             ],
         ]);
     }
-
+    
     public function projectForm(): JsonResponse
     {
         return response()->json([

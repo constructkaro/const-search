@@ -91,7 +91,7 @@ Route::middleware(['auth', 'role:super_admin'])
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
-         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
+        Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
@@ -114,16 +114,16 @@ Route::middleware(['auth', 'role:super_admin'])
         Route::get('/vendor-strategy', [PostLeadController::class, 'vendorStrategy'])->name('vendor.strategy');
 
         Route::get('/vendor-strategy/{postId}/vendors', [PostLeadController::class, 'getVendorsByPost'])
-    ->name('admin.vendor.strategy.vendors');
+        ->name('admin.vendor.strategy.vendors');
 
-    Route::post('/admin/assign-vendor', [PostLeadController::class, 'assignVendor'])->name('assign.vendor');
+        Route::post('/admin/assign-vendor', [PostLeadController::class, 'assignVendor'])->name('assign.vendor');
 
     
     });
 
 
 // //vendor
-Route::domain('vendor.constructkaro.com')->group(function () {
+    Route::domain('vendor.constructkaro.com')->group(function () {
     Route::get('/', function () {
     // Route::get('/vendor', function () {
          return view('vendor.welcome');
@@ -188,7 +188,6 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 
 
     Route::get('/vendor/category/interior', [InteriorController::class, 'create'])->name('interior.create');
-
     Route::post('/interior/store', [InteriorController::class, 'store'])->name('interior.store');
 
     Route::post('/testing-lab-agency/store', [TestingController::class, 'store'])->name('testinglabagency.store');
