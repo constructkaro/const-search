@@ -101,7 +101,7 @@ class MobileAppController extends Controller
                 'services' => $this->tableRows('services', ['id', 'name']),
                 'work_types' => $this->tableRows('work_types', ['id', 'work_type']),
                 'cities' => $this->tableRows('city', ['id', 'name']),
-                'areas' => $this->tableRows('areas', ['id', 'city_id', 'name', 'pincode']),
+                'areas' => $this->tableRows($this->areaTable(), ['id', 'city_id', 'name']),
                 'budget_ranges' => $this->tableRows('budget_range', ['id', 'budget_range']),
                 'units' => $this->tableRows('cust_unit', ['id', 'unit']),
                 'lead_statuses' => [
@@ -165,14 +165,16 @@ class MobileAppController extends Controller
 
     public function areasByCity(int $city): JsonResponse
     {
-        if (! Schema::hasTable('areas')) {
+        $areaTable = $this->areaTable();
+
+        if (! Schema::hasTable($areaTable)) {
             return response()->json(['data' => []]);
         }
 
-        $columns = $this->availableColumns('areas', ['id', 'city_id', 'name', 'pincode']);
+        $columns = $this->availableColumns($areaTable, ['id', 'city_id', 'name']);
 
         return response()->json([
-            'data' => DB::table('areas')
+            'data' => DB::table($areaTable)
                 ->where('city_id', $city)
                 ->orderBy('name')
                 ->get($columns),
@@ -186,17 +188,8 @@ class MobileAppController extends Controller
             'area_ids.*' => ['integer'],
         ]);
 
-        if (! Schema::hasTable('areas') || ! Schema::hasColumn('areas', 'pincode')) {
-            return response()->json(['data' => []]);
-        }
-
         return response()->json([
-            'data' => DB::table('areas')
-                ->whereIn('id', $request->input('area_ids', []))
-                ->pluck('pincode')
-                ->filter()
-                ->unique()
-                ->values(),
+            'data' => $this->pincodesForAreaIds($request->input('area_ids', [])),
         ]);
     }
 
@@ -211,7 +204,8 @@ class MobileAppController extends Controller
             'work_subtype_id' => ['required', 'integer'],
             'city_id' => ['required'],
             'area_ids' => ['nullable', 'array'],
-            'pincode' => ['nullable', 'string', 'max:20'],
+            'area_ids.*' => ['integer'],
+            'pincode' => ['nullable', 'string', 'max:255'],
             'budget' => ['nullable'],
             'contact_name' => ['required', 'string', 'max:255'],
             'mobile' => ['required', 'string', 'max:20'],
@@ -232,6 +226,12 @@ class MobileAppController extends Controller
                 'message' => 'Validation failed.',
                 'errors' => $validator->errors(),
             ], 422);
+        }
+
+        if (! $request->filled('pincode') && ! empty($request->input('area_ids', []))) {
+            $request->merge([
+                'pincode' => $this->pincodesForAreaIds($request->input('area_ids', []))->implode(', '),
+            ]);
         }
 
         $customer = $this->projectCustomerFromRequest($request);
@@ -693,6 +693,43 @@ class MobileAppController extends Controller
             $columns,
             fn ($column) => Schema::hasColumn($table, $column)
         ));
+    }
+
+    private function areaTable(): string
+    {
+        return Schema::hasTable('area') ? 'area' : 'areas';
+    }
+
+    private function pincodesForAreaIds(array $areaIds)
+    {
+        $areaIds = array_values(array_filter($areaIds));
+
+        if (empty($areaIds)) {
+            return collect();
+        }
+
+        if (Schema::hasTable('pincodes')) {
+            return DB::table('pincodes')
+                ->whereIn('area_id', $areaIds)
+                ->orderBy('pincode', 'asc')
+                ->pluck('pincode')
+                ->filter()
+                ->unique()
+                ->values();
+        }
+
+        $areaTable = $this->areaTable();
+
+        if (Schema::hasTable($areaTable) && Schema::hasColumn($areaTable, 'pincode')) {
+            return DB::table($areaTable)
+                ->whereIn('id', $areaIds)
+                ->pluck('pincode')
+                ->filter()
+                ->unique()
+                ->values();
+        }
+
+        return collect();
     }
 
     private function storeProjectFiles(Request $request): ?string
