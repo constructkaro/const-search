@@ -201,6 +201,8 @@ class MobileAppController extends Controller
 
     public function storeProject(Request $request): JsonResponse
     {
+        $this->normalizeProfileRequest($request);
+
         $validator = Validator::make($request->all(), [
             'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
             'title' => ['required', 'string', 'max:255'],
@@ -231,13 +233,20 @@ class MobileAppController extends Controller
             ], 422);
         }
 
+        $customer = $this->customerFromRequest($request);
+
+        if (! $customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Please login or register with this mobile number before submitting a project.',
+            ], 422);
+        }
+
         $filePath = $this->storeProjectFiles($request);
 
-        $projectId = DB::transaction(function () use ($request, $filePath) {
-            $customerId = $request->integer('customer_id') ?: $this->firstOrCreateCustomer($request);
-
+        $projectId = DB::transaction(function () use ($request, $filePath, $customer) {
             $data = [
-                'user_id' => $customerId,
+                'user_id' => $customer->id,
                 'title' => $request->title,
                 'work_type_id' => $request->work_type_id,
                 'work_subtype_id' => $request->work_subtype_id,
@@ -419,7 +428,11 @@ class MobileAppController extends Controller
         }
 
         if ($request->filled('mobile')) {
-            return Customer::where('mobile', $request->input('mobile'))->first();
+            $mobile = $this->normalizeMobileNumber($request->input('mobile'));
+
+            return Customer::where('mobile', $mobile)
+                ->orWhere('mobile', $request->input('mobile'))
+                ->first();
         }
 
         if ($request->filled('email')) {
@@ -484,6 +497,25 @@ class MobileAppController extends Controller
         if (! empty($normalized)) {
             $request->merge($normalized);
         }
+
+        if ($request->filled('mobile')) {
+            $mobile = $this->normalizeMobileNumber($request->input('mobile'));
+
+            if ($mobile !== '') {
+                $request->merge(['mobile' => $mobile]);
+            }
+        }
+    }
+
+    private function normalizeMobileNumber(mixed $mobile): string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $mobile);
+
+        if (strlen($digits) > 10) {
+            return substr($digits, -10);
+        }
+
+        return $digits;
     }
 
     private function mergeRawJsonPayload(Request $request): void
@@ -549,43 +581,6 @@ class MobileAppController extends Controller
             $columns,
             fn ($column) => Schema::hasColumn($table, $column)
         ));
-    }
-
-    private function firstOrCreateCustomer(Request $request): int
-    {
-        $customer = DB::table('customers')
-            ->where('mobile', $request->mobile)
-            ->when($request->filled('email'), function ($query) use ($request) {
-                $query->orWhere('email', $request->email);
-            })
-            ->first();
-
-        if ($customer) {
-            $updates = [];
-
-            if (empty($customer->name) && $request->filled('contact_name')) {
-                $updates['name'] = $request->contact_name;
-            }
-
-            if (empty($customer->email) && $request->filled('email')) {
-                $updates['email'] = $request->email;
-            }
-
-            if (! empty($updates)) {
-                $updates['updated_at'] = now();
-                DB::table('customers')->where('id', $customer->id)->update($updates);
-            }
-
-            return $customer->id;
-        }
-
-        return DB::table('customers')->insertGetId([
-            'name' => $request->contact_name,
-            'mobile' => $request->mobile,
-            'email' => $request->email,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 
     private function storeProjectFiles(Request $request): ?string
