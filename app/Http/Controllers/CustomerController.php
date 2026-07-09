@@ -187,8 +187,16 @@ public function verifyOtp(Request $request)
             'status' => true,
             'message' => $postSaved ? 'OTP verified and project submitted successfully.' : 'Login successful.',
             'post_saved' => $postSaved,
+            'customer_id' => $customer->id,
             'customer_name' => $customer->name ?: 'User',
             'customer_mobile' => $customer->mobile,
+            'customer' => [
+                'id' => $customer->id,
+                'name' => $customer->name,
+                'full_name' => $customer->name,
+                'mobile' => $customer->mobile,
+                'email' => $customer->email,
+            ],
             'reload' => true,
             'redirect' => $request->redirect_url ?: route('customer.survey'),
         ]);

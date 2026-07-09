@@ -52,26 +52,25 @@ class MobileAppController extends Controller
 
     public function updateProfile(Request $request): JsonResponse
     {
-        if (! $request->filled('name') && $request->filled('full_name')) {
-            $request->merge(['name' => $request->input('full_name')]);
-        }
+        $this->normalizeProfileRequest($request);
 
         $validator = Validator::make($request->all(), [
-            'customer_id' => ['required', 'integer', 'exists:customers,id'],
+            'customer_id' => ['nullable', 'integer', 'exists:customers,id', 'required_without_all:mobile,email'],
+            'mobile' => ['nullable', 'digits:10', 'required_without_all:customer_id,email'],
+            'email' => ['nullable', 'email', 'max:255', 'required_without_all:customer_id,mobile'],
             'name' => ['required', 'string', 'max:255'],
             'full_name' => ['nullable', 'string', 'max:255'],
-            'email' => ['nullable', 'email', 'max:255'],
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Validation failed.',
+                'message' => $validator->errors()->first() ?: 'Validation failed.',
                 'errors' => $validator->errors(),
             ], 422);
         }
 
-        $customer = Customer::find($request->integer('customer_id'));
+        $customer = $this->customerFromRequest($request);
 
         if (! $customer) {
             return response()->json([
@@ -413,11 +412,101 @@ class MobileAppController extends Controller
 
     private function customerFromRequest(Request $request): ?Customer
     {
-        if (! $request->filled('customer_id')) {
-            return null;
+        $this->normalizeProfileRequest($request);
+
+        if ($request->filled('customer_id')) {
+            return Customer::find($request->integer('customer_id'));
         }
 
-        return Customer::find($request->integer('customer_id'));
+        if ($request->filled('mobile')) {
+            return Customer::where('mobile', $request->input('mobile'))->first();
+        }
+
+        if ($request->filled('email')) {
+            return Customer::where('email', $request->input('email'))->first();
+        }
+
+        return null;
+    }
+
+    private function normalizeProfileRequest(Request $request): void
+    {
+        $this->mergeRawJsonPayload($request);
+
+        $aliases = [
+            'customer_id' => [
+                'customerId',
+                'customer',
+                'customer_id_text',
+                'customerIdText',
+                'customer_id_label',
+                'customerIdLabel',
+                'customer_id_display',
+                'customerIdDisplay',
+                'display_customer_id',
+                'displayCustomerId',
+                'customer_code',
+                'customerCode',
+                'customer id',
+                'Customer ID',
+                'id',
+                'user_id',
+                'userId',
+            ],
+            'mobile' => ['customer_mobile', 'customerMobile', 'phone'],
+            'name' => ['full_name', 'fullName', 'customer_name', 'customerName'],
+            'email' => ['email_address', 'emailAddress'],
+        ];
+
+        $normalized = [];
+
+        foreach ($aliases as $field => $fieldAliases) {
+            if ($request->filled($field)) {
+                continue;
+            }
+
+            foreach ($fieldAliases as $alias) {
+                if ($request->filled($alias)) {
+                    $normalized[$field] = $request->input($alias);
+                    break;
+                }
+            }
+        }
+
+        if ($request->filled('customer_id')) {
+            $customerId = preg_replace('/\D+/', '', (string) $request->input('customer_id'));
+
+            if ($customerId !== '') {
+                $normalized['customer_id'] = (int) $customerId;
+            }
+        }
+
+        if (! empty($normalized)) {
+            $request->merge($normalized);
+        }
+    }
+
+    private function mergeRawJsonPayload(Request $request): void
+    {
+        $content = trim($request->getContent());
+
+        if ($content === '' || ! str_starts_with($content, '{')) {
+            return;
+        }
+
+        $payload = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || ! is_array($payload)) {
+            return;
+        }
+
+        foreach (['data', 'customer', 'profile', 'body'] as $key) {
+            if (isset($payload[$key]) && is_array($payload[$key])) {
+                $payload = array_merge($payload, $payload[$key]);
+            }
+        }
+
+        $request->merge($payload);
     }
 
     private function formatCustomer(?Customer $customer): ?array
