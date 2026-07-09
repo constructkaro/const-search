@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class MobileAppController extends Controller
@@ -201,7 +202,7 @@ class MobileAppController extends Controller
 
     public function storeProject(Request $request): JsonResponse
     {
-        $this->normalizeProfileRequest($request);
+        $this->mergeRawJsonPayload($request);
 
         $validator = Validator::make($request->all(), [
             'customer_id' => ['nullable', 'string', 'max:50'],
@@ -233,12 +234,12 @@ class MobileAppController extends Controller
             ], 422);
         }
 
-        $customer = $this->customerFromRequest($request);
+        $customer = $this->projectCustomerFromRequest($request);
 
         if (! $customer) {
             return response()->json([
                 'status' => false,
-                'message' => 'Please login or register with this mobile number before submitting a project.',
+                'message' => 'Login customer not found. Please login again or send customer_id from OTP login response with the project.',
             ], 422);
         }
 
@@ -437,6 +438,115 @@ class MobileAppController extends Controller
 
         if ($request->filled('email')) {
             return Customer::where('email', $request->input('email'))->first();
+        }
+
+        return null;
+    }
+
+    private function projectCustomerFromRequest(Request $request): ?Customer
+    {
+        $this->mergeRawJsonPayload($request);
+
+        $customer = $this->customerFromRememberedLogin($request);
+
+        if ($customer) {
+            return $customer;
+        }
+
+        $customerId = $this->firstFilledInput($request, [
+            'customer_id',
+            'customerId',
+            'customer',
+            'customer_id_text',
+            'customerIdText',
+            'customer_id_label',
+            'customerIdLabel',
+            'customer_id_display',
+            'customerIdDisplay',
+            'display_customer_id',
+            'displayCustomerId',
+            'customer_code',
+            'customerCode',
+            'login_user_id',
+            'loginUserId',
+            'user_id',
+            'userId',
+        ]);
+
+        if ($customerId !== null) {
+            $customerId = preg_replace('/\D+/', '', (string) $customerId);
+
+            if ($customerId !== '') {
+                return Customer::find((int) $customerId);
+            }
+        }
+
+        $loginMobile = $this->firstFilledInput($request, [
+            'login_mobile',
+            'loginMobile',
+            'customer_mobile',
+            'customerMobile',
+            'registered_mobile',
+            'registeredMobile',
+            'auth_mobile',
+            'authMobile',
+        ]);
+
+        if ($loginMobile !== null) {
+            $mobile = $this->normalizeMobileNumber($loginMobile);
+
+            return Customer::where('mobile', $mobile)
+                ->orWhere('mobile', $loginMobile)
+                ->first();
+        }
+
+        $loginEmail = $this->firstFilledInput($request, [
+            'login_email',
+            'loginEmail',
+            'customer_email',
+            'customerEmail',
+            'registered_email',
+            'registeredEmail',
+            'auth_email',
+            'authEmail',
+        ]);
+
+        if ($loginEmail !== null) {
+            return Customer::where('email', $loginEmail)->first();
+        }
+
+        return null;
+    }
+
+    private function customerFromRememberedLogin(Request $request): ?Customer
+    {
+        $sessionCustomerId = session('customer_id');
+
+        if ($sessionCustomerId) {
+            $customer = Customer::find((int) $sessionCustomerId);
+
+            if ($customer) {
+                return $customer;
+            }
+        }
+
+        $cacheCustomerId = Cache::get(
+            'api_customer_login:'.sha1($request->ip().'|'.(string) $request->userAgent())
+        );
+
+        if ($cacheCustomerId) {
+            return Customer::find((int) $cacheCustomerId);
+        }
+
+        return null;
+    }
+
+    private function firstFilledInput(Request $request, array $keys): mixed
+    {
+        foreach ($keys as $key) {
+            if ($request->filled($key)) {
+                return $request->input($key);
+            }
         }
 
         return null;

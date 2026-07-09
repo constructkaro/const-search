@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SurveyBooking;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Twilio\Rest\Client;
@@ -122,6 +123,12 @@ public function verifyOtp(Request $request)
             'customer_mobile' => $customer->mobile,
             'customer_logged_in' => true,
         ]);
+
+        Cache::put(
+            'api_customer_login:'.sha1($request->ip().'|'.(string) $request->userAgent()),
+            $customer->id,
+            now()->addDays(30)
+        );
 
         /* ================================
            SAVE PENDING POST AFTER OTP
