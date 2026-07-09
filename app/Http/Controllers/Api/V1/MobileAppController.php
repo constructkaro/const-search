@@ -204,7 +204,7 @@ class MobileAppController extends Controller
         $this->normalizeProfileRequest($request);
 
         $validator = Validator::make($request->all(), [
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
+            'customer_id' => ['nullable', 'string', 'max:50'],
             'title' => ['required', 'string', 'max:255'],
             'work_type_id' => ['required', 'integer'],
             'work_subtype_id' => ['required', 'integer'],
@@ -463,6 +463,8 @@ class MobileAppController extends Controller
                 'customer id',
                 'Customer ID',
                 'id',
+                'login_user_id',
+                'loginUserId',
                 'user_id',
                 'userId',
             ],
