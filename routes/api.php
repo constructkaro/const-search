@@ -37,6 +37,9 @@ Route::prefix('v1')->middleware('throttle:api')->group(function () {
             ->name('api.customer.verify-otp');
 
         Route::get('/dashboard', [MobileAppController::class, 'dashboard']);
+        Route::get('/profile', [MobileAppController::class, 'profile']);
+        Route::match(['post', 'put', 'patch'], '/profile', [MobileAppController::class, 'updateProfile'])
+            ->name('api.customer.profile.update');
         Route::get('/metadata', [MobileAppController::class, 'metadata']);
         Route::get('/project-form', [MobileAppController::class, 'projectForm']);
         Route::get('/project-types/{workType}', [MobileAppController::class, 'projectTypes']);

@@ -31,6 +31,69 @@ class MobileAppController extends Controller
         ]);
     }
 
+    public function profile(Request $request): JsonResponse
+    {
+        $customer = $this->customerFromRequest($request);
+
+        if (! $customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer profile not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                'customer' => $this->formatCustomer($customer),
+            ],
+        ]);
+    }
+
+    public function updateProfile(Request $request): JsonResponse
+    {
+        if (! $request->filled('name') && $request->filled('full_name')) {
+            $request->merge(['name' => $request->input('full_name')]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'customer_id' => ['required', 'integer', 'exists:customers,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'full_name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $customer = Customer::find($request->integer('customer_id'));
+
+        if (! $customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer profile not found.',
+            ], 404);
+        }
+
+        $customer->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Profile updated successfully.',
+            'data' => [
+                'customer' => $this->formatCustomer($customer->fresh()),
+            ],
+        ]);
+    }
+
     public function metadata(): JsonResponse
     {
         return response()->json([
@@ -355,6 +418,25 @@ class MobileAppController extends Controller
         }
 
         return Customer::find($request->integer('customer_id'));
+    }
+
+    private function formatCustomer(?Customer $customer): ?array
+    {
+        if (! $customer) {
+            return null;
+        }
+
+        return [
+            'id' => $customer->id,
+            'name' => $customer->name,
+            'full_name' => $customer->name,
+            'mobile' => $customer->mobile,
+            'email' => $customer->email,
+            'joined_on' => optional($customer->created_at)->format('d M Y'),
+            'account_status' => 'Active',
+            'created_at' => $customer->created_at,
+            'updated_at' => $customer->updated_at,
+        ];
     }
 
     private function tableRows(string $table, array $columns): array
