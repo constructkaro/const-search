@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="Zry4myJZ4NNDlfhao3PTKu9MDpx5RT9RbqGsK90YSsE">
     <title>@yield('title', 'My Laravel App')</title>
     <link rel="icon" href="{{ asset('favicon.png') }}?v=2" type="image/png">
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=2" type="image/png">
