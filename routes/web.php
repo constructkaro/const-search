@@ -346,7 +346,7 @@ Route::get('privacy-policy', [HomeController::class, 'privacy_policy'])->name('p
 Route::get('about-who-me', [HomeController::class, 'aboutwhome'])->name('aboutwhome');
 Route::get('core-problem', [HomeController::class, 'coreproblem'])->name('coreproblem');
 
-Route::get('canstructkaro-different', [HomeController::class, 'canstructkarodifferent'])->name('canstructkarodifferent');
+Route::get('constructkaro-different', [HomeController::class, 'canstructkarodifferent'])->name('canstructkarodifferent');
 
 Route::get('guide_me', [HomeController::class, 'guide_me'])->name('guide_me');
 
