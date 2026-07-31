@@ -378,7 +378,6 @@ Route::get('construction-layout-survey-services', [HomeController::class, 'const
 Route::get('drone-survey-services', [HomeController::class, 'drone_survey_services'])->name('drone.survey.services');
 Route::get('road-infrastructure-survey-services', [HomeController::class, 'road_infrastructure_survey_services'])->name('road.infrastructure.survey.services');
 
-
 Route::get('/architectural-services/{slug}', [HomeController::class, 'architecturalServiceDetails'])
     ->name('architectural.service.details');
 Route::get('survey-structural', [HomeController::class, 'survey_structural'])->name('survey.structural');

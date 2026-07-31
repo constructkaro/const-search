@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
-
 <style>
 .footer-section {
     position: relative;
@@ -240,7 +238,7 @@
     <div class="footer-container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo" width="190" height="90" loading="lazy" decoding="async">
                 <p>
                     Constructkaro is a construction services platform that helps homeowners, businesses, and landowners plan, design, and execute residential, commercial, industrial, and infrastructure projects through verified Constructkaro experts across Mumbai, Navi Mumbai, Pune, Thane, and Raigad.
                 </p>

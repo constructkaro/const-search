@@ -485,7 +485,7 @@ body {
 
         <div class="logo">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="215" height="102" decoding="async">
             </a>
         </div>
 
@@ -509,7 +509,7 @@ body {
             @if(session('customer_logged_in'))
 
                 <div class="customer-dropdown-wrap">
-                    <button type="button" class="customer-profile-btn" id="customerProfileBtn">
+                    <button type="button" class="customer-profile-btn" id="customerProfileBtn" aria-label="Open customer menu">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/>
                         </svg>
@@ -531,7 +531,7 @@ body {
                 </a>
             @endif
 
-            <button class="menu-toggle" id="menuToggleBtn" type="button">
+            <button class="menu-toggle" id="menuToggleBtn" type="button" aria-label="Open navigation menu">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
                     <path d="M4 7H20"></path>
                     <path d="M4 12H20"></path>

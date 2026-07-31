@@ -2,12 +2,34 @@
 
 @section('title', 'Home Page')
 
-@section('content')
-
 @php
     $isCustomerLoggedIn = session('customer_logged_in');
+    $ckImage = function ($path, $alt = '', $class = '', array $attrs = []) {
+        $webpPath = preg_replace('/\.(png|jpe?g)$/i', '.webp', $path);
+        $useWebp = $webpPath && file_exists(public_path($webpPath));
+        $attrString = '';
+
+        foreach ($attrs as $name => $value) {
+            if ($value === null || $value === false) {
+                continue;
+            }
+
+            $attrString .= ' ' . e($name) . '="' . e($value === true ? $name : $value) . '"';
+        }
+
+        $classAttr = $class !== '' ? ' class="' . e($class) . '"' : '';
+        $img = '<img src="' . asset($path) . '"' . $classAttr . ' alt="' . e($alt) . '"' . $attrString . '>';
+
+        if (! $useWebp) {
+            return $img;
+        }
+
+        return '<picture><source srcset="' . asset($webpPath) . '" type="image/webp">' . $img . '</picture>';
+    };
 @endphp
 
+@push('styles')
+<link rel="preload" as="image" href="{{ asset('images/banner.webp') }}" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -54,6 +76,10 @@ html {
 .home-page img {
     max-width: 100%;
     display: block;
+}
+
+.home-page picture {
+    display: contents;
 }
 
 .home-page a,
@@ -104,7 +130,10 @@ html {
     margin-left: calc(50% - 50vw);
     background-image:
         linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.62), rgba(0,0,0,.12)),
-        url("{{ asset('images/banner.jpg') }}");
+        image-set(
+            url("{{ asset('images/banner.webp') }}") type("image/webp"),
+            url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
+        );
     background-size: cover;
     background-position: center;
     display: flex;
@@ -483,7 +512,10 @@ html {
 .ck-guide-content-box {
     border-radius: 16px;
     overflow: hidden;
-    background: url("{{ asset('images/logo/Confused.png') }}") center/cover no-repeat;
+    background: image-set(
+        url("{{ asset('images/logo/Confused.webp') }}") type("image/webp"),
+        url("{{ asset('images/logo/Confused.png') }}") type("image/png")
+    ) center/cover no-repeat;
     box-shadow: var(--shadow);
     padding: 40px 42px;
     color: #fff;
@@ -684,7 +716,10 @@ html {
     position: relative;
     min-height: 300px;
     border-radius: 16px;
-    background: url("{{ asset('images/logo/area.png') }}") center/cover no-repeat;
+    background: image-set(
+        url("{{ asset('images/logo/area.webp') }}") type("image/webp"),
+        url("{{ asset('images/logo/area.png') }}") type("image/png")
+    ) center/cover no-repeat;
     box-shadow: var(--shadow);
     padding: 44px 40px;
     text-align: center;
@@ -972,6 +1007,18 @@ html {
     background: #ddd;
     border: 3px solid #fff;
     box-shadow: 0 4px 12px rgba(0,0,0,.18);
+}
+
+.ck-testimonial-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #1f67ab, #ef8a39);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
 }
 
 .ck-testimonial-img img {
@@ -1370,7 +1417,10 @@ html {
         padding: 64px 0;
         background-image:
             linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.66)),
-            url("{{ asset('images/banner.jpg') }}");
+            image-set(
+                url("{{ asset('images/banner.webp') }}") type("image/webp"),
+                url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
+            );
         background-position: 70% center;
     }
 
@@ -1549,6 +1599,9 @@ html {
     font-size: 16px;
 }
 </style>
+@endpush
+
+@section('content')
 
 <div class="home-page">
 
@@ -1574,19 +1627,19 @@ html {
     <section class="ck-trust-section">
         <div class="ck-trust-container">
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/safety-helmet.png') }}" class="ck-trust-icon-img" alt="">
+                {!! $ckImage('images/logo/safety-helmet.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Built by 20+ years<br>construction experience</p>
             </div>
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/verify.png') }}" class="ck-trust-icon-img" alt="">
+                {!! $ckImage('images/logo/verify.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Verified<br>vendors only</p>
             </div>
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/onground.png') }}" class="ck-trust-icon-img" alt="">
+                {!! $ckImage('images/logo/onground.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">On-ground<br>execution support</p>
             </div>
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/transpernt.png') }}" class="ck-trust-icon-img" alt="">
+                {!! $ckImage('images/logo/transpernt.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Transparent<br>pricing approach</p>
             </div>
         </div>
@@ -1606,7 +1659,7 @@ html {
 
             <div class="ck-service-card">
                 <div class="ck-service-image">
-                    <img src="{{ asset('images/b1.png') }}" alt="Architect">
+                    {!! $ckImage('images/b1.png', 'Architect', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 </div>
                 <h3 class="ck-service-title">Architect</h3>
                 <div class="ck-service-line"></div>
@@ -1620,7 +1673,7 @@ html {
 
             <div class="ck-service-card">
                 <div class="ck-service-image">
-                    <img src="{{ asset('images/b2.png') }}" alt="Contractor">
+                    {!! $ckImage('images/b2.png', 'Contractor', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 </div>
                 <h3 class="ck-service-title">Contractor</h3>
                 <div class="ck-service-line"></div>
@@ -1634,7 +1687,7 @@ html {
 
             <div class="ck-service-card">
                 <div class="ck-service-image">
-                    <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
+                    {!! $ckImage('images/b3.png', 'Interior Designer', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 </div>
                 <h3 class="ck-service-title">Interior Designer</h3>
                 <div class="ck-service-line"></div>
@@ -1662,7 +1715,7 @@ html {
 
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/survey-services.png') }}" alt="Survey Services">
+                        {!! $ckImage('images/explore/survey-services.png', 'Survey Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     </div>
                     <div class="explore-card-body">
                         <h3>Survey Services</h3>
@@ -1687,7 +1740,7 @@ html {
                 </div> -->
                  <div class="explore-card blue-card">
                     <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/structural-audit.png') }}" alt="Structural Audit">
+                        {!! $ckImage('images/explore/structural-audit.png', 'Structural Audit', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     </div>
                     <div class="explore-card-body">
                         <h3>Structural Audit</h3>
@@ -1702,7 +1755,7 @@ html {
 
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ/Estimation">
+                        {!! $ckImage('images/explore/boq-estimation.png', 'BOQ/Estimation', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     </div>
                     <div class="explore-card-body">
                         <h3>BOQ / Estimation</h3>
@@ -1723,7 +1776,7 @@ html {
     <section class="ck-guide-section">
         <div class="ck-guide-container">
             <div class="ck-guide-image-box">
-                <img src="{{ asset('images/logo/confused-customer.jpg') }}" alt="Confused Customer">
+                {!! $ckImage('images/logo/confused-customer.jpg', 'Confused Customer', '', ['width' => 520, 'height' => 320, 'loading' => 'lazy', 'decoding' => 'async']) !!}
             </div>
 
             <div class="ck-guide-content-box">
@@ -1770,7 +1823,7 @@ html {
                     <div class="upcoming-card {{ $upcoming[2] }}">
                         <span class="upcoming-badge">Coming Soon</span>
                         <div class="upcoming-card-image">
-                            <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
+                            {!! $ckImage('images/explore/' . $upcoming[0], $upcoming[1], '', ['width' => 360, 'height' => 230, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                         </div>
                         <div class="upcoming-card-body">
                             <h3>{{ $upcoming[1] }}</h3>
@@ -1784,7 +1837,7 @@ html {
                     <div class="upcoming-card {{ $upcoming[2] }}">
                         <span class="upcoming-badge">Coming Soon</span>
                         <div class="upcoming-card-image">
-                            <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
+                            {!! $ckImage('images/explore/' . $upcoming[0], $upcoming[1], '', ['width' => 360, 'height' => 230, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                         </div>
                         <div class="upcoming-card-body">
                             <h3>{{ $upcoming[1] }}</h3>
@@ -1806,7 +1859,7 @@ html {
                 <a href="https://vendor.constructkaro.com/" class="ck-vendor-btn">Join as Vendor</a>
             </div>
             <div class="ck-vendor-image-box">
-                <img src="{{ asset('images/logo/a1.jpg') }}" alt="Construction Projects">
+                {!! $ckImage('images/logo/a1.jpg', 'Construction Projects', '', ['width' => 520, 'height' => 300, 'loading' => 'lazy', 'decoding' => 'async']) !!}
             </div>
         </div>
     </section>
@@ -1815,11 +1868,11 @@ html {
     <section class="ck-city-section">
         <h2 class="ck-city-title">Cities We Serve</h2>
         <div class="ck-city-grid">
-            <div class="ck-city-card"><img src="{{ asset('images/logo/navi-mumbai.png') }}" alt="Navi Mumbai"></div>
-            <div class="ck-city-card"><img src="{{ asset('images/logo/mumbai.png') }}"      alt="Mumbai"></div>
-            <div class="ck-city-card"><img src="{{ asset('images/logo/thane.png') }}"       alt="Thane"></div>
-            <div class="ck-city-card"><img src="{{ asset('images/logo/pune.png') }}"        alt="Pune"></div>
-            <div class="ck-city-card"><img src="{{ asset('images/logo/raigad.png') }}"      alt="Raigad"></div>
+            <div class="ck-city-card">{!! $ckImage('images/logo/navi-mumbai.png', 'Navi Mumbai', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
+            <div class="ck-city-card">{!! $ckImage('images/logo/mumbai.png', 'Mumbai', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
+            <div class="ck-city-card">{!! $ckImage('images/logo/thane.png', 'Thane', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
+            <div class="ck-city-card">{!! $ckImage('images/logo/pune.png', 'Pune', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
+            <div class="ck-city-card">{!! $ckImage('images/logo/raigad.png', 'Raigad', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
         </div>
     </section>
 
@@ -1832,38 +1885,38 @@ html {
             <!-- <div class="ck-slide"><img src="{{ asset('images/services/contractor.png') }}" alt="Contractor"></div> -->
             <div class="ck-slide active">
                 <a href="{{ route('contractor.services') }}">
-                    <img src="{{ asset('images/services/contractor.png') }}" alt="Contractor">
+                    {!! $ckImage('images/services/contractor.png', 'Contractor', '', ['width' => 360, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">Contractor</span> -->
                 </a>
             </div>
             <!-- <div class="ck-slide"><img src="{{ asset('images/services/architect.png') }}"  alt="contractor"></div> -->
             <div class="ck-slide">
                 <a href="{{ route('architect.services') }}">
-                    <img src="{{ asset('images/services/architect.png') }}" alt="Architect">
+                    {!! $ckImage('images/services/architect.png', 'Architect', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">Architect</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('interior.services') }}">
-                    <img src="{{ asset('images/services/interior.png') }}" alt="Interior Designing">
+                    {!! $ckImage('images/services/interior.png', 'Interior Designing', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">Interior</span> -->
                 </a>
             </div>
             <div class="ck-slide">
                 <a href="{{ route('survey.services') }}">
-                    <img src="{{ asset('images/services/survey.png') }}" alt="Survey">
+                    {!! $ckImage('images/services/survey.png', 'Survey', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">Survey</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('survey.structural') }}">
-                    <img src="{{ asset('images/services/structural.png') }}" alt="Structural">
+                    {!! $ckImage('images/services/structural.png', 'Structural', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">Structural</span> -->
                 </a>
             </div>
               <div class="ck-slide">
                 <a href="{{ route('boq.testing') }}">
-                    <img src="{{ asset('images/services/boq.png') }}" alt="BOQ">
+                    {!! $ckImage('images/services/boq.png', 'BOQ', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                     <!-- <span class="ck-slide-label">BOQ</span> -->
                 </a>
             </div>
@@ -1881,7 +1934,7 @@ html {
 
             <div class="ck-testimonial-card">
                 <div class="ck-testimonial-img">
-                    <img src="{{ asset('images/testimonials/client1.png') }}" alt="Client">
+                    <div class="ck-testimonial-avatar" aria-hidden="true">PI</div>
                 </div>
                 <h3 class="ck-testimonial-name">Patil Infra & Realtors Pvt. Ltd.</h3>
                 <p class="ck-testimonial-role">Real Estate Developer | Khopoli</p>
@@ -1891,7 +1944,7 @@ html {
 
             <div class="ck-testimonial-card">
                 <div class="ck-testimonial-img">
-                    <img src="{{ asset('images/testimonials/client2.png') }}" alt="Client">
+                    <div class="ck-testimonial-avatar" aria-hidden="true">DS</div>
                 </div>
                 <h3 class="ck-testimonial-name">Dinesh Shirke</h3>
                 <p class="ck-testimonial-role">Home Owner | Nagothane, Maharashtra</p>
@@ -1901,7 +1954,7 @@ html {
 
             <div class="ck-testimonial-card">
                 <div class="ck-testimonial-img">
-                    <img src="{{ asset('images/testimonials/client3.png') }}" alt="Client">
+                    <div class="ck-testimonial-avatar" aria-hidden="true">OV</div>
                 </div>
                 <h3 class="ck-testimonial-name">Omkar Vidhate</h3>
                 <p class="ck-testimonial-role">Architect | Pune</p>
@@ -1911,7 +1964,7 @@ html {
 
             <div class="ck-testimonial-card">
                 <div class="ck-testimonial-img">
-                    <img src="{{ asset('images/testimonials/client4.png') }}" alt="Client">
+                    <div class="ck-testimonial-avatar" aria-hidden="true">SA</div>
                 </div>
                 <h3 class="ck-testimonial-name">Sanket Asgaonkar</h3>
                 <p class="ck-testimonial-role">Land Surveyor & Drone Survey Specialist | Raigad</p>
