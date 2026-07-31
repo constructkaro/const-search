@@ -32,7 +32,8 @@
     box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 
-.footer-social-bar a {
+.footer-social-bar a,
+.footer-social-bar span {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -56,6 +57,10 @@
 .footer-social-bar a:hover {
     transform: translateY(-2px);
     color: #f0822f;
+}
+
+.footer-social-bar span {
+    cursor: default;
 }
 
 .footer-grid {
@@ -110,6 +115,12 @@
 .footer-col ul li a:hover {
     color: #f0822f;
     padding-left: 3px;
+}
+
+.footer-disabled-link {
+    color: rgba(255,255,255,0.58);
+    font-size: 15px;
+    line-height: 1.4;
 }
 
 .footer-contact-list {
@@ -213,22 +224,22 @@
 
 <footer class="footer-section">
     <div class="footer-social-bar">
-        <a href="#" aria-label="Facebook">
+        <span aria-label="Facebook">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M14 8.5h3V5h-3.3C10.9 5 9 6.9 9 9.8V12H6v3.6h3V22h4v-6.4h3.1L16.7 12H13V9.9c0-.9.4-1.4 1-1.4Z"/>
             </svg>
-        </a>
-        <a href="#" aria-label="Instagram">
+        </span>
+        <span aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M7.6 2h8.8A5.6 5.6 0 0 1 22 7.6v8.8a5.6 5.6 0 0 1-5.6 5.6H7.6A5.6 5.6 0 0 1 2 16.4V7.6A5.6 5.6 0 0 1 7.6 2Zm4.4 5.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4Zm0 2.5a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4Zm5-2.6a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2Z"/>
             </svg>
-        </a>
-        <a href="#" aria-label="LinkedIn">
+        </span>
+        <span aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4.8 8.8H9V22H4.8V8.8ZM6.9 2A2.4 2.4 0 1 1 7 6.8 2.4 2.4 0 0 1 6.9 2Zm5.4 6.8h4v1.8h.1c.6-1.1 2-2.2 4.1-2.2 4.4 0 5.2 2.9 5.2 6.7V22h-4.2v-6.1c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V22h-4.2V8.8Z"/>
             </svg>
-        </a>
-        <a href="#" aria-label="WhatsApp">
+        </span>
+        <a href="https://wa.me/917385882657" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2a9.7 9.7 0 0 0-8.3 14.7L2.5 22l5.4-1.4A9.8 9.8 0 1 0 12 2Zm5.4 14.1c-.2.6-1.2 1.1-1.7 1.2-.5.1-1.2.2-3.6-.8-3-1.3-5-4.4-5.2-4.6-.1-.2-1.2-1.6-1.2-3s.8-2.2 1.1-2.5c.2-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5l.9 2.1c.1.3.1.5 0 .7l-.5.7c-.2.2-.3.4-.1.7.2.3.8 1.3 1.7 2.1 1.2 1.1 2.1 1.4 2.4 1.6.3.1.5.1.7-.1l.9-1.1c.2-.3.5-.2.8-.1l2 .9c.4.2.6.3.7.5 0 .1 0 .6-.2 1.1Z"/>
             </svg>
@@ -248,7 +259,7 @@
                 <h4>Company</h4>
                 <ul>
                     <li><a href="{{ route('aboutus') }}">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
+                    <li><span class="footer-disabled-link">Careers</span></li>
                     <li><a href="{{ route('knowledgehub') }}">Constructshala</a></li>
                     <li><a href="{{ route('welcome') }}#mainServicesSection">Services</a></li>
                 </ul>
@@ -258,7 +269,7 @@
                 <h4>Support</h4>
                 <ul>
                     <li><a href="{{ route('helpcenter') }}">Help Center</a></li>
-                    <li><a href="#">Terms &amp; Conditions</a></li>
+                    <li><span class="footer-disabled-link">Terms &amp; Conditions</span></li>
                     <li><a href="{{ route('privacy.policy') }}">Privacy Policy</a></li>
                 </ul>
             </div>

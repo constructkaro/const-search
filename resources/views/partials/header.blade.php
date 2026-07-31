@@ -526,7 +526,7 @@ body {
                 </div>
 
             @else
-                <a href="javascript:void(0)" class="header-login-btn open-customer-login-modal">
+                <a href="{{ route('post') }}" class="header-login-btn open-customer-login-modal" data-redirect="{{ route('post') }}">
                     Login / Sign Up
                 </a>
             @endif

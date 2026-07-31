@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Home Page')
+@section('title', 'ConstructKaro - Architects, Contractors & Construction Services')
+@section('meta_description', 'Plan, hire, and execute construction projects with ConstructKaro. Find verified architects, contractors, interior designers, surveyors, BOQ experts, and construction support across Mumbai, Navi Mumbai, Pune, Thane, and Raigad.')
+@section('canonical', 'https://constructkaro.com/')
+@section('og_title', 'ConstructKaro - Verified Construction Services')
+@section('og_description', 'Find verified architects, contractors, interior designers, surveyors, BOQ experts, and construction support for residential, commercial, industrial, and infrastructure projects.')
+@section('og_image', 'https://constructkaro.com/images/banner.jpg')
+@section('twitter_title', 'ConstructKaro - Verified Construction Services')
+@section('twitter_description', 'Plan, hire, and execute construction projects with verified ConstructKaro experts across Maharashtra.')
+@section('twitter_image', 'https://constructkaro.com/images/banner.jpg')
 
 @php
     $isCustomerLoggedIn = session('customer_logged_in');
@@ -27,6 +35,36 @@
         return '<picture><source srcset="' . asset($webpPath) . '" type="image/webp">' . $img . '</picture>';
     };
 @endphp
+
+@push('head')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ConstructKaro",
+    "url": "https://constructkaro.com/",
+    "logo": "https://constructkaro.com/images/logo.png",
+    "email": "connect@constructkaro.com",
+    "telephone": "+91 73858 82657",
+    "areaServed": [
+        "Mumbai",
+        "Navi Mumbai",
+        "Pune",
+        "Thane",
+        "Raigad"
+    ],
+    "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ConstructKaro",
+    "url": "https://constructkaro.com/"
+}
+</script>
+@endpush
 
 @push('styles')
 <link rel="preload" as="image" href="{{ asset('images/banner.webp') }}" type="image/webp" fetchpriority="high">
@@ -1667,7 +1705,7 @@ html {
                 @if($isCustomerLoggedIn)
                     <a href="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn">Post Your Requirement</a>
                 @else
-                    <a href="javascript:void(0)" data-redirect="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                    <a href="{{ route('post', ['work_type_id' => 2]) }}" data-redirect="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
                 @endif
             </div>
 
@@ -1681,7 +1719,7 @@ html {
                 @if($isCustomerLoggedIn)
                     <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
                 @else
-                    <a href="javascript:void(0)" data-redirect="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                    <a href="{{ route('post', ['work_type_id' => 1]) }}" data-redirect="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
                 @endif
             </div>
 
@@ -1695,7 +1733,7 @@ html {
                 @if($isCustomerLoggedIn)
                     <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
                 @else
-                    <a href="javascript:void(0)" data-redirect="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
+                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" data-redirect="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
                 @endif
             </div>
 
@@ -1723,7 +1761,7 @@ html {
                         @if($isCustomerLoggedIn)
                             <a href="{{ route('customer.survey') }}" class="explore-btn orange-btn">Get Started</a>
                         @else
-                            <a href="javascript:void(0)" data-redirect="{{ route('customer.survey') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
+                            <a href="{{ route('customer.survey') }}" data-redirect="{{ route('customer.survey') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
                         @endif
                     </div>
                 </div>
@@ -1748,7 +1786,7 @@ html {
                         @if($isCustomerLoggedIn)
                             <a href="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn">Get Started</a>
                         @else
-                            <a href="javascript:void(0)" data-redirect="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
+                            <a href="{{ route('customer.structuralaudit') }}" data-redirect="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
                         @endif
                     </div>
                 </div>
@@ -1763,7 +1801,7 @@ html {
                         @if($isCustomerLoggedIn)
                             <a href="{{ route('customer.boq') }}" class="explore-btn orange-btn">Get Started</a>
                         @else
-                            <a href="javascript:void(0)" data-redirect="{{ route('customer.boq') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
+                            <a href="{{ route('customer.boq') }}" data-redirect="{{ route('customer.boq') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
                         @endif
                     </div>
                 </div>
@@ -2017,8 +2055,9 @@ $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
 $(document).ready(function () {
 
-    $(document).on('click', '.open-customer-login-modal', function () {
-        let redirectUrl = $(this).data('redirect') || '';
+    $(document).on('click', '.open-customer-login-modal', function (event) {
+        event.preventDefault();
+        let redirectUrl = $(this).data('redirect') || $(this).attr('href') || '';
         $('#customer_redirect_url').val(redirectUrl);
         $('#customer_mobile_number').val('');
         $('#customer_otp_code').val('');
