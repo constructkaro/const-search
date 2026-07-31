@@ -50,6 +50,7 @@ body {
     display: block;
 } */
 
+.header .logo picture,
 .header .logo img {
     width: 215px;
     max-height: 102px;
@@ -417,6 +418,7 @@ body {
         min-height: 42px;
     }
 
+    .header .logo picture,
     .header .logo img {
         width: 140px;
         max-height: 54px;
@@ -439,6 +441,7 @@ body {
         font-size: 12px;
     }
 
+    .header .logo picture,
     .header .logo img {
         width: 112px;
         max-height: 46px;
@@ -469,6 +472,7 @@ body {
 }
 
 @media (max-width: 360px) {
+    .header .logo picture,
     .header .logo img {
         width: 104px;
     }
@@ -485,7 +489,10 @@ body {
 
         <div class="logo">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="215" height="102" decoding="async">
+                <picture>
+                    <source srcset="{{ asset('images/logo.webp') }}" type="image/webp">
+                    <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="215" height="102" decoding="async">
+                </picture>
             </a>
         </div>
 
@@ -571,6 +578,7 @@ body {
     </div>
 </div>
 
+@push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -908,3 +916,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
+@endpush

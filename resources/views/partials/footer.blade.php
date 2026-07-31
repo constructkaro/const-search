@@ -71,6 +71,7 @@
     padding-top: 6px;
 }
 
+.footer-brand picture,
 .footer-brand img {
     width: 190px;
     max-width: 100%;
@@ -205,6 +206,7 @@
         gap: 26px;
     }
 
+    .footer-brand picture,
     .footer-brand img {
         width: 165px;
     }
@@ -249,7 +251,10 @@
     <div class="footer-container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo" width="190" height="90" loading="lazy" decoding="async">
+                <picture>
+                    <source srcset="{{ asset('images/logo.webp') }}" type="image/webp">
+                    <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo" width="190" height="90" loading="lazy" decoding="async">
+                </picture>
                 <p>
                     Constructkaro is a construction services platform that helps homeowners, businesses, and landowners plan, design, and execute residential, commercial, industrial, and infrastructure projects through verified Constructkaro experts across Mumbai, Navi Mumbai, Pune, Thane, and Raigad.
                 </p>

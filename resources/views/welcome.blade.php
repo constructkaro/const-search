@@ -67,7 +67,8 @@
 @endpush
 
 @push('styles')
-<link rel="preload" as="image" href="{{ asset('images/banner.webp') }}" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('images/banner-mobile.webp') }}" type="image/webp" media="(max-width: 767px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('images/banner.webp') }}" type="image/webp" media="(min-width: 768px)" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1456,7 +1457,7 @@ html {
         background-image:
             linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.66)),
             image-set(
-                url("{{ asset('images/banner.webp') }}") type("image/webp"),
+                url("{{ asset('images/banner-mobile.webp') }}") type("image/webp"),
                 url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
             );
         background-position: 70% center;
@@ -1665,19 +1666,19 @@ html {
     <section class="ck-trust-section">
         <div class="ck-trust-container">
             <div class="ck-trust-item">
-                {!! $ckImage('images/logo/safety-helmet.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/logo/safety-helmet.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Built by 20+ years<br>construction experience</p>
             </div>
             <div class="ck-trust-item">
-                {!! $ckImage('images/logo/verify.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/logo/verify.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Verified<br>vendors only</p>
             </div>
             <div class="ck-trust-item">
-                {!! $ckImage('images/logo/onground.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/logo/onground.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">On-ground<br>execution support</p>
             </div>
             <div class="ck-trust-item">
-                {!! $ckImage('images/logo/transpernt.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/logo/transpernt.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 <p class="ck-trust-title">Transparent<br>pricing approach</p>
             </div>
         </div>
@@ -2048,9 +2049,128 @@ html {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+@push('scripts')
 <script>
+window.$ = window.jQuery = (function () {
+    let ajaxHeaders = {};
+
+    function wrap(input) {
+        let elements = [];
+
+        if (input === document || input === window || input instanceof Element) {
+            elements = [input];
+        } else if (typeof input === 'string') {
+            elements = Array.from(document.querySelectorAll(input));
+        } else if (input && input.elements) {
+            elements = input.elements;
+        }
+
+        return {
+            elements,
+            ready(fn) {
+                if (document.readyState !== 'loading') fn();
+                else document.addEventListener('DOMContentLoaded', fn);
+                return this;
+            },
+            on(eventName, selectorOrHandler, handler) {
+                const delegated = typeof selectorOrHandler === 'string';
+                const callback = delegated ? handler : selectorOrHandler;
+
+                elements.forEach(function (element) {
+                    element.addEventListener(eventName, function (event) {
+                        if (!delegated) {
+                            callback.call(element, event);
+                            return;
+                        }
+
+                        const target = event.target.closest(selectorOrHandler);
+                        if (target && element.contains(target)) {
+                            callback.call(target, event);
+                        }
+                    });
+                });
+
+                return this;
+            },
+            val(value) {
+                if (value === undefined) return elements[0] ? elements[0].value : '';
+                elements.forEach(element => { element.value = value; });
+                return this;
+            },
+            text(value) {
+                if (value === undefined) return elements[0] ? elements[0].textContent : '';
+                elements.forEach(element => { element.textContent = value; });
+                return this;
+            },
+            hide() {
+                elements.forEach(element => { element.style.display = 'none'; });
+                return this;
+            },
+            show() {
+                elements.forEach(element => { element.style.display = ''; });
+                return this;
+            },
+            addClass(className) {
+                elements.forEach(element => element.classList.add(className));
+                return this;
+            },
+            removeClass(className) {
+                elements.forEach(element => element.classList.remove(className));
+                return this;
+            },
+            hasClass(className) {
+                return elements[0] ? elements[0].classList.contains(className) : false;
+            },
+            closest(selector) {
+                return wrap(elements[0] ? elements[0].closest(selector) : null);
+            },
+            find(selector) {
+                return wrap(elements[0] ? elements[0].querySelector(selector) : null);
+            },
+            prop(name, value) {
+                if (value === undefined) return elements[0] ? elements[0][name] : undefined;
+                elements.forEach(element => { element[name] = value; });
+                return this;
+            },
+            data(name) {
+                return elements[0] ? elements[0].dataset[name] : undefined;
+            },
+            attr(name) {
+                return elements[0] ? elements[0].getAttribute(name) : undefined;
+            }
+        };
+    }
+
+    wrap.ajaxSetup = function (options) {
+        ajaxHeaders = options.headers || {};
+    };
+
+    wrap.ajax = function (options) {
+        fetch(options.url, {
+            method: options.type || 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                ...ajaxHeaders
+            },
+            body: new URLSearchParams(options.data || {})
+        })
+        .then(response => response.json().then(data => ({ ok: response.ok, data })))
+        .then(function (result) {
+            if (result.ok && options.success) options.success(result.data);
+            if (!result.ok && options.error) options.error(result.data);
+        })
+        .catch(function (error) {
+            if (options.error) options.error(error);
+        })
+        .finally(function () {
+            if (options.complete) options.complete();
+        });
+    };
+
+    return wrap;
+})();
+
 $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
 $(document).ready(function () {
@@ -2260,4 +2380,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
+@endpush
 @endsection
