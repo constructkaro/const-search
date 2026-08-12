@@ -453,7 +453,7 @@ class MobileAppController extends Controller
             return $customer;
         }
 
-        $customerId = $this->firstFilledInput($request, [
+        $customer = $this->customerFromIdLikeInputs($request, [
             'customer_id',
             'customerId',
             'customer',
@@ -473,12 +473,8 @@ class MobileAppController extends Controller
             'userId',
         ]);
 
-        if ($customerId !== null) {
-            $customerId = preg_replace('/\D+/', '', (string) $customerId);
-
-            if ($customerId !== '') {
-                return Customer::find((int) $customerId);
-            }
+        if ($customer) {
+            return $customer;
         }
 
         $loginMobile = $this->firstFilledInput($request, [
@@ -490,6 +486,8 @@ class MobileAppController extends Controller
             'registeredMobile',
             'auth_mobile',
             'authMobile',
+            'mobile',
+            'phone',
         ]);
 
         if ($loginMobile !== null) {
@@ -509,6 +507,7 @@ class MobileAppController extends Controller
             'registeredEmail',
             'auth_email',
             'authEmail',
+            'email',
         ]);
 
         if ($loginEmail !== null) {
@@ -516,6 +515,46 @@ class MobileAppController extends Controller
         }
 
         return null;
+    }
+
+    private function customerFromIdLikeInputs(Request $request, array $keys): ?Customer
+    {
+        foreach ($keys as $key) {
+            if (! $request->filled($key)) {
+                continue;
+            }
+
+            $customerId = $this->customerIdFromValue($request->input($key));
+
+            if ($customerId === null) {
+                continue;
+            }
+
+            $customer = Customer::find($customerId);
+
+            if ($customer) {
+                return $customer;
+            }
+        }
+
+        return null;
+    }
+
+    private function customerIdFromValue(mixed $value): ?int
+    {
+        if (is_array($value)) {
+            foreach (['id', 'customer_id', 'customerId', 'user_id', 'userId'] as $key) {
+                if (array_key_exists($key, $value)) {
+                    return $this->customerIdFromValue($value[$key]);
+                }
+            }
+
+            return null;
+        }
+
+        $customerId = preg_replace('/\D+/', '', (string) $value);
+
+        return $customerId === '' ? null : (int) $customerId;
     }
 
     private function customerFromRememberedLogin(Request $request): ?Customer
@@ -592,17 +631,26 @@ class MobileAppController extends Controller
 
             foreach ($fieldAliases as $alias) {
                 if ($request->filled($alias)) {
-                    $normalized[$field] = $request->input($alias);
+                    if ($field === 'customer_id') {
+                        $customerId = $this->customerIdFromValue($request->input($alias));
+
+                        if ($customerId !== null) {
+                            $normalized[$field] = $customerId;
+                        }
+                    } else {
+                        $normalized[$field] = $request->input($alias);
+                    }
+
                     break;
                 }
             }
         }
 
         if ($request->filled('customer_id')) {
-            $customerId = preg_replace('/\D+/', '', (string) $request->input('customer_id'));
+            $customerId = $this->customerIdFromValue($request->input('customer_id'));
 
-            if ($customerId !== '') {
-                $normalized['customer_id'] = (int) $customerId;
+            if ($customerId !== null) {
+                $normalized['customer_id'] = $customerId;
             }
         }
 
