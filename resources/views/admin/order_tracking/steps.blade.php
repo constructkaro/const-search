@@ -295,11 +295,15 @@
                     <option value="locked">Locked</option>
                 </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
+                <label class="form-label">Progress %</label>
+                <input type="number" name="progress_percent" class="form-control" min="0" max="100" placeholder="0-100">
+            </div>
+            <div class="col-md-3">
                 <label class="form-label">Button Text</label>
                 <input type="text" name="button_text" class="form-control" placeholder="Optional">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <label class="form-label">Current Update</label>
                 <input type="text" name="input_value" class="form-control" placeholder="Optional update or remark">
             </div>
@@ -321,7 +325,10 @@
         @if($steps->count())
             <div class="milestone-grid">
                 @foreach($steps as $step)
-                    @php $status = $step->status ?: 'pending'; @endphp
+                    @php
+                        $status = $step->status ?: 'pending';
+                        $progressPercent = $step->extra_data['progress_percent'] ?? null;
+                    @endphp
                     <div class="milestone-card">
                         <div class="milestone-top">
                             <div class="d-flex align-items-center gap-2">
@@ -370,6 +377,10 @@
                                         <option value="pending" {{ $step->status == 'pending' ? 'selected' : '' }}>Pending</option>
                                         <option value="locked" {{ $step->status == 'locked' ? 'selected' : '' }}>Locked</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label class="form-label">Progress %</label>
+                                    <input type="number" name="progress_percent" value="{{ $progressPercent }}" class="form-control" min="0" max="100" placeholder="0-100">
                                 </div>
                                 <div>
                                     <label class="form-label">Button Text</label>

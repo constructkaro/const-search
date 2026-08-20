@@ -378,7 +378,9 @@ class MobileAppController extends Controller
 
         $totalStages = $formattedSteps->count();
         $completedStages = $formattedSteps->where('status_key', 'completed')->count();
-        $progressPercent = $totalStages > 0 ? (int) round(($completedStages / $totalStages) * 100) : 0;
+        $progressPercent = $totalStages > 0
+            ? (int) round($formattedSteps->sum('progress_percent') / $totalStages)
+            : 0;
         $currentStage = $formattedSteps->firstWhere('status_key', 'in_progress')
             ?: $formattedSteps->firstWhere('status_key', 'pending')
             ?: $formattedSteps->firstWhere('status_key', 'upcoming')
@@ -983,6 +985,7 @@ class MobileAppController extends Controller
     {
         $statusKey = $this->trackingStatusKey($step->status ?? 'pending');
         $description = $step->step_description ?? null;
+        $extraData = is_array($step->extra_data ?? null) ? $step->extra_data : [];
 
         return [
             'id' => $step->id ?? null,
@@ -997,10 +1000,10 @@ class MobileAppController extends Controller
             'status' => $step->status ?? 'pending',
             'status_key' => $statusKey,
             'status_label' => $this->trackingStatusLabel($statusKey),
-            'progress_percent' => $this->trackingStepProgress($statusKey),
+            'progress_percent' => $this->trackingStepProgress($statusKey, $extraData['progress_percent'] ?? null),
             'button_text' => $step->button_text ?? null,
             'current_update' => $step->input_value ?? null,
-            'attachments' => $this->trackingAttachments($step->extra_data ?? []),
+            'attachments' => $this->trackingAttachments($extraData),
             'created_at' => $step->created_at ?? null,
             'updated_at' => $step->updated_at ?? null,
         ];
@@ -1029,8 +1032,12 @@ class MobileAppController extends Controller
         };
     }
 
-    private function trackingStepProgress(string $statusKey): int
+    private function trackingStepProgress(string $statusKey, mixed $adminProgress = null): int
     {
+        if ($adminProgress !== null && $adminProgress !== '') {
+            return max(0, min(100, (int) $adminProgress));
+        }
+
         return match ($statusKey) {
             'completed' => 100,
             'in_progress' => 50,

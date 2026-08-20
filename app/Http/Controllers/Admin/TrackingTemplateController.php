@@ -359,6 +359,7 @@ public function updateStep(Request $request, $id)
         'step_description' => 'nullable|string',
         'step_type' => 'nullable|string|max:100',
         'status' => 'required|string',
+        'progress_percent' => 'nullable|integer|min:0|max:100',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
         'attachments' => 'nullable|array',
@@ -383,6 +384,12 @@ public function updateStep(Request $request, $id)
                 'name' => $file->getClientOriginalName(),
             ];
         }
+    }
+
+    if ($request->filled('progress_percent')) {
+        $extraData['progress_percent'] = (int) $request->progress_percent;
+    } else {
+        unset($extraData['progress_percent']);
     }
 
     $step->update([
@@ -411,6 +418,7 @@ public function storeStep(Request $request, $trackingId)
         'step_description' => 'nullable|string',
         'step_type' => 'nullable|string|max:100',
         'status' => 'required|string',
+        'progress_percent' => 'nullable|integer|min:0|max:100',
         'input_value' => 'nullable|string',
         'button_text' => 'nullable|string|max:255',
         'attachments' => 'nullable|array',
@@ -418,6 +426,10 @@ public function storeStep(Request $request, $trackingId)
     ]);
 
     $extraData = [];
+
+    if ($request->filled('progress_percent')) {
+        $extraData['progress_percent'] = (int) $request->progress_percent;
+    }
 
     if ($request->hasFile('attachments')) {
         foreach ($request->file('attachments') as $file) {
