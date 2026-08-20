@@ -205,10 +205,10 @@ class MobileAppController extends Controller
             'work_type_id' => ['required', 'integer'],
             'work_subtype_id' => ['required', 'integer'],
             'city_id' => ['required'],
-            'area_ids' => ['nullable', 'array'],
+            'area_ids' => ['required', 'array', 'min:1'],
             'area_ids.*' => ['integer'],
             'pincode' => ['nullable', 'string', 'max:255'],
-            'budget' => ['nullable'],
+            'budget' => ['required'],
             'contact_name' => ['required', 'string', 'max:255'],
             'mobile' => ['required', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -249,37 +249,45 @@ class MobileAppController extends Controller
             );
         }
 
-        $filePath = $this->storeProjectFiles($request);
+        try {
+            $filePath = $this->storeProjectFiles($request);
 
-        $projectId = DB::transaction(function () use ($request, $filePath, $customer) {
-            $data = [
-                'user_id' => $customer->id,
-                'title' => $request->title,
-                'work_type_id' => $request->work_type_id,
-                'work_subtype_id' => $request->work_subtype_id,
-                'area_ids' => json_encode($request->input('area_ids', []) ?: []),
-                'city_id' => $request->city_id,
-                'pincode' => $request->pincode,
-                'budget_id' => $request->input('budget'),
-                'contact_name' => $request->contact_name,
-                'mobile' => $request->mobile,
-                'email' => $request->email,
-                'add_by' => $request->add_by,
-                'lead_status' => $request->lead_status,
-                'description' => $request->description,
-                'area' => $request->area,
-                'files' => $filePath,
-                'files_note' => $request->files_note,
-                'contact_time' => $request->contact_time,
-                'unit_id' => $request->input('unit'),
-                'post_verify' => 0,
-                'get_vendor' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            $projectId = DB::transaction(function () use ($request, $filePath, $customer) {
+                $data = [
+                    'user_id' => $customer->id,
+                    'title' => $request->title,
+                    'work_type_id' => $request->work_type_id,
+                    'work_subtype_id' => $request->work_subtype_id,
+                    'area_ids' => json_encode($request->input('area_ids', []) ?: []),
+                    'city_id' => $request->city_id,
+                    'pincode' => $request->pincode,
+                    'budget_id' => $request->input('budget'),
+                    'contact_name' => $request->contact_name,
+                    'mobile' => $request->mobile,
+                    'email' => $request->email,
+                    'add_by' => $request->input('add_by', 'mobile_app'),
+                    'lead_status' => $request->input('lead_status', 'serious'),
+                    'description' => $request->description,
+                    'area' => $request->area,
+                    'files' => $filePath,
+                    'files_note' => $request->files_note,
+                    'contact_time' => $request->input('contact_time', ''),
+                    'unit_id' => $request->input('unit'),
+                    'post_verify' => 0,
+                    'get_vendor' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
 
-            return DB::table('posts')->insertGetId($this->onlyExistingColumns('posts', $data));
-        });
+                return DB::table('posts')->insertGetId($this->onlyExistingColumns('posts', $data));
+            });
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Project submit failed.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
 
         return response()->json([
             'status' => true,
@@ -288,6 +296,24 @@ class MobileAppController extends Controller
                 'project_id' => $projectId,
                 'status' => 'sent_to_backend',
                 'customer_id' => $customer->id,
+                'project' => [
+                    'id' => $projectId,
+                    'title' => $request->title,
+                    'work_type_id' => (int) $request->work_type_id,
+                    'work_subtype_id' => (int) $request->work_subtype_id,
+                    'city_id' => $request->city_id,
+                    'area_ids' => $request->input('area_ids', []) ?: [],
+                    'pincode' => $request->pincode,
+                    'budget' => $request->input('budget'),
+                    'area' => $request->area,
+                    'unit' => $request->input('unit'),
+                    'contact_name' => $request->contact_name,
+                    'mobile' => $request->mobile,
+                    'email' => $request->email,
+                    'files' => $filePath,
+                    'files_note' => $request->files_note,
+                    'description' => $request->description,
+                ],
             ],
         ], 201);
     }
@@ -678,15 +704,17 @@ class MobileAppController extends Controller
     private function normalizeProjectRequest(Request $request): void
     {
         $aliases = [
+            'title' => ['project_title', 'projectTitle'],
             'work_type_id' => ['vendor_type_id', 'vendorTypeId', 'vendor_type', 'vendorType'],
             'work_subtype_id' => ['project_type_id', 'projectTypeId', 'project_type', 'projectType'],
-            'city_id' => ['cityId'],
+            'city_id' => ['cityId', 'city'],
             'pincode' => ['pin_code', 'pinCode'],
-            'budget' => ['budget_id', 'budgetId', 'approx_budget', 'approxBudget'],
+            'budget' => ['budget_id', 'budgetId', 'approx_budget', 'approxBudget', 'approx_budget_rs', 'approxBudgetRs'],
             'area' => ['area_size', 'areaSize'],
             'unit' => ['unit_id', 'unitId'],
+            'mobile' => ['phone', 'contact_mobile', 'contactMobile'],
             'contact_name' => ['contactName', 'full_name', 'fullName'],
-            'files_note' => ['file_note', 'fileNote', 'documents_note', 'documentsNote'],
+            'files_note' => ['file_note', 'fileNote', 'documents_note', 'documentsNote', 'filesNote'],
             'description' => ['project_description', 'projectDescription'],
         ];
 
@@ -722,6 +750,14 @@ class MobileAppController extends Controller
 
         if (! empty($normalized)) {
             $request->merge($normalized);
+        }
+
+        if ($request->filled('mobile')) {
+            $mobile = $this->normalizeMobileNumber($request->input('mobile'));
+
+            if ($mobile !== '') {
+                $request->merge(['mobile' => $mobile]);
+            }
         }
     }
 

@@ -47,6 +47,8 @@ Route::prefix('v1')->middleware('throttle:api')->group(function () {
         Route::get('/pincodes', [MobileAppController::class, 'pincodes']);
         Route::get('/projects', [MobileAppController::class, 'projects']);
         Route::post('/projects', [MobileAppController::class, 'storeProject']);
+        Route::post('/save-project', [MobileAppController::class, 'storeProject'])
+            ->name('api.customer.save-project');
     });
 
     Route::prefix('vendors')->group(function () {
