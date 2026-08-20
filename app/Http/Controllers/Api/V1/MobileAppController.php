@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\OrderTracking;
+use App\Models\OrderTrackingStep;
 use App\Models\Post;
+use App\Support\DefaultProjectTrackingSteps;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class MobileAppController extends Controller
@@ -328,6 +332,89 @@ class MobileAppController extends Controller
             'data' => Post::where('user_id', $request->integer('customer_id'))
                 ->latest()
                 ->get(),
+        ]);
+    }
+
+    public function projectTracking(Request $request, int $project): JsonResponse
+    {
+        $post = Post::find($project);
+
+        if (! $post) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Project not found.',
+            ], 404);
+        }
+
+        if ($request->filled('customer_id') && (int) $post->user_id !== $request->integer('customer_id')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This project does not belong to the customer.',
+            ], 403);
+        }
+
+        $tracking = OrderTracking::where('service_key', 'project')
+            ->where('source_id', $post->id)
+            ->first();
+
+        $adminSteps = collect();
+
+        if ($tracking) {
+            $adminSteps = OrderTrackingStep::where('order_tracking_id', $tracking->id)
+                ->orderBy('tab_type')
+                ->orderBy('step_order')
+                ->get();
+        }
+
+        $includeDefaultSteps = $request->boolean('include_default_steps', true);
+        $steps = $includeDefaultSteps
+            ? DefaultProjectTrackingSteps::allWithAdminSteps($adminSteps)
+            : $adminSteps;
+
+        $formattedSteps = $steps
+            ->values()
+            ->map(fn ($step, int $index) => $this->formatTrackingStep($step, $index + 1))
+            ->values();
+
+        $totalStages = $formattedSteps->count();
+        $completedStages = $formattedSteps->where('status_key', 'completed')->count();
+        $progressPercent = $totalStages > 0 ? (int) round(($completedStages / $totalStages) * 100) : 0;
+        $currentStage = $formattedSteps->firstWhere('status_key', 'in_progress')
+            ?: $formattedSteps->firstWhere('status_key', 'pending')
+            ?: $formattedSteps->firstWhere('status_key', 'upcoming')
+            ?: $formattedSteps->last();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Project tracking fetched successfully.',
+            'data' => [
+                'project' => [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'service_key' => 'project',
+                    'service_name' => 'Project',
+                    'customer_id' => $post->user_id,
+                ],
+                'tracking' => [
+                    'id' => $tracking?->id,
+                    'template_code' => $tracking?->template_code,
+                    'status' => $tracking?->status,
+                    'has_admin_milestones' => $adminSteps->isNotEmpty(),
+                ],
+                'summary' => [
+                    'title' => $currentStage['title'] ?? 'Project journey',
+                    'description' => $currentStage['short_details'] ?? null,
+                    'progress_percent' => $progressPercent,
+                    'completed_stages' => $completedStages,
+                    'total_stages' => $totalStages,
+                    'current_stage_id' => $currentStage['id'] ?? null,
+                ],
+                'tabs' => [
+                    'order' => $formattedSteps->where('tab_type', 'order')->values(),
+                    'execution' => $formattedSteps->where('tab_type', 'execution')->values(),
+                ],
+                'stages' => $formattedSteps,
+            ],
         ]);
     }
 
@@ -890,6 +977,103 @@ class MobileAppController extends Controller
         }
 
         return count($paths) === 1 ? $paths[0] : json_encode($paths);
+    }
+
+    private function formatTrackingStep(object $step, int $fallbackOrder): array
+    {
+        $statusKey = $this->trackingStatusKey($step->status ?? 'pending');
+        $description = $step->step_description ?? null;
+
+        return [
+            'id' => $step->id ?? null,
+            'is_default' => ! isset($step->id),
+            'tab_type' => $step->tab_type ?? 'order',
+            'step_order' => (int) ($step->step_order ?? $fallbackOrder),
+            'stage_no' => str_pad((string) ($step->step_order ?? $fallbackOrder), 2, '0', STR_PAD_LEFT),
+            'title' => $step->step_title ?? 'Project milestone',
+            'short_details' => $description,
+            'scope_items' => $this->trackingScopeItems($description),
+            'type' => $step->step_type ?? 'normal',
+            'status' => $step->status ?? 'pending',
+            'status_key' => $statusKey,
+            'status_label' => $this->trackingStatusLabel($statusKey),
+            'progress_percent' => $this->trackingStepProgress($statusKey),
+            'button_text' => $step->button_text ?? null,
+            'current_update' => $step->input_value ?? null,
+            'attachments' => $this->trackingAttachments($step->extra_data ?? []),
+            'created_at' => $step->created_at ?? null,
+            'updated_at' => $step->updated_at ?? null,
+        ];
+    }
+
+    private function trackingStatusKey(?string $status): string
+    {
+        $normalized = strtolower(trim((string) $status));
+        $normalized = str_replace([' ', '-'], '_', $normalized);
+
+        return match ($normalized) {
+            'complete', 'completed', 'done', 'approved' => 'completed',
+            'inprogress', 'in_progress', 'processing', 'ongoing', 'active' => 'in_progress',
+            'upcoming', 'locked' => 'upcoming',
+            default => 'pending',
+        };
+    }
+
+    private function trackingStatusLabel(string $statusKey): string
+    {
+        return match ($statusKey) {
+            'completed' => 'Completed',
+            'in_progress' => 'In Progress',
+            'upcoming' => 'Upcoming',
+            default => 'Pending',
+        };
+    }
+
+    private function trackingStepProgress(string $statusKey): int
+    {
+        return match ($statusKey) {
+            'completed' => 100,
+            'in_progress' => 50,
+            default => 0,
+        };
+    }
+
+    private function trackingScopeItems(?string $description): array
+    {
+        if (! $description) {
+            return [];
+        }
+
+        return collect(preg_split('/[\r\n|]+/', $description))
+            ->map(fn ($item) => trim($item, " \t\n\r\0\x0B-"))
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    private function trackingAttachments(mixed $extraData): array
+    {
+        $extraData = is_array($extraData) ? $extraData : [];
+        $attachments = $extraData['attachments'] ?? [];
+
+        if (! empty($extraData['download_file'])) {
+            $attachments[] = [
+                'path' => $extraData['download_file'],
+                'name' => $extraData['download_file_name'] ?? basename($extraData['download_file']),
+            ];
+        }
+
+        return collect($attachments)
+            ->filter(fn ($attachment) => is_array($attachment) && ! empty($attachment['path']))
+            ->map(function (array $attachment) {
+                return [
+                    'name' => $attachment['name'] ?? basename($attachment['path']),
+                    'path' => $attachment['path'],
+                    'url' => Storage::disk('public')->url($attachment['path']),
+                ];
+            })
+            ->values()
+            ->all();
     }
 
     private function onlyExistingColumns(string $table, array $data): array

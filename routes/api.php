@@ -49,6 +49,8 @@ Route::prefix('v1')->middleware('throttle:api')->group(function () {
         Route::post('/projects', [MobileAppController::class, 'storeProject']);
         Route::post('/save-project', [MobileAppController::class, 'storeProject'])
             ->name('api.customer.save-project');
+        Route::get('/projects/{project}/tracking', [MobileAppController::class, 'projectTracking'])
+            ->name('api.customer.projects.tracking');
     });
 
     Route::prefix('vendors')->group(function () {
