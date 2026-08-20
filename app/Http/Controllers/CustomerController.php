@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Twilio\Rest\Client;
+use App\Services\OtpService;
 use App\Models\OrderTracking;
 use App\Models\OrderTrackingStep;
 use App\Support\DefaultProjectTrackingSteps;
@@ -20,24 +20,11 @@ use Throwable;
 
 class CustomerController extends Controller
 {
-    protected Client $twilio;
-    protected string $verifySid;
-
-    public function __construct()
-    {
-        $this->twilio = new Client(
-            config('services.twilio.sid'),
-            config('services.twilio.token')
-        );
-
-        $this->verifySid = config('services.twilio.verify_sid');
-    }
-
     public function welcome(){
         return view('welcome');
     }
 
-    public function sendOtp(Request $request)
+    public function sendOtp(Request $request, OtpService $otpService)
     {
         try {
             $request->validate([
@@ -51,18 +38,14 @@ class CustomerController extends Controller
             ], 422);
         }
 
-        $mobile = '+91' . $request->mobile;
-
         try {
-            $verification = $this->twilio->verify->v2
-                ->services($this->verifySid)
-                ->verifications
-                ->create($mobile, 'sms');
+            $result = $otpService->send($request->mobile);
 
             return response()->json([
                 'status' => true,
                 'message' => 'OTP sent successfully.',
-                'verification_status' => $verification->status,
+                'verification_status' => $result['provider_status'] ?? 'sent',
+                'debug_otp' => config('app.debug') ? ($result['debug_otp'] ?? null) : null,
             ]);
         } catch (Throwable $e) {
             return response()->json([
@@ -74,8 +57,8 @@ class CustomerController extends Controller
     }
 
 
- 
-public function verifyOtp(Request $request)
+
+public function verifyOtp(Request $request, OtpService $otpService)
 {
     try {
         $request->validate([
@@ -91,18 +74,8 @@ public function verifyOtp(Request $request)
         ], 422);
     }
 
-    $mobile = '+91' . $request->mobile;
-
     try {
-        $check = $this->twilio->verify->v2
-            ->services($this->verifySid)
-            ->verificationChecks
-            ->create([
-                'to' => $mobile,
-                'code' => $request->otp,
-            ]);
-
-        if ($check->status !== 'approved') {
+        if (!$otpService->verify($request->mobile, $request->otp)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid or expired OTP.',

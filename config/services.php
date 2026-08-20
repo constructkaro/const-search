@@ -41,6 +41,27 @@ return [
         'verify_sid' => env('TWILIO_VERIFY_SERVICE_SID'),
     ],
 
+    'otp' => [
+        'provider' => env('OTP_PROVIDER', 'twilio'),
+    ],
+
+    'realtime_otp' => [
+        'endpoint' => env('REALTIME_OTP_ENDPOINT'),
+        'method' => env('REALTIME_OTP_METHOD', 'POST'),
+        'api_key' => env('REALTIME_OTP_API_KEY'),
+        'auth_header' => env('REALTIME_OTP_AUTH_HEADER', 'Authorization'),
+        'mobile_field' => env('REALTIME_OTP_MOBILE_FIELD', 'mobile'),
+        'message_field' => env('REALTIME_OTP_MESSAGE_FIELD', 'message'),
+        'otp_field' => env('REALTIME_OTP_OTP_FIELD'),
+        'include_country_code' => env('REALTIME_OTP_INCLUDE_COUNTRY_CODE', true),
+        'message' => env('REALTIME_OTP_MESSAGE', 'Your Constructkaro OTP is {otp}.'),
+        'success_path' => env('REALTIME_OTP_SUCCESS_PATH'),
+        'success_value' => env('REALTIME_OTP_SUCCESS_VALUE'),
+        'ttl_minutes' => env('REALTIME_OTP_TTL_MINUTES', 10),
+        'timeout' => env('REALTIME_OTP_TIMEOUT', 15),
+        'extra' => json_decode(env('REALTIME_OTP_EXTRA', '{}'), true) ?: [],
+    ],
+
     'google_maps' => [
         'browser_key' => env('GOOGLE_MAPS_BROWSER_KEY'),
     ],

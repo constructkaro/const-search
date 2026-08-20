@@ -23,6 +23,7 @@ class Post extends Model
         'description',
         'area',
         'files',
+        'files_note',
         'contact_time',
         'post_verify',
         'get_vendor',

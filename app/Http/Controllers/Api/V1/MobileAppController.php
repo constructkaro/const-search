@@ -143,6 +143,7 @@ class MobileAppController extends Controller
                     'email' => ['label' => 'Email', 'required' => false],
                     'add_by' => ['label' => 'Added By', 'required' => false, 'source' => 'metadata.added_by_options'],
                     'files' => ['label' => 'Project Documents', 'required' => false, 'type' => 'multipart files'],
+                    'files_note' => ['label' => 'Files Note', 'required' => false],
                     'description' => ['label' => 'Project Description', 'required' => false],
                 ],
             ],
@@ -196,6 +197,7 @@ class MobileAppController extends Controller
     public function storeProject(Request $request): JsonResponse
     {
         $this->mergeRawJsonPayload($request);
+        $this->normalizeProjectRequest($request);
 
         $validator = Validator::make($request->all(), [
             'customer_id' => ['nullable', 'string', 'max:50'],
@@ -213,6 +215,7 @@ class MobileAppController extends Controller
             'description' => ['nullable', 'string'],
             'area' => ['nullable', 'string', 'max:255'],
             'unit' => ['nullable'],
+            'files_note' => ['nullable', 'string', 'max:2000'],
             'lead_status' => ['nullable', 'in:timepass,exploring,serious'],
             'add_by' => ['nullable', 'string', 'max:255'],
             'contact_time' => ['nullable', 'string', 'max:250'],
@@ -237,10 +240,13 @@ class MobileAppController extends Controller
         $customer = $this->projectCustomerFromRequest($request);
 
         if (! $customer) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Login customer not found. Please login again or send customer_id from OTP login response with the project.',
-            ], 422);
+            $customer = Customer::firstOrCreate(
+                ['mobile' => $this->normalizeMobileNumber($request->input('mobile'))],
+                [
+                    'name' => $request->input('contact_name'),
+                    'email' => $request->input('email'),
+                ]
+            );
         }
 
         $filePath = $this->storeProjectFiles($request);
@@ -263,6 +269,7 @@ class MobileAppController extends Controller
                 'description' => $request->description,
                 'area' => $request->area,
                 'files' => $filePath,
+                'files_note' => $request->files_note,
                 'contact_time' => $request->contact_time,
                 'unit_id' => $request->input('unit'),
                 'post_verify' => 0,
@@ -280,6 +287,7 @@ class MobileAppController extends Controller
             'data' => [
                 'project_id' => $projectId,
                 'status' => 'sent_to_backend',
+                'customer_id' => $customer->id,
             ],
         ], 201);
     }
@@ -664,6 +672,56 @@ class MobileAppController extends Controller
             if ($mobile !== '') {
                 $request->merge(['mobile' => $mobile]);
             }
+        }
+    }
+
+    private function normalizeProjectRequest(Request $request): void
+    {
+        $aliases = [
+            'work_type_id' => ['vendor_type_id', 'vendorTypeId', 'vendor_type', 'vendorType'],
+            'work_subtype_id' => ['project_type_id', 'projectTypeId', 'project_type', 'projectType'],
+            'city_id' => ['cityId'],
+            'pincode' => ['pin_code', 'pinCode'],
+            'budget' => ['budget_id', 'budgetId', 'approx_budget', 'approxBudget'],
+            'area' => ['area_size', 'areaSize'],
+            'unit' => ['unit_id', 'unitId'],
+            'contact_name' => ['contactName', 'full_name', 'fullName'],
+            'files_note' => ['file_note', 'fileNote', 'documents_note', 'documentsNote'],
+            'description' => ['project_description', 'projectDescription'],
+        ];
+
+        $normalized = [];
+
+        foreach ($aliases as $field => $fieldAliases) {
+            if ($request->filled($field)) {
+                continue;
+            }
+
+            foreach ($fieldAliases as $alias) {
+                if ($request->filled($alias)) {
+                    $normalized[$field] = $request->input($alias);
+                    break;
+                }
+            }
+        }
+
+        if ($request->has('area_ids') && ! is_array($request->input('area_ids'))) {
+            $areaIds = array_values(array_filter(array_map(
+                'trim',
+                explode(',', (string) $request->input('area_ids'))
+            )));
+
+            $normalized['area_ids'] = $areaIds;
+        } elseif (! $request->has('area_ids')) {
+            if ($request->filled('area_id')) {
+                $normalized['area_ids'] = [$request->input('area_id')];
+            } elseif ($request->filled('areaId')) {
+                $normalized['area_ids'] = [$request->input('areaId')];
+            }
+        }
+
+        if (! empty($normalized)) {
+            $request->merge($normalized);
         }
     }
 
