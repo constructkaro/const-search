@@ -105,7 +105,7 @@ class MobileAppController extends Controller
                 'services' => $this->tableRows('services', ['id', 'name']),
                 'work_types' => $this->tableRows('work_types', ['id', 'work_type']),
                 'cities' => $this->tableRows('city', ['id', 'name']),
-                'areas' => $this->tableRows($this->areaTable(), ['id', 'city_id', 'name']),
+                'areas' => $this->areaRows(),
                 'budget_ranges' => $this->tableRows('budget_range', ['id', 'budget_range']),
                 'units' => $this->tableRows('cust_unit', ['id', 'unit']),
                 'lead_statuses' => [
@@ -170,19 +170,8 @@ class MobileAppController extends Controller
 
     public function areasByCity(int $city): JsonResponse
     {
-        $areaTable = $this->areaTable();
-
-        if (! Schema::hasTable($areaTable)) {
-            return response()->json(['data' => []]);
-        }
-
-        $columns = $this->availableColumns($areaTable, ['id', 'city_id', 'name']);
-
         return response()->json([
-            'data' => DB::table($areaTable)
-                ->where('city_id', $city)
-                ->orderBy('name')
-                ->get($columns),
+            'data' => $this->areaRows($city),
         ]);
     }
 
@@ -926,10 +915,117 @@ class MobileAppController extends Controller
         ));
     }
 
+    private function areaRows(?int $cityId = null): array
+    {
+        $areaTable = $this->areaTable();
+
+        if (! Schema::hasTable($areaTable)) {
+            return [];
+        }
+
+        $columns = Schema::getColumnListing($areaTable);
+
+        if (! in_array('id', $columns, true)) {
+            return [];
+        }
+
+        $query = DB::table($areaTable);
+
+        if (in_array('city_id', $columns, true)) {
+            if ($cityId !== null) {
+                $query->where('city_id', $cityId);
+            }
+        } elseif ($cityId !== null && in_array('city', $columns, true)) {
+            $cityName = $this->cityNameForId($cityId);
+
+            if ($cityName === null) {
+                return [];
+            }
+
+            $query->where('city', $cityName);
+        } elseif ($cityId !== null) {
+            return [];
+        }
+
+        $orderColumn = $this->firstAvailableColumn($areaTable, ['name', 'pincode', 'city', 'id']);
+
+        if ($orderColumn !== null) {
+            $query->orderBy($orderColumn);
+        }
+
+        return $query->get($columns)
+            ->map(fn ($area) => $this->formatAreaRow($area, $columns))
+            ->all();
+    }
+
+    private function formatAreaRow(object $area, array $columns): array
+    {
+        $cityName = in_array('city', $columns, true) ? ($area->city ?? null) : null;
+        $cityId = in_array('city_id', $columns, true) ? ($area->city_id ?? null) : $this->cityIdForName($cityName);
+        $name = in_array('name', $columns, true) ? ($area->name ?? null) : null;
+
+        if ($name === null || $name === '') {
+            $name = trim(implode(' - ', array_filter([
+                $area->pincode ?? null,
+                $cityName,
+                $area->state ?? null,
+            ])));
+        }
+
+        return array_filter([
+            'id' => $area->id,
+            'city_id' => $cityId,
+            'name' => $name !== '' ? $name : 'Area #'.$area->id,
+            'pincode' => $area->pincode ?? null,
+            'city' => $cityName,
+            'state' => $area->state ?? null,
+        ], fn ($value) => $value !== null);
+    }
+
+    private function firstAvailableColumn(string $table, array $columns): ?string
+    {
+        foreach ($columns as $column) {
+            if (Schema::hasColumn($table, $column)) {
+                return $column;
+            }
+        }
+
+        return null;
+    }
+
     private function areaTable(): string
     {
-        return Schema::hasTable('area') ? 'area' : 'areas';
+        if (Schema::hasTable('area')) {
+            return 'area';
+        }
+
+        return Schema::hasTable('areas') ? 'areas' : 'area';
     }
+
+    private function cityNameForId(int $cityId): ?string
+    {
+        if (! Schema::hasTable('city') || ! Schema::hasColumn('city', 'id') || ! Schema::hasColumn('city', 'name')) {
+            return null;
+        }
+
+        return DB::table('city')->where('id', $cityId)->value('name');
+    }
+
+    private function cityIdForName(?string $cityName): ?int
+    {
+        if ($cityName === null || $cityName === '') {
+            return null;
+        }
+
+        if (! Schema::hasTable('city') || ! Schema::hasColumn('city', 'id') || ! Schema::hasColumn('city', 'name')) {
+            return null;
+        }
+
+        $cityId = DB::table('city')->where('name', $cityName)->value('id');
+
+        return $cityId !== null ? (int) $cityId : null;
+    }
+
 
     private function pincodesForAreaIds(array $areaIds)
     {
