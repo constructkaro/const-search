@@ -102,12 +102,12 @@ class MobileAppController extends Controller
     {
         return response()->json([
             'data' => [
-                'services' => $this->tableRows('services', ['id', 'name']),
-                'work_types' => $this->tableRows('work_types', ['id', 'work_type']),
-                'cities' => $this->tableRows('city', ['id', 'name']),
+                'services' => $this->optionRows('services', 'name'),
+                'work_types' => $this->optionRows('work_types', 'work_type'),
+                'cities' => $this->optionRows('city', 'name'),
                 'areas' => $this->areaRows(),
-                'budget_ranges' => $this->tableRows('budget_range', ['id', 'budget_range']),
-                'units' => $this->tableRows('cust_unit', ['id', 'unit']),
+                'budget_ranges' => $this->optionRows('budget_range', 'budget_range'),
+                'units' => $this->optionRows('cust_unit', 'unit'),
                 'lead_statuses' => [
                     ['value' => 'timepass', 'label' => 'Timepass'],
                     ['value' => 'exploring', 'label' => 'Exploring'],
@@ -164,7 +164,11 @@ class MobileAppController extends Controller
             'data' => DB::table('work_subtypes')
                 ->where('work_type_id', $workType)
                 ->orderBy('work_subtype')
-                ->get(['id', 'work_type_id', 'work_subtype']),
+                ->get(['id', 'work_type_id', 'work_subtype'])
+                ->map(fn ($row) => $this->formatOptionRow($row, 'work_subtype', [
+                    'work_type_id' => $row->work_type_id,
+                    'work_subtype' => $row->work_subtype,
+                ])),
         ]);
     }
 
@@ -837,6 +841,34 @@ class MobileAppController extends Controller
                 $request->merge(['mobile' => $mobile]);
             }
         }
+
+        $this->normalizeProjectTypeSelections($request);
+    }
+
+    private function normalizeProjectTypeSelections(Request $request): void
+    {
+        if ($request->filled('work_type_id') && ! is_numeric($request->input('work_type_id'))) {
+            $workTypeId = $this->idForLabel('work_types', 'work_type', $request->input('work_type_id'));
+
+            if ($workTypeId !== null) {
+                $request->merge(['work_type_id' => $workTypeId]);
+            }
+        }
+
+        if ($request->filled('work_subtype_id') && ! is_numeric($request->input('work_subtype_id'))) {
+            $workSubtypeId = $this->idForLabel(
+                'work_subtypes',
+                'work_subtype',
+                $request->input('work_subtype_id'),
+                $request->filled('work_type_id') && is_numeric($request->input('work_type_id'))
+                    ? ['work_type_id' => (int) $request->input('work_type_id')]
+                    : []
+            );
+
+            if ($workSubtypeId !== null) {
+                $request->merge(['work_subtype_id' => $workSubtypeId]);
+            }
+        }
     }
 
     private function normalizeMobileNumber(mixed $mobile): string
@@ -905,6 +937,63 @@ class MobileAppController extends Controller
         }
 
         return DB::table($table)->orderBy($availableColumns[0])->get($availableColumns)->all();
+    }
+
+    private function optionRows(string $table, string $labelColumn): array
+    {
+        if (! Schema::hasTable($table) || ! Schema::hasColumn($table, 'id') || ! Schema::hasColumn($table, $labelColumn)) {
+            return [];
+        }
+
+        return DB::table($table)
+            ->orderBy('id')
+            ->get(['id', $labelColumn])
+            ->map(fn ($row) => $this->formatOptionRow($row, $labelColumn))
+            ->all();
+    }
+
+    private function formatOptionRow(object $row, string $labelColumn, array $extra = []): array
+    {
+        $label = $row->{$labelColumn} ?? null;
+
+        return array_merge([
+            'id' => $row->id,
+            'value' => $row->id,
+            'label' => $label,
+            'name' => $label,
+            $labelColumn => $label,
+        ], $extra);
+    }
+
+    private function idForLabel(string $table, string $labelColumn, mixed $label, array $where = []): ?int
+    {
+        if (! Schema::hasTable($table) || ! Schema::hasColumn($table, 'id') || ! Schema::hasColumn($table, $labelColumn)) {
+            return null;
+        }
+
+        $normalizedLabel = $this->normalizeLookupLabel($label);
+
+        if ($normalizedLabel === '') {
+            return null;
+        }
+
+        $query = DB::table($table);
+
+        foreach ($where as $column => $value) {
+            if (Schema::hasColumn($table, $column)) {
+                $query->where($column, $value);
+            }
+        }
+
+        $rows = $query->get(['id', $labelColumn]);
+        $match = $rows->first(fn ($row) => $this->normalizeLookupLabel($row->{$labelColumn} ?? '') === $normalizedLabel);
+
+        return $match ? (int) $match->id : null;
+    }
+
+    private function normalizeLookupLabel(mixed $label): string
+    {
+        return strtolower(preg_replace('/[^a-z0-9]+/', '', (string) $label));
     }
 
     private function availableColumns(string $table, array $columns): array
