@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -209,7 +210,7 @@ class MobileAppController extends Controller
             'area_ids' => ['required', 'array', 'min:1'],
             'area_ids.*' => ['integer'],
             'pincode' => ['nullable', 'string', 'max:255'],
-            'budget' => ['required'],
+            'budget' => ['nullable'],
             'contact_name' => ['required', 'string', 'max:255'],
             'mobile' => ['required', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -262,18 +263,18 @@ class MobileAppController extends Controller
                     'area_ids' => json_encode($request->input('area_ids', []) ?: []),
                     'city_id' => $request->city_id,
                     'pincode' => $request->pincode,
-                    'budget_id' => $request->input('budget'),
+                    'budget_id' => $this->nullableInteger($request->input('budget')),
                     'contact_name' => $request->contact_name,
                     'mobile' => $request->mobile,
                     'email' => $request->email,
-                    'add_by' => $request->input('add_by', 'mobile_app'),
+                    'add_by' => $request->filled('add_by') ? $request->input('add_by') : 'mobile_app',
                     'lead_status' => $request->input('lead_status', 'serious'),
                     'description' => $request->description,
                     'area' => $request->area,
                     'files' => $filePath,
                     'files_note' => $request->files_note,
                     'contact_time' => $request->input('contact_time', ''),
-                    'unit_id' => $request->input('unit'),
+                    'unit_id' => $this->nullableInteger($request->input('unit')),
                     'post_verify' => 0,
                     'get_vendor' => 0,
                     'created_at' => now(),
@@ -283,6 +284,11 @@ class MobileAppController extends Controller
                 return DB::table('posts')->insertGetId($this->onlyExistingColumns('posts', $data));
             });
         } catch (\Throwable $e) {
+            Log::error('Mobile project submit failed', [
+                'message' => $e->getMessage(),
+                'request' => $request->except(['files']),
+            ]);
+
             return response()->json([
                 'status' => false,
                 'message' => 'Project submit failed.',
@@ -871,6 +877,11 @@ class MobileAppController extends Controller
                 continue;
             }
 
+            if ($field === 'budget') {
+                $request->merge([$field => $this->budgetIdFromSelection($value)]);
+                continue;
+            }
+
             [$table, $labelColumn] = match ($field) {
                 'city_id' => ['city', 'name'],
                 'budget' => ['budget_range', 'budget_range'],
@@ -1117,6 +1128,44 @@ class MobileAppController extends Controller
         }
 
         return $this->idForLabel($areaTable, 'name', $value) ?? $value;
+    }
+
+    private function budgetIdFromSelection(mixed $budget): ?int
+    {
+        $budgetId = $this->idForLabel('budget_range', 'budget_range', $budget);
+
+        if ($budgetId !== null) {
+            return $budgetId;
+        }
+
+        $amount = (int) preg_replace('/\D+/', '', (string) $budget);
+
+        if ($amount <= 0) {
+            return null;
+        }
+
+        $ranges = DB::table('budget_range')
+            ->orderBy('id')
+            ->get(['id', 'budget_range']);
+
+        foreach ($ranges as $range) {
+            $label = strtolower((string) $range->budget_range);
+            $numbers = array_map(
+                'intval',
+                preg_split('/\D+/', str_replace(',', '', $label), -1, PREG_SPLIT_NO_EMPTY)
+            );
+
+            if (str_contains($label, 'under') && ! empty($numbers) && $amount <= max($numbers)) {
+                return (int) $range->id;
+            }
+        }
+
+        return (int) ($ranges->first()->id ?? null);
+    }
+
+    private function nullableInteger(mixed $value): ?int
+    {
+        return is_numeric($value) ? (int) $value : null;
     }
 
     private function selectionValue(mixed $value): mixed
