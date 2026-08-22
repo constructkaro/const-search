@@ -820,10 +820,11 @@ class MobileAppController extends Controller
         }
 
         if ($request->has('area_ids') && ! is_array($request->input('area_ids'))) {
-            $areaIds = array_values(array_filter(array_map(
-                'trim',
-                explode(',', (string) $request->input('area_ids'))
-            )));
+            $areaIdsInput = trim((string) $request->input('area_ids'));
+            $decodedAreaIds = json_decode($areaIdsInput, true);
+            $areaIds = is_array($decodedAreaIds)
+                ? $decodedAreaIds
+                : array_values(array_filter(array_map('trim', explode(',', $areaIdsInput))));
 
             $normalized['area_ids'] = $areaIds;
         } elseif (! $request->has('area_ids')) {
@@ -838,6 +839,8 @@ class MobileAppController extends Controller
             $request->merge($normalized);
         }
 
+        $this->normalizeProjectSelectFields($request);
+
         if ($request->filled('mobile')) {
             $mobile = $this->normalizeMobileNumber($request->input('mobile'));
 
@@ -847,6 +850,49 @@ class MobileAppController extends Controller
         }
 
         $this->normalizeProjectTypeSelections($request);
+    }
+
+    private function normalizeProjectSelectFields(Request $request): void
+    {
+        foreach (['city_id', 'budget', 'unit'] as $field) {
+            if (! $request->has($field)) {
+                continue;
+            }
+
+            $value = $this->selectionValue($request->input($field));
+
+            if ($value === '' || $value === null) {
+                $request->merge([$field => null]);
+                continue;
+            }
+
+            if (is_numeric($value)) {
+                $request->merge([$field => (int) $value]);
+                continue;
+            }
+
+            [$table, $labelColumn] = match ($field) {
+                'city_id' => ['city', 'name'],
+                'budget' => ['budget_range', 'budget_range'],
+                default => ['cust_unit', 'unit'],
+            };
+
+            $id = $this->idForLabel($table, $labelColumn, $value);
+
+            if ($id !== null) {
+                $request->merge([$field => $id]);
+            }
+        }
+
+        if ($request->has('area_ids')) {
+            $areaIds = collect((array) $request->input('area_ids'))
+                ->map(fn ($area) => $this->areaIdFromSelection($area))
+                ->filter(fn ($areaId) => $areaId !== null && $areaId !== '')
+                ->values()
+                ->all();
+
+            $request->merge(['area_ids' => $areaIds]);
+        }
     }
 
     private function normalizeProjectTypeSelections(Request $request): void
@@ -1054,6 +1100,23 @@ class MobileAppController extends Controller
         });
 
         return $match ? (int) $match->id : null;
+    }
+
+    private function areaIdFromSelection(mixed $area): mixed
+    {
+        $value = $this->selectionValue($area);
+
+        if ($value === '' || $value === null || is_numeric($value)) {
+            return $value;
+        }
+
+        $areaTable = $this->areaTable();
+
+        if (! Schema::hasTable($areaTable) || ! Schema::hasColumn($areaTable, 'name')) {
+            return $value;
+        }
+
+        return $this->idForLabel($areaTable, 'name', $value) ?? $value;
     }
 
     private function selectionValue(mixed $value): mixed
