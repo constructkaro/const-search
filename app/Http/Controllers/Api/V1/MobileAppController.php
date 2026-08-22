@@ -887,6 +887,47 @@ class MobileAppController extends Controller
                 }
             }
         }
+
+        $this->defaultMissingProjectSubtype($request);
+    }
+
+    private function defaultMissingProjectSubtype(Request $request): void
+    {
+        if (! $request->filled('work_type_id') || ! is_numeric($request->input('work_type_id'))) {
+            return;
+        }
+
+        if ($request->filled('work_subtype_id') && is_numeric($request->input('work_subtype_id'))) {
+            return;
+        }
+
+        $workTypeId = (int) $request->input('work_type_id');
+        $workSubtypeId = null;
+
+        if ($this->isAllInOneWorkType($workTypeId)) {
+            $workSubtypeId = $this->idForLabel(
+                'work_subtypes',
+                'work_subtype',
+                'Complete project package',
+                ['work_type_id' => $workTypeId]
+            );
+        }
+
+        $workSubtypeId ??= DB::table('work_subtypes')
+            ->where('work_type_id', $workTypeId)
+            ->orderBy('id')
+            ->value('id');
+
+        if ($workSubtypeId !== null) {
+            $request->merge(['work_subtype_id' => (int) $workSubtypeId]);
+        }
+    }
+
+    private function isAllInOneWorkType(int $workTypeId): bool
+    {
+        return $this->normalizeLookupLabel(
+            DB::table('work_types')->where('id', $workTypeId)->value('work_type')
+        ) === 'allinonesolution';
     }
 
     private function normalizeMobileNumber(mixed $mobile): string
