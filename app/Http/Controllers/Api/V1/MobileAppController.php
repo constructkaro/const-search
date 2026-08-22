@@ -100,6 +100,8 @@ class MobileAppController extends Controller
 
     public function metadata(): JsonResponse
     {
+        $this->ensureAllInOneProjectOptions();
+
         return response()->json([
             'data' => [
                 'services' => $this->optionRows('services', 'name'),
@@ -156,6 +158,8 @@ class MobileAppController extends Controller
 
     public function projectTypes(int $workType): JsonResponse
     {
+        $this->ensureAllInOneProjectOptions();
+
         if (! Schema::hasTable('work_subtypes')) {
             return response()->json(['data' => []]);
         }
@@ -847,26 +851,40 @@ class MobileAppController extends Controller
 
     private function normalizeProjectTypeSelections(Request $request): void
     {
-        if ($request->filled('work_type_id') && ! is_numeric($request->input('work_type_id'))) {
-            $workTypeId = $this->idForLabel('work_types', 'work_type', $request->input('work_type_id'));
+        $this->ensureAllInOneProjectOptions();
 
-            if ($workTypeId !== null) {
-                $request->merge(['work_type_id' => $workTypeId]);
+        if ($request->filled('work_type_id')) {
+            $workTypeValue = $this->selectionValue($request->input('work_type_id'));
+
+            if (is_numeric($workTypeValue)) {
+                $request->merge(['work_type_id' => (int) $workTypeValue]);
+            } else {
+                $workTypeId = $this->idForLabel('work_types', 'work_type', $workTypeValue);
+
+                if ($workTypeId !== null) {
+                    $request->merge(['work_type_id' => $workTypeId]);
+                }
             }
         }
 
-        if ($request->filled('work_subtype_id') && ! is_numeric($request->input('work_subtype_id'))) {
-            $workSubtypeId = $this->idForLabel(
-                'work_subtypes',
-                'work_subtype',
-                $request->input('work_subtype_id'),
-                $request->filled('work_type_id') && is_numeric($request->input('work_type_id'))
-                    ? ['work_type_id' => (int) $request->input('work_type_id')]
-                    : []
-            );
+        if ($request->filled('work_subtype_id')) {
+            $workSubtypeValue = $this->selectionValue($request->input('work_subtype_id'));
 
-            if ($workSubtypeId !== null) {
-                $request->merge(['work_subtype_id' => $workSubtypeId]);
+            if (is_numeric($workSubtypeValue)) {
+                $request->merge(['work_subtype_id' => (int) $workSubtypeValue]);
+            } else {
+                $workSubtypeId = $this->idForLabel(
+                    'work_subtypes',
+                    'work_subtype',
+                    $workSubtypeValue,
+                    $request->filled('work_type_id') && is_numeric($request->input('work_type_id'))
+                        ? ['work_type_id' => (int) $request->input('work_type_id')]
+                        : []
+                );
+
+                if ($workSubtypeId !== null) {
+                    $request->merge(['work_subtype_id' => $workSubtypeId]);
+                }
             }
         }
     }
@@ -986,9 +1004,71 @@ class MobileAppController extends Controller
         }
 
         $rows = $query->get(['id', $labelColumn]);
-        $match = $rows->first(fn ($row) => $this->normalizeLookupLabel($row->{$labelColumn} ?? '') === $normalizedLabel);
+        $match = $rows->first(function ($row) use ($labelColumn, $normalizedLabel) {
+            $rowLabel = $this->normalizeLookupLabel($row->{$labelColumn} ?? '');
+
+            return $rowLabel === $normalizedLabel
+                || str_contains($normalizedLabel, $rowLabel)
+                || str_contains($rowLabel, $normalizedLabel);
+        });
 
         return $match ? (int) $match->id : null;
+    }
+
+    private function selectionValue(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            foreach (['id', 'value', 'label', 'name', 'work_type', 'work_subtype'] as $key) {
+                if (array_key_exists($key, $value) && $value[$key] !== null && $value[$key] !== '') {
+                    return $value[$key];
+                }
+            }
+
+            return reset($value);
+        }
+
+        if (is_string($value)) {
+            $trimmed = trim($value);
+            $decoded = json_decode($trimmed, true);
+
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return $this->selectionValue($decoded);
+            }
+
+            return $trimmed;
+        }
+
+        return $value;
+    }
+
+    private function ensureAllInOneProjectOptions(): void
+    {
+        if (! Schema::hasTable('work_types') || ! Schema::hasTable('work_subtypes')) {
+            return;
+        }
+
+        $workTypeId = DB::table('work_types')
+            ->where('work_type', 'All in One Solution')
+            ->value('id');
+
+        if (! $workTypeId) {
+            $workTypeId = DB::table('work_types')->insertGetId([
+                'work_type' => 'All in One Solution',
+                'icon' => 'bi-boxes',
+            ]);
+        }
+
+        $subtypeExists = DB::table('work_subtypes')
+            ->where('work_type_id', $workTypeId)
+            ->where('work_subtype', 'Complete project package')
+            ->exists();
+
+        if (! $subtypeExists) {
+            DB::table('work_subtypes')->insert([
+                'work_type_id' => $workTypeId,
+                'work_subtype' => 'Complete project package',
+            ]);
+        }
     }
 
     private function normalizeLookupLabel(mixed $label): string
