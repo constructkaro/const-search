@@ -1211,16 +1211,18 @@ class MobileAppController extends Controller
             ]);
         }
 
-        $subtypeExists = DB::table('work_subtypes')
-            ->where('work_type_id', $workTypeId)
-            ->where('work_subtype', 'Complete project package')
-            ->exists();
+        foreach (['Complete project package', 'Design + BOQ + execution', 'End-to-end consultation'] as $workSubtype) {
+            $subtypeExists = DB::table('work_subtypes')
+                ->where('work_type_id', $workTypeId)
+                ->where('work_subtype', $workSubtype)
+                ->exists();
 
-        if (! $subtypeExists) {
-            DB::table('work_subtypes')->insert([
-                'work_type_id' => $workTypeId,
-                'work_subtype' => 'Complete project package',
-            ]);
+            if (! $subtypeExists) {
+                DB::table('work_subtypes')->insert([
+                    'work_type_id' => $workTypeId,
+                    'work_subtype' => $workSubtype,
+                ]);
+            }
         }
     }
 
