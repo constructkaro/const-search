@@ -323,7 +323,7 @@
                        class="{{ request()->routeIs('construction-education-posts.*') || request()->routeIs('admin.construction-education-posts.*') ? 'active' : '' }}">
                         <span class="menu-left">
                             <i class="bi bi-instagram"></i>
-                            <span>/construction-education-posts</span>
+                            <span>construction-education-posts</span>
                         </span>
                     </a>
 
