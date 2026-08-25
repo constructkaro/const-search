@@ -371,7 +371,7 @@
 <main class="wc-page">
     <section class="wc-hero">
         <div class="wc-wrap">
-            <!-- <h1>Waterproofing<br>Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Waterproofing Contractor</h1>
         </div>
     </section>
 

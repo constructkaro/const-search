@@ -291,7 +291,7 @@
 
 <div class="topo-page">
     <section class="topo-hero">
-        <!-- <h1>Topographic<br>Survey</h1> -->
+    <h1 class="ck-visually-hidden">Topographic Survey</h1>
     </section>
 
     <section class="topo-section">

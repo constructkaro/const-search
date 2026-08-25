@@ -548,7 +548,7 @@
 
 <main class="ppsa-page">
     <section class="ppsa-hero">
-        <!-- <h1>Pre-Purchase<br>Structural Inspection</h1> -->
+    <h1 class="ck-visually-hidden">Pre-Purchase Structural Inspection</h1>
     </section>
 
     <div class="ppsa-wrap">

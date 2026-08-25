@@ -291,7 +291,7 @@
 
 <div class="dgps-page">
     <section class="dgps-hero">
-        <!-- <h1>DGPS Survey</h1> -->
+    <h1 class="ck-visually-hidden">DGPS Survey</h1>
     </section>
 
     <section class="dgps-section">

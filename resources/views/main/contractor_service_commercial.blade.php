@@ -371,7 +371,7 @@
 <main class="cm-page">
     <section class="cm-hero">
         <div class="cm-wrap">
-            <!-- <h1>Commercial<br>Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Commercial Contractor</h1>
         </div>
     </section>
 

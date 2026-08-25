@@ -371,7 +371,7 @@
 <main class="ic-page">
     <section class="ic-hero">
         <div class="ic-wrap">
-            <!-- <h1>Industrial Civil<br>Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Industrial Civil Contractor</h1>
         </div>
     </section>
 

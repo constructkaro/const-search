@@ -5,7 +5,7 @@
 @section('content')
 <style>
     .blog-article-section {
-        padding: 45px 0 70px;
+        padding: 0 0 70px;
         background: #efefef;
     }
 
@@ -13,6 +13,171 @@
         max-width: 1500px;
         margin: 0 auto;
         padding: 0 20px;
+    }
+
+    .blog-hero {
+        position: relative;
+        padding: 62px 0 66px;
+        margin-bottom: 46px;
+        overflow: hidden;
+        background:
+            linear-gradient(112deg, rgba(16,42,67,.98) 0%, rgba(19,58,91,.98) 55%, rgba(31,103,171,.9) 100%);
+        border-bottom: 5px solid #f25c05;
+    }
+
+    .blog-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+        background-size: 44px 44px;
+        opacity: .5;
+        pointer-events: none;
+    }
+
+    .blog-hero::after {
+        content: "";
+        position: absolute;
+        right: -150px;
+        top: -110px;
+        width: 560px;
+        height: 360px;
+        background: rgba(242,92,5,.16);
+        transform: rotate(-18deg);
+        pointer-events: none;
+    }
+
+    .blog-hero-inner {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+        align-items: center;
+        gap: clamp(34px, 6vw, 86px);
+    }
+
+    .blog-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        color: #f68a2e;
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .blog-kicker::before {
+        content: "";
+        width: 38px;
+        height: 3px;
+        border-radius: 999px;
+        background: #f68a2e;
+    }
+
+    .blog-hero h1 {
+        max-width: 780px;
+        margin: 0;
+        color: #fff;
+        font-size: clamp(38px, 4.2vw, 60px);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: 0;
+        text-shadow: 0 4px 14px rgba(0,0,0,.2);
+    }
+
+    .blog-hero p {
+        max-width: 680px;
+        margin: 18px 0 0;
+        color: rgba(255,255,255,.84);
+        font-size: 17px;
+        line-height: 1.72;
+    }
+
+    .blog-hero-points {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+    }
+
+    .blog-hero-points span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 999px;
+        background: rgba(255,255,255,.1);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        backdrop-filter: blur(8px);
+    }
+
+    .blog-hero-visual {
+        position: relative;
+        min-height: 245px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 8px;
+        background:
+            linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+            repeating-linear-gradient(0deg, transparent 0 27px, rgba(255,255,255,.08) 28px),
+            repeating-linear-gradient(90deg, transparent 0 27px, rgba(255,255,255,.08) 28px);
+        box-shadow: 0 24px 45px rgba(0,0,0,.22);
+        overflow: hidden;
+    }
+
+    .blog-visual-card {
+        position: absolute;
+        z-index: 1;
+        width: min(72%, 330px);
+        padding: 18px;
+        border-radius: 8px;
+        background: rgba(255,255,255,.96);
+        box-shadow: 0 18px 34px rgba(0,0,0,.2);
+    }
+
+    .blog-visual-card.primary {
+        left: 34px;
+        top: 32px;
+    }
+
+    .blog-visual-card.secondary {
+        right: 28px;
+        bottom: 30px;
+        width: min(62%, 280px);
+        border-top: 5px solid #f25c05;
+    }
+
+    .blog-visual-tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: rgba(31,103,171,.12);
+        color: #1f67ab;
+        font-size: 12px;
+        font-weight: 900;
+    }
+
+    .blog-visual-card strong {
+        display: block;
+        margin-top: 14px;
+        color: #172033;
+        font-size: 21px;
+        line-height: 1.22;
+    }
+
+    .blog-visual-card p {
+        margin: 10px 0 0;
+        color: #637083;
+        font-size: 13px;
+        line-height: 1.5;
     }
 
     .blog-search-wrap {
@@ -155,13 +320,71 @@
         }
     }
 
+    @media (max-width: 991px) {
+        .blog-hero {
+            padding: 48px 0 52px;
+            margin-bottom: 38px;
+        }
+
+        .blog-hero-inner {
+            grid-template-columns: 1fr;
+        }
+
+        .blog-hero-visual {
+            min-height: 220px;
+        }
+    }
+
     @media (max-width: 767px) {
         .blog-article-section {
-            padding: 30px 0 50px;
+            padding: 0 0 50px;
         }
 
         .blog-article-wrapper {
             padding: 0 15px;
+        }
+
+        .blog-hero {
+            padding: 38px 0 42px;
+            margin-bottom: 30px;
+        }
+
+        .blog-hero h1 {
+            font-size: 36px;
+        }
+
+        .blog-hero p {
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .blog-hero-points span {
+            min-height: 34px;
+            font-size: 13px;
+        }
+
+        .blog-hero-visual {
+            min-height: 190px;
+        }
+
+        .blog-visual-card {
+            width: 78%;
+            padding: 14px;
+        }
+
+        .blog-visual-card.primary {
+            left: 18px;
+            top: 20px;
+        }
+
+        .blog-visual-card.secondary {
+            right: 16px;
+            bottom: 18px;
+            width: 70%;
+        }
+
+        .blog-visual-card strong {
+            font-size: 17px;
         }
 
         .blog-title {
@@ -202,6 +425,37 @@
 </style>
 
 <section class="blog-article-section">
+    <header class="blog-hero">
+        <div class="blog-article-wrapper">
+            <div class="blog-hero-inner">
+                <div>
+                    <span class="blog-kicker">Constructshala</span>
+                    <h1>Blogs and construction insights.</h1>
+                    <p>
+                        Practical guides, project knowledge, and expert perspectives to help you
+                        make smarter construction decisions.
+                    </p>
+                    <div class="blog-hero-points">
+                        <span>Planning Guides</span>
+                        <span>Cost Insights</span>
+                        <span>Expert Advice</span>
+                    </div>
+                </div>
+                <div class="blog-hero-visual" aria-hidden="true">
+                    <div class="blog-visual-card primary">
+                        <span class="blog-visual-tag">Latest Insight</span>
+                        <strong>Choose better before construction starts.</strong>
+                        <p>Read clear, practical explainers for customers and vendors.</p>
+                    </div>
+                    <div class="blog-visual-card secondary">
+                        <span class="blog-visual-tag">ConstructKaro</span>
+                        <strong>Plan. Compare. Execute.</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="blog-article-wrapper">
 
         <div class="blog-search-wrap">

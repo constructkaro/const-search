@@ -291,7 +291,7 @@
 
 <div class="construction-layout-page">
     <section class="construction-layout-hero">
-        <!-- <h1>Construction<br>Layout Survey</h1> -->
+    <h1 class="ck-visually-hidden">Construction Layout Survey</h1>
     </section>
 
     <section class="construction-layout-section">

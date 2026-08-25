@@ -343,7 +343,9 @@
 
 <main class="ec-page">
     <section class="ec-hero">
-        
+        <div class="ec-wrap">
+            <h1 class="ck-visually-hidden">Earthwork &amp; Excavation Contractor</h1>
+        </div>
     </section>
 
     <section class="ec-section">

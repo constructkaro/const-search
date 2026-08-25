@@ -596,6 +596,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Customer Service',
+    'title' => 'BOQ / Estimation Packages',
+    'subtitle' => 'Choose the right estimation support for your project, from rough cost planning to detailed BOQ with site measurement.',
+    'tags' => ['Rough Estimate', 'Detailed BOQ', 'Execution Ready'],
+])
+
 <section class="boq-section">
     <div class="boq-container">
 

@@ -601,6 +601,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Customer Service',
+    'title' => 'Land Survey Packages',
+    'subtitle' => 'Compare survey packages for plots, boundaries, layout planning, and site measurement requirements.',
+    'tags' => ['Basic Survey', 'Standard Survey', 'Advanced Survey'],
+])
+
 <div class="wrapper">
     <div class="card basic">
         <div class="badge">BASIC PLAN</div>

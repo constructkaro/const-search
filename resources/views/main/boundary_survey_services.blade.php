@@ -261,7 +261,7 @@
 
 <div class="boundary-page">
     <section class="boundary-hero">
-        <!-- <h1>Boundary Survey<br>Services</h1> -->
+        <h1 class="ck-visually-hidden">Boundary Survey Services</h1>
     </section>
 
     <section class="boundary-section">

@@ -356,7 +356,7 @@
 <main class="cc-page">
     <section class="cc-hero">
         <div class="cc-wrap">
-            <!-- <h1>Culverts<br>Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Culverts Contractor</h1>
         </div>
     </section>
 

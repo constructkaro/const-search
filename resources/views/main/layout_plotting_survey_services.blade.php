@@ -291,7 +291,7 @@
 
 <div class="layout-page">
     <section class="layout-hero">
-        <!-- <h1>Layout & Plotting<br>Survey</h1> -->
+    <h1 class="ck-visually-hidden">Layout &amp; Plotting Survey</h1>
     </section>
 
     <section class="layout-section">

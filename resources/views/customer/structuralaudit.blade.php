@@ -455,6 +455,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Customer Service',
+    'title' => 'Structural Audit Packages',
+    'subtitle' => 'Book structural inspection support for new construction checks, building health reviews, cracks, damage, and old building safety.',
+    'tags' => ['Safety Check', 'Damage Inspection', 'Building Audit'],
+])
+
 <section class="structural-audit-section">
     <div class="structural-audit-container">
 

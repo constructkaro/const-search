@@ -14,7 +14,188 @@
 
         background: #eef2f7;
         color: var(--about-ink);
-        padding: 46px 0 76px;
+        padding: 0 0 76px;
+    }
+
+    .about-hero {
+        position: relative;
+        padding: 64px 0 68px;
+        margin-bottom: 58px;
+        overflow: hidden;
+        background:
+            linear-gradient(112deg, rgba(16,42,67,.98) 0%, rgba(19,58,91,.98) 54%, rgba(31,103,171,.9) 100%);
+        border-bottom: 5px solid var(--about-orange);
+    }
+
+    .about-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+        background-size: 46px 46px;
+        opacity: .48;
+        pointer-events: none;
+    }
+
+    .about-hero::after {
+        content: "";
+        position: absolute;
+        right: -160px;
+        top: -120px;
+        width: 560px;
+        height: 360px;
+        background: rgba(232,117,38,.16);
+        transform: rotate(-18deg);
+        pointer-events: none;
+    }
+
+    .about-hero-inner {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+        align-items: center;
+        gap: clamp(34px, 6vw, 86px);
+    }
+
+    .about-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        color: #f68a2e;
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .about-kicker::before {
+        content: "";
+        width: 38px;
+        height: 3px;
+        border-radius: 999px;
+        background: #f68a2e;
+    }
+
+    .about-hero h1 {
+        max-width: 720px;
+        margin: 0;
+        color: #fff;
+        font-size: clamp(38px, 4.2vw, 60px);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: 0;
+        text-shadow: 0 4px 14px rgba(0,0,0,.2);
+    }
+
+    .about-hero p {
+        max-width: 660px;
+        margin: 18px 0 0;
+        color: rgba(255,255,255,.84);
+        font-size: 17px;
+        line-height: 1.72;
+    }
+
+    .about-hero-points {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+    }
+
+    .about-hero-points span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 14px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 999px;
+        background: rgba(255,255,255,.1);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        backdrop-filter: blur(8px);
+    }
+
+    .about-hero-visual {
+        position: relative;
+        min-height: 245px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 8px;
+        background:
+            linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04)),
+            repeating-linear-gradient(0deg, transparent 0 27px, rgba(255,255,255,.08) 28px),
+            repeating-linear-gradient(90deg, transparent 0 27px, rgba(255,255,255,.08) 28px);
+        box-shadow: 0 24px 45px rgba(0,0,0,.22);
+        overflow: hidden;
+    }
+
+    .about-hero-visual::before {
+        content: "";
+        position: absolute;
+        inset: 24px;
+        border: 2px solid rgba(255,255,255,.24);
+        border-left-color: var(--about-orange);
+        border-bottom-color: var(--about-orange);
+    }
+
+    .about-hero-visual::after {
+        content: "";
+        position: absolute;
+        right: -42px;
+        bottom: 30px;
+        width: 220px;
+        height: 72px;
+        background: rgba(232,117,38,.88);
+        transform: rotate(-8deg);
+    }
+
+    .hero-visual-title,
+    .hero-visual-step {
+        position: absolute;
+        z-index: 1;
+        color: #fff;
+        font-weight: 900;
+    }
+
+    .hero-visual-title {
+        left: 42px;
+        top: 42px;
+        font-size: 24px;
+    }
+
+    .hero-visual-step {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 86px;
+        min-height: 34px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.2);
+        font-size: 13px;
+        letter-spacing: 0;
+    }
+
+    .hero-visual-step.plan {
+        left: 42px;
+        bottom: 48px;
+    }
+
+    .hero-visual-step.manage {
+        left: 50%;
+        top: 112px;
+        transform: translateX(-50%);
+    }
+
+    .hero-visual-step.execute {
+        right: 42px;
+        bottom: 48px;
+        background: rgba(232,117,38,.95);
+        border-color: rgba(232,117,38,.95);
     }
 
     .about-container {
@@ -285,8 +466,17 @@
     }
 
     @media (max-width: 991px) {
-        .about-page {
-            padding-top: 34px;
+        .about-hero {
+            padding: 48px 0 52px;
+            margin-bottom: 42px;
+        }
+
+        .about-hero-inner {
+            grid-template-columns: 1fr;
+        }
+
+        .about-hero-visual {
+            min-height: 210px;
         }
 
         .about-split,
@@ -311,6 +501,50 @@
     }
 
     @media (max-width: 640px) {
+        .about-hero {
+            padding: 38px 0 42px;
+            margin-bottom: 34px;
+        }
+
+        .about-hero h1 {
+            font-size: 36px;
+        }
+
+        .about-hero p {
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .about-hero-points span {
+            min-height: 34px;
+            font-size: 13px;
+        }
+
+        .about-hero-visual {
+            min-height: 178px;
+        }
+
+        .hero-visual-title {
+            left: 28px;
+            top: 30px;
+            font-size: 20px;
+        }
+
+        .hero-visual-step {
+            min-width: 72px;
+            font-size: 12px;
+        }
+
+        .hero-visual-step.plan {
+            left: 28px;
+            bottom: 34px;
+        }
+
+        .hero-visual-step.execute {
+            right: 28px;
+            bottom: 34px;
+        }
+
         .about-container {
             width: min(100% - 28px, 1180px);
         }
@@ -361,6 +595,32 @@
 </style>
 
 <section class="about-page">
+    <header class="about-hero">
+        <div class="about-container">
+            <div class="about-hero-inner">
+                <div>
+                    <span class="about-kicker">About ConstructKaro</span>
+                    <h1>Building clarity into construction.</h1>
+                    <p>
+                        We help customers move from construction confusion to planned, monitored,
+                        and professionally managed execution.
+                    </p>
+                    <div class="about-hero-points">
+                        <span>Guided Planning</span>
+                        <span>Verified Vendors</span>
+                        <span>Execution Support</span>
+                    </div>
+                </div>
+                <div class="about-hero-visual" aria-hidden="true">
+                    <span class="hero-visual-title">ConstructKaro</span>
+                    <span class="hero-visual-step plan">Plan</span>
+                    <span class="hero-visual-step manage">Manage</span>
+                    <span class="hero-visual-step execute">Execute</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="about-container">
 
         <div class="about-section">

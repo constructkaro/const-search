@@ -371,7 +371,7 @@
 <main class="lb-page">
     <section class="lb-hero">
         <div class="lb-wrap">
-            <!-- <h1>Labour Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Labour Contractor</h1>
         </div>
     </section>
 

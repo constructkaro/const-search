@@ -291,7 +291,7 @@
 
 <div class="total-page">
     <section class="total-hero">
-        <!-- <h1>Total Station<br>Survey</h1> -->
+    <h1 class="ck-visually-hidden">Total Station Survey</h1>
     </section>
 
     <section class="total-section">

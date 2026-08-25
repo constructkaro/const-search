@@ -570,7 +570,7 @@
 
 <main class="csa-page">
     <section class="csa-hero">
-        <!-- <h1>Commercial<br>Structural Audit</h1> -->
+    <h1 class="ck-visually-hidden">Commercial Structural Audit</h1>
     </section>
 
     <div class="csa-wrap">

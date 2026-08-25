@@ -371,7 +371,7 @@
 <main class="mep-page">
     <section class="mep-hero">
         <div class="mep-wrap">
-            <!-- <h1>MEP Contractor</h1> -->
+        <h1 class="ck-visually-hidden">MEP Contractor</h1>
         </div>
     </section>
 

@@ -29,7 +29,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.18);
         }
 
-        .auth-card h2 {
+        .auth-card h1 {
             font-size: 34px;
             margin-bottom: 10px;
             color: #111633;
@@ -101,7 +101,7 @@
 
 <div class="auth-wrap">
     <div class="auth-card">
-        <h2>Vendor Login</h2>
+        <h1>Vendor Login</h1>
         <p>Login with your mobile number and password</p>
 
         @if(session('error'))

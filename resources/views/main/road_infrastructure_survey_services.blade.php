@@ -297,7 +297,7 @@
 
 <div class="road-page">
     <section class="road-hero">
-        <!-- <h1>Road & Infrastructure<br>Survey</h1> -->
+        <h1 class="ck-visually-hidden">Road &amp; Infrastructure Survey</h1>
     </section>
 
     <section class="road-section">

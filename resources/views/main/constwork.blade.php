@@ -204,6 +204,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'How It Works',
+    'title' => 'How ConstructKaro Services Work',
+    'subtitle' => 'Explore the step-by-step flow behind our survey, testing, BOQ, interior, contractor, and support services.',
+    'tags' => ['Service Flow', 'Process Guides', 'Execution Support'],
+])
+
 <section class="knowledge-section">
     <div class="knowledge-wrapper">
 

@@ -257,6 +257,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Knowledge Hub',
+    'title' => 'Construction Knowledge Hub',
+    'subtitle' => 'Explore service categories, practical insights, and helpful construction topics in one place.',
+    'tags' => ['Explore Topics', 'Featured Insights', 'Service Knowledge'],
+])
+
 <div class="kh-page">
     <div class="kh-container">
 

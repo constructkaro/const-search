@@ -215,6 +215,13 @@
     }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Constructshala',
+    'title' => 'Construction Education',
+    'subtitle' => 'Simple visual guides and learning resources to help you understand construction services before you start.',
+    'tags' => ['Learning Guides', 'Customer Education', 'Construction Basics'],
+])
+
 <section class="education-section">
     <div class="education-wrapper">
 

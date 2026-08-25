@@ -371,7 +371,7 @@
 <main class="pc-page">
     <section class="pc-hero">
         <div class="pc-wrap">
-            <!-- <h1>Paint Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Paint Contractor</h1>
         </div>
     </section>
 

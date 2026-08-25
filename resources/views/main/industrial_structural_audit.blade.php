@@ -570,7 +570,7 @@
 
 <main class="isa-page">
     <section class="isa-hero">
-        <!-- <h1>Industrial<br>Structural Audit</h1> -->
+    <h1 class="ck-visually-hidden">Industrial Structural Audit</h1>
     </section>
 
     <div class="isa-wrap">

@@ -178,6 +178,13 @@
 }
 </style>
 
+@include('partials.page-intro-header', [
+    'kicker' => 'Guide Me',
+    'title' => 'Find the Right Construction Package',
+    'subtitle' => 'Choose your city and compare Core & Shell or Turnkey options with clear package-level guidance.',
+    'tags' => ['City Based Pricing', 'Core & Shell', 'Turnkey Packages'],
+])
+
 <section class="package-section">
     <div class="top-area">
 

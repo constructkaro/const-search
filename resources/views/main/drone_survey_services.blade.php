@@ -291,7 +291,7 @@
 
 <div class="drone-page">
     <section class="drone-hero">
-        <!-- <h1>Drone Survey</h1> -->
+    <h1 class="ck-visually-hidden">Drone Survey</h1>
     </section>
 
     <section class="drone-section">

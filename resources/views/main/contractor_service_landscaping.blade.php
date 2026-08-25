@@ -371,7 +371,7 @@
 <main class="lc-page">
     <section class="lc-hero">
         <div class="lc-wrap">
-            <!-- <h1>Landscaping<br>Contractor</h1> -->
+        <h1 class="ck-visually-hidden">Landscaping Contractor</h1>
         </div>
     </section>
 
