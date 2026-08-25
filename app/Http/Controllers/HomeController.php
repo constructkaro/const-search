@@ -205,15 +205,7 @@ class HomeController extends Controller
     private function completedProjectItems()
     {
         return collect([
-            [
-                'title' => 'Emergency Staircase, Pit and Chambers',
-                'description' => 'Emergency Staircase, Pit and Chambers',
-                'location' => 'PATAALGANGA',
-                'year' => '2025',
-                'status' => 'Completed',
-                'folder' => 'bans',
-                'image' => 'project/bans/1.png',
-            ],
+           
             [
                 'title' => 'Road work & Storm water drain',
                 'description' => 'Godrej',
@@ -232,15 +224,7 @@ class HomeController extends Controller
                 'folder' => 'civilkalote',
                 'image' => 'project/civilkalote/1.jpeg',
             ],
-            [
-                'title' => 'CNS Industrial Laundry Extension',
-                'description' => 'CNS Industrial Laundry Extension',
-                'location' => 'Patalganga',
-                'year' => '2025',
-                'status' => 'Completed',
-                'folder' => 'CNS',
-                'image' => 'project/CNS/1.jpeg',
-            ],
+          
             [
                 'title' => 'Strengthening and Retrofitting Work',
                 'description' => 'Oriental Aromatics',

@@ -1657,84 +1657,195 @@ html {
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 22px;
-    background: rgba(38,34,29,.62);
+    padding: 24px;
+    background:
+        radial-gradient(circle at 22% 18%, rgba(242, 92, 5, .22), transparent 28%),
+        rgba(10, 18, 29, .72);
+    backdrop-filter: blur(6px);
 }
 
 .plan-modal-overlay.active { display: flex; }
 
 .plan-modal-box {
-    width: min(100%, 560px);
-    max-height: min(86vh, 640px);
+    width: min(100%, 760px);
+    max-height: min(88vh, 690px);
     overflow-y: auto;
     position: relative;
-    padding: 30px;
-    border: 1px solid rgba(255,138,61,.25);
-    border-radius: 18px;
-    background: #fff;
-    box-shadow: 0 30px 80px rgba(0,0,0,.28);
+    padding: 0;
+    border: 1px solid rgba(255,255,255,.58);
+    border-radius: 24px;
+    background: linear-gradient(135deg, #fffaf6 0%, #ffffff 42%, #f4f8fb 100%);
+    box-shadow: 0 34px 90px rgba(0,0,0,.36);
     scrollbar-gutter: stable;
+}
+
+.plan-modal-inner {
+    display: grid;
+    grid-template-columns: minmax(220px, .82fr) minmax(0, 1.18fr);
+    min-height: 540px;
+}
+
+.plan-modal-intro {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 26px;
+    background:
+        linear-gradient(160deg, rgba(22, 36, 51, .96), rgba(29, 54, 75, .94)),
+        url('{{ asset('images/banner.webp') }}') center/cover;
+    color: #fff;
+}
+
+.plan-modal-intro::after {
+    content: "";
+    position: absolute;
+    inset: auto 24px 24px 24px;
+    height: 1px;
+    background: rgba(255,255,255,.18);
+}
+
+.plan-modal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.16);
+    color: #ffe0cb;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.plan-modal-badge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #25c26e;
+    box-shadow: 0 0 0 5px rgba(37,194,110,.16);
+}
+
+.plan-modal-intro h3 {
+    margin: 28px 0 12px;
+    color: #fff;
+    font-size: 30px;
+    line-height: 1.12;
+    font-weight: 900;
+}
+
+.plan-modal-intro p {
+    margin: 0;
+    color: rgba(255,255,255,.76);
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.plan-modal-points {
+    display: grid;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.plan-modal-point {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,.9);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.plan-modal-point i {
+    display: inline-grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,115,23,.16);
+    color: #ffb172;
+}
+
+.plan-modal-form {
+    padding: 34px;
 }
 
 .plan-modal-close {
     position: absolute;
     top: 18px;
-    right: 22px;
+    right: 18px;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
     border: none;
-    background: transparent;
-    color: #999;
-    font-size: 34px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, .07);
+    color: #334155;
+    font-size: 28px;
     line-height: 1;
     cursor: pointer;
 }
 
+.plan-modal-close:hover {
+    background: rgba(242, 92, 5, .12);
+    color: #d63800;
+}
+
 .plan-modal-title {
-    color: #101010;
-    font-size: clamp(26px, 4vw, 31px);
-    font-weight: 800;
-    line-height: 1.15;
+    max-width: 420px;
+    color: #111827;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.12;
     margin-bottom: 8px;
 }
 
 .plan-modal-copy {
-    max-width: 470px;
-    color: #666;
-    font-size: 17px;
-    line-height: 1.45;
-    margin-bottom: 12px;
+    max-width: 430px;
+    color: #5f6773;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 18px;
 }
 
 .plan-step-label {
-    color: #d63800;
-    font-size: 17px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #fff0e7;
+    color: #c2410c;
+    font-size: 14px;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 
 .plan-step { display: none; }
 .plan-step.active { display: block; }
 
-.plan-form-group { margin-bottom: 16px; }
+.plan-form-group { margin-bottom: 15px; }
 
 .plan-form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #444;
-    font-size: 17px;
-    font-weight: 700;
+    margin-bottom: 7px;
+    color: #263241;
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .plan-input,
 .plan-select {
     width: 100%;
-    height: 54px;
-    border: 1px solid #ddd;
-    border-radius: 14px;
+    height: 50px;
+    border: 1px solid #d9e1ea;
+    border-radius: 12px;
     background: #fff;
-    padding: 0 14px;
+    padding: 0 15px;
     color: #252b33;
-    font-size: 16px;
+    font-size: 15px;
     outline: none;
+    box-shadow: 0 1px 0 rgba(15,23,42,.04);
 }
 
 .plan-input:focus,
@@ -1744,11 +1855,11 @@ html {
 }
 
 .plan-otp-panel {
-    padding: 10px;
-    border: 1px solid #ffd0ae;
-    border-radius: 9px;
-    background: linear-gradient(180deg, #fffaf5, #fff);
-    box-shadow: 0 2px 8px rgba(242,92,5,.12);
+    padding: 14px;
+    border: 1px solid #ffd7bd;
+    border-radius: 14px;
+    background: #fff8f2;
+    box-shadow: 0 12px 24px rgba(242,92,5,.08);
 }
 
 .plan-otp-panel p {
@@ -1759,13 +1870,13 @@ html {
 }
 
 .plan-outline-btn {
-    min-height: 40px;
-    padding: 0 13px;
+    min-height: 42px;
+    padding: 0 15px;
     border: 1px solid #ff7417;
-    border-radius: 8px;
+    border-radius: 11px;
     background: #fff;
     color: #9c2b0e;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -1780,9 +1891,9 @@ html {
 .plan-note,
 .plan-status {
     color: #9b4b33;
-    font-size: 17px;
+    font-size: 14px;
     line-height: 1.4;
-    text-align: center;
+    text-align: left;
     margin: 12px 0;
 }
 
@@ -1802,10 +1913,10 @@ html {
 
 .plan-primary-btn,
 .plan-secondary-btn {
-    min-height: 52px;
+    min-height: 50px;
     border: none;
-    border-radius: 14px;
-    font-size: 17px;
+    border-radius: 12px;
+    font-size: 16px;
     font-weight: 800;
     cursor: pointer;
 }
@@ -1825,15 +1936,15 @@ html {
 .plan-privacy {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 10px;
-    margin-top: 16px;
+    margin: 16px 34px 34px;
     padding: 10px 14px;
-    border: 1px solid #ffd8bd;
-    border-radius: 13px;
-    background: #fff7f0;
+    border: 1px solid #e4ebf2;
+    border-radius: 12px;
+    background: rgba(255,255,255,.72);
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
     font-style: italic;
 }
 
@@ -2098,7 +2209,37 @@ html {
     }
 
     .plan-modal-box {
-        padding: 26px 22px;
+        max-height: 90vh;
+        border-radius: 20px;
+    }
+
+    .plan-modal-inner {
+        display: block;
+        min-height: 0;
+    }
+
+    .plan-modal-intro {
+        padding: 24px 22px;
+    }
+
+    .plan-modal-intro h3 {
+        margin-top: 18px;
+        font-size: 24px;
+    }
+
+    .plan-modal-points {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 18px;
+    }
+
+    .plan-modal-form {
+        padding: 24px 22px;
+    }
+
+    .plan-modal-title {
+        padding-right: 34px;
+        font-size: 25px;
     }
 
     .plan-modal-copy,
@@ -2115,6 +2256,10 @@ html {
 
     .plan-otp-row {
         grid-template-columns: 1fr;
+    }
+
+    .plan-privacy {
+        margin: 0 22px 24px;
     }
 
     .section-heading h2,
@@ -2832,10 +2977,24 @@ html {
     <div class="plan-modal-box">
         <button type="button" class="plan-modal-close" id="closePlanModalBtn" aria-label="Close">&times;</button>
 
-        <h2 class="plan-modal-title">Get Your Free Construction Plan</h2>
-        <p class="plan-modal-copy">Share your details and our team will reach out within 24 hours with a personalised plan.</p>
+        <div class="plan-modal-inner">
+            <div class="plan-modal-intro">
+                <span class="plan-modal-badge">Free consultation</span>
+                <h3>Plan your construction with the right team.</h3>
+                <p>Tell us a few details and we will map your next step with design, vendor, and execution guidance.</p>
 
-        <div class="plan-step active" data-plan-step="1">
+                <div class="plan-modal-points">
+                    <div class="plan-modal-point"><i class="bi bi-clock"></i><span>24 hour callback</span></div>
+                    <div class="plan-modal-point"><i class="bi bi-shield-check"></i><span>Verified professionals</span></div>
+                    <div class="plan-modal-point"><i class="bi bi-geo-alt"></i><span>Mumbai, Pune, Thane, Raigad</span></div>
+                </div>
+            </div>
+
+            <div class="plan-modal-form">
+                <h2 class="plan-modal-title">Get Your Free Construction Plan</h2>
+                <p class="plan-modal-copy">Share your details and our team will reach out within 24 hours with a personalised plan.</p>
+
+                <div class="plan-step active" data-plan-step="1">
             <div class="plan-step-label">Step 1 of 3 &mdash; Your details</div>
 
             <div class="plan-form-group">
@@ -2923,6 +3082,8 @@ html {
             <div class="plan-actions">
                 <button type="button" class="plan-secondary-btn" data-plan-back="2">Back</button>
                 <button type="button" class="plan-primary-btn" id="planSubmitBtn">Get My Free Plan &rarr;</button>
+            </div>
+        </div>
             </div>
         </div>
 

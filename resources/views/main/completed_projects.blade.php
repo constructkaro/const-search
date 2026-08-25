@@ -12,11 +12,7 @@
 
 @php
     $projects = $projects ?? collect([
-        [
-            'title' => 'Emergency Staircase, Pit and Chambers',
-            'description' => 'Emergency Staircase, Pit and Chambers',
-            'image' => 'project/bans/1.png',
-        ],
+       
         [
             'title' => 'Road work & Storm water drain',
             'description' => 'Godrej',
@@ -27,11 +23,7 @@
             'description' => 'Civil & Infra Activity',
             'image' => 'project/civilkalote/1.jpeg',
         ],
-        [
-            'title' => 'CNS Industrial Laundry Extension',
-            'description' => 'CNS Industrial Laundry Extension',
-            'image' => 'project/CNS/1.jpeg',
-        ],
+        
         [
             'title' => 'Strengthening and Retrofitting Work',
             'description' => 'Oriental Aromatics',
