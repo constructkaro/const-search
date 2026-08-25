@@ -1667,9 +1667,9 @@ html {
 .plan-modal-overlay.active { display: flex; }
 
 .plan-modal-box {
-    width: min(100%, 760px);
-    max-height: min(88vh, 690px);
-    overflow-y: auto;
+    width: min(100%, 860px);
+    max-height: calc(100vh - 48px);
+    overflow: hidden;
     position: relative;
     padding: 0;
     border: 1px solid rgba(255,255,255,.58);
@@ -1681,14 +1681,14 @@ html {
 
 .plan-modal-inner {
     display: grid;
-    grid-template-columns: minmax(220px, .82fr) minmax(0, 1.18fr);
-    min-height: 540px;
+    grid-template-columns: minmax(250px, .9fr) minmax(0, 1.1fr);
+    min-height: 0;
 }
 
 .plan-modal-intro {
     position: relative;
     overflow: hidden;
-    padding: 32px 26px;
+    padding: 28px 26px;
     background:
         linear-gradient(160deg, rgba(22, 36, 51, .96), rgba(29, 54, 75, .94)),
         url('{{ asset('images/banner.webp') }}') center/cover;
@@ -1728,9 +1728,9 @@ html {
 }
 
 .plan-modal-intro h3 {
-    margin: 28px 0 12px;
+    margin: 24px 0 10px;
     color: #fff;
-    font-size: 30px;
+    font-size: 28px;
     line-height: 1.12;
     font-weight: 900;
 }
@@ -1744,8 +1744,8 @@ html {
 
 .plan-modal-points {
     display: grid;
-    gap: 12px;
-    margin-top: 30px;
+    gap: 10px;
+    margin-top: 24px;
 }
 
 .plan-modal-point {
@@ -1768,7 +1768,7 @@ html {
 }
 
 .plan-modal-form {
-    padding: 34px;
+    padding: 30px 34px 28px;
 }
 
 .plan-modal-close {
@@ -1795,7 +1795,7 @@ html {
 .plan-modal-title {
     max-width: 420px;
     color: #111827;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 900;
     line-height: 1.12;
     margin-bottom: 8px;
@@ -1806,7 +1806,7 @@ html {
     color: #5f6773;
     font-size: 15px;
     line-height: 1.5;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 }
 
 .plan-step-label {
@@ -1818,13 +1818,13 @@ html {
     color: #c2410c;
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 }
 
 .plan-step { display: none; }
 .plan-step.active { display: block; }
 
-.plan-form-group { margin-bottom: 15px; }
+.plan-form-group { margin-bottom: 12px; }
 
 .plan-form-group label {
     display: block;
@@ -1837,7 +1837,7 @@ html {
 .plan-input,
 .plan-select {
     width: 100%;
-    height: 50px;
+    height: 46px;
     border: 1px solid #d9e1ea;
     border-radius: 12px;
     background: #fff;
@@ -1894,7 +1894,7 @@ html {
     font-size: 14px;
     line-height: 1.4;
     text-align: left;
-    margin: 12px 0;
+    margin: 10px 0;
 }
 
 .plan-status.success { color: #15803d; }
@@ -1904,7 +1904,7 @@ html {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
 }
 
 .plan-actions.single {
@@ -1913,7 +1913,7 @@ html {
 
 .plan-primary-btn,
 .plan-secondary-btn {
-    min-height: 50px;
+    min-height: 48px;
     border: none;
     border-radius: 12px;
     font-size: 16px;
@@ -1934,7 +1934,7 @@ html {
 }
 
 .plan-privacy {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
@@ -2209,7 +2209,8 @@ html {
     }
 
     .plan-modal-box {
-        max-height: 90vh;
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
         border-radius: 20px;
     }
 
