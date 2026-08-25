@@ -663,6 +663,41 @@ html {
     margin-bottom: 16px;
 }
 
+.ck-solution-headline {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.ck-solution-headline span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 0;
+}
+
+.ck-solution-headline span::before {
+    content: attr(data-icon);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 12px;
+    background: #fff4ec;
+    color: #df6d1c;
+    font-size: 22px;
+    box-shadow: 0 8px 18px rgba(223,109,28,.15);
+}
+
+.ck-solution-headline span + span::before {
+    background: #eef7ff;
+    color: #1f67ab;
+    box-shadow: 0 8px 18px rgba(31,103,171,.15);
+}
+
 .ck-solution-intro p {
     color: #5e6a76;
     font-size: 16px;
@@ -2529,7 +2564,10 @@ html {
         <div class="ck-solution-shell">
             <div class="ck-solution-intro">
                 <span class="ck-solution-badge">One platform, any construction need</span>
-                <h2>Best for complete end-to-end construction. Flexible for separate services too.</h2>
+                <h2 class="ck-solution-headline">
+                    <span data-icon="🏗">Best for complete end-to-end construction.</span>
+                    <span data-icon="✓">Flexible for separate services too.</span>
+                </h2>
                 <p>Whether you want ConstructKaro to guide the full journey from planning to execution, or you only need one service like an architect, contractor, survey, BOQ, testing, legal support, facade, or machinery, we help you find the right solution without confusion.</p>
             </div>
 
