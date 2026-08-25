@@ -319,11 +319,11 @@
                         </span>
                     </a>
 
-                    <a href="{{ route('admin.construction-education-posts.index') }}"
-                       class="{{ request()->routeIs('admin.construction-education-posts.*') ? 'active' : '' }}">
+                    <a href="{{ route('construction-education-posts.index') }}"
+                       class="{{ request()->routeIs('construction-education-posts.*') || request()->routeIs('admin.construction-education-posts.*') ? 'active' : '' }}">
                         <span class="menu-left">
                             <i class="bi bi-instagram"></i>
-                            <span>Education Posts</span>
+                            <span>/construction-education-posts</span>
                         </span>
                     </a>
 

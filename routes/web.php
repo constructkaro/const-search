@@ -114,6 +114,15 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller,marketing'])
         Route::delete('/construction-education-posts/{constructionEducationPost}/delete', [ConstructionEducationPostController::class, 'destroy'])->name('construction-education-posts.destroy');
     });
 
+Route::middleware(['auth', 'role:admin,super_admin,telecaller,marketing'])
+    ->name('construction-education-posts.')
+    ->group(function () {
+        Route::get('/construction-education-posts', [ConstructionEducationPostController::class, 'index'])->name('index');
+        Route::post('/construction-education-posts/store', [ConstructionEducationPostController::class, 'store'])->name('store');
+        Route::post('/construction-education-posts/{constructionEducationPost}/update', [ConstructionEducationPostController::class, 'update'])->name('update');
+        Route::delete('/construction-education-posts/{constructionEducationPost}/delete', [ConstructionEducationPostController::class, 'destroy'])->name('destroy');
+    });
+
 Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
     ->prefix('admin')
     ->name('admin.')

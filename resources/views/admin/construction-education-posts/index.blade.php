@@ -62,7 +62,7 @@
 
     <div class="education-panel">
         <h5><i class="bi bi-plus-circle-fill text-warning me-2"></i>Add Instagram Education Post</h5>
-        <form action="{{ route('admin.construction-education-posts.store') }}" method="POST" enctype="multipart/form-data" class="row g-3">
+        <form action="{{ route('construction-education-posts.store') }}" method="POST" enctype="multipart/form-data" class="row g-3">
             @csrf
             <div class="col-md-4">
                 <label class="form-label fw-bold">Post Title</label>
@@ -104,7 +104,7 @@
                         <a href="{{ $post->instagram_url }}" class="btn btn-outline-primary w-100" target="_blank" rel="noopener">Open Instagram</a>
                     </div>
                     <div class="col-lg-9">
-                        <form action="{{ route('admin.construction-education-posts.update', $post) }}" method="POST" enctype="multipart/form-data" class="row g-3">
+                        <form action="{{ route('construction-education-posts.update', $post) }}" method="POST" enctype="multipart/form-data" class="row g-3">
                             @csrf
                             <div class="col-md-5">
                                 <label class="form-label fw-bold">Post Title</label>
@@ -134,7 +134,7 @@
                             </div>
                         </form>
 
-                        <form action="{{ route('admin.construction-education-posts.destroy', $post) }}" method="POST" class="mt-2" onsubmit="return confirm('Delete this education post?')">
+                        <form action="{{ route('construction-education-posts.destroy', $post) }}" method="POST" class="mt-2" onsubmit="return confirm('Delete this education post?')">
                             @csrf
                             @method('DELETE')
                             <button class="delete-btn" type="submit">Delete Post</button>
