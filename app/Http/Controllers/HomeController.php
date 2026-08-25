@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\ConstructionEducationPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -47,7 +48,15 @@ class HomeController extends Controller
 
 
     public function constructioneduction(){
-        return view('main.constructioneduction');
+        $educationPosts = ConstructionEducationPost::where('is_published', true)
+            ->when(request('search'), function ($query, $search) {
+                $query->where('title', 'like', '%'.$search.'%');
+            })
+            ->orderBy('sort_order')
+            ->latest()
+            ->get();
+
+        return view('main.constructioneduction', compact('educationPosts'));
     }
 
     public function constwork(){

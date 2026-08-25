@@ -319,6 +319,14 @@
                         </span>
                     </a>
 
+                    <a href="{{ route('admin.construction-education-posts.index') }}"
+                       class="{{ request()->routeIs('admin.construction-education-posts.*') ? 'active' : '' }}">
+                        <span class="menu-left">
+                            <i class="bi bi-instagram"></i>
+                            <span>Education Posts</span>
+                        </span>
+                    </a>
+
                     @if(auth()->user()->role !== 'marketing')
                     @php
                         $ordersMenuOpen =

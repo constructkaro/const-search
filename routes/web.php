@@ -34,6 +34,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\ConstructionEducationPostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationCheckController;
 
@@ -106,6 +107,11 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller,marketing'])
         Route::post('/blogs/content-image', [BlogController::class, 'uploadContentImage'])->name('blogs.content-image.store');
         Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('blogs.update');
         Route::delete('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+        Route::get('/construction-education-posts', [ConstructionEducationPostController::class, 'index'])->name('construction-education-posts.index');
+        Route::post('/construction-education-posts/store', [ConstructionEducationPostController::class, 'store'])->name('construction-education-posts.store');
+        Route::post('/construction-education-posts/{constructionEducationPost}/update', [ConstructionEducationPostController::class, 'update'])->name('construction-education-posts.update');
+        Route::delete('/construction-education-posts/{constructionEducationPost}/delete', [ConstructionEducationPostController::class, 'destroy'])->name('construction-education-posts.destroy');
     });
 
 Route::middleware(['auth', 'role:super_admin,telecaller,admin'])

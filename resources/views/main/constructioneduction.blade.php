@@ -97,6 +97,7 @@
     }
 
     .edu-image-box {
+        display: block;
         border-radius: 22px;
         overflow: hidden;
         transition: all 0.35s ease;
@@ -226,8 +227,8 @@
     <div class="education-wrapper">
 
         <div class="search-bar-wrap">
-            <form class="search-bar" action="#" method="GET">
-                <input type="text" name="search" placeholder="Search for How to Choose the Right Contractor in India?">
+            <form class="search-bar" action="{{ route('constructioneduction') }}" method="GET">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search for How to Choose the Right Contractor in India?">
                 <button type="submit">Search</button>
             </form>
         </div>
@@ -239,29 +240,39 @@
         </div>
 
         <div class="education-grid">
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/1.png') }}')">
-                <img src="{{ asset('images/knowlege/1.png') }}" alt="Knowledge Image 1">
-            </div>
+            @forelse($educationPosts ?? [] as $post)
+                <a href="{{ $post->instagram_url }}" class="edu-image-box normal" target="_blank" rel="noopener">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($post->image) }}" alt="{{ $post->title }}">
+                </a>
+            @empty
+                @if(!request('search'))
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/1.png') }}')">
+                        <img src="{{ asset('images/knowlege/1.png') }}" alt="Knowledge Image 1">
+                    </div>
 
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/2.png') }}')">
-                <img src="{{ asset('images/knowlege/2.png') }}" alt="Knowledge Image 2">
-            </div>
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/2.png') }}')">
+                        <img src="{{ asset('images/knowlege/2.png') }}" alt="Knowledge Image 2">
+                    </div>
 
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/3.png') }}')">
-                <img src="{{ asset('images/knowlege/3.png') }}" alt="Knowledge Image 3">
-            </div>
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/3.png') }}')">
+                        <img src="{{ asset('images/knowlege/3.png') }}" alt="Knowledge Image 3">
+                    </div>
 
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/4.png') }}')">
-                <img src="{{ asset('images/knowlege/4.png') }}" alt="Knowledge Image 4">
-            </div>
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/4.png') }}')">
+                        <img src="{{ asset('images/knowlege/4.png') }}" alt="Knowledge Image 4">
+                    </div>
 
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/5.png') }}')">
-                <img src="{{ asset('images/knowlege/5.png') }}" alt="Knowledge Image 5">
-            </div>
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/5.png') }}')">
+                        <img src="{{ asset('images/knowlege/5.png') }}" alt="Knowledge Image 5">
+                    </div>
 
-            <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/6.png') }}')">
-                <img src="{{ asset('images/knowlege/6.png') }}" alt="Knowledge Image 6">
-            </div>
+                    <div class="edu-image-box normal" onclick="openImageModal('{{ asset('images/knowlege/6.png') }}')">
+                        <img src="{{ asset('images/knowlege/6.png') }}" alt="Knowledge Image 6">
+                    </div>
+                @else
+                    <div class="text-center fw-bold text-muted">No education posts found.</div>
+                @endif
+            @endforelse
         </div>
 
     </div>
