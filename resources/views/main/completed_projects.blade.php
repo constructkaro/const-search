@@ -29,11 +29,7 @@
             'description' => 'Oriental Aromatics',
             'image' => 'project/John/1.jpg',
         ],
-        [
-            'title' => 'Site Development',
-            'description' => 'Fountain Industries',
-            'image' => 'project/site/1.png',
-        ],
+       
         [
             'title' => 'RCC Cable Trench',
             'description' => 'RCC Cable Trench',
@@ -79,11 +75,7 @@
             'description' => 'Factory Shed Work',
             'image' => 'project/fac_shead/1.png',
         ],
-        [
-            'title' => 'Site Development',
-            'description' => 'Lodha Group',
-            'image' => 'project/kalptaru/1.jpg',
-        ],
+     
         [
             'title' => 'Internal Road Project Phase I and II',
             'description' => 'A.P. Mavala, Nerul',
