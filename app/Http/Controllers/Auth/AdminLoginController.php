@@ -27,6 +27,10 @@ class AdminLoginController extends Controller
 
             $user = Auth::user();
 
+            if ($user->role === 'marketing') {
+                return redirect()->route('admin.blogs.index');
+            }
+
             if (in_array($user->role, ['admin', 'super_admin','telecaller'])) {
                 return redirect()->route('admin.dashboard');
             }

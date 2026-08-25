@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ConstructionRequirementController extends Controller
 {
@@ -22,10 +23,11 @@ class ConstructionRequirementController extends Controller
             'services' => 'nullable|array',
             'services.*' => 'string|max:255',
 
+            'planning_timeframe' => 'nullable|string|max:100',
             'project_description' => 'nullable|string',
         ]);
 
-        DB::table('construction_requirements')->insert([
+        $data = [
             'full_name' => $request->full_name,
             'mobile' => $request->mobile,
             'email' => $request->email,
@@ -40,7 +42,25 @@ class ConstructionRequirementController extends Controller
 
             'created_at' => now(),
             'updated_at' => now(),
-        ]);
+        ];
+
+        if (Schema::hasColumn('construction_requirements', 'planning_timeframe')) {
+            $data['planning_timeframe'] = $request->planning_timeframe;
+        } elseif ($request->filled('planning_timeframe')) {
+            $data['project_description'] = trim(
+                ($data['project_description'] ? $data['project_description'] . "\n" : '')
+                . 'Planning timeframe: ' . $request->planning_timeframe
+            );
+        }
+
+        DB::table('construction_requirements')->insert($data);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Your free construction plan request is submitted. Our team will contact you soon.',
+            ]);
+        }
 
         return back()->with('success', 'Requirement submitted successfully. Our team will contact you soon.');
     }

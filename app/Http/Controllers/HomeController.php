@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 use App\Models\HelpCenterCallback;
 
@@ -149,6 +151,245 @@ class HomeController extends Controller
 
     public function houseConstructionPlotCaseStudy(){
         return view('main.house_construction_plot_case_study');
+    }
+
+    public function completedProjects(){
+        $projects = collect($this->completedProjectItems())->map(function ($project) {
+            return (object) [
+                'title' => $project['title'],
+                'slug' => $project['slug'],
+                'description' => $project['description'],
+                'location' => $project['location'],
+                'year' => $project['year'],
+                'status' => $project['status'],
+                'images' => collect([(object) ['image_path' => $project['image']]]),
+            ];
+        });
+
+        return view('main.completed_projects', compact('projects'));
+    }
+
+    public function completedProjectShow($slug)
+    {
+        $project = collect($this->completedProjectItems())
+            ->map(fn ($project) => (object) $project)
+            ->firstWhere('slug', $slug);
+
+        if (!$project) {
+            abort(404);
+        }
+
+        $imageFiles = [];
+        $projectPath = public_path('project/' . $project->folder);
+
+        if ($project->folder && File::isDirectory($projectPath)) {
+            $imageFiles = collect(File::files($projectPath))
+                ->filter(fn ($file) => in_array(strtolower($file->getExtension()), ['jpg', 'jpeg', 'png', 'webp']))
+                ->sortBy(function ($file) {
+                    $number = (int) preg_replace('/\D+/', '', $file->getFilename());
+
+                    return $number > 0 ? $number : $file->getFilename();
+                })
+                ->map(fn ($file) => 'project/' . $project->folder . '/' . $file->getFilename())
+                ->values()
+                ->all();
+        }
+
+        if (empty($imageFiles)) {
+            $imageFiles = [$project->image];
+        }
+
+        return view('main.completed_project_show', compact('project', 'imageFiles'));
+    }
+
+    private function completedProjectItems()
+    {
+        return collect([
+            [
+                'title' => 'Emergency Staircase, Pit and Chambers',
+                'description' => 'Emergency Staircase, Pit and Chambers',
+                'location' => 'PATAALGANGA',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'bans',
+                'image' => 'project/bans/1.png',
+            ],
+            [
+                'title' => 'Road work & Storm water drain',
+                'description' => 'Godrej',
+                'location' => 'Godrej',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'godrej',
+                'image' => 'project/godrej/1.jpg',
+            ],
+            [
+                'title' => 'Civil & Infra Activity',
+                'description' => 'Civil & Infra Activity',
+                'location' => 'Kalote',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'civilkalote',
+                'image' => 'project/civilkalote/1.jpeg',
+            ],
+            [
+                'title' => 'CNS Industrial Laundry Extension',
+                'description' => 'CNS Industrial Laundry Extension',
+                'location' => 'Patalganga',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'CNS',
+                'image' => 'project/CNS/1.jpeg',
+            ],
+            [
+                'title' => 'Strengthening and Retrofitting Work',
+                'description' => 'Oriental Aromatics',
+                'location' => 'Oriental Aromatics',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'John',
+                'image' => 'project/John/1.jpg',
+            ],
+            [
+                'title' => 'Site Development',
+                'description' => 'Fountain Industries',
+                'location' => 'Fountain Industries',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'site',
+                'image' => 'project/site/1.png',
+            ],
+            [
+                'title' => 'RCC Cable Trench',
+                'description' => 'RCC Cable Trench',
+                'location' => 'RCF',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'rcf',
+                'image' => 'project/rcf/1.jpeg',
+            ],
+            [
+                'title' => 'Land Development',
+                'description' => 'Orbit Engineering Co. Ltd.',
+                'location' => 'ISRO',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'isro',
+                'image' => 'project/isro/1.jpeg',
+            ],
+            [
+                'title' => 'Civil and Allied Activities at Various Locations',
+                'description' => 'Civil and allied activities at various locations',
+                'location' => 'Maharashtra',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'ste',
+                'image' => 'project/ste/1.jpg',
+            ],
+            [
+                'title' => 'Earthwork of 2.75 Pipe at Khopoli',
+                'description' => 'Nagothane Ethane Pipeline Project',
+                'location' => 'Khopoli',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'Warai',
+                'image' => 'project/Warai/1.jpg',
+            ],
+            [
+                'title' => 'RCC Core and Shell Work',
+                'description' => 'Front Engine',
+                'location' => 'Maharashtra',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'building',
+                'image' => 'project/building/1.JPG',
+            ],
+            [
+                'title' => 'Earth Work and Infra Work',
+                'description' => 'Maharashtra State Road Project',
+                'location' => 'Center Rail',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'center_rail',
+                'image' => 'project/center_rail/1.jpg',
+            ],
+            [
+                'title' => 'RCC Flooring Work at JNHS',
+                'description' => 'JNHS Ltd.',
+                'location' => 'JNHS',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'jsw',
+                'image' => 'project/jsw/1.jpg',
+            ],
+            [
+                'title' => 'Building Project',
+                'description' => 'Apartment / Building Project',
+                'location' => 'Maharashtra',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'building',
+                'image' => 'project/building/2.JPG',
+            ],
+            [
+                'title' => 'Factory Shed Work',
+                'description' => 'Factory Shed Work',
+                'location' => 'Maharashtra',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'fac_shead',
+                'image' => 'project/fac_shead/1.png',
+            ],
+            [
+                'title' => 'Site Development - Lodha Group',
+                'description' => 'Lodha Group',
+                'location' => 'Lodha Group',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'kalptaru',
+                'image' => 'project/kalptaru/1.jpg',
+            ],
+            [
+                'title' => 'Internal Road Project Phase I and II',
+                'description' => 'A.P. Mavala, Nerul',
+                'location' => 'Nerul',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'loha',
+                'image' => 'project/loha/1.png',
+            ],
+            [
+                'title' => 'Construction of Minor Bridge and Earthwork',
+                'description' => 'Mumbai-Ahmedabad High Speed Rail',
+                'location' => 'High Speed Rail Project',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'rmhs',
+                'image' => 'project/rmhs/1.png',
+            ],
+            [
+                'title' => 'Road Work for Kotwal Project Area at JNPT',
+                'description' => 'JNPT / JN Port Authority',
+                'location' => 'JNPT',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'expat',
+                'image' => 'project/expat/1.jpg',
+            ],
+            [
+                'title' => 'Bungalow Construction Work',
+                'description' => 'Residential bungalow construction work',
+                'location' => 'Maharashtra',
+                'year' => '2025',
+                'status' => 'Completed',
+                'folder' => 'banglo',
+                'image' => 'project/banglo/1.png',
+            ],
+        ])->map(function ($project) {
+            $project['slug'] = Str::slug($project['title']);
+
+            return $project;
+        })->all();
     }
 
     public function aboutus(){

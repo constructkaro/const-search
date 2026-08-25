@@ -509,6 +509,7 @@ body {
         <nav class="nav" id="mainNav">
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
             <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}">About Us</a>
+            <a href="{{ route('completed.projects') }}" class="{{ request()->routeIs('completed.projects') ? 'active' : '' }}">Projects</a>
             <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') || request()->routeIs('case-study.*') || request()->routeIs('blogsinsights*') || request()->routeIs('constructionarticle') || request()->routeIs('chooserightcontractor') || request()->routeIs('differentconsultant') ? 'active' : '' }}">Constructshala</a>
         </nav>
 

@@ -259,6 +259,7 @@
                 </div>
 
                 <div class="sidebar-menu">
+                    @if(auth()->user()->role !== 'marketing')
                     <a href="{{ route('admin.dashboard') }}"
                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <span class="menu-left">
@@ -308,6 +309,7 @@
                             <span>Vendors</span>
                         </span>
                     </a>
+                    @endif
 
                     <a href="{{ route('admin.blogs.index') }}"
                        class="{{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
@@ -317,6 +319,7 @@
                         </span>
                     </a>
 
+                    @if(auth()->user()->role !== 'marketing')
                     @php
                         $ordersMenuOpen =
                             request()->routeIs('admin.orders.index') ||
@@ -390,6 +393,7 @@
                             <span>Settings</span>
                         </span>
                     </a>
+                    @endif
 
                     <form action="{{ route('admin.logout') }}" method="POST" class="mt-3">
                         @csrf

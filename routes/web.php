@@ -97,6 +97,17 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller'])->prefix('admin'
 
 
 
+Route::middleware(['auth', 'role:admin,super_admin,telecaller,marketing'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+        Route::post('/blogs/store', [BlogController::class, 'store'])->name('blogs.store');
+        Route::post('/blogs/content-image', [BlogController::class, 'uploadContentImage'])->name('blogs.content-image.store');
+        Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('blogs.update');
+        Route::delete('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.destroy');
+    });
+
 Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -106,12 +117,6 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
         Route::delete('/users/delete/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
 
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
-
-        Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
-        Route::post('/blogs/store', [BlogController::class, 'store'])->name('blogs.store');
-        Route::post('/blogs/content-image', [BlogController::class, 'uploadContentImage'])->name('blogs.content-image.store');
-        Route::post('/blogs/{blog}/update', [BlogController::class, 'update'])->name('blogs.update');
-        Route::delete('/blogs/{blog}/delete', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
@@ -337,6 +342,8 @@ Route::get('blogs-insights-page', [HomeController::class, 'blogsinsightspage'])-
 Route::get('case-studies', [HomeController::class, 'caseStudies'])->name('case-studies');
 Route::get('case-study/mumbai-pune-missing-link-project', [HomeController::class, 'mumbaiPuneMissingLinkCaseStudy'])->name('case-study.mumbai-pune-missing-link');
 Route::get('case-study/how-to-start-house-construction-on-your-plot', [HomeController::class, 'houseConstructionPlotCaseStudy'])->name('case-study.house-construction-plot');
+Route::get('completed-projects', [HomeController::class, 'completedProjects'])->name('completed.projects');
+Route::get('completed-projects/{slug}', [HomeController::class, 'completedProjectShow'])->name('completed.projects.show');
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');

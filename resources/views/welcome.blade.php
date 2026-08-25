@@ -194,6 +194,36 @@ html {
     max-width: 600px;
 }
 
+.hero-tech-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    min-height: 30px;
+    margin-bottom: 22px;
+    padding: 8px 20px;
+    border: 1.5px solid #ff8a3d;
+    border-radius: 999px;
+    background: rgba(255, 250, 245, .94);
+    color: #a34321;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+}
+
+.hero-tech-badge::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #12c84f;
+    flex: 0 0 10px;
+}
+
 .hero-title {
     color: #fff;
     font-size: clamp(34px, 4vw, 56px);
@@ -216,41 +246,68 @@ html {
     margin-bottom: 28px;
 }
 
-.hero-field-search {
-    width: 100%;
-    max-width: 480px;
-    height: 52px;
-    background: #f2f2f2;
-    border-radius: 14px;
-    display: flex;
+.hero-plan-btn {
+    display: inline-flex;
     align-items: center;
-    padding: 0 16px;
+    justify-content: center;
     gap: 10px;
-    box-shadow: 0 12px 30px rgba(0,0,0,.18);
-    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
-}
-
-.hero-field-search:focus-within {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 16px 36px rgba(0,0,0,.22);
-}
-
-.hero-icon-left {
-    width: 24px;
-    height: 24px;
-    color: var(--blue-light);
-    flex-shrink: 0;
-}
-
-.hero-field-search input {
-    flex: 1;
-    height: 100%;
+    min-height: 54px;
+    padding: 0 28px;
     border: none;
-    outline: none;
-    background: transparent;
-    font-size: 14px;
-    color: #333;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ff8b2c 0%, #f25c05 100%);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 14px 32px rgba(242,92,5,.34);
+    transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+}
+
+.hero-plan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px rgba(242,92,5,.42);
+}
+
+.hero-plan-btn svg {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+}
+
+.hero-proof-grid {
+    width: min(100%, 620px);
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.hero-proof-item {
+    min-height: 78px;
+    padding: 12px 10px;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 14px;
+    background: rgba(255,255,255,.11);
+    backdrop-filter: blur(8px);
+}
+
+.hero-proof-value {
+    display: block;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.hero-proof-label {
+    display: block;
+    margin-top: 7px;
+    color: rgba(255,255,255,.78);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.25;
 }
 
 /* ============================================================
@@ -508,6 +565,323 @@ html {
 .blue-btn   { background: linear-gradient(180deg, #2f89d0, #1d6eb3); }
 
 /* ============================================================
+   PROCESS + ASSURANCE
+   ============================================================ */
+.ck-process-section {
+    padding: 76px 0;
+    background: #fff;
+}
+
+.ck-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.ck-process-card {
+    position: relative;
+    min-height: 210px;
+    padding: 26px 22px;
+    border: 1px solid #dbe5ee;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fff, #f7fbff);
+    box-shadow: var(--ck-shadow-soft);
+}
+
+.ck-process-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    background: #1f67ab;
+    color: #fff;
+    font-weight: 900;
+}
+
+.ck-process-card:nth-child(even) .ck-process-number {
+    background: #df6d1c;
+}
+
+.ck-process-card h3 {
+    color: #152536;
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.ck-process-card p {
+    color: #5e6a76;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.ck-solution-section {
+    padding: 78px 0;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.ck-solution-shell {
+    width: var(--container-w);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    gap: 30px;
+    align-items: stretch;
+}
+
+.ck-solution-intro {
+    padding: 34px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #dbe5ee;
+    box-shadow: var(--ck-shadow);
+}
+
+.ck-solution-badge {
+    display: inline-flex;
+    margin-bottom: 16px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: #fff4ec;
+    color: #c54e17;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+.ck-solution-intro h2 {
+    color: #10243a;
+    font-size: clamp(30px, 3.3vw, 46px);
+    font-weight: 900;
+    line-height: 1.08;
+    margin-bottom: 16px;
+}
+
+.ck-solution-intro p {
+    color: #5e6a76;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.ck-solution-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.ck-solution-card {
+    padding: 26px 24px;
+    border-radius: 18px;
+    background: #fff;
+    border: 2px solid #dbe5ee;
+    box-shadow: var(--ck-shadow-soft);
+}
+
+.ck-solution-card.primary {
+    border-color: #ef8a39;
+}
+
+.ck-solution-card.secondary {
+    border-color: #2f89d0;
+}
+
+.ck-solution-card h3 {
+    color: #10243a;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.ck-solution-card p {
+    color: #65717d;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+}
+
+.ck-solution-list {
+    display: grid;
+    gap: 9px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ck-solution-list li {
+    position: relative;
+    padding-left: 20px;
+    color: #354353;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.ck-solution-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .45em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #df6d1c;
+}
+
+.ck-solution-card.secondary .ck-solution-list li::before {
+    background: #1f67ab;
+}
+
+.ck-assurance-section {
+    padding: 76px 0;
+    background: #eef2f7;
+}
+
+.ck-assurance-shell {
+    width: var(--container-w);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: 32px;
+    align-items: stretch;
+}
+
+.ck-assurance-panel {
+    padding: 34px;
+    border-radius: 18px;
+    background: #10243a;
+    color: #fff;
+    box-shadow: var(--ck-shadow);
+}
+
+.ck-assurance-eyebrow {
+    display: inline-flex;
+    margin-bottom: 14px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(239,138,57,.18);
+    color: #ffb072;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+.ck-assurance-panel h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 900;
+    line-height: 1.08;
+    margin-bottom: 16px;
+}
+
+.ck-assurance-panel p {
+    color: rgba(255,255,255,.76);
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.ck-assurance-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.ck-assurance-item {
+    padding: 22px;
+    border: 1px solid #dbe5ee;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: var(--ck-shadow-soft);
+}
+
+.ck-assurance-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 14px;
+    border-radius: 11px;
+    background: #fff4ec;
+    color: #df6d1c;
+    font-weight: 900;
+}
+
+.ck-assurance-item h3 {
+    color: #152536;
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.ck-assurance-item p {
+    color: #65717d;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.ck-compare-section {
+    padding: 76px 0;
+    background: #fff;
+}
+
+.ck-compare-table {
+    width: var(--container-w);
+    max-width: 1040px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #dbe5ee;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: var(--ck-shadow);
+}
+
+.ck-compare-row {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr;
+}
+
+.ck-compare-row > div {
+    padding: 18px 20px;
+    border-bottom: 1px solid #e7edf3;
+    color: #46515d;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.ck-compare-row:last-child > div {
+    border-bottom: none;
+}
+
+.ck-compare-head > div {
+    background: #10243a;
+    color: #fff;
+    font-weight: 900;
+}
+
+.ck-compare-factor {
+    font-weight: 900;
+    color: #152536 !important;
+    background: #f6f9fc;
+}
+
+.ck-compare-good {
+    color: #117a3f !important;
+    font-weight: 800;
+}
+
+.ck-compare-risk {
+    color: #a04423 !important;
+}
+
+/* ============================================================
    GUIDE SECTION
    ============================================================ */
 .ck-guide-section {
@@ -683,19 +1057,6 @@ html {
 
 .upcoming-card.orange-border { border: 2px solid #ef7d2d; }
 .upcoming-card.blue-border   { border: 2px solid #2f78bf; }
-
-.upcoming-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 2;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(17,24,39,.85);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-}
 
 .upcoming-card-image {
     height: 230px;
@@ -1286,6 +1647,202 @@ html {
 .primary-btn { background: linear-gradient(180deg, #f58a3c, #f25c05); color: #fff; }
 .verify-btn  { background: linear-gradient(180deg, #2f80c8, #1f67ab); color: #fff; }
 
+/* ============================================================
+   FREE PLAN MODAL
+   ============================================================ */
+.plan-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background: rgba(38,34,29,.62);
+}
+
+.plan-modal-overlay.active { display: flex; }
+
+.plan-modal-box {
+    width: min(100%, 560px);
+    max-height: min(86vh, 640px);
+    overflow-y: auto;
+    position: relative;
+    padding: 30px;
+    border: 1px solid rgba(255,138,61,.25);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 30px 80px rgba(0,0,0,.28);
+    scrollbar-gutter: stable;
+}
+
+.plan-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.plan-modal-title {
+    color: #101010;
+    font-size: clamp(26px, 4vw, 31px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 8px;
+}
+
+.plan-modal-copy {
+    max-width: 470px;
+    color: #666;
+    font-size: 17px;
+    line-height: 1.45;
+    margin-bottom: 12px;
+}
+
+.plan-step-label {
+    color: #d63800;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.plan-step { display: none; }
+.plan-step.active { display: block; }
+
+.plan-form-group { margin-bottom: 16px; }
+
+.plan-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #444;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.plan-input,
+.plan-select {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    background: #fff;
+    padding: 0 14px;
+    color: #252b33;
+    font-size: 16px;
+    outline: none;
+}
+
+.plan-input:focus,
+.plan-select:focus {
+    border-color: #ff7417;
+    box-shadow: 0 0 0 3px rgba(255,116,23,.16);
+}
+
+.plan-otp-panel {
+    padding: 10px;
+    border: 1px solid #ffd0ae;
+    border-radius: 9px;
+    background: linear-gradient(180deg, #fffaf5, #fff);
+    box-shadow: 0 2px 8px rgba(242,92,5,.12);
+}
+
+.plan-otp-panel p {
+    color: #4f4f4f;
+    font-size: 14px;
+    line-height: 1.25;
+    margin-bottom: 10px;
+}
+
+.plan-outline-btn {
+    min-height: 40px;
+    padding: 0 13px;
+    border: 1px solid #ff7417;
+    border-radius: 8px;
+    background: #fff;
+    color: #9c2b0e;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.plan-otp-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+}
+
+.plan-note,
+.plan-status {
+    color: #9b4b33;
+    font-size: 17px;
+    line-height: 1.4;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.plan-status.success { color: #15803d; }
+.plan-status.error { color: #dc2626; }
+
+.plan-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.plan-actions.single {
+    grid-template-columns: 1fr;
+}
+
+.plan-primary-btn,
+.plan-secondary-btn {
+    min-height: 52px;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.plan-primary-btn {
+    background: linear-gradient(180deg, #ff841d, #ff670f);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(255,103,15,.28);
+}
+
+.plan-secondary-btn {
+    background: #fff;
+    color: #444;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.plan-privacy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 10px 14px;
+    border: 1px solid #ffd8bd;
+    border-radius: 13px;
+    background: #fff7f0;
+    color: #555;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.plan-privacy svg {
+    width: 18px;
+    height: 18px;
+    color: #ff7417;
+}
+
 .smooth-reveal {
     opacity: 0;
     transform: translateY(26px);
@@ -1347,9 +1904,18 @@ html {
     }
 
     .ck-services-grid,
-    .explore-services-grid {
+    .explore-services-grid,
+    .ck-process-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 72px 28px;
+    }
+
+    .ck-assurance-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .ck-solution-shell {
+        grid-template-columns: 1fr;
     }
 
     .ck-service-card,
@@ -1385,8 +1951,19 @@ html {
 
 @media (max-width: 768px) {
     .ck-services-grid,
-    .explore-services-grid {
+    .explore-services-grid,
+    .ck-process-grid,
+    .ck-solution-options,
+    .ck-assurance-list {
         grid-template-columns: 1fr;
+    }
+
+    .ck-compare-table {
+        overflow-x: auto;
+    }
+
+    .ck-compare-row {
+        min-width: 720px;
     }
 
     .ck-service-slider {
@@ -1447,6 +2024,8 @@ html {
     .ck-trust-container,
     .ck-guide-container,
     .ck-vendor-container,
+    .ck-solution-shell,
+    .ck-assurance-shell,
     .faq-container {
         width: calc(100% - 32px);
     }
@@ -1468,18 +2047,74 @@ html {
     }
 
     .hero-content      { max-width: 100%; }
+    .hero-tech-badge {
+        min-height: 36px;
+        margin-bottom: 18px;
+        padding: 7px 14px;
+        gap: 8px;
+        font-size: 11px;
+        letter-spacing: .8px;
+        line-height: 1.25;
+        text-align: center;
+        white-space: normal;
+    }
+    .hero-tech-badge::before {
+        width: 8px;
+        height: 8px;
+        flex-basis: 8px;
+    }
     .hero-title        { font-size: clamp(28px, 8vw, 34px); }
     .hero-subtitle     { font-size: 17px; }
     .hero-description  { font-size: 13px; }
-    .hero-field-search {
-        max-width: none;
-        height: auto;
+    .hero-plan-btn {
+        width: 100%;
         min-height: 50px;
+        padding: 0 16px;
+        font-size: 14px;
         border-radius: 12px;
     }
 
-    .hero-field-search input {
-        font-size: 13px;
+    .hero-proof-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-proof-item {
+        min-height: 70px;
+    }
+
+    .ck-process-section,
+    .ck-solution-section,
+    .ck-assurance-section,
+    .ck-compare-section {
+        padding: 52px 0;
+    }
+
+    .ck-solution-intro {
+        padding: 26px 22px;
+    }
+
+    .ck-assurance-panel {
+        padding: 26px 22px;
+    }
+
+    .plan-modal-box {
+        padding: 26px 22px;
+    }
+
+    .plan-modal-copy,
+    .plan-step-label,
+    .plan-form-group label,
+    .plan-note,
+    .plan-status {
+        font-size: 15px;
+    }
+
+    .plan-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-otp-row {
+        grid-template-columns: 1fr;
     }
 
     .section-heading h2,
@@ -1648,15 +2283,39 @@ html {
     <section class="hero-banner">
         <div class="hero-inner">
             <div class="hero-content">
+                <div class="hero-tech-badge" aria-label="India's No.1 tech powered end-to-end construction solution">
+                    INDIA'S NO.1 TECH POWERED END-TO-END CONSTRUCTION SOLUTION
+                </div>
+
                 <h1 class="hero-title">Plan. Hire. Execute</h1>
                 <p class="hero-subtitle">We manage your construction end-to-end</p>
                 <p class="hero-description">From planning and design to execution and quality checks — everything handled through us</p>
 
-                <div class="hero-field-search">
-                    <svg class="hero-icon-left" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
+                <button type="button" class="hero-plan-btn" id="openPlanModalBtn">
+                    Get End-to-End Construction Plan
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14"></path>
+                        <path d="m13 6 6 6-6 6"></path>
                     </svg>
-                    <input type="text" placeholder="Search for Residential Architect">
+                </button>
+
+                <div class="hero-proof-grid" aria-label="ConstructKaro highlights">
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-value">20+</span>
+                        <span class="hero-proof-label">Years construction experience</span>
+                    </div>
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-value">24h</span>
+                        <span class="hero-proof-label">Requirement response window</span>
+                    </div>
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-value">8+</span>
+                        <span class="hero-proof-label">Construction service categories</span>
+                    </div>
+                    <div class="hero-proof-item">
+                        <span class="hero-proof-value">5</span>
+                        <span class="hero-proof-label">Cities and regions served</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1687,6 +2346,72 @@ html {
     {{-- ── MAIN SERVICE CARDS ── --}}
   
    
+
+    <section class="ck-process-section">
+        <div class="section-container">
+            <div class="section-heading">
+                <h2>How ConstructKaro Works</h2>
+                <div class="heading-bar"></div>
+            </div>
+
+            <div class="ck-process-grid">
+                <div class="ck-process-card">
+                    <span class="ck-process-number">01</span>
+                    <h3>Share your requirement</h3>
+                    <p>Tell us your service, city, timeline, and project need in a simple guided flow.</p>
+                </div>
+                <div class="ck-process-card">
+                    <span class="ck-process-number">02</span>
+                    <h3>Get matched with experts</h3>
+                    <p>We route the enquiry to relevant architects, contractors, surveyors, BOQ experts, and support teams.</p>
+                </div>
+                <div class="ck-process-card">
+                    <span class="ck-process-number">03</span>
+                    <h3>Compare with clarity</h3>
+                    <p>Review service fit, pricing approach, execution capability, and practical next steps before you decide.</p>
+                </div>
+                <div class="ck-process-card">
+                    <span class="ck-process-number">04</span>
+                    <h3>Plan and execute</h3>
+                    <p>Move from planning to site execution with on-ground coordination and transparent communication.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ck-solution-section">
+        <div class="ck-solution-shell">
+            <div class="ck-solution-intro">
+                <span class="ck-solution-badge">One platform, any construction need</span>
+                <h2>Best for complete end-to-end construction. Flexible for separate services too.</h2>
+                <p>Whether you want ConstructKaro to guide the full journey from planning to execution, or you only need one service like an architect, contractor, survey, BOQ, testing, legal support, facade, or machinery, we help you find the right solution without confusion.</p>
+            </div>
+
+            <div class="ck-solution-options">
+                <div class="ck-solution-card primary">
+                    <h3>End-to-End Construction Solution</h3>
+                    <p>For customers who want one organised path from idea to execution.</p>
+                    <ul class="ck-solution-list">
+                        <li>Planning, design and BOQ clarity</li>
+                        <li>Verified experts and contractor support</li>
+                        <li>Execution coordination and site guidance</li>
+                        <li>Transparent process from start to finish</li>
+                    </ul>
+                </div>
+
+                <div class="ck-solution-card secondary">
+                    <h3>Separate Service Solutions</h3>
+                    <p>For customers who need only one expert service at the right time.</p>
+                    <ul class="ck-solution-list">
+                        <li>Architect, contractor and interior experts</li>
+                        <li>Survey, structural audit, BOQ and testing</li>
+                        <li>NA/legal, facade, welding and machinery</li>
+                        <li>Choose one service now, add more later</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <div id="comingSoonLocationBox" style="display:none;">
         <h2>We are coming soon for this location</h2>
@@ -1807,11 +2532,115 @@ html {
                     </div>
                 </div>
 
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        {!! $ckImage('images/explore/legal-due-diligence.png', 'NA Support & Legal Due Diligence', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>NA Support & Legal Due Diligence</h3>
+                        <p>Explore All Categories of NA Support & Legal Services</p>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.nasupport') }}" class="explore-btn orange-btn">Get Started</a>
+                        @else
+                            <a href="{{ route('customer.nasupport') }}" data-redirect="{{ route('customer.nasupport') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        {!! $ckImage('images/explore/welding-fabrication.png', 'Welding & Fabrication', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Welding & Fabrication</h3>
+                        <p>Explore All Categories of Welding & Fabrication Services</p>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.welding_fabrication') }}" class="explore-btn blue-btn">Get Started</a>
+                        @else
+                            <a href="{{ route('customer.welding_fabrication') }}" data-redirect="{{ route('customer.welding_fabrication') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        {!! $ckImage('images/explore/testing-services.jpeg', 'Testing Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Testing Services</h3>
+                        <p>Explore All Categories of Testing Services</p>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.testing') }}" class="explore-btn blue-btn">Get Started</a>
+                        @else
+                            <a href="{{ route('customer.testing') }}" data-redirect="{{ route('customer.testing') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="explore-card orange-card">
+                    <div class="explore-card-image">
+                        {!! $ckImage('images/explore/machinaryonhire.png', 'Machinery On Hire', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Machinery On Hire</h3>
+                        <p>Explore All Categories of Machinery On Hire Services</p>
+                        <a href="{{ route('machinery_provider.create') }}" class="explore-btn orange-btn">Get Started</a>
+                    </div>
+                </div>
+
+                <div class="explore-card blue-card">
+                    <div class="explore-card-image">
+                        {!! $ckImage('images/explore/facade-services.png', 'Facade Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    </div>
+                    <div class="explore-card-body">
+                        <h3>Facade Services</h3>
+                        <p>Explore All Categories of Facade Services</p>
+                        @if($isCustomerLoggedIn)
+                            <a href="{{ route('customer.facade') }}" class="explore-btn blue-btn">Get Started</a>
+                        @else
+                            <a href="{{ route('customer.facade') }}" data-redirect="{{ route('customer.facade') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     {{-- ── GUIDE ── --}}
+    <section class="ck-assurance-section">
+        <div class="ck-assurance-shell">
+            <div class="ck-assurance-panel">
+                <span class="ck-assurance-eyebrow">Why Choose Us</span>
+                <h2>Construction support built on systems, not guesswork.</h2>
+                <p>ConstructKaro brings planning, vendor discovery, service selection, and execution support into one organised experience, so customers do not have to manage everything blindly.</p>
+            </div>
+
+            <div class="ck-assurance-list">
+                <div class="ck-assurance-item">
+                    <span class="ck-assurance-icon">✓</span>
+                    <h3>Verified service network</h3>
+                    <p>Connect with relevant providers across architectural, contractor, survey, BOQ, audit, legal, and support services.</p>
+                </div>
+                <div class="ck-assurance-item">
+                    <span class="ck-assurance-icon">Rs</span>
+                    <h3>Transparent pricing approach</h3>
+                    <p>Get quote-led conversations that make scope and next steps clearer before committing.</p>
+                </div>
+                <div class="ck-assurance-item">
+                    <span class="ck-assurance-icon">24</span>
+                    <h3>Fast requirement response</h3>
+                    <p>Post your requirement and get guided follow-up so your project does not stay stuck at the starting line.</p>
+                </div>
+                <div class="ck-assurance-item">
+                    <span class="ck-assurance-icon">Go</span>
+                    <h3>End-to-end path</h3>
+                    <p>From design and approvals to BOQ, vendors, materials, testing, and execution support in one place.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="ck-guide-section">
         <div class="ck-guide-container">
             <div class="ck-guide-image-box">
@@ -1836,60 +2665,42 @@ html {
 
     {{-- ── UPCOMING SERVICES ── --}}
    
-    <section class="upcoming-services-section">
-        <div class="upcoming-services-heading">
-            <h2>Our Upcoming Services</h2>
-            <div class="upcoming-heading-line"></div>
+    {{-- ── VENDOR ── --}}
+    <section class="ck-compare-section">
+        <div class="section-heading">
+            <h2>Platform Managed vs Unmanaged Execution</h2>
+            <div class="heading-bar"></div>
         </div>
 
-        <div class="upcoming-auto-scroll-wrap">
-            <div class="upcoming-auto-scroll-track">
-
-                @php
-                    $services = [
-                        ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
-                        ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                        ['testing-services.jpeg','Testing Services','blue-border'],
-                        ['machinaryonhire.png','Machinery On Hire','orange-border'],
-                        ['facade-services.png','Facade Services','blue-border'],
-                        ['StructuralAudit.jpeg','Structural Audit','blue-border']
-
-                    ];
-                @endphp
-
-                {{-- ORIGINAL --}}
-                @foreach ($services as $upcoming)
-                    <div class="upcoming-card {{ $upcoming[2] }}">
-                        <span class="upcoming-badge">Coming Soon</span>
-                        <div class="upcoming-card-image">
-                            {!! $ckImage('images/explore/' . $upcoming[0], $upcoming[1], '', ['width' => 360, 'height' => 230, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                        </div>
-                        <div class="upcoming-card-body">
-                            <h3>{{ $upcoming[1] }}</h3>
-                            <p>Launching soon on ConstructKaro</p>
-                        </div>
-                    </div>
-                @endforeach
-
-                {{-- DUPLICATE (IMPORTANT for seamless loop) --}}
-                @foreach ($services as $upcoming)
-                    <div class="upcoming-card {{ $upcoming[2] }}">
-                        <span class="upcoming-badge">Coming Soon</span>
-                        <div class="upcoming-card-image">
-                            {!! $ckImage('images/explore/' . $upcoming[0], $upcoming[1], '', ['width' => 360, 'height' => 230, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                        </div>
-                        <div class="upcoming-card-body">
-                            <h3>{{ $upcoming[1] }}</h3>
-                            <p>Launching soon on ConstructKaro</p>
-                        </div>
-                    </div>
-                @endforeach
-
+        <div class="ck-compare-table">
+            <div class="ck-compare-row ck-compare-head">
+                <div>Factor</div>
+                <div>ConstructKaro Approach</div>
+                <div>Typical Unmanaged Approach</div>
+            </div>
+            <div class="ck-compare-row">
+                <div class="ck-compare-factor">Service discovery</div>
+                <div class="ck-compare-good">Relevant experts by service and location</div>
+                <div class="ck-compare-risk">Random referrals and limited options</div>
+            </div>
+            <div class="ck-compare-row">
+                <div class="ck-compare-factor">Scope clarity</div>
+                <div class="ck-compare-good">Requirement-led conversations</div>
+                <div class="ck-compare-risk">Verbal scope and repeated confusion</div>
+            </div>
+            <div class="ck-compare-row">
+                <div class="ck-compare-factor">Planning support</div>
+                <div class="ck-compare-good">Design, BOQ, survey, legal, and audit routes</div>
+                <div class="ck-compare-risk">Separate follow-ups with no single flow</div>
+            </div>
+            <div class="ck-compare-row">
+                <div class="ck-compare-factor">Execution confidence</div>
+                <div class="ck-compare-good">On-ground support and transparent communication</div>
+                <div class="ck-compare-risk">Phone updates and uncertainty</div>
             </div>
         </div>
     </section>
 
-    {{-- ── VENDOR ── --}}
     <section class="ck-vendor-section">
         <div class="ck-vendor-container">
             <div class="ck-vendor-content-box">
@@ -2014,6 +2825,115 @@ html {
         </div>
     </section>
 
+</div>
+
+{{-- FREE CONSTRUCTION PLAN MODAL --}}
+<div id="freePlanModal" class="plan-modal-overlay">
+    <div class="plan-modal-box">
+        <button type="button" class="plan-modal-close" id="closePlanModalBtn" aria-label="Close">&times;</button>
+
+        <h2 class="plan-modal-title">Get Your Free Construction Plan</h2>
+        <p class="plan-modal-copy">Share your details and our team will reach out within 24 hours with a personalised plan.</p>
+
+        <div class="plan-step active" data-plan-step="1">
+            <div class="plan-step-label">Step 1 of 3 &mdash; Your details</div>
+
+            <div class="plan-form-group">
+                <label for="planFullName">Full Name</label>
+                <input type="text" id="planFullName" class="plan-input" placeholder="E.g. Rohan Sharma" autocomplete="name">
+                <small class="error-text" id="planFullNameError"></small>
+            </div>
+
+            <div class="plan-form-group">
+                <label for="planEmail">Email</label>
+                <input type="email" id="planEmail" class="plan-input" placeholder="you@example.com" autocomplete="email">
+                <small class="error-text" id="planEmailError"></small>
+            </div>
+
+            <div class="plan-form-group">
+                <label for="planTimeframe">When are you planning to start?</label>
+                <select id="planTimeframe" class="plan-select">
+                    <option value="">Select timeframe</option>
+                    <option value="Immediately">Immediately</option>
+                    <option value="Within 1 month">Within 1 month</option>
+                    <option value="1-3 months">1-3 months</option>
+                    <option value="3-6 months">3-6 months</option>
+                    <option value="Just exploring">Just exploring</option>
+                </select>
+                <small class="error-text" id="planTimeframeError"></small>
+            </div>
+
+            <p class="plan-note">Verify your mobile with OTP, then tap Get My Free Plan.</p>
+
+            <div class="plan-actions single">
+                <button type="button" class="plan-primary-btn" id="planStepOneNext">Continue</button>
+            </div>
+        </div>
+
+        <div class="plan-step" data-plan-step="2">
+            <div class="plan-step-label">Step 2 of 3 &mdash; Verify your mobile</div>
+
+            <div class="plan-form-group">
+                <label for="planMobile">Phone Number</label>
+                <input type="text" id="planMobile" class="plan-input" placeholder="Mobile number" maxlength="10" autocomplete="tel">
+                <small class="error-text" id="planMobileError"></small>
+            </div>
+
+            <div class="plan-otp-panel">
+                <p>Add a valid mobile number. India format is auto-detected.</p>
+                <button type="button" class="plan-outline-btn" id="planSendOtpBtn">Send OTP</button>
+
+                <div class="plan-form-group" style="margin: 12px 0 0;">
+                    <label for="planOtp">SMS code</label>
+                    <div class="plan-otp-row">
+                        <input type="text" id="planOtp" class="plan-input" placeholder="6-digit OTP" maxlength="6" inputmode="numeric">
+                        <button type="button" class="plan-primary-btn" id="planVerifyOtpBtn">Verify</button>
+                    </div>
+                    <small class="error-text" id="planOtpError"></small>
+                </div>
+            </div>
+
+            <p class="plan-status" id="planOtpStatus">Verify your number to continue.</p>
+            <p class="plan-note">Verify your mobile with OTP, then tap Get My Free Plan.</p>
+
+            <div class="plan-actions">
+                <button type="button" class="plan-secondary-btn" data-plan-back="1">Back</button>
+                <button type="button" class="plan-primary-btn" id="planStepTwoNext">Continue</button>
+            </div>
+        </div>
+
+        <div class="plan-step" data-plan-step="3">
+            <div class="plan-step-label">Step 3 of 3 &mdash; Your city</div>
+
+            <div class="plan-form-group">
+                <label for="planCity">City</label>
+                <select id="planCity" class="plan-select">
+                    <option value="">Select city</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Navi Mumbai">Navi Mumbai</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Thane">Thane</option>
+                    <option value="Raigad">Raigad</option>
+                </select>
+                <small class="error-text" id="planCityError"></small>
+            </div>
+
+            <p class="plan-status" id="planSubmitStatus"></p>
+
+            <div class="plan-actions">
+                <button type="button" class="plan-secondary-btn" data-plan-back="2">Back</button>
+                <button type="button" class="plan-primary-btn" id="planSubmitBtn">Get My Free Plan &rarr;</button>
+            </div>
+        </div>
+
+        <div class="plan-privacy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="m9 12 2 2 4-5"></path>
+            </svg>
+            <span>We respect your privacy. No spam, ever.</span>
+        </div>
+    </div>
 </div>
 
 {{-- ── LOGIN MODAL ── --}}
@@ -2200,6 +3120,240 @@ $(document).ready(function () {
         }
     });
 
+    let planOtpVerified = false;
+    let planVerifiedMobile = '';
+
+    function planSetStep(step) {
+        document.querySelectorAll('[data-plan-step]').forEach(function (stepPanel) {
+            stepPanel.classList.toggle('active', stepPanel.dataset.planStep === String(step));
+        });
+    }
+
+    function planClearErrors() {
+        [
+            'planFullNameError',
+            'planEmailError',
+            'planTimeframeError',
+            'planMobileError',
+            'planOtpError',
+            'planCityError'
+        ].forEach(function (id) {
+            const element = document.getElementById(id);
+            if (element) element.textContent = '';
+        });
+    }
+
+    function planSetStatus(id, message, type) {
+        const element = document.getElementById(id);
+        if (!element) return;
+        element.textContent = message || '';
+        element.className = 'plan-status' + (type ? ' ' + type : '');
+    }
+
+    function planReset() {
+        planOtpVerified = false;
+        planVerifiedMobile = '';
+        planClearErrors();
+        planSetStatus('planOtpStatus', 'Verify your number to continue.', '');
+        planSetStatus('planSubmitStatus', '', '');
+        $('#planFullName').val('');
+        $('#planEmail').val('');
+        $('#planTimeframe').val('');
+        $('#planMobile').val('');
+        $('#planOtp').val('');
+        $('#planCity').val('');
+        planSetStep(1);
+    }
+
+    $('#openPlanModalBtn').on('click', function () {
+        planReset();
+        $('#freePlanModal').addClass('active');
+        setTimeout(function () {
+            const nameInput = document.getElementById('planFullName');
+            if (nameInput) nameInput.focus();
+        }, 80);
+    });
+
+    $('#closePlanModalBtn').on('click', function () {
+        $('#freePlanModal').removeClass('active');
+    });
+
+    $('#freePlanModal').on('click', function (e) {
+        if (e.target.id === 'freePlanModal') {
+            $('#freePlanModal').removeClass('active');
+        }
+    });
+
+    $(document).on('click', '[data-plan-back]', function () {
+        planSetStep(this.dataset.planBack);
+    });
+
+    $('#planStepOneNext').on('click', function () {
+        planClearErrors();
+
+        const fullName = $('#planFullName').val().trim();
+        const email = $('#planEmail').val().trim();
+        const timeframe = $('#planTimeframe').val();
+        let valid = true;
+
+        if (!fullName) {
+            $('#planFullNameError').text('Please enter your full name');
+            valid = false;
+        }
+
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            $('#planEmailError').text('Please enter a valid email');
+            valid = false;
+        }
+
+        if (!timeframe) {
+            $('#planTimeframeError').text('Please select timeframe');
+            valid = false;
+        }
+
+        if (valid) planSetStep(2);
+    });
+
+    $('#planMobile').on('input', function () {
+        if (this.value !== planVerifiedMobile) {
+            planOtpVerified = false;
+            planSetStatus('planOtpStatus', 'Verify your number to continue.', '');
+        }
+    });
+
+    $('#planSendOtpBtn').on('click', function (e) {
+        e.preventDefault();
+        const mobile = $('#planMobile').val().trim();
+        $('#planMobileError').text('');
+        $('#planOtpError').text('');
+        planSetStatus('planOtpStatus', '', '');
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            $('#planMobileError').text('Please enter valid 10 digit mobile number');
+            return;
+        }
+
+        const btn = $(this);
+        btn.prop('disabled', true).text('Sending...');
+
+        $.ajax({
+            url: "{{ route('customer.send.otp') }}",
+            type: "POST",
+            data: { mobile },
+            success: function (response) {
+                if (response.status === true) {
+                    planSetStatus('planOtpStatus', response.message || 'OTP sent successfully.', 'success');
+                } else {
+                    planSetStatus('planOtpStatus', response.message || 'Failed to send OTP.', 'error');
+                }
+            },
+            error: function () {
+                planSetStatus('planOtpStatus', 'Something went wrong while sending OTP.', 'error');
+            },
+            complete: function () {
+                btn.prop('disabled', false).text('Send OTP');
+            }
+        });
+    });
+
+    $('#planVerifyOtpBtn').on('click', function (e) {
+        e.preventDefault();
+        const mobile = $('#planMobile').val().trim();
+        const otp = $('#planOtp').val().trim();
+        $('#planOtpError').text('');
+        planSetStatus('planOtpStatus', '', '');
+
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            $('#planMobileError').text('Please enter valid 10 digit mobile number');
+            return;
+        }
+
+        if (!otp) {
+            $('#planOtpError').text('Please enter OTP');
+            return;
+        }
+
+        const btn = $(this);
+        btn.prop('disabled', true).text('Verifying...');
+
+        $.ajax({
+            url: "{{ route('customer.verify.otp') }}",
+            type: "POST",
+            data: { mobile, otp },
+            success: function (response) {
+                if (response.status === true) {
+                    planOtpVerified = true;
+                    planVerifiedMobile = mobile;
+                    planSetStatus('planOtpStatus', response.message || 'Mobile verified successfully.', 'success');
+                } else {
+                    planOtpVerified = false;
+                    planSetStatus('planOtpStatus', response.message || 'Invalid OTP.', 'error');
+                }
+            },
+            error: function () {
+                planOtpVerified = false;
+                planSetStatus('planOtpStatus', 'Something went wrong while verifying OTP.', 'error');
+            },
+            complete: function () {
+                btn.prop('disabled', false).text('Verify');
+            }
+        });
+    });
+
+    $('#planStepTwoNext').on('click', function () {
+        $('#planMobileError').text('');
+        $('#planOtpError').text('');
+
+        if (!planOtpVerified || $('#planMobile').val().trim() !== planVerifiedMobile) {
+            planSetStatus('planOtpStatus', 'Verify your number to continue.', 'error');
+            return;
+        }
+
+        planSetStep(3);
+    });
+
+    $('#planSubmitBtn').on('click', function (e) {
+        e.preventDefault();
+        $('#planCityError').text('');
+        planSetStatus('planSubmitStatus', '', '');
+
+        const city = $('#planCity').val();
+        if (!city) {
+            $('#planCityError').text('Please select city');
+            return;
+        }
+
+        const btn = $(this);
+        btn.prop('disabled', true).text('Submitting...');
+
+        $.ajax({
+            url: "{{ route('construction.requirement.store') }}",
+            type: "POST",
+            data: {
+                full_name: $('#planFullName').val().trim(),
+                email: $('#planEmail').val().trim(),
+                mobile: planVerifiedMobile,
+                city: city,
+                planning_timeframe: $('#planTimeframe').val(),
+                'services[]': 'End-to-end construction',
+                project_description: 'Free end-to-end construction plan request. Timeframe: ' + $('#planTimeframe').val()
+            },
+            success: function (response) {
+                planSetStatus('planSubmitStatus', response.message || 'Your request is submitted. Our team will contact you soon.', 'success');
+                setTimeout(function () {
+                    $('#freePlanModal').removeClass('active');
+                    planReset();
+                }, 1200);
+            },
+            error: function () {
+                planSetStatus('planSubmitStatus', 'Something went wrong while submitting. Please try again.', 'error');
+            },
+            complete: function () {
+                btn.prop('disabled', false).text('Get My Free Plan ->');
+            }
+        });
+    });
+
     $('.faq-question').on('click', function () {
         const item = $(this).closest('.faq-item');
         const active = item.hasClass('active');
@@ -2328,7 +3482,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const exploreServicesSection = document.getElementById("exploreServicesSection");
     const comingSoonLocationBox = document.getElementById("comingSoonLocationBox");
     const revealItems = document.querySelectorAll(
-        '.hero-banner, .ck-trust-section, .ck-services-section, .explore-services-section, .ck-guide-section, .upcoming-services-section, .ck-vendor-section, .ck-city-section, .ck-all-services-section, .ck-testimonial-section'
+        '.hero-banner, .ck-trust-section, .ck-process-section, .ck-solution-section, .ck-services-section, .explore-services-section, .ck-assurance-section, .ck-guide-section, .ck-compare-section, .ck-vendor-section, .ck-city-section, .ck-all-services-section, .ck-testimonial-section'
     );
 
     function showServices() {

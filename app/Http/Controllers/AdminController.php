@@ -29,7 +29,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:super_admin,admin,telecaller,engineer',
+            'role' => 'required|in:super_admin,admin,telecaller,engineer,marketing',
         ]);
 
         User::create([
