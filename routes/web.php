@@ -266,9 +266,6 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 });
 // 
 
-
-
-
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::post('/customer/send-otp', [CustomerController::class, 'sendOtp'])->name('customer.send.otp');
 Route::post('/customer/verify-otp', [CustomerController::class, 'verifyOtp'])->name('customer.verify.otp');
