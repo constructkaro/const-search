@@ -213,17 +213,40 @@
         padding: 12px;
         display: grid;
         gap: 10px;
+        overflow-x: auto;
+    }
+
+    .sub-point-header,
+    .sub-point-row {
+        min-width: 720px;
+        display: grid;
+        grid-template-columns: 82px minmax(160px, 1.2fr) minmax(180px, 1.5fr) 128px 110px 40px;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .sub-point-header {
+        color: #334155;
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: .35px;
+        padding: 0 4px;
     }
 
     .sub-point-row {
-        display: grid;
-        grid-template-columns: 92px minmax(160px, 1.2fr) minmax(180px, 1.6fr) 132px 116px 40px;
-        gap: 8px;
-        align-items: end;
+        border: 1px solid #e8edf4;
+        border-radius: 12px;
+        background: #fff;
+        padding: 8px;
+    }
+
+    .sub-point-row .form-label {
+        display: none;
     }
 
     .sub-point-number {
-        min-height: 38px;
+        min-height: 36px;
         border-radius: 10px;
         background: #1c2c3e;
         color: #fff;
@@ -232,6 +255,7 @@
         justify-content: center;
         font-weight: 900;
         font-size: 13px;
+        width: 100%;
     }
 
     .sub-point-remove {
@@ -261,28 +285,6 @@
         width: fit-content;
     }
 
-    .sub-point-list {
-        margin-top: 10px;
-        display: grid;
-        gap: 8px;
-    }
-
-    .sub-point-preview {
-        border: 1px solid #e8edf4;
-        border-radius: 12px;
-        background: #fff;
-        padding: 9px 10px;
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
-    }
-
-    .sub-point-preview strong {
-        color: #1c2c3e;
-        font-size: 13px;
-        white-space: nowrap;
-    }
-
     .empty-box {
         border: 1px dashed #cbd5e1;
         border-radius: 18px;
@@ -295,8 +297,7 @@
 
     @media (max-width: 991px) {
         .milestone-grid,
-        .edit-grid,
-        .sub-point-row {
+        .edit-grid {
             grid-template-columns: 1fr;
         }
 
@@ -388,6 +389,14 @@
             <div class="col-12">
                 <label class="form-label">Sub Points</label>
                 <div class="sub-points-box js-sub-points" data-step-input="input[name='step_order']">
+                    <div class="sub-point-header">
+                        <span>No.</span>
+                        <span>Title</span>
+                        <span>Details</span>
+                        <span>Status</span>
+                        <span>Progress %</span>
+                        <span></span>
+                    </div>
                     <div class="sub-point-row js-sub-point-row">
                         <div>
                             <label class="form-label">No.</label>
@@ -509,6 +518,14 @@
                                 <div class="span-2">
                                     <label class="form-label">Sub Points</label>
                                     <div class="sub-points-box js-sub-points" data-step-input="input[name='step_order']">
+                                        <div class="sub-point-header">
+                                            <span>No.</span>
+                                            <span>Title</span>
+                                            <span>Details</span>
+                                            <span>Status</span>
+                                            <span>Progress %</span>
+                                            <span></span>
+                                        </div>
                                         @forelse($subPoints as $subIndex => $subPoint)
                                             <div class="sub-point-row js-sub-point-row">
                                                 <div>
@@ -574,16 +591,6 @@
                                             <i class="bi bi-plus-lg"></i> Add Sub Point
                                         </button>
                                     </div>
-                                    @if($subPoints->isNotEmpty())
-                                        <div class="sub-point-list">
-                                            @foreach($subPoints as $subIndex => $subPoint)
-                                                <div class="sub-point-preview">
-                                                    <strong>{{ $step->step_order }}.{{ $subIndex + 1 }}</strong>
-                                                    <span>{{ $subPoint['title'] ?? 'Sub point' }}</span>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
                                 </div>
                                 <div class="span-2">
                                     <label class="form-label">Attachments</label>
