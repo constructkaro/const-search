@@ -206,6 +206,83 @@
         margin-top: 12px;
     }
 
+    .sub-points-box {
+        border: 1px dashed #cbd5e1;
+        border-radius: 14px;
+        background: #f8fafc;
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+    }
+
+    .sub-point-row {
+        display: grid;
+        grid-template-columns: 92px minmax(160px, 1.2fr) minmax(180px, 1.6fr) 132px 116px 40px;
+        gap: 8px;
+        align-items: end;
+    }
+
+    .sub-point-number {
+        min-height: 38px;
+        border-radius: 10px;
+        background: #1c2c3e;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 13px;
+    }
+
+    .sub-point-remove {
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 10px;
+        background: #fee2e2;
+        color: #b91c1c;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sub-point-add {
+        border: 1px solid #fed7aa;
+        background: #fff7ed;
+        color: #c2410c;
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-size: 12px;
+        font-weight: 900;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        justify-content: center;
+        width: fit-content;
+    }
+
+    .sub-point-list {
+        margin-top: 10px;
+        display: grid;
+        gap: 8px;
+    }
+
+    .sub-point-preview {
+        border: 1px solid #e8edf4;
+        border-radius: 12px;
+        background: #fff;
+        padding: 9px 10px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .sub-point-preview strong {
+        color: #1c2c3e;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
     .empty-box {
         border: 1px dashed #cbd5e1;
         border-radius: 18px;
@@ -218,7 +295,8 @@
 
     @media (max-width: 991px) {
         .milestone-grid,
-        .edit-grid {
+        .edit-grid,
+        .sub-point-row {
             grid-template-columns: 1fr;
         }
 
@@ -307,6 +385,43 @@
                 <label class="form-label">Current Update</label>
                 <input type="text" name="input_value" class="form-control" placeholder="Optional update or remark">
             </div>
+            <div class="col-12">
+                <label class="form-label">Sub Points</label>
+                <div class="sub-points-box js-sub-points" data-step-input="input[name='step_order']">
+                    <div class="sub-point-row js-sub-point-row">
+                        <div>
+                            <label class="form-label">No.</label>
+                            <span class="sub-point-number js-sub-point-number">1.1</span>
+                        </div>
+                        <div>
+                            <label class="form-label">Title</label>
+                            <input type="text" name="sub_points[0][title]" class="form-control" placeholder="Section A">
+                        </div>
+                        <div>
+                            <label class="form-label">Details</label>
+                            <input type="text" name="sub_points[0][description]" class="form-control" placeholder="Optional details">
+                        </div>
+                        <div>
+                            <label class="form-label">Status</label>
+                            <select name="sub_points[0][status]" class="form-select">
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="locked">Locked</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Progress %</label>
+                            <input type="number" name="sub_points[0][progress_percent]" class="form-control" min="0" max="100" placeholder="0-100">
+                        </div>
+                        <button type="button" class="sub-point-remove js-remove-sub-point" title="Remove sub point">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <button type="button" class="sub-point-add js-add-sub-point">
+                        <i class="bi bi-plus-lg"></i> Add Sub Point
+                    </button>
+                </div>
+            </div>
             <div class="col-md-4">
                 <label class="form-label">Attachments</label>
                 <input type="file" name="attachments[]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
@@ -328,6 +443,7 @@
                     @php
                         $status = $step->status ?: 'pending';
                         $progressPercent = $step->extra_data['progress_percent'] ?? null;
+                        $subPoints = collect($step->extra_data['sub_points'] ?? [])->values();
                     @endphp
                     <div class="milestone-card">
                         <div class="milestone-top">
@@ -391,6 +507,85 @@
                                     <input type="text" name="input_value" value="{{ $step->input_value }}" class="form-control">
                                 </div>
                                 <div class="span-2">
+                                    <label class="form-label">Sub Points</label>
+                                    <div class="sub-points-box js-sub-points" data-step-input="input[name='step_order']">
+                                        @forelse($subPoints as $subIndex => $subPoint)
+                                            <div class="sub-point-row js-sub-point-row">
+                                                <div>
+                                                    <label class="form-label">No.</label>
+                                                    <span class="sub-point-number js-sub-point-number">{{ $step->step_order }}.{{ $subIndex + 1 }}</span>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Title</label>
+                                                    <input type="text" name="sub_points[{{ $subIndex }}][title]" value="{{ $subPoint['title'] ?? '' }}" class="form-control" placeholder="Section A">
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Details</label>
+                                                    <input type="text" name="sub_points[{{ $subIndex }}][description]" value="{{ $subPoint['description'] ?? '' }}" class="form-control" placeholder="Optional details">
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Status</label>
+                                                    <select name="sub_points[{{ $subIndex }}][status]" class="form-select">
+                                                        <option value="pending" {{ ($subPoint['status'] ?? 'pending') === 'pending' ? 'selected' : '' }}>Pending</option>
+                                                        <option value="completed" {{ ($subPoint['status'] ?? '') === 'completed' ? 'selected' : '' }}>Completed</option>
+                                                        <option value="locked" {{ ($subPoint['status'] ?? '') === 'locked' ? 'selected' : '' }}>Locked</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Progress %</label>
+                                                    <input type="number" name="sub_points[{{ $subIndex }}][progress_percent]" value="{{ $subPoint['progress_percent'] ?? '' }}" class="form-control" min="0" max="100" placeholder="0-100">
+                                                </div>
+                                                <button type="button" class="sub-point-remove js-remove-sub-point" title="Remove sub point">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </div>
+                                        @empty
+                                            <div class="sub-point-row js-sub-point-row">
+                                                <div>
+                                                    <label class="form-label">No.</label>
+                                                    <span class="sub-point-number js-sub-point-number">{{ $step->step_order }}.1</span>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Title</label>
+                                                    <input type="text" name="sub_points[0][title]" class="form-control" placeholder="Section A">
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Details</label>
+                                                    <input type="text" name="sub_points[0][description]" class="form-control" placeholder="Optional details">
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Status</label>
+                                                    <select name="sub_points[0][status]" class="form-select">
+                                                        <option value="pending">Pending</option>
+                                                        <option value="completed">Completed</option>
+                                                        <option value="locked">Locked</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Progress %</label>
+                                                    <input type="number" name="sub_points[0][progress_percent]" class="form-control" min="0" max="100" placeholder="0-100">
+                                                </div>
+                                                <button type="button" class="sub-point-remove js-remove-sub-point" title="Remove sub point">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </div>
+                                        @endforelse
+                                        <button type="button" class="sub-point-add js-add-sub-point">
+                                            <i class="bi bi-plus-lg"></i> Add Sub Point
+                                        </button>
+                                    </div>
+                                    @if($subPoints->isNotEmpty())
+                                        <div class="sub-point-list">
+                                            @foreach($subPoints as $subIndex => $subPoint)
+                                                <div class="sub-point-preview">
+                                                    <strong>{{ $step->step_order }}.{{ $subIndex + 1 }}</strong>
+                                                    <span>{{ $subPoint['title'] ?? 'Sub point' }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="span-2">
                                     <label class="form-label">Attachments</label>
                                     <input type="file" name="attachments[]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" multiple>
                                     @php
@@ -433,5 +628,84 @@
         @endif
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const renumberSubPoints = (box) => {
+            const form = box.closest('form');
+            const stepInput = form ? form.querySelector(box.dataset.stepInput || "input[name='step_order']") : null;
+            const stepNumber = stepInput && stepInput.value ? stepInput.value : '1';
+            const rows = box.querySelectorAll('.js-sub-point-row');
+
+            rows.forEach((row, index) => {
+                const number = row.querySelector('.js-sub-point-number');
+                if (number) {
+                    number.textContent = `${stepNumber}.${index + 1}`;
+                }
+
+                row.querySelectorAll('input, select').forEach((field) => {
+                    field.name = field.name.replace(/sub_points\[\d+\]/, `sub_points[${index}]`);
+                });
+            });
+        };
+
+        const createSubPointRow = (box) => {
+            const sourceRow = box.querySelector('.js-sub-point-row');
+            const row = sourceRow.cloneNode(true);
+
+            row.querySelectorAll('input').forEach((input) => {
+                input.value = '';
+            });
+
+            row.querySelectorAll('select').forEach((select) => {
+                select.value = 'pending';
+            });
+
+            return row;
+        };
+
+        document.querySelectorAll('.js-sub-points').forEach((box) => {
+            const form = box.closest('form');
+            const stepInput = form ? form.querySelector(box.dataset.stepInput || "input[name='step_order']") : null;
+
+            renumberSubPoints(box);
+
+            if (stepInput) {
+                stepInput.addEventListener('input', () => renumberSubPoints(box));
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            const addButton = event.target.closest('.js-add-sub-point');
+            if (addButton) {
+                const box = addButton.closest('.js-sub-points');
+                const row = createSubPointRow(box);
+                box.insertBefore(row, addButton);
+                renumberSubPoints(box);
+                row.querySelector("input[name*='[title]']")?.focus();
+                return;
+            }
+
+            const removeButton = event.target.closest('.js-remove-sub-point');
+            if (removeButton) {
+                const box = removeButton.closest('.js-sub-points');
+                const rows = box.querySelectorAll('.js-sub-point-row');
+
+                if (rows.length === 1) {
+                    rows[0].querySelectorAll('input').forEach((input) => {
+                        input.value = '';
+                    });
+                    rows[0].querySelectorAll('select').forEach((select) => {
+                        select.value = 'pending';
+                    });
+                } else {
+                    removeButton.closest('.js-sub-point-row').remove();
+                }
+
+                renumberSubPoints(box);
+            }
+        });
+    });
+</script>
 
 @endsection

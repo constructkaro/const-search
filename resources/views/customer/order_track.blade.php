@@ -98,6 +98,61 @@
         border-radius: 10px;
         padding: 10px 12px;
     }
+    .sub-step-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 8px;
+    }
+    .sub-step-item {
+        display: grid;
+        grid-template-columns: 54px 1fr auto;
+        gap: 10px;
+        align-items: start;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #f9fafb;
+        padding: 10px;
+    }
+    .sub-step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 32px;
+        border-radius: 8px;
+        background: #10233d;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 800;
+    }
+    .sub-step-title {
+        margin: 0 0 3px;
+        color: #111827;
+        font-size: 14px;
+        font-weight: 800;
+    }
+    .sub-step-desc {
+        margin: 0;
+        color: #6b7280;
+        font-size: 13px;
+        line-height: 1.45;
+    }
+    .sub-step-status {
+        border-radius: 999px;
+        padding: 5px 8px;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+        background: #ffedd5;
+        color: #ea580c;
+    }
+    .sub-step-status.completed {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    .sub-step-status.locked {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
 </style>
 
 <section class="track-page">
@@ -113,6 +168,9 @@
 
             <div class="step-list">
                 @forelse($trackingSteps as $step)
+                    @php
+                        $subPoints = collect($step->extra_data['sub_points'] ?? [])->values();
+                    @endphp
                     <div class="step-item">
                         <div class="step-left">
                             <h4 class="step-title">{{ $step->step_title }}</h4>
@@ -126,6 +184,24 @@
                             @if($step->input_value)
                                 <div class="input-value-box">
                                     <strong>Update:</strong> {{ $step->input_value }}
+                                </div>
+                            @endif
+
+                            @if($subPoints->isNotEmpty())
+                                <div class="sub-step-list">
+                                    @foreach($subPoints as $subIndex => $subPoint)
+                                        @php $subStatus = $subPoint['status'] ?? 'pending'; @endphp
+                                        <div class="sub-step-item">
+                                            <span class="sub-step-number">{{ $step->step_order }}.{{ $subIndex + 1 }}</span>
+                                            <div>
+                                                <h5 class="sub-step-title">{{ $subPoint['title'] ?? 'Sub point' }}</h5>
+                                                @if(!empty($subPoint['description']))
+                                                    <p class="sub-step-desc">{{ $subPoint['description'] }}</p>
+                                                @endif
+                                            </div>
+                                            <span class="sub-step-status {{ $subStatus }}">{{ ucfirst($subStatus) }}</span>
+                                        </div>
+                                    @endforeach
                                 </div>
                             @endif
                         </div>

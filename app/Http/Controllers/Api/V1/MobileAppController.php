@@ -1416,6 +1416,7 @@ class MobileAppController extends Controller
             'title' => $step->step_title ?? 'Project milestone',
             'short_details' => $description,
             'scope_items' => $this->trackingScopeItems($description),
+            'sub_points' => $this->formatTrackingSubPoints($extraData['sub_points'] ?? [], (int) ($step->step_order ?? $fallbackOrder)),
             'type' => $step->step_type ?? 'normal',
             'status' => $step->status ?? 'pending',
             'status_key' => $statusKey,
@@ -1475,6 +1476,31 @@ class MobileAppController extends Controller
             ->map(fn ($item) => trim($item, " \t\n\r\0\x0B-"))
             ->filter()
             ->values()
+            ->all();
+    }
+
+    private function formatTrackingSubPoints(mixed $subPoints, int $stepOrder): array
+    {
+        if (! is_array($subPoints)) {
+            return [];
+        }
+
+        return collect($subPoints)
+            ->filter(fn ($subPoint) => is_array($subPoint) && (! empty($subPoint['title']) || ! empty($subPoint['description'])))
+            ->values()
+            ->map(function (array $subPoint, int $index) use ($stepOrder) {
+                $statusKey = $this->trackingStatusKey($subPoint['status'] ?? 'pending');
+
+                return [
+                    'number' => $stepOrder.'.'.($index + 1),
+                    'title' => $subPoint['title'] ?? 'Sub point',
+                    'short_details' => $subPoint['description'] ?? null,
+                    'status' => $subPoint['status'] ?? 'pending',
+                    'status_key' => $statusKey,
+                    'status_label' => $this->trackingStatusLabel($statusKey),
+                    'progress_percent' => $this->trackingStepProgress($statusKey, $subPoint['progress_percent'] ?? null),
+                ];
+            })
             ->all();
     }
 

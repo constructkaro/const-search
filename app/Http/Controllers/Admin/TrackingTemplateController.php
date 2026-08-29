@@ -364,6 +364,11 @@ public function updateStep(Request $request, $id)
         'button_text' => 'nullable|string|max:255',
         'attachments' => 'nullable|array',
         'attachments.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
+        'sub_points' => 'nullable|array',
+        'sub_points.*.title' => 'nullable|string|max:255',
+        'sub_points.*.description' => 'nullable|string',
+        'sub_points.*.status' => 'nullable|in:pending,completed,locked',
+        'sub_points.*.progress_percent' => 'nullable|integer|min:0|max:100',
     ]);
 
     $extraData = $step->extra_data ?: [];
@@ -390,6 +395,13 @@ public function updateStep(Request $request, $id)
         $extraData['progress_percent'] = (int) $request->progress_percent;
     } else {
         unset($extraData['progress_percent']);
+    }
+
+    $subPoints = $this->normalizeSubPoints($request->input('sub_points', []));
+    if (!empty($subPoints)) {
+        $extraData['sub_points'] = $subPoints;
+    } else {
+        unset($extraData['sub_points']);
     }
 
     $step->update([
@@ -423,12 +435,22 @@ public function storeStep(Request $request, $trackingId)
         'button_text' => 'nullable|string|max:255',
         'attachments' => 'nullable|array',
         'attachments.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png,zip|max:10240',
+        'sub_points' => 'nullable|array',
+        'sub_points.*.title' => 'nullable|string|max:255',
+        'sub_points.*.description' => 'nullable|string',
+        'sub_points.*.status' => 'nullable|in:pending,completed,locked',
+        'sub_points.*.progress_percent' => 'nullable|integer|min:0|max:100',
     ]);
 
     $extraData = [];
 
     if ($request->filled('progress_percent')) {
         $extraData['progress_percent'] = (int) $request->progress_percent;
+    }
+
+    $subPoints = $this->normalizeSubPoints($request->input('sub_points', []));
+    if (!empty($subPoints)) {
+        $extraData['sub_points'] = $subPoints;
     }
 
     if ($request->hasFile('attachments')) {
@@ -466,6 +488,48 @@ public function deleteStep($id)
     $step->delete();
 
     return redirect()->back()->with('success', 'Milestone deleted successfully.');
+}
+
+private function normalizeSubPoints(mixed $subPoints): array
+{
+    if (!is_array($subPoints)) {
+        return [];
+    }
+
+    return collect($subPoints)
+        ->map(function ($subPoint) {
+            if (!is_array($subPoint)) {
+                return null;
+            }
+
+            $title = trim((string) ($subPoint['title'] ?? ''));
+            $description = trim((string) ($subPoint['description'] ?? ''));
+            $status = $subPoint['status'] ?? 'pending';
+            $progressPercent = $subPoint['progress_percent'] ?? null;
+
+            if ($title === '' && $description === '') {
+                return null;
+            }
+
+            if (!in_array($status, ['pending', 'completed', 'locked'], true)) {
+                $status = 'pending';
+            }
+
+            $normalized = [
+                'title' => $title,
+                'description' => $description,
+                'status' => $status,
+            ];
+
+            if ($progressPercent !== null && $progressPercent !== '') {
+                $normalized['progress_percent'] = max(0, min(100, (int) $progressPercent));
+            }
+
+            return $normalized;
+        })
+        ->filter()
+        ->values()
+        ->all();
 }
 
 public function startProjectTracking($postId)

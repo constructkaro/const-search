@@ -10,6 +10,7 @@
                         'name' => $step->extra_data['download_file_name'] ?? basename($step->extra_data['download_file']),
                     ];
                 }
+                $subPoints = collect($step->extra_data['sub_points'] ?? [])->values();
             @endphp
             <div class="step-card">
                 <div>
@@ -20,6 +21,16 @@
                     <div class="step-meta">
                         Step {{ $step->step_order }} | {{ ucfirst($step->step_type ?: 'normal') }}
                     </div>
+                    @if($subPoints->isNotEmpty())
+                        <div class="mt-2">
+                            @foreach($subPoints as $subIndex => $subPoint)
+                                <div class="d-flex gap-2 align-items-start py-1">
+                                    <strong>{{ $step->step_order }}.{{ $subIndex + 1 }}</strong>
+                                    <span>{{ $subPoint['title'] ?? 'Sub point' }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                     @if($step->input_value)
                         <div class="update-box">
                             <strong>Update:</strong> {{ $step->input_value }}
