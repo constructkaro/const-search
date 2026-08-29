@@ -82,6 +82,9 @@ Route::middleware(['auth', 'role:admin,super_admin,telecaller'])->prefix('admin'
     Route::post('/order-tracking/{trackingId}/steps/store', [TrackingTemplateController::class, 'storeStep'])
         ->name('order_tracking.step_store');
 
+    Route::post('/order-tracking/{trackingId}/steps/import-excel', [TrackingTemplateController::class, 'importStepsExcel'])
+        ->name('order_tracking.steps.import_excel');
+
     Route::post('/order-tracking/step-delete/{id}', [TrackingTemplateController::class, 'deleteStep'])
         ->name('order_tracking.step_delete');
 

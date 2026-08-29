@@ -8,6 +8,7 @@ use App\Models\OrderTrackingStep;
 use App\Models\TrackingTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use ZipArchive;
 
 class TrackingTemplateController extends Controller
 {
@@ -482,6 +483,69 @@ public function storeStep(Request $request, $trackingId)
     return redirect()->back()->with('success', 'Milestone added successfully.');
 }
 
+public function importStepsExcel(Request $request, $trackingId)
+{
+    $tracking = \App\Models\OrderTracking::findOrFail($trackingId);
+
+    $request->validate([
+        'milestone_excel' => 'required|file|mimes:xlsx|max:10240',
+        'sheet_name' => 'nullable|string|max:150',
+        'replace_existing' => 'nullable|boolean',
+    ]);
+
+    try {
+        $parsed = $this->parseMilestoneExcel(
+            $request->file('milestone_excel')->getRealPath(),
+            $request->input('sheet_name')
+        );
+    } catch (\Throwable $e) {
+        return redirect()->back()->with('error', $e->getMessage());
+    }
+
+    if (empty($parsed['steps'])) {
+        return redirect()->back()->with('error', 'No milestones found in the selected Excel sheet.');
+    }
+
+    DB::transaction(function () use ($request, $tracking, $parsed) {
+        if ($request->boolean('replace_existing', true)) {
+            \App\Models\OrderTrackingStep::where('order_tracking_id', $tracking->id)->delete();
+        }
+
+        foreach ($parsed['steps'] as $row) {
+            $extraData = [];
+
+            if ($row['progress_percent'] !== null) {
+                $extraData['progress_percent'] = $row['progress_percent'];
+            }
+
+            if (!empty($row['sub_points'])) {
+                $extraData['sub_points'] = $row['sub_points'];
+            }
+
+            \App\Models\OrderTrackingStep::create([
+                'order_tracking_id' => $tracking->id,
+                'template_id' => null,
+                'service_key' => $tracking->service_key,
+                'template_code' => $tracking->template_code,
+                'tab_type' => $row['tab_type'],
+                'step_order' => $row['step_order'],
+                'step_title' => $row['step_title'],
+                'step_description' => $row['step_description'],
+                'step_type' => $row['step_type'],
+                'status' => $row['status'],
+                'button_text' => $row['button_text'],
+                'input_value' => null,
+                'extra_data' => $extraData,
+            ]);
+        }
+    });
+
+    return redirect()->back()->with(
+        'success',
+        count($parsed['steps']).' milestones imported from '.$parsed['sheet_name'].'. You can edit them below.'
+    );
+}
+
 public function deleteStep($id)
 {
     $step = \App\Models\OrderTrackingStep::findOrFail($id);
@@ -530,6 +594,331 @@ private function normalizeSubPoints(mixed $subPoints): array
         ->filter()
         ->values()
         ->all();
+}
+
+private function parseMilestoneExcel(string $path, ?string $sheetName = null): array
+{
+    $workbook = $this->readXlsxWorkbook($path);
+    $selectedSheet = $this->selectXlsxSheet($workbook['sheets'], $sheetName);
+    $rows = $this->readXlsxRows($path, $selectedSheet['target'], $workbook['shared_strings']);
+    $steps = $this->milestoneRowsFromSheet($rows);
+
+    return [
+        'sheet_name' => $selectedSheet['name'],
+        'steps' => $steps,
+    ];
+}
+
+private function readXlsxWorkbook(string $path): array
+{
+    $zip = new ZipArchive();
+
+    if ($zip->open($path) !== true) {
+        throw new \RuntimeException('Unable to open Excel file.');
+    }
+
+    $sharedStrings = $this->readXlsxSharedStrings($zip);
+    $workbookXml = $zip->getFromName('xl/workbook.xml');
+    $relsXml = $zip->getFromName('xl/_rels/workbook.xml.rels');
+
+    if ($workbookXml === false || $relsXml === false) {
+        $zip->close();
+        throw new \RuntimeException('Invalid Excel file structure.');
+    }
+
+    $workbook = simplexml_load_string($workbookXml);
+    $rels = simplexml_load_string($relsXml);
+    $relationTargets = [];
+
+    foreach ($rels->Relationship as $relationship) {
+        $attrs = $relationship->attributes();
+        $relationTargets[(string) $attrs['Id']] = 'xl/'.ltrim((string) $attrs['Target'], '/');
+    }
+
+    $workbook->registerXPathNamespace('r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+    $sheets = [];
+
+    foreach ($workbook->sheets->sheet as $sheet) {
+        $attrs = $sheet->attributes();
+        $relAttrs = $sheet->attributes('http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+        $relationId = (string) $relAttrs['id'];
+
+        if (!empty($relationTargets[$relationId])) {
+            $sheets[] = [
+                'name' => (string) $attrs['name'],
+                'target' => $relationTargets[$relationId],
+            ];
+        }
+    }
+
+    $zip->close();
+
+    if (empty($sheets)) {
+        throw new \RuntimeException('No sheets found in Excel file.');
+    }
+
+    return [
+        'sheets' => $sheets,
+        'shared_strings' => $sharedStrings,
+    ];
+}
+
+private function readXlsxSharedStrings(ZipArchive $zip): array
+{
+    $xml = $zip->getFromName('xl/sharedStrings.xml');
+
+    if ($xml === false) {
+        return [];
+    }
+
+    $shared = simplexml_load_string($xml);
+    $strings = [];
+
+    foreach ($shared->si as $item) {
+        $parts = [];
+
+        if (isset($item->t)) {
+            $parts[] = (string) $item->t;
+        }
+
+        foreach ($item->r as $run) {
+            if (isset($run->t)) {
+                $parts[] = (string) $run->t;
+            }
+        }
+
+        $strings[] = implode('', $parts);
+    }
+
+    return $strings;
+}
+
+private function selectXlsxSheet(array $sheets, ?string $sheetName = null): array
+{
+    $sheetName = trim((string) $sheetName);
+
+    if ($sheetName === '') {
+        return $sheets[0];
+    }
+
+    foreach ($sheets as $sheet) {
+        if (strcasecmp($sheet['name'], $sheetName) === 0) {
+            return $sheet;
+        }
+    }
+
+    $availableSheets = collect($sheets)->pluck('name')->implode(', ');
+
+    throw new \RuntimeException('Sheet not found. Available sheets: '.$availableSheets);
+}
+
+private function readXlsxRows(string $path, string $sheetTarget, array $sharedStrings): array
+{
+    $zip = new ZipArchive();
+
+    if ($zip->open($path) !== true) {
+        throw new \RuntimeException('Unable to open Excel file.');
+    }
+
+    $sheetXml = $zip->getFromName($sheetTarget);
+    $zip->close();
+
+    if ($sheetXml === false) {
+        throw new \RuntimeException('Selected sheet data not found in Excel file.');
+    }
+
+    $sheet = simplexml_load_string($sheetXml);
+    $rows = [];
+
+    foreach ($sheet->sheetData->row as $row) {
+        $rowNumber = (int) $row['r'];
+        $values = [];
+
+        foreach ($row->c as $cell) {
+            $reference = (string) $cell['r'];
+            $column = preg_replace('/\d+/', '', $reference);
+            $values[$column] = trim($this->xlsxCellValue($cell, $sharedStrings));
+        }
+
+        $rows[$rowNumber] = $values;
+    }
+
+    ksort($rows);
+
+    return $rows;
+}
+
+private function xlsxCellValue(\SimpleXMLElement $cell, array $sharedStrings): string
+{
+    $type = (string) $cell['t'];
+
+    if ($type === 'inlineStr') {
+        return (string) ($cell->is->t ?? '');
+    }
+
+    $value = (string) ($cell->v ?? '');
+
+    if ($type === 's') {
+        return $sharedStrings[(int) $value] ?? '';
+    }
+
+    return $value;
+}
+
+private function milestoneRowsFromSheet(array $rows): array
+{
+    $tabType = null;
+    $steps = [];
+    $currentIndex = null;
+
+    foreach ($rows as $cells) {
+        $joined = strtolower(implode(' ', $cells));
+
+        if (str_contains($joined, 'order tracking') || str_contains($joined, 'ordertracking')) {
+            $tabType = 'order';
+            $currentIndex = null;
+            continue;
+        }
+
+        if (str_contains($joined, 'project execution') || str_contains($joined, 'projectexecution')) {
+            $tabType = 'execution';
+            $currentIndex = null;
+            continue;
+        }
+
+        if ($tabType === null) {
+            continue;
+        }
+
+        $stepOrder = $this->integerCell($cells['B'] ?? null);
+
+        if ($stepOrder !== null) {
+            $step = $this->excelMainStepFromRow($cells, $tabType, $stepOrder);
+
+            if ($step === null) {
+                continue;
+            }
+
+            $steps[] = $step;
+            $currentIndex = array_key_last($steps);
+            continue;
+        }
+
+        if ($currentIndex !== null) {
+            $subPoint = $this->excelSubPointFromRow($cells);
+
+            if ($subPoint !== null) {
+                $steps[$currentIndex]['sub_points'][] = $subPoint;
+            }
+        }
+    }
+
+    return $steps;
+}
+
+private function excelMainStepFromRow(array $cells, string $tabType, int $stepOrder): ?array
+{
+    $columnC = trim((string) ($cells['C'] ?? ''));
+    $columnD = trim((string) ($cells['D'] ?? ''));
+    $columnE = trim((string) ($cells['E'] ?? ''));
+    $columnF = trim((string) ($cells['F'] ?? ''));
+
+    if ($columnC === '' && $columnD === '') {
+        return null;
+    }
+
+    $isExecutionWithSubPoint = $tabType === 'execution' && $columnC !== '' && $columnD !== '';
+    $subPoints = [];
+
+    if ($isExecutionWithSubPoint) {
+        $title = $columnC;
+        $description = '';
+        $typeValue = '';
+        $statusValue = $columnF;
+        $subPoints[] = $this->normalizeExcelSubPoint($columnD, $columnE, $columnF);
+    } else {
+        $title = $columnC !== '' ? $columnC : $columnD;
+        $description = $columnC !== '' ? $columnD : $columnE;
+        $typeValue = $columnE;
+        $statusValue = $columnF;
+    }
+
+    return [
+        'tab_type' => $tabType,
+        'step_order' => $stepOrder,
+        'step_title' => $title,
+        'step_description' => $description,
+        'step_type' => $this->excelStepType($typeValue),
+        'status' => $this->excelStatus($statusValue),
+        'button_text' => $this->excelButtonText($typeValue),
+        'progress_percent' => null,
+        'sub_points' => array_values(array_filter($subPoints)),
+    ];
+}
+
+private function excelSubPointFromRow(array $cells): ?array
+{
+    $title = trim((string) (($cells['D'] ?? '') ?: ($cells['C'] ?? '')));
+    $description = trim((string) ($cells['E'] ?? ''));
+    $status = trim((string) ($cells['F'] ?? ''));
+
+    return $this->normalizeExcelSubPoint($title, $description, $status);
+}
+
+private function normalizeExcelSubPoint(string $title, string $description, string $status): ?array
+{
+    if ($title === '' && $description === '') {
+        return null;
+    }
+
+    return [
+        'title' => $title,
+        'description' => $description,
+        'status' => $this->excelStatus($status),
+    ];
+}
+
+private function integerCell(mixed $value): ?int
+{
+    $value = trim((string) $value);
+
+    return preg_match('/^\d+$/', $value) ? (int) $value : null;
+}
+
+private function excelStepType(?string $value): string
+{
+    $normalized = strtolower(trim((string) $value));
+
+    return match (true) {
+        str_contains($normalized, 'yes') && str_contains($normalized, 'no') => 'choice',
+        str_contains($normalized, 'payment') => 'payment',
+        str_contains($normalized, 'download') => 'download',
+        str_contains($normalized, 'textarea') => 'textarea',
+        default => 'normal',
+    };
+}
+
+private function excelButtonText(?string $value): ?string
+{
+    $type = $this->excelStepType($value);
+
+    return match ($type) {
+        'choice' => 'Yes / No',
+        'payment' => 'Payment',
+        'download' => 'Download',
+        default => null,
+    };
+}
+
+private function excelStatus(?string $value): string
+{
+    $normalized = strtolower(trim((string) $value));
+
+    return match (true) {
+        str_contains($normalized, 'complete') || str_contains($normalized, 'done') => 'completed',
+        str_contains($normalized, 'lock') || str_contains($normalized, 'upcoming') => 'locked',
+        default => 'pending',
+    };
 }
 
 public function startProjectTracking($postId)

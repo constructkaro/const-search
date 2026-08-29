@@ -86,6 +86,13 @@
         margin-bottom: 16px;
     }
 
+    .import-help {
+        color: #64748b;
+        font-size: 13px;
+        margin: -8px 0 14px;
+        line-height: 1.6;
+    }
+
     .panel-title i {
         color: #f25c05;
     }
@@ -332,6 +339,46 @@
     @if(session('success'))
         <div class="alert alert-success mb-0">{{ session('success') }}</div>
     @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger mb-0">{{ session('error') }}</div>
+    @endif
+
+    <div class="form-panel">
+        <div class="panel-title"><i class="bi bi-file-earmark-spreadsheet-fill"></i> Import Milestones From Excel</div>
+        <p class="import-help">
+            Upload the milestone Excel, choose the project sheet if needed, and it will create editable milestones for this project only.
+        </p>
+        <form action="{{ route('admin.order_tracking.steps.import_excel', $tracking->id) }}" method="POST" enctype="multipart/form-data" class="row g-3 align-items-end">
+            @csrf
+            <div class="col-md-4">
+                <label class="form-label">Excel File</label>
+                <input type="file" name="milestone_excel" class="form-control" accept=".xlsx" required>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Project Type / Sheet</label>
+                <input type="text" name="sheet_name" class="form-control" list="excelSheetSuggestions" placeholder="Blank = first sheet">
+                <datalist id="excelSheetSuggestions">
+                    <option value="Structural PEB Warehouse"></option>
+                    <option value="Architect PEB Warehouse"></option>
+                    <option value="Contractor PEB Warehouse"></option>
+                    <option value="Structural Plotting development"></option>
+                </datalist>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Import Mode</label>
+                <select name="replace_existing" class="form-select">
+                    <option value="1">Replace current milestones</option>
+                    <option value="0">Add below current milestones</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="save-btn w-100 justify-content-center">
+                    <i class="bi bi-upload"></i> Import
+                </button>
+            </div>
+        </form>
+    </div>
 
     <div class="form-panel">
         <div class="panel-title"><i class="bi bi-plus-circle-fill"></i> Add New Milestone</div>
