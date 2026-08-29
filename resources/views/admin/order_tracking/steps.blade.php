@@ -131,6 +131,30 @@
         padding: 16px;
     }
 
+    .milestone-section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 18px 0 12px;
+        color: #1c2c3e;
+        font-size: 17px;
+        font-weight: 900;
+    }
+
+    .milestone-section-title:first-child {
+        margin-top: 0;
+    }
+
+    .milestone-section-count {
+        border-radius: 999px;
+        background: #eef4ff;
+        color: #1d4ed8;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
     .milestone-top {
         display: flex;
         justify-content: space-between;
@@ -494,8 +518,19 @@
         <div class="panel-title"><i class="bi bi-kanban-fill"></i> Existing Milestones</div>
 
         @if($steps->count())
-            <div class="milestone-grid">
-                @foreach($steps as $step)
+            @foreach(['order' => 'Order Tracking', 'execution' => 'Project Execution'] as $tabType => $tabLabel)
+                @php
+                    $tabSteps = $steps->where('tab_type', $tabType)->values();
+                @endphp
+
+                @if($tabSteps->isNotEmpty())
+                    <div class="milestone-section-title">
+                        <span>{{ $tabLabel }} Milestones</span>
+                        <span class="milestone-section-count">{{ $tabSteps->count() }} Items</span>
+                    </div>
+
+                    <div class="milestone-grid">
+                @foreach($tabSteps as $step)
                     @php
                         $status = $step->status ?: 'pending';
                         $progressPercent = $step->extra_data['progress_percent'] ?? null;
@@ -675,8 +710,10 @@
                             </form>
                         </div>
                     </div>
-                @endforeach
-            </div>
+                    @endforeach
+                    </div>
+                @endif
+            @endforeach
         @else
             <div class="empty-box">No milestones added yet. Add the first milestone above.</div>
         @endif

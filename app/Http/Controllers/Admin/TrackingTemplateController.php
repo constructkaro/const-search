@@ -342,7 +342,7 @@ class TrackingTemplateController extends Controller
         ->firstOrFail();
 
     $steps = \App\Models\OrderTrackingStep::where('order_tracking_id', $tracking->id)
-        ->orderBy('tab_type')
+        ->orderByRaw("CASE WHEN tab_type = 'order' THEN 0 WHEN tab_type = 'execution' THEN 1 ELSE 2 END")
         ->orderBy('step_order')
         ->get();
 
