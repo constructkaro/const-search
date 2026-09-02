@@ -770,17 +770,20 @@ private function milestoneRowsFromSheet(array $rows): array
     $tabType = null;
     $steps = [];
     $currentIndex = null;
+    $lastStepOrderByTab = [];
 
     foreach ($rows as $cells) {
-        $joined = strtolower(implode(' ', $cells));
+        if (empty($cells)) {
+            continue;
+        }
 
-        if (str_contains($joined, 'order tracking') || str_contains($joined, 'ordertracking')) {
+        if ($this->rowHasExcelSectionHeading($cells, ['order tracking', 'ordertracking'])) {
             $tabType = 'order';
             $currentIndex = null;
             continue;
         }
 
-        if (str_contains($joined, 'project execution') || str_contains($joined, 'projectexecution')) {
+        if ($this->rowHasExcelSectionHeading($cells, ['project execution', 'projectexecution'])) {
             $tabType = 'execution';
             $currentIndex = null;
             continue;
@@ -793,6 +796,16 @@ private function milestoneRowsFromSheet(array $rows): array
         $stepOrder = $this->integerCell($cells['B'] ?? null);
 
         if ($stepOrder !== null) {
+            if (
+                $tabType === 'order'
+                && !empty($lastStepOrderByTab['order'])
+                && $stepOrder <= $lastStepOrderByTab['order']
+                && $this->looksLikeExecutionStepRow($cells)
+            ) {
+                $tabType = 'execution';
+                $currentIndex = null;
+            }
+
             $step = $this->excelMainStepFromRow($cells, $tabType, $stepOrder);
 
             if ($step === null) {
@@ -801,11 +814,12 @@ private function milestoneRowsFromSheet(array $rows): array
 
             $steps[] = $step;
             $currentIndex = array_key_last($steps);
+            $lastStepOrderByTab[$tabType] = $stepOrder;
             continue;
         }
 
         if ($currentIndex !== null) {
-            $subPoint = $this->excelSubPointFromRow($cells);
+            $subPoint = $this->excelSubPointFromRow($cells, $tabType);
 
             if ($subPoint !== null) {
                 $steps[$currentIndex]['sub_points'][] = $subPoint;
@@ -816,31 +830,54 @@ private function milestoneRowsFromSheet(array $rows): array
     return $steps;
 }
 
+private function rowHasExcelSectionHeading(array $cells, array $headings): bool
+{
+    foreach ($cells as $value) {
+        $normalized = strtolower(preg_replace('/\s+/', ' ', trim((string) $value)));
+        $compact = str_replace(' ', '', $normalized);
+
+        foreach ($headings as $heading) {
+            if ($normalized === $heading || $compact === $heading) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 private function excelMainStepFromRow(array $cells, string $tabType, int $stepOrder): ?array
 {
     $columnC = trim((string) ($cells['C'] ?? ''));
     $columnD = trim((string) ($cells['D'] ?? ''));
     $columnE = trim((string) ($cells['E'] ?? ''));
     $columnF = trim((string) ($cells['F'] ?? ''));
+    $columnG = trim((string) ($cells['G'] ?? ''));
 
     if ($columnC === '' && $columnD === '') {
         return null;
     }
 
-    $isExecutionWithSubPoint = $tabType === 'execution' && $columnC !== '' && $columnD !== '';
+    $isSubPointLayout = $this->rowHasSubPointColumns($cells);
     $subPoints = [];
 
-    if ($isExecutionWithSubPoint) {
+    if ($tabType === 'execution' && $columnC !== '' && $columnD !== '') {
         $title = $columnC;
         $description = '';
         $typeValue = '';
         $statusValue = $columnF;
         $subPoints[] = $this->normalizeExcelSubPoint($columnD, $columnE, $columnF);
+    } elseif ($tabType === 'order' && $isSubPointLayout) {
+        $title = $columnC;
+        $description = $columnD;
+        $typeValue = '';
+        $statusValue = $columnG;
+        $subPoints[] = $this->normalizeExcelSubPoint($columnE, $columnF, $this->isExcelStatusValue($columnG) ? $columnG : '');
     } else {
         $title = $columnC !== '' ? $columnC : $columnD;
         $description = $columnC !== '' ? $columnD : $columnE;
         $typeValue = $columnE;
-        $statusValue = $columnF;
+        $statusValue = $this->firstExcelStatusValue($columnG, $columnF, $columnE);
     }
 
     return [
@@ -856,13 +893,50 @@ private function excelMainStepFromRow(array $cells, string $tabType, int $stepOr
     ];
 }
 
-private function excelSubPointFromRow(array $cells): ?array
+private function excelSubPointFromRow(array $cells, string $tabType): ?array
 {
+    if ($this->rowHasSubPointColumns($cells)) {
+        $title = trim((string) (($cells['E'] ?? '') ?: ($cells['D'] ?? '') ?: ($cells['C'] ?? '')));
+        $description = trim((string) (($cells['F'] ?? '') ?: ($cells['E'] ?? '')));
+        $status = trim((string) ($cells['G'] ?? ''));
+
+        return $this->normalizeExcelSubPoint($title, $description, $status);
+    }
+
+    if ($tabType === 'order') {
+        $title = trim((string) (($cells['C'] ?? '') ?: ($cells['D'] ?? '') ?: ($cells['E'] ?? '')));
+        $description = trim((string) (($cells['C'] ?? '') !== '' ? ($cells['D'] ?? '') : ($cells['E'] ?? '')));
+        $status = $this->firstExcelStatusValue($cells['G'] ?? null, $cells['F'] ?? null, $cells['E'] ?? null) ?? '';
+
+        return $this->normalizeExcelSubPoint($title, $description, $status);
+    }
+
     $title = trim((string) (($cells['D'] ?? '') ?: ($cells['C'] ?? '')));
     $description = trim((string) ($cells['E'] ?? ''));
-    $status = trim((string) ($cells['F'] ?? ''));
+    $status = $this->firstExcelStatusValue($cells['F'] ?? null, $cells['G'] ?? null) ?? '';
 
     return $this->normalizeExcelSubPoint($title, $description, $status);
+}
+
+private function looksLikeExecutionStepRow(array $cells): bool
+{
+    $columnC = trim((string) ($cells['C'] ?? ''));
+    $columnD = trim((string) ($cells['D'] ?? ''));
+    $columnE = trim((string) ($cells['E'] ?? ''));
+    $columnF = trim((string) ($cells['F'] ?? ''));
+
+    return $columnC !== '' && $columnD !== '' && $columnE !== '' && $this->isExcelStatusValue($columnF);
+}
+
+private function rowHasSubPointColumns(array $cells): bool
+{
+    $columnE = trim((string) ($cells['E'] ?? ''));
+    $columnF = trim((string) ($cells['F'] ?? ''));
+
+    return $columnE !== ''
+        && $columnF !== ''
+        && !$this->isExcelStepTypeValue($columnE)
+        && !$this->isExcelStatusValue($columnF);
 }
 
 private function normalizeExcelSubPoint(string $title, string $description, string $status): ?array
@@ -919,6 +993,40 @@ private function excelStatus(?string $value): string
         str_contains($normalized, 'lock') || str_contains($normalized, 'upcoming') => 'locked',
         default => 'pending',
     };
+}
+
+private function firstExcelStatusValue(?string ...$values): ?string
+{
+    foreach ($values as $value) {
+        if ($this->isExcelStatusValue($value)) {
+            return $value;
+        }
+    }
+
+    return null;
+}
+
+private function isExcelStatusValue(?string $value): bool
+{
+    $normalized = strtolower(trim((string) $value));
+    $canonical = preg_replace('/[^a-z]/', '', $normalized);
+
+    return $normalized !== ''
+        && in_array($canonical, ['complete', 'completed', 'done', 'pending', 'lock', 'locked', 'upcoming'], true);
+}
+
+private function isExcelStepTypeValue(?string $value): bool
+{
+    $normalized = strtolower(trim((string) $value));
+
+    return $normalized !== ''
+        && (
+            str_contains($normalized, 'yes')
+            || str_contains($normalized, 'no')
+            || str_contains($normalized, 'payment')
+            || str_contains($normalized, 'download')
+            || str_contains($normalized, 'textarea')
+        );
 }
 
 public function startProjectTracking($postId)
