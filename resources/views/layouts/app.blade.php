@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @php
+        $defaultTitle = 'ConstructKaro - Construction Services Platform';
+        $defaultDescription = 'ConstructKaro helps homeowners, businesses, and landowners plan, design, and execute construction projects with verified architects, contractors, interior designers, surveyors, and BOQ experts across Maharashtra.';
+        $defaultSocialDescription = 'ConstructKaro helps homeowners, businesses, and landowners plan, design, and execute construction projects with verified construction experts.';
+        $pageTitle = $seoMeta['title'] ?? trim($__env->yieldContent('meta_title', $__env->yieldContent('title', $defaultTitle)));
+        $pageDescription = $seoMeta['description'] ?? trim($__env->yieldContent('meta_description', $defaultDescription));
+        $pageCanonical = $seoMeta['canonical'] ?? trim($__env->yieldContent('canonical', url()->current()));
+        $pageKeywords = $seoMeta['keywords'] ?? trim($__env->yieldContent('meta_keywords', ''));
+        $pageOgTitle = $seoMeta['title'] ?? trim($__env->yieldContent('og_title', $pageTitle));
+        $pageOgDescription = $seoMeta['description'] ?? trim($__env->yieldContent('og_description', $pageDescription ?: $defaultSocialDescription));
+        $pageOgImage = trim($__env->yieldContent('og_image', asset('images/banner.jpg')));
+        $pageTwitterTitle = $seoMeta['title'] ?? trim($__env->yieldContent('twitter_title', $pageTitle));
+        $pageTwitterDescription = $seoMeta['description'] ?? trim($__env->yieldContent('twitter_description', $pageDescription ?: $defaultSocialDescription));
+        $pageTwitterImage = trim($__env->yieldContent('twitter_image', asset('images/banner.jpg')));
+    @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="Zry4myJZ4NNDlfhao3PTKu9MDpx5RT9RbqGsK90YSsE">
-    <title>@yield('title', 'ConstructKaro - Construction Services Platform')</title>
-    <meta name="description" content="@yield('meta_description', 'ConstructKaro helps homeowners, businesses, and landowners plan, design, and execute construction projects with verified architects, contractors, interior designers, surveyors, and BOQ experts across Maharashtra.')">
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $pageDescription }}">
+    @if($pageKeywords !== '')
+    <meta name="keywords" content="{{ $pageKeywords }}">
+    @endif
     <meta name="robots" content="@yield('robots', 'index, follow')">
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="canonical" href="{{ $pageCanonical }}">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:site_name" content="ConstructKaro">
-    <meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'ConstructKaro - Construction Services Platform')))">
-    <meta property="og:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', 'ConstructKaro helps homeowners, businesses, and landowners plan, design, and execute construction projects with verified construction experts.')))">
-    <meta property="og:url" content="@yield('canonical', url()->current())">
-    <meta property="og:image" content="@yield('og_image', asset('images/banner.jpg'))">
+    <meta property="og:title" content="{{ $pageOgTitle }}">
+    <meta property="og:description" content="{{ $pageOgDescription }}">
+    <meta property="og:url" content="{{ $pageCanonical }}">
+    <meta property="og:image" content="{{ $pageOgImage }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('twitter_title', trim($__env->yieldContent('title', 'ConstructKaro - Construction Services Platform')))">
-    <meta name="twitter:description" content="@yield('twitter_description', trim($__env->yieldContent('meta_description', 'ConstructKaro helps homeowners, businesses, and landowners plan, design, and execute construction projects with verified construction experts.')))">
-    <meta name="twitter:image" content="@yield('twitter_image', asset('images/banner.jpg'))">
+    <meta name="twitter:title" content="{{ $pageTwitterTitle }}">
+    <meta name="twitter:description" content="{{ $pageTwitterDescription }}">
+    <meta name="twitter:image" content="{{ $pageTwitterImage }}">
     <link rel="icon" href="{{ asset('favicon.png') }}?v=2" type="image/png">
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v=2" type="image/png">
 
