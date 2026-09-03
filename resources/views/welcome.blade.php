@@ -3038,7 +3038,7 @@ html {
 
             <div class="plan-form-group">
                 <label for="planFullName">Full Name</label>
-                <input type="text" id="planFullName" class="plan-input" placeholder="E.g. Rohan Sharma" autocomplete="name">
+                <input type="text" id="planFullName" class="plan-input" placeholder="Enter your full name" autocomplete="name">
                 <small class="error-text" id="planFullNameError"></small>
             </div>
 
