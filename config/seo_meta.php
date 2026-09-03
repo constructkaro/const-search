@@ -155,12 +155,12 @@ return array (
         'keywords' => 'who is ConstructKaro, ConstructKaro team, construction platform Maharashtra, construction experts',
         'canonical' => 'https://constructkaro.com/about-who-me',
     ),
-    '/Our-Background' => 
+    '/our-background' => 
     array (
         'title' => 'Our Story | ConstructKaro Construction Platform',
         'description' => 'Discover why ConstructKaro was built to make construction planning, coordination and execution more structured, transparent and easier to manage.',
         'keywords' => 'ConstructKaro background, ConstructKaro story, construction platform background, company journey',
-        'canonical' => 'https://constructkaro.com/Our-Background',
+        'canonical' => 'https://constructkaro.com/our-background',
     ),
     '/core-problem' => 
     array (
@@ -274,12 +274,12 @@ return array (
         'keywords' => 'construction consultants, types of construction consultants, architect structural engineer surveyor BOQ consultant',
         'canonical' => 'https://constructkaro.com/different-consultant',
     ),
-    '/post_for_interior' => 
+    '/post-for-interior' => 
     array (
         'title' => 'Post Your Interior Design Requirement | ConstructKaro',
         'description' => 'Share your interior design requirement, property type, scope and budget to connect with the right design and execution support. Request a consultation.',
         'keywords' => 'post interior design requirement, interior designer enquiry, interior project requirement, interior design quote',
-        'canonical' => 'https://constructkaro.com/post_for_interior',
+        'canonical' => 'https://constructkaro.com/post-for-interior',
     ),
     '/contractor-services/residential-contractor' => 
     array (

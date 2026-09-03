@@ -304,7 +304,10 @@ Route::get('/get-pincodes', [VendorCategoryController::class, 'getPincodes'])->n
 
 Route::get('/post', [CustomerController::class, 'post'])->name('post');
 
-Route::get('/post_for_interior', [CustomerController::class, 'post_for_interior'])->name('post_for_interior');
+Route::get('/post_for_interior', function () {
+    return redirect()->to('/post-for-interior' . (request()->getQueryString() ? '?' . request()->getQueryString() : ''), 301);
+});
+Route::get('/post-for-interior', [CustomerController::class, 'post_for_interior'])->name('post_for_interior');
 
 
 Route::post('/interior-requirement/store', [CustomerController::class, 'storeInteriorRequirement'])
@@ -362,7 +365,8 @@ Route::get('completed-projects/{slug}', [HomeController::class, 'completedProjec
 
 
 Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
-Route::get('Our-Background', [HomeController::class, 'ourbaround'])->name('ourbaround');
+Route::redirect('Our-Background', '/our-background', 301);
+Route::get('our-background', [HomeController::class, 'ourbaround'])->name('ourbaround');
 Route::get('privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy.policy');
 
 Route::get('about-who-me', [HomeController::class, 'aboutwhome'])->name('aboutwhome');
@@ -370,7 +374,7 @@ Route::get('core-problem', [HomeController::class, 'coreproblem'])->name('corepr
 
 Route::get('constructkaro-different', [HomeController::class, 'canstructkarodifferent'])->name('canstructkarodifferent');
 
-Route::get('guide_me', [HomeController::class, 'guide_me'])->name('guide_me');
+Route::redirect('guide_me', '/guide-me', 301);
 
 Route::get('architect-services', [HomeController::class, 'architect_services'])->name('architect.services');
 
