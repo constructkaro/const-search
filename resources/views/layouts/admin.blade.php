@@ -15,7 +15,7 @@
 
         body {
             margin: 0;
-            background: #f4f6f9;
+            background: #eef6ff;
             font-family: 'Poppins', Arial, sans-serif;
             color: #1f2937;
         }
@@ -26,119 +26,149 @@
 
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #1c2c3e 0%, #14212f 100%);
-            color: #fff;
-            padding: 22px 16px;
+            background: #e7f2ff;
+            color: #004487;
+            padding: 20px 12px;
             position: sticky;
             top: 0;
+            border-right: 1px solid #c7dcf1;
+            overflow-y: auto;
         }
 
         .sidebar-brand {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            color: #fff;
-            margin-bottom: 28px;
-            letter-spacing: 0.3px;
+            color: #004487;
+            margin-bottom: 16px;
+            letter-spacing: 0;
+            text-transform: uppercase;
         }
 
         .sidebar-user-box {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 24px;
+            background: #f8fbff;
+            border: 1px solid #bdd8ef;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
         }
 
         .sidebar-user-box h6 {
             margin: 0 0 4px;
             font-size: 15px;
             font-weight: 700;
-            color: #fff;
+            color: #004487;
         }
 
         .sidebar-user-box p {
             margin: 0;
             font-size: 13px;
-            color: #c9d3de;
+            color: #4b6f91;
         }
 
         .sidebar-menu {
             display: flex;
             flex-direction: column;
+            gap: 12px;
         }
 
-        .sidebar-menu a,
-        .sidebar-dropdown-btn {
+        .sidebar-module {
+            background: #f8fbff;
+            border: 1px solid #bdd8ef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sidebar-module.open,
+        .sidebar-module:has(.active) {
+            border-color: #ff7a1a;
+            background: #fff8f2;
+        }
+
+        .sidebar-module-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
             background: transparent;
             border: none;
-            color: #d9e2ec;
+            color: #004487;
             text-decoration: none;
-            padding: 12px 14px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            transition: all 0.3s ease;
-            font-weight: 600;
+            padding: 14px 15px;
+            transition: all 0.2s ease;
+            font-weight: 800;
             font-size: 15px;
+            letter-spacing: 2px;
+            line-height: 1.35;
+            text-transform: uppercase;
             cursor: pointer;
         }
 
-        .sidebar-menu a .menu-left,
-        .sidebar-dropdown-btn .menu-left {
+        .sidebar-module-title,
+        .sidebar-menu a .menu-left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active,
-        .sidebar-dropdown-btn:hover,
-        .sidebar-dropdown-btn.active {
-            background: #f25c05;
-            color: #fff;
+        .sidebar-module-btn:hover,
+        .sidebar-module-btn.active {
+            color: #004487;
         }
 
         .sidebar-submenu {
             display: none;
-            padding-left: 12px;
-            margin: 2px 0 10px;
+            padding: 0 8px 8px;
+            margin: 0;
         }
 
         .sidebar-submenu.show {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            color: #004487;
+            text-decoration: none;
+            border-radius: 7px;
+            transition: all 0.2s ease;
+            font-weight: 700;
+            cursor: pointer;
         }
 
         .sidebar-submenu a {
             font-size: 14px;
-            padding: 10px 12px;
-            margin-bottom: 6px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.03);
+            padding: 11px 12px;
+            background: transparent;
+            letter-spacing: 0;
         }
 
         .sidebar-submenu a:hover,
         .sidebar-submenu a.active {
-            background: rgba(242, 92, 5, 0.18);
+            background: #ff7a1a;
             color: #fff;
         }
 
         .dropdown-arrow {
-            font-size: 12px;
+            color: #00579f;
+            font-size: 18px;
+            line-height: 1;
             transition: transform 0.3s ease;
         }
 
-        .sidebar-dropdown-btn.active .dropdown-arrow {
-            transform: rotate(180deg);
+        .sidebar-module.open .dropdown-arrow {
+            transform: rotate(45deg);
         }
 
         .logout-btn {
             margin-top: 18px;
             width: 100%;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 12px 14px;
             background: #dc3545;
             color: #fff;
@@ -176,7 +206,7 @@
 
         .mobile-topbar {
             display: none;
-            background: #1c2c3e;
+            background: #004487;
             color: #fff;
             padding: 14px 16px;
             align-items: center;
@@ -206,6 +236,7 @@
                 z-index: 1050;
                 transition: all 0.3s ease;
                 min-height: 100vh;
+                max-height: 100vh;
             }
 
             .sidebar.show {
@@ -242,8 +273,18 @@
 
 <div class="mobile-topbar">
     <h5>Admin Panel</h5>
+    <button class="menu-toggle" type="button" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+
+@if(false)
+<div class="mobile-topbar">
+    <h5>Admin Panel</h5>
     <button class="menu-toggle" type="button" onclick="toggleSidebar()">☰</button>
 </div>
+
+@endif
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -259,6 +300,167 @@
                 </div>
 
                 <div class="sidebar-menu">
+                    @php
+                        $role = auth()->user()->role;
+                        $canSeeAdminModules = $role !== 'marketing';
+
+                        $sidebarModules = [
+                            [
+                                'title' => 'Overview',
+                                'icon' => 'bi-grid-1x2',
+                                'visible' => true,
+                                'items' => array_values(array_filter([
+                                    $canSeeAdminModules ? [
+                                        'label' => 'Dashboard',
+                                        'icon' => 'bi-house-door',
+                                        'route' => 'admin.dashboard',
+                                        'active' => ['admin.dashboard'],
+                                    ] : null,
+                                    $canSeeAdminModules ? [
+                                        'label' => 'ERP Gap Analysis',
+                                        'icon' => 'bi-bar-chart-line',
+                                        'route' => 'admin.vendor.strategy',
+                                        'active' => ['admin.vendor.strategy'],
+                                    ] : null,
+                                ])),
+                            ],
+                            [
+                                'title' => 'Projects',
+                                'icon' => 'bi-folder2-open',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    [
+                                        'label' => 'All Projects',
+                                        'icon' => 'bi-kanban',
+                                        'route' => 'admin.allprojects',
+                                        'active' => ['admin.allprojects', 'admin.post-leads.*'],
+                                    ],
+                                    [
+                                        'label' => 'Engineer Desk Flow',
+                                        'icon' => 'bi-diagram-3-fill',
+                                        'route' => 'admin.engineer-desk.create',
+                                        'active' => ['admin.engineer-desk.*'],
+                                    ],
+                                ],
+                            ],
+                            [
+                                'title' => 'HR',
+                                'icon' => 'bi-people',
+                                'visible' => $role === 'super_admin',
+                                'items' => [
+                                    [
+                                        'label' => 'User Management',
+                                        'icon' => 'bi-person-gear',
+                                        'route' => 'admin.users.index',
+                                        'active' => ['admin.users.*'],
+                                    ],
+                                ],
+                            ],
+                            [
+                                'title' => 'Content',
+                                'icon' => 'bi-newspaper',
+                                'visible' => true,
+                                'items' => [
+                                    [
+                                        'label' => 'Blogs',
+                                        'icon' => 'bi-journal-richtext',
+                                        'route' => 'admin.blogs.index',
+                                        'active' => ['admin.blogs.*'],
+                                    ],
+                                    [
+                                        'label' => 'Construction Education Posts',
+                                        'icon' => 'bi-instagram',
+                                        'route' => 'construction-education-posts.index',
+                                        'active' => ['construction-education-posts.*', 'admin.construction-education-posts.*'],
+                                    ],
+                                ],
+                            ],
+                            [
+                                'title' => 'Purchase Management',
+                                'icon' => 'bi-cart-check',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    ['label' => 'All Orders', 'icon' => 'bi-box-seam', 'route' => 'admin.orders.index', 'active' => ['admin.orders.index']],
+                                    ['label' => 'Contractor Orders', 'icon' => 'bi-bricks', 'route' => 'admin.orders.contractor', 'active' => ['admin.orders.contractor']],
+                                    ['label' => 'Interior Orders', 'icon' => 'bi-layout-text-window', 'route' => 'admin.orders.interior', 'active' => ['admin.orders.interior']],
+                                    ['label' => 'Survey Orders', 'icon' => 'bi-compass', 'route' => 'admin.orders.survey', 'active' => ['admin.orders.survey']],
+                                    ['label' => 'Testing Orders', 'icon' => 'bi-clipboard2-pulse', 'route' => 'admin.orders.testing', 'active' => ['admin.orders.testing']],
+                                    ['label' => 'BOQ Orders', 'icon' => 'bi-calculator', 'route' => 'admin.orders.boq', 'active' => ['admin.orders.boq']],
+                                ],
+                            ],
+                            [
+                                'title' => 'Store & Inventory',
+                                'icon' => 'bi-boxes',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    ['label' => 'Vendors', 'icon' => 'bi-person-badge', 'route' => 'admin.allvendors', 'active' => ['admin.allvendors']],
+                                ],
+                            ],
+                            [
+                                'title' => 'Masters',
+                                'icon' => 'bi-sliders',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    ['label' => 'Tracking Templates', 'icon' => 'bi-list-check', 'route' => 'admin.tracking_templates.index', 'active' => ['admin.tracking_templates.*']],
+                                ],
+                            ],
+                            [
+                                'title' => 'Site Work',
+                                'icon' => 'bi-building-gear',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    ['label' => 'Project Tracking', 'icon' => 'bi-signpost-split', 'route' => 'admin.order_tracking.index', 'active' => ['admin.order_tracking.*']],
+                                ],
+                            ],
+                            [
+                                'title' => 'Settings',
+                                'icon' => 'bi-gear',
+                                'visible' => $canSeeAdminModules,
+                                'items' => [
+                                    ['label' => 'Settings', 'icon' => 'bi-gear', 'url' => '#', 'active' => []],
+                                ],
+                            ],
+                        ];
+
+                        $visibleModules = array_values(array_filter($sidebarModules, fn ($module) => $module['visible'] && count($module['items'])));
+                    @endphp
+
+                    @foreach($visibleModules as $moduleIndex => $module)
+                        @php
+                            $moduleIsOpen = collect($module['items'])->contains(function ($item) {
+                                return collect($item['active'])->contains(fn ($pattern) => request()->routeIs($pattern));
+                            });
+                            $submenuId = 'sidebarModule' . $moduleIndex;
+                        @endphp
+
+                        <div class="sidebar-module {{ $moduleIsOpen || $moduleIndex === 0 ? 'open' : '' }}">
+                            <button
+                                type="button"
+                                class="sidebar-module-btn {{ $moduleIsOpen ? 'active' : '' }}"
+                                onclick="toggleSidebarModule('{{ $submenuId }}', this)"
+                            >
+                                <span class="sidebar-module-title">
+                                    <i class="bi {{ $module['icon'] }}"></i>
+                                    <span>{{ $module['title'] }}</span>
+                                </span>
+                                <i class="bi bi-plus dropdown-arrow"></i>
+                            </button>
+
+                            <div class="sidebar-submenu {{ $moduleIsOpen || $moduleIndex === 0 ? 'show' : '' }}" id="{{ $submenuId }}">
+                                @foreach($module['items'] as $item)
+                                    <a href="{{ isset($item['route']) ? route($item['route']) : $item['url'] }}"
+                                       class="{{ collect($item['active'])->contains(fn ($pattern) => request()->routeIs($pattern)) ? 'active' : '' }}">
+                                        <span class="menu-left">
+                                            <i class="bi {{ $item['icon'] }}"></i>
+                                            <span>{{ $item['label'] }}</span>
+                                        </span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+
+                    @if(false)
                     @if(auth()->user()->role !== 'marketing')
                     <a href="{{ route('admin.dashboard') }}"
                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -403,6 +605,8 @@
                     </a>
                     @endif
 
+                    @endif
+
                     <form action="{{ route('admin.logout') }}" method="POST" class="mt-3">
                         @csrf
                         <button type="submit" class="logout-btn">
@@ -430,12 +634,13 @@
 </div>
 
 <script>
-    function toggleOrdersMenu() {
-        const submenu = document.getElementById('ordersSubmenu');
-        const btn = document.getElementById('ordersMenuBtn');
+    function toggleSidebarModule(submenuId, button) {
+        const submenu = document.getElementById(submenuId);
+        const module = button.closest('.sidebar-module');
 
         submenu.classList.toggle('show');
-        btn.classList.toggle('active');
+        module.classList.toggle('open');
+        button.classList.toggle('active');
     }
 
     function toggleSidebar() {
