@@ -378,9 +378,10 @@
         <div class="services-grid">
             @php
                 $services = [
+                    'Construction Feasibility Report',
                     'Contractor',
                     'Architect',
-                    'Interiors',
+                    'Interior Designer',
                     'BOQ & Estimation',
                     'Survey Services',
                     'Testing Services'

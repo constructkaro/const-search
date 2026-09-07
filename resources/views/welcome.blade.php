@@ -2635,16 +2635,12 @@ html {
 
             <div class="ck-service-card">
                 <div class="ck-service-image">
-                    {!! $ckImage('images/b3.png', 'Interior Designer', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/b3.png', 'Feasibility Report', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 </div>
-                <h3 class="ck-service-title">Interior Designer</h3>
+                <h3 class="ck-service-title">Feasibility Report</h3>
                 <div class="ck-service-line"></div>
-                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                @if($isCustomerLoggedIn)
-                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
-                @else
-                    <a href="{{ route('post_for_interior', ['work_type_id' => 4]) }}" data-redirect="{{ route('post_for_interior', ['work_type_id' => 4]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
-                @endif
+                <p class="ck-service-text">Get architect, contractor and interior designer guidance in one report.</p>
+                <button type="button" class="ck-service-btn open-plan-modal-btn">Get Feasibility Report</button>
             </div>
 
         </div>
@@ -3030,8 +3026,8 @@ html {
             </div>
 
             <div class="plan-modal-form">
-                <h2 class="plan-modal-title">Get Your Free Construction Plan</h2>
-                <p class="plan-modal-copy">Share your details and our team will reach out within 24 hours with a personalised plan.</p>
+                <h2 class="plan-modal-title">Get Your Free Construction Feasibility Report</h2>
+                <p class="plan-modal-copy">Share your details and our team will reach out within 24 hours with a personalised feasibility report.</p>
 
                 <div class="plan-step active" data-plan-step="1">
             <div class="plan-step-label">Step 1 of 3 &mdash; Your details</div>
@@ -3120,7 +3116,7 @@ html {
 
             <div class="plan-actions">
                 <button type="button" class="plan-secondary-btn" data-plan-back="2">Back</button>
-                <button type="button" class="plan-primary-btn" id="planSubmitBtn">Get My Free Plan &rarr;</button>
+                <button type="button" class="plan-primary-btn" id="planSubmitBtn">Get My Feasibility Report &rarr;</button>
             </div>
         </div>
             </div>
@@ -3365,7 +3361,7 @@ $(document).ready(function () {
         planSetStep(1);
     }
 
-    $('#openPlanModalBtn').on('click', function () {
+    $('#openPlanModalBtn, .open-plan-modal-btn').on('click', function () {
         planReset();
         $('#freePlanModal').addClass('active');
         setTimeout(function () {
@@ -3535,8 +3531,8 @@ $(document).ready(function () {
                 mobile: planVerifiedMobile,
                 city: city,
                 planning_timeframe: $('#planTimeframe').val(),
-                'services[]': 'End-to-end construction',
-                project_description: 'Free end-to-end construction plan request. Timeframe: ' + $('#planTimeframe').val()
+                'services[]': 'Construction Feasibility Report with Interior Designer',
+                project_description: 'Free construction feasibility report request including architect, contractor, and interior designer support. Timeframe: ' + $('#planTimeframe').val()
             },
             success: function (response) {
                 planSetStatus('planSubmitStatus', response.message || 'Your request is submitted. Our team will contact you soon.', 'success');
@@ -3549,7 +3545,7 @@ $(document).ready(function () {
                 planSetStatus('planSubmitStatus', 'Something went wrong while submitting. Please try again.', 'error');
             },
             complete: function () {
-                btn.prop('disabled', false).text('Get My Free Plan ->');
+                btn.prop('disabled', false).text('Get My Feasibility Report ->');
             }
         });
     });
