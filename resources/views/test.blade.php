@@ -2251,29 +2251,29 @@ body{
         </div>
     </section>  
     <section class="ck-guide-section">
-    <div class="ck-guide-container">
+        <div class="ck-guide-container">
 
-        <div class="ck-guide-image-box">
-            <img src="{{ asset('images/confused-customer.png') }}" alt="Confused About Construction Service">
+            <div class="ck-guide-image-box">
+                <img src="{{ asset('images/confused-customer.png') }}" alt="Confused About Construction Service">
+            </div>
+
+            <div class="ck-guide-content-box">
+                <h2 class="ck-guide-title">
+                    Confused About Which Construction Service or<br>
+                    Package to Choose for Your Project?
+                </h2>
+
+                <p class="ck-guide-text">
+                    From initial planning to complete project execution, ConstructKaro<br>
+                    guides you with the right services at every stage.
+                </p>
+
+                <a href="#" class="ck-guide-btn">
+                    Let ConstructKaro Guide Me
+                </a>
+            </div>
+
         </div>
-
-        <div class="ck-guide-content-box">
-            <h2 class="ck-guide-title">
-                Confused About Which Construction Service or<br>
-                Package to Choose for Your Project?
-            </h2>
-
-            <p class="ck-guide-text">
-                From initial planning to complete project execution, ConstructKaro<br>
-                guides you with the right services at every stage.
-            </p>
-
-            <a href="#" class="ck-guide-btn">
-                Let ConstructKaro Guide Me
-            </a>
-        </div>
-
-    </div>
-</section>
+    </section>
 
 @endsection

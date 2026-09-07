@@ -183,7 +183,9 @@
 <body>
 
     {{-- Header --}}
-    @include('partials.header')
+    @if(!trim($__env->yieldContent('hide_chrome')))
+        @include('partials.header')
+    @endif
 
     {{-- Main Content --}}
     <main class="main-content">
@@ -191,7 +193,9 @@
     </main>
 
     {{-- Footer --}}
-    @include('partials.footer')
+    @if(!trim($__env->yieldContent('hide_chrome')))
+        @include('partials.footer')
+    @endif
 
     <!-- JS -->
     @stack('scripts')
