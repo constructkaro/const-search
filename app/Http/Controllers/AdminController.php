@@ -229,6 +229,7 @@ public function allvendors(Request $request)
         'Interior'   => 'interior_providers',
         'Surveyor'   => 'surveyor_providers',
         'BOQ'        => 'boq_providers',
+        'Structural Audit' => 'structural_audit_providers',
     ];
 
     $query = DB::table('vendor_register')
@@ -278,6 +279,13 @@ public function allvendors(Request $request)
                 WHERE boq_providers.vendor_id = vendor_register.id
                 LIMIT 1
             ) as has_boq
+        ")
+        ->selectRaw("
+            EXISTS (
+                SELECT 1 FROM structural_audit_providers
+                WHERE structural_audit_providers.vendor_id = vendor_register.id
+                LIMIT 1
+            ) as has_structural
         ");
 
     if ($request->filled('city')) {
@@ -387,6 +395,10 @@ public function allvendors(Request $request)
             $workTypes[] = 'BOQ';
         }
 
+        if (!empty($vendor->has_structural)) {
+            $workTypes[] = 'Structural Audit';
+        }
+
         $vendor->work_type = count($workTypes) ? implode(', ', $workTypes) : '-';
 
         return $vendor;
@@ -404,6 +416,7 @@ public function allvendors(Request $request)
         $interior   = DB::table('interior_providers')->where('vendor_id', $vendorId)->first();
         $surveyor   = DB::table('surveyor_providers')->where('vendor_id', $vendorId)->first();
         $boq        = DB::table('boq_providers')->where('vendor_id', $vendorId)->first();
+        $structural = DB::table('structural_audit_providers')->where('vendor_id', $vendorId)->first();
 
         return view('admin.vendors.forms', compact(
             'vendor',
@@ -411,7 +424,8 @@ public function allvendors(Request $request)
             'architect',
             'interior',
             'surveyor',
-            'boq'
+            'boq',
+            'structural'
         ));
     }
 

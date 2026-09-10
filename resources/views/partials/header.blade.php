@@ -15,16 +15,18 @@
     left: 0;
     z-index: 9998;
     width: 100%;
-    height: 82px;
-    background: #f5f5f5;
-    padding: 0 24px;
+    height: 76px;
+    background: rgba(255,255,255,.96);
+    padding: 0 28px;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(20,34,53,.08);
+    box-shadow: 0 10px 30px rgba(16,36,58,0.08);
+    backdrop-filter: blur(12px);
 }
 
 body {
-    padding-top: 82px;
+    padding-top: 76px;
 }
 
 .header .container {
@@ -33,8 +35,8 @@ body {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 28px;
-    min-height: 82px;
+    gap: 24px;
+    min-height: 76px;
 }
 
 .header .logo {
@@ -52,8 +54,8 @@ body {
 
 .header .logo picture,
 .header .logo img {
-    width: 215px;
-    max-height: 102px;
+    width: 170px;
+    max-height: 62px;
     object-fit: contain;
     display: block;
 }
@@ -62,26 +64,33 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 46px;
-    background: #e9e9e9;
-    padding: 8px 18px;
+    min-height: 42px;
+    background: #f3f6f8;
+    padding: 8px 16px;
     border-radius: 999px;
     gap: 8px;
     flex-shrink: 0;
     margin-left: auto;
     cursor: pointer;
-    border: 1px solid rgba(28,44,62,.04);
+    border: 1px solid rgba(28,44,62,.08);
+    transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.header .location:hover {
+    background: #fff7f1;
+    box-shadow: 0 8px 18px rgba(16,36,58,.08);
+    transform: translateY(-1px);
 }
 
 .header .location svg {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
     display: block;
 }
 
 .header #selectedLocationText {
-    font-size: 15px;
-    color: #333;
+    font-size: 14px;
+    color: #263445;
     max-width: 190px;
     white-space: nowrap;
     overflow: hidden;
@@ -91,26 +100,33 @@ body {
 .header .nav {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
     margin-left: 0;
     flex-shrink: 0;
 }
 
-.header .nav a {
+.header .nav a,
+.header .nav button {
     text-decoration: none;
-    color: #555;
-    font-size: 16px;
+    color: #526171;
+    font-size: 14px;
+    font-weight: 600;
     line-height: 1;
     position: relative;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
     min-height: 42px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
 }
 
-.header .nav a.active {
-    color: #007bff;
-    font-weight: 600;
+.header .nav a.active,
+.header .nav button:hover {
+    color: #155f9f;
+    font-weight: 800;
 }
 
 .header .nav a.active::after {
@@ -118,8 +134,8 @@ body {
     position: absolute;
     width: 100%;
     height: 2px;
-    background: orange;
-    bottom: -6px;
+    background: #d96a1f;
+    bottom: 2px;
     left: 0;
 }
 
@@ -136,14 +152,14 @@ body {
     align-items: center;
     justify-content: center;
     min-width: 150px;
-    height: 44px;
-    padding: 0 20px;
+    height: 42px;
+    padding: 0 18px;
     border-radius: 999px;
     text-decoration: none;
     color: #fff;
     font-size: 14px;
     font-weight: 700;
-    background: linear-gradient(180deg, #f08b39 0%, #df7122 100%);
+    background: linear-gradient(180deg, #f08b39 0%, #d96a1f 100%);
     box-shadow: 0 6px 14px rgba(223, 113, 34, 0.22);
     white-space: nowrap;
     transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
@@ -378,6 +394,148 @@ body {
     font-size: 16px;
 }
 
+/* ERP Enquiry Modal */
+.erp-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    width: 100%;
+    min-height: 100vh;
+    padding: 96px 18px 28px;
+    background: rgba(8, 18, 32, .64);
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+}
+
+.erp-modal.active {
+    display: block;
+}
+
+.erp-modal-content {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 28px 80px rgba(0,0,0,.28);
+}
+
+.erp-modal-head {
+    position: relative;
+    padding: 28px 32px;
+    background:
+        linear-gradient(120deg, rgba(20,34,53,.95), rgba(21,95,159,.88)),
+        url("{{ asset('images/banner.webp') }}") center/cover;
+    color: #fff;
+}
+
+.erp-modal-head h3 {
+    max-width: 580px;
+    margin: 0 42px 8px 0;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.18;
+}
+
+.erp-modal-head p {
+    max-width: 570px;
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.erp-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.erp-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 28px 32px 32px;
+}
+
+.erp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.erp-form-group.full {
+    grid-column: 1 / -1;
+}
+
+.erp-form-group label {
+    color: #263445;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.erp-form-group input,
+.erp-form-group select,
+.erp-form-group textarea {
+    width: 100%;
+    border: 1px solid #dbe5ee;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #1b2430;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.erp-form-group input,
+.erp-form-group select {
+    height: 46px;
+    padding: 0 13px;
+}
+
+.erp-form-group textarea {
+    min-height: 108px;
+    padding: 12px 13px;
+    resize: vertical;
+}
+
+.erp-form-group input:focus,
+.erp-form-group select:focus,
+.erp-form-group textarea:focus {
+    border-color: #2b84c6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(43,132,198,.12);
+}
+
+.erp-submit-btn {
+    min-height: 48px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f08b39 0%, #d96a1f 100%);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(217,106,31,.22);
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.erp-submit-btn:hover {
+    opacity: .94;
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(217,106,31,.28);
+}
+
 @media (max-width: 991px) {
     .header {
         height: auto;
@@ -404,6 +562,11 @@ body {
 
     .header .nav.show {
         display: flex;
+    }
+
+    .header .nav a,
+    .header .nav button {
+        min-height: 34px;
     }
 
     .header .menu-toggle {
@@ -469,6 +632,24 @@ body {
     .location-modal-content {
         margin: 90px auto;
     }
+
+    .erp-modal {
+        padding-top: 88px;
+    }
+
+    .erp-modal-head,
+    .erp-form {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .erp-modal-head h3 {
+        font-size: 23px;
+    }
+
+    .erp-form {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 360px) {
@@ -511,6 +692,7 @@ body {
             <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}">About Us</a>
             <a href="{{ route('completed.projects') }}" class="{{ request()->routeIs('completed.projects') ? 'active' : '' }}">Projects</a>
             <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') || request()->routeIs('case-study.*') || request()->routeIs('blogsinsights*') || request()->routeIs('constructionarticle') || request()->routeIs('chooserightcontractor') || request()->routeIs('differentconsultant') ? 'active' : '' }}">Constructshala</a>
+            <button type="button" id="openErpModalBtn">ERP Enquiry</button>
         </nav>
 
         <div class="header-right">
@@ -579,6 +761,67 @@ body {
     </div>
 </div>
 
+<div id="erpEnquiryModal" class="erp-modal" aria-hidden="true">
+    <div class="erp-modal-content" role="dialog" aria-modal="true" aria-labelledby="erpModalTitle">
+        <div class="erp-modal-head">
+            <button type="button" class="erp-modal-close" id="closeErpModalBtn" aria-label="Close ERP enquiry form">&times;</button>
+            <h3 id="erpModalTitle">ERP Requirement Enquiry</h3>
+            <p>Share your ERP requirement and our team will connect with you for the right construction management solution.</p>
+        </div>
+
+        <form class="erp-form" method="POST" action="{{ route('construction.requirement.store') }}">
+            @csrf
+            <input type="hidden" name="services[]" value="ERP Enquiry">
+            <input type="hidden" name="planning_timeframe" value="ERP requirement">
+
+            <div class="erp-form-group">
+                <label for="erpFullName">Full Name</label>
+                <input type="text" id="erpFullName" name="full_name" required autocomplete="name">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpMobile">Mobile Number</label>
+                <input type="tel" id="erpMobile" name="mobile" required pattern="[0-9]{10}" maxlength="10" inputmode="numeric" autocomplete="tel">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpEmail">Email</label>
+                <input type="email" id="erpEmail" name="email" autocomplete="email">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpCity">City</label>
+                <input type="text" id="erpCity" name="city" autocomplete="address-level2">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpCompany">Company / Project Name</label>
+                <input type="text" id="erpCompany" name="house_name">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpRequirementType">ERP Requirement</label>
+                <select id="erpRequirementType" name="area">
+                    <option value="">Select requirement</option>
+                    <option value="Project tracking ERP">Project tracking ERP</option>
+                    <option value="Vendor management ERP">Vendor management ERP</option>
+                    <option value="Billing and BOQ ERP">Billing and BOQ ERP</option>
+                    <option value="Inventory and material ERP">Inventory and material ERP</option>
+                    <option value="Complete construction ERP">Complete construction ERP</option>
+                    <option value="Other ERP requirement">Other ERP requirement</option>
+                </select>
+            </div>
+
+            <div class="erp-form-group full">
+                <label for="erpDescription">Requirement Details</label>
+                <textarea id="erpDescription" name="project_description" placeholder="Tell us what you want to manage with ERP: projects, vendors, billing, inventory, site updates, reports, etc."></textarea>
+            </div>
+
+            <button type="submit" class="erp-submit-btn">Submit ERP Enquiry</button>
+        </form>
+    </div>
+</div>
+
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -592,6 +835,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const locationSuggestions = document.getElementById("locationSuggestions");
     const locationMessage = document.getElementById("locationMessage");
     const selectedLocationText = document.getElementById("selectedLocationText");
+    const openErpModalBtn = document.getElementById("openErpModalBtn");
+    const erpEnquiryModal = document.getElementById("erpEnquiryModal");
+    const closeErpModalBtn = document.getElementById("closeErpModalBtn");
+    const erpFullName = document.getElementById("erpFullName");
 
     const mainServicesSection = document.getElementById("mainServicesSection");
     const exploreServicesSection = document.getElementById("exploreServicesSection");
@@ -645,6 +892,43 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("click", function (e) {
         if (e.target === locationModal) {
             locationModal.style.display = "none";
+        }
+
+        if (e.target === erpEnquiryModal) {
+            closeErpModal();
+        }
+    });
+
+    function openErpModal() {
+        if (!erpEnquiryModal) return;
+        erpEnquiryModal.classList.add("active");
+        erpEnquiryModal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        if (mainNav) mainNav.classList.remove("show");
+
+        setTimeout(function () {
+            if (erpFullName) erpFullName.focus();
+        }, 80);
+    }
+
+    function closeErpModal() {
+        if (!erpEnquiryModal) return;
+        erpEnquiryModal.classList.remove("active");
+        erpEnquiryModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
+
+    if (openErpModalBtn) {
+        openErpModalBtn.addEventListener("click", openErpModal);
+    }
+
+    if (closeErpModalBtn) {
+        closeErpModalBtn.addEventListener("click", closeErpModal);
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && erpEnquiryModal && erpEnquiryModal.classList.contains("active")) {
+            closeErpModal();
         }
     });
 

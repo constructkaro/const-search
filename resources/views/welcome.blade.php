@@ -78,16 +78,22 @@
    CSS VARIABLES & RESET
    ============================================================ */
 :root {
-    --blue:        #1f67ab;
-    --blue-light:  #2f89d0;
-    --orange:      #df6d1c;
-    --orange-light:#ef8a39;
-    --bg:          #eeeeee;
-    --text:        #222;
+    --blue:        #155f9f;
+    --blue-light:  #2b84c6;
+    --orange:      #d96a1f;
+    --orange-light:#f08a36;
+    --ink:         #142235;
+    --muted:       #607080;
+    --line:        #dbe5ee;
+    --bg:          #f3f6f8;
+    --surface:     #ffffff;
+    --text:        #1b2430;
     --container-w: 92%;
     --container-max:1320px;
-    --radius:      18px;
-    --shadow:      0 6px 18px rgba(0,0,0,.18);
+    --radius:      8px;
+    --shadow:      0 18px 45px rgba(16, 36, 58, .10);
+    --ck-shadow:   0 18px 45px rgba(16, 36, 58, .10);
+    --ck-shadow-soft: 0 10px 28px rgba(16, 36, 58, .08);
 }
 
 *, *::before, *::after {
@@ -101,6 +107,8 @@ body {
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 html {
@@ -142,22 +150,22 @@ html {
 
 .section-heading {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 42px;
 }
 
 .section-heading h2 {
     font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
-    color: #1f1f1f;
+    color: var(--ink);
     line-height: 1.15;
 }
 
 .heading-bar {
-    width: 220px;
-    height: 4px;
+    width: 92px;
+    height: 5px;
     margin: 12px auto 0;
     border-radius: 50px;
-    background: linear-gradient(90deg, #ef7d2d, #2f78bf);
+    background: linear-gradient(90deg, var(--orange), var(--blue-light));
 }
 
 /* ============================================================
@@ -165,10 +173,10 @@ html {
    ============================================================ */
 .hero-banner {
     width: 100vw;
-    min-height: clamp(360px, 42vw, 520px);
+    min-height: clamp(420px, 44vw, 610px);
     margin-left: calc(50% - 50vw);
     background-image:
-        linear-gradient(90deg, rgba(0,0,0,.90), rgba(0,0,0,.62), rgba(0,0,0,.12)),
+        linear-gradient(90deg, rgba(8,18,32,.94) 0%, rgba(8,18,32,.74) 47%, rgba(8,18,32,.16) 100%),
         image-set(
             url("{{ asset('images/banner.webp') }}") type("image/webp"),
             url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
@@ -177,9 +185,18 @@ html {
     background-position: center;
     display: flex;
     align-items: center;
-    padding: 52px 0;
+    padding: 68px 0;
     position: relative;
     overflow: hidden;
+}
+
+.hero-banner::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 120px;
+    background: linear-gradient(180deg, transparent, rgba(8,18,32,.40));
+    pointer-events: none;
 }
 
 .hero-inner {
@@ -191,7 +208,7 @@ html {
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 650px;
 }
 
 .hero-tech-badge {
@@ -201,18 +218,18 @@ html {
     gap: 11px;
     min-height: 30px;
     margin-bottom: 22px;
-    padding: 8px 20px;
-    border: 1.5px solid #ff8a3d;
+    padding: 9px 18px;
+    border: 1px solid rgba(255, 138, 61, .55);
     border-radius: 999px;
-    background: rgba(255, 250, 245, .94);
-    color: #a34321;
-    font-size: 17px;
-    font-weight: 700;
+    background: rgba(255, 250, 245, .96);
+    color: #8f3d13;
+    font-size: 13px;
+    font-weight: 800;
     line-height: 1;
-    letter-spacing: 1.5px;
+    letter-spacing: .9px;
     text-transform: uppercase;
     white-space: nowrap;
-    box-shadow: 0 8px 22px rgba(0,0,0,.18);
+    box-shadow: 0 12px 26px rgba(0,0,0,.18);
 }
 
 .hero-tech-badge::before {
@@ -226,24 +243,26 @@ html {
 
 .hero-title {
     color: #fff;
-    font-size: clamp(34px, 4vw, 56px);
+    font-size: clamp(38px, 4.2vw, 62px);
     font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 10px;
+    line-height: 1.04;
+    margin-bottom: 14px;
+    max-width: 620px;
 }
 
 .hero-subtitle {
     color: #fff;
-    font-size: 22px;
-    font-weight: 600;
+    font-size: clamp(19px, 2vw, 25px);
+    font-weight: 700;
     margin-bottom: 12px;
 }
 
 .hero-description {
-    color: rgba(255,255,255,.88);
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 28px;
+    color: rgba(255,255,255,.82);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    max-width: 560px;
 }
 
 .hero-plan-btn {
@@ -254,7 +273,7 @@ html {
     min-height: 54px;
     padding: 0 28px;
     border: none;
-    border-radius: 14px;
+    border-radius: 8px;
     background: linear-gradient(180deg, #ff8b2c 0%, #f25c05 100%);
     color: #fff;
     font-size: 17px;
@@ -278,7 +297,7 @@ html {
 
 .hero-proof-grid {
     width: min(100%, 620px);
-    margin-top: 28px;
+    margin-top: 32px;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
@@ -286,10 +305,10 @@ html {
 
 .hero-proof-item {
     min-height: 78px;
-    padding: 12px 10px;
+    padding: 14px 12px;
     border: 1px solid rgba(255,255,255,.22);
-    border-radius: 14px;
-    background: rgba(255,255,255,.11);
+    border-radius: 8px;
+    background: rgba(255,255,255,.13);
     backdrop-filter: blur(8px);
 }
 
@@ -314,7 +333,7 @@ html {
    TRUST STRIP
    ============================================================ */
 .ck-trust-section {
-    padding: 64px 0;
+    padding: 54px 0;
     background: #fff;
 }
 
@@ -324,7 +343,7 @@ html {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 18px;
 }
 
 .ck-trust-item {
@@ -333,39 +352,44 @@ html {
     align-items: center;
     text-align: center;
     gap: 12px;
+    padding: 24px 18px;
+    border: 1px solid #eef2f6;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(16,36,58,.05);
 }
 
 .ck-trust-icon-img {
-    width: 87px;
-    height: 81px;
+    width: 70px;
+    height: 66px;
     object-fit: contain;
 }
 
 .ck-trust-title {
-    font-size: clamp(16px, 2vw, 24px);
-    font-weight: 700;
-    color: #111;
-    line-height: 1.4;
+    font-size: clamp(15px, 1.35vw, 19px);
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.35;
 }
 
 /* ============================================================
    MAIN SERVICE CARDS
    ============================================================ */
 .ck-services-section {
-    padding: 88px 0 60px;
+    padding: 82px 0 60px;
     background: var(--bg);
 }
 
 .ck-services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(28px, 4vw, 56px);
+    gap: clamp(22px, 3vw, 34px);
     align-items: stretch;
 }
 
 .ck-service-card {
     background: #fff;
-    border: 1.5px solid #111;
+    border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     text-align: center;
@@ -374,14 +398,14 @@ html {
     flex-direction: column;
     align-items: center;
     height: 100%;
-    min-height: 315px;
+    min-height: 300px;
     transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
 .ck-service-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--blue);
-    box-shadow: 0 18px 38px rgba(31,103,171,.18);
+    transform: translateY(-6px);
+    border-color: rgba(43,132,198,.55);
+    box-shadow: 0 22px 44px rgba(16,36,58,.13);
 }
 
 .ck-service-image {
@@ -389,10 +413,10 @@ html {
     aspect-ratio: 4 / 3;
     height: auto;
     margin: -52px auto 20px;
-    border-radius: 14px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1.5px solid #111;
-    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    border: 4px solid #fff;
+    box-shadow: 0 10px 22px rgba(16,36,58,.16);
     flex-shrink: 0;
     background: #e7eef5;
 }
@@ -411,21 +435,22 @@ html {
 
 .ck-service-title {
     color: var(--orange);
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 800;
     margin-bottom: 6px;
 }
 
 .ck-service-line {
-    width: 130px;
-    height: 1px;
-    background: #bbb;
+    width: 64px;
+    height: 3px;
+    border-radius: 999px;
+    background: #d9e5ef;
     margin: 0 auto 12px;
 }
 
 .ck-service-text {
-    color: #777;
-    font-size: 12px;
+    color: var(--muted);
+    font-size: 13px;
     font-style: italic;
     margin-bottom: 20px;
     line-height: 1.5;
@@ -439,7 +464,7 @@ html {
     width: 100%;
     max-width: 240px;
     height: 42px;
-    border-radius: 10px;
+    border-radius: 8px;
     background: linear-gradient(180deg, #2f89d0, #1d6eb3);
     color: #fff;
     text-decoration: none;
@@ -460,14 +485,14 @@ html {
    EXPLORE MORE SERVICES
    ============================================================ */
 .explore-services-section {
-    padding: 60px 0 70px;
+    padding: 68px 0 78px;
     background: var(--bg);
 }
 
 .explore-services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 26px;
     align-items: stretch;
 }
 
@@ -484,12 +509,12 @@ html {
 }
 
 .explore-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 18px 36px rgba(0,0,0,.16);
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(16,36,58,.13);
 }
 
-.orange-card { border: 2px solid #ef7d2d; }
-.blue-card   { border: 2px solid #2f78bf; }
+.orange-card { border: 1px solid rgba(217,106,31,.42); }
+.blue-card   { border: 1px solid rgba(43,132,198,.42); }
 
 .explore-card-image {
     aspect-ratio: 16 / 10;
@@ -513,7 +538,7 @@ html {
 }
 
 .explore-card-body {
-    padding: 22px 20px 26px;
+    padding: 20px 20px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -521,7 +546,7 @@ html {
 }
 
 .explore-card-body h3 {
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 900;
     margin-bottom: 10px;
     line-height: 1.2;
@@ -532,7 +557,7 @@ html {
 
 .explore-card-body p {
     font-size: 13px;
-    color: #555;
+    color: var(--muted);
     margin-bottom: 20px;
     flex: 1;
     line-height: 1.5;
@@ -542,7 +567,7 @@ html {
     width: 100%;
     max-width: 240px;
     height: 44px;
-    border-radius: 10px;
+    border-radius: 8px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -582,8 +607,8 @@ html {
     position: relative;
     min-height: 210px;
     padding: 26px 22px;
-    border: 1px solid #dbe5ee;
-    border-radius: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
     background: linear-gradient(180deg, #fff, #f7fbff);
     box-shadow: var(--ck-shadow-soft);
 }
@@ -595,7 +620,7 @@ html {
     width: 42px;
     height: 42px;
     margin-bottom: 18px;
-    border-radius: 12px;
+    border-radius: 8px;
     background: #1f67ab;
     color: #fff;
     font-weight: 900;
@@ -606,22 +631,22 @@ html {
 }
 
 .ck-process-card h3 {
-    color: #152536;
-    font-size: 19px;
+    color: var(--ink);
+    font-size: 18px;
     font-weight: 900;
     line-height: 1.2;
     margin-bottom: 10px;
 }
 
 .ck-process-card p {
-    color: #5e6a76;
+    color: var(--muted);
     font-size: 14px;
     line-height: 1.55;
 }
 
 .ck-solution-section {
     padding: 78px 0;
-    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    background: linear-gradient(180deg, #f8fafc 0%, #eef3f7 100%);
 }
 
 .ck-solution-shell {
@@ -636,9 +661,9 @@ html {
 
 .ck-solution-intro {
     padding: 34px;
-    border-radius: 18px;
+    border-radius: 8px;
     background: #fff;
-    border: 1px solid #dbe5ee;
+    border: 1px solid var(--line);
     box-shadow: var(--ck-shadow);
 }
 
@@ -656,7 +681,7 @@ html {
 }
 
 .ck-solution-intro h2 {
-    color: #10243a;
+    color: var(--ink);
     font-size: clamp(30px, 3.3vw, 46px);
     font-weight: 900;
     line-height: 1.08;
@@ -685,7 +710,7 @@ html {
     width: 44px;
     height: 44px;
     flex: 0 0 44px;
-    border-radius: 12px;
+    border-radius: 8px;
     background: #fff4ec;
     color: #df6d1c;
     font-size: 22px;
@@ -699,7 +724,7 @@ html {
 }
 
 .ck-solution-intro p {
-    color: #5e6a76;
+    color: var(--muted);
     font-size: 16px;
     line-height: 1.7;
 }
@@ -712,30 +737,30 @@ html {
 
 .ck-solution-card {
     padding: 26px 24px;
-    border-radius: 18px;
+    border-radius: 8px;
     background: #fff;
-    border: 2px solid #dbe5ee;
+    border: 1px solid var(--line);
     box-shadow: var(--ck-shadow-soft);
 }
 
 .ck-solution-card.primary {
-    border-color: #ef8a39;
+    border-top: 4px solid var(--orange-light);
 }
 
 .ck-solution-card.secondary {
-    border-color: #2f89d0;
+    border-top: 4px solid var(--blue-light);
 }
 
 .ck-solution-card h3 {
-    color: #10243a;
-    font-size: 22px;
+    color: var(--ink);
+    font-size: 20px;
     font-weight: 900;
     line-height: 1.2;
     margin-bottom: 10px;
 }
 
 .ck-solution-card p {
-    color: #65717d;
+    color: var(--muted);
     font-size: 14px;
     line-height: 1.55;
     margin-bottom: 16px;
@@ -775,7 +800,7 @@ html {
 
 .ck-assurance-section {
     padding: 76px 0;
-    background: #eef2f7;
+    background: #eef3f7;
 }
 
 .ck-assurance-shell {
@@ -790,7 +815,7 @@ html {
 
 .ck-assurance-panel {
     padding: 34px;
-    border-radius: 18px;
+    border-radius: 8px;
     background: #10243a;
     color: #fff;
     box-shadow: var(--ck-shadow);
@@ -830,8 +855,8 @@ html {
 
 .ck-assurance-item {
     padding: 22px;
-    border: 1px solid #dbe5ee;
-    border-radius: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
     background: #fff;
     box-shadow: var(--ck-shadow-soft);
 }
@@ -843,21 +868,21 @@ html {
     width: 38px;
     height: 38px;
     margin-bottom: 14px;
-    border-radius: 11px;
+    border-radius: 8px;
     background: #fff4ec;
     color: #df6d1c;
     font-weight: 900;
 }
 
 .ck-assurance-item h3 {
-    color: #152536;
+    color: var(--ink);
     font-size: 17px;
     font-weight: 900;
     margin-bottom: 8px;
 }
 
 .ck-assurance-item p {
-    color: #65717d;
+    color: var(--muted);
     font-size: 13px;
     line-height: 1.5;
 }
@@ -872,8 +897,8 @@ html {
     max-width: 1040px;
     margin: 0 auto;
     overflow: hidden;
-    border: 1px solid #dbe5ee;
-    border-radius: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
     background: #fff;
     box-shadow: var(--ck-shadow);
 }
@@ -896,7 +921,7 @@ html {
 }
 
 .ck-compare-head > div {
-    background: #10243a;
+    background: var(--ink);
     color: #fff;
     font-weight: 900;
 }
@@ -920,7 +945,7 @@ html {
    GUIDE SECTION
    ============================================================ */
 .ck-guide-section {
-    padding: 48px 0;
+    padding: 66px 0;
     background: var(--bg);
 }
 
@@ -930,14 +955,14 @@ html {
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(320px, 0.78fr) minmax(0, 1.22fr);
-    gap: 28px;
+    gap: 24px;
     align-items: stretch;
 }
 
 .ck-guide-image-box {
-    border: 3px solid #f26f21;
-    border-left: 6px solid #1f78c8;
-    border-radius: 16px;
+    border: 1px solid rgba(217,106,31,.38);
+    border-left: 5px solid var(--blue-light);
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: var(--shadow);
     min-height: 320px;
@@ -958,7 +983,7 @@ html {
 }
 
 .ck-guide-content-box {
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
     background: image-set(
         url("{{ asset('images/logo/Confused.webp') }}") type("image/webp"),
@@ -982,7 +1007,7 @@ html {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(10, 29, 52, .16);
+    background: linear-gradient(90deg, rgba(10,29,52,.32), rgba(10,29,52,.12));
     z-index: 0;
 }
 
@@ -1009,7 +1034,7 @@ html {
     justify-content: center;
     padding: 0 36px;
     height: 52px;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
     color: #222;
     text-decoration: none;
@@ -1043,14 +1068,14 @@ html {
 }
 
 .upcoming-services-heading h2 {
-    font-size: 38px;
+    font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 800;
-    color: #1f1f1f;
+    color: var(--ink);
 }
 
 .upcoming-heading-line {
-    width: 200px;
-    height: 4px;
+    width: 92px;
+    height: 5px;
     margin: 12px auto 0;
     border-radius: 999px;
     background: linear-gradient(90deg, #ef7d2d, #2f78bf);
@@ -1078,20 +1103,20 @@ html {
     width: 360px;
     min-width: 360px;
     background: #fff;
-    border-radius: 20px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 10px 24px rgba(0,0,0,.11);
+    box-shadow: var(--shadow);
     position: relative;
     transition: transform .28s ease, box-shadow .28s ease;
 }
 
 .upcoming-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 18px 34px rgba(0,0,0,.15);
+    box-shadow: 0 22px 44px rgba(16,36,58,.13);
 }
 
-.upcoming-card.orange-border { border: 2px solid #ef7d2d; }
-.upcoming-card.blue-border   { border: 2px solid #2f78bf; }
+.upcoming-card.orange-border { border: 1px solid rgba(217,106,31,.42); }
+.upcoming-card.blue-border   { border: 1px solid rgba(43,132,198,.42); }
 
 .upcoming-card-image {
     height: 230px;
@@ -1133,7 +1158,7 @@ html {
    VENDOR SECTION
    ============================================================ */
 .ck-vendor-section {
-    padding: 60px 0;
+    padding: 66px 0;
     background: var(--bg);
 }
 
@@ -1150,7 +1175,7 @@ html {
 .ck-vendor-content-box {
     position: relative;
     min-height: 300px;
-    border-radius: 16px;
+    border-radius: 8px;
     background: image-set(
         url("{{ asset('images/logo/area.webp') }}") type("image/webp"),
         url("{{ asset('images/logo/area.png') }}") type("image/png")
@@ -1171,7 +1196,7 @@ html {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(8, 26, 48, .14);
+    background: linear-gradient(90deg, rgba(8,26,48,.30), rgba(8,26,48,.12));
     z-index: 0;
 }
 
@@ -1199,7 +1224,7 @@ html {
     justify-content: center;
     padding: 0 32px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
     color: #2b2b2b;
     text-decoration: none;
@@ -1219,10 +1244,10 @@ html {
 
 .ck-vendor-image-box {
     min-height: 300px;
-    border: 3px solid #f26f21;
-    border-left: 6px solid #1f78c8;
-    border-right: 6px solid #1f78c8;
-    border-radius: 16px;
+    border: 1px solid rgba(217,106,31,.38);
+    border-left: 5px solid var(--blue-light);
+    border-right: 5px solid var(--blue-light);
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: var(--shadow);
     background: #e7eef5;
@@ -1245,13 +1270,13 @@ html {
    CITIES WE SERVE
    ============================================================ */
 .ck-city-section {
-    padding: 52px 0;
-    background: #f4f4f4;
+    padding: 58px 0;
+    background: #fff;
     text-align: center;
 }
 
 .ck-city-title {
-    font-size: 38px;
+    font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
     color: #1f1f1f;
     margin-bottom: 36px;
@@ -1261,7 +1286,7 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 22px;
     flex-wrap: wrap;
     width: var(--container-w);
     max-width: var(--container-max);
@@ -1270,6 +1295,11 @@ html {
 
 .ck-city-card {
     width: clamp(128px, 14vw, 180px);
+    padding: 14px;
+    border-radius: 8px;
+    background: #f7fafc;
+    border: 1px solid #e6eef5;
+    box-shadow: 0 8px 20px rgba(16,36,58,.06);
 }
 
 .ck-city-card img {
@@ -1283,7 +1313,7 @@ html {
    ALL SERVICES SLIDER
    ============================================================ */
 .ck-all-services-section {
-    padding: 60px 0 70px;
+    padding: 66px 0 76px;
     background: var(--bg);
     text-align: center;
 }
@@ -1291,12 +1321,12 @@ html {
 .ck-all-services-title {
     font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
-    color: #1f1f1f;
+    color: var(--ink);
 }
 
 .ck-all-services-line {
-    width: 240px;
-    height: 4px;
+    width: 92px;
+    height: 5px;
     margin: 12px auto 44px;
     border-radius: 50px;
     background: linear-gradient(90deg, #ef7d2d, #2f78bf);
@@ -1308,7 +1338,7 @@ html {
     height: 420px;
     margin: 0 auto;
     display: flex;
-    gap: 8px;
+    gap: 10px;
     overflow: hidden;
     align-items: stretch;
     touch-action: pan-x;
@@ -1317,10 +1347,10 @@ html {
 .ck-slide {
     flex: 1;
     min-width: 68px;
-    border-radius: 14px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 6px 10px rgba(0,0,0,.22);
+    box-shadow: 0 14px 28px rgba(16,36,58,.16);
     transition: flex .42s ease, transform .28s ease, box-shadow .28s ease;
     cursor: pointer;
 }
@@ -1352,7 +1382,7 @@ html {
     background: var(--blue-light);
     color: #fff;
     padding: 10px 7px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: 800;
 }
@@ -1381,24 +1411,24 @@ html {
    TESTIMONIALS
    ============================================================ */
 .ck-testimonial-section {
-    padding: 80px 0 70px;
+    padding: 84px 0 78px;
     background: var(--bg);
 }
 
 .ck-testimonial-heading {
     text-align: center;
-    margin-bottom: 90px;
+    margin-bottom: 74px;
 }
 
 .ck-testimonial-heading h2 {
     font-size: clamp(28px, 3.2vw, 38px);
     font-weight: 900;
-    color: #1f1f1f;
+    color: var(--ink);
 }
 
 .ck-testimonial-line {
-    width: min(420px, 82vw);
-    height: 4px;
+    width: 92px;
+    height: 5px;
     margin: 12px auto 0;
     border-radius: 50px;
     background: linear-gradient(90deg, #ef7d2d, #2f78bf);
@@ -1410,16 +1440,16 @@ html {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 28px;
+    gap: 22px;
     align-items: stretch;
 }
 
 .ck-testimonial-card {
     position: relative;
     background: #fff;
-    border: 1.5px solid var(--blue);
+    border: 1px solid rgba(43,132,198,.34);
     border-radius: var(--radius);
-    padding: 80px 22px 26px;
+    padding: 68px 22px 26px;
     text-align: center;
     height: 100%;
     transition: transform .28s ease, box-shadow .28s ease;
@@ -1427,16 +1457,16 @@ html {
 
 .ck-testimonial-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 30px rgba(31,103,171,.14);
+    box-shadow: 0 20px 40px rgba(16,36,58,.12);
 }
 
 .ck-testimonial-img {
     position: absolute;
-    top: -56px;
+    top: -46px;
     left: 50%;
     transform: translateX(-50%);
-    width: 108px;
-    height: 108px;
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
     overflow: hidden;
     background: #ddd;
@@ -1465,7 +1495,7 @@ html {
 .ck-testimonial-name {
     font-size: 17px;
     font-weight: 800;
-    color: #1f1f1f;
+    color: var(--ink);
     margin: 0 0 4px;
     line-height: 1.3;
 }
@@ -1478,7 +1508,7 @@ html {
 
 .ck-stars {
     color: #ffb800;
-    font-size: 24px;
+    font-size: 21px;
     line-height: 1;
     margin-bottom: 14px;
     letter-spacing: 2px;
@@ -1487,7 +1517,7 @@ html {
 .ck-testimonial-text {
     font-size: 13px;
     line-height: 1.6;
-    color: #666;
+    color: var(--muted);
 }
 
 /* ============================================================
@@ -1495,7 +1525,7 @@ html {
    ============================================================ */
 .faq-section {
     padding: 70px 0 60px;
-    background: #e9e9e9;
+    background: #fff;
 }
 
 .faq-container {
@@ -1512,7 +1542,7 @@ html {
 .faq-heading h2 {
     font-size: 32px;
     font-weight: 800;
-    color: #1f1f1f;
+    color: var(--ink);
 }
 
 .faq-heading-line {
@@ -1545,8 +1575,9 @@ html {
 
 .faq-item {
     background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 10px 24px rgba(16,36,58,.06);
     overflow: hidden;
 }
 
@@ -1560,7 +1591,7 @@ html {
     gap: 14px;
     text-align: left;
     padding: 20px 22px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -2180,7 +2211,7 @@ html {
         min-height: auto;
         padding: 64px 0;
         background-image:
-            linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.66)),
+            linear-gradient(90deg, rgba(8,18,32,.92), rgba(8,18,32,.68)),
             image-set(
                 url("{{ asset('images/banner-mobile.webp') }}") type("image/webp"),
                 url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
@@ -2217,7 +2248,7 @@ html {
         min-height: 50px;
         padding: 0 16px;
         font-size: 14px;
-        border-radius: 12px;
+        border-radius: 8px;
     }
 
     .hero-proof-grid {
@@ -2311,7 +2342,7 @@ html {
     .upcoming-heading-line,
     .ck-all-services-line,
     .ck-testimonial-line {
-        width: min(240px, 72vw);
+        width: 92px;
     }
 
     .ck-trust-section { padding: 42px 0; }
@@ -2343,7 +2374,7 @@ html {
     .ck-guide-content-box,
     .ck-vendor-content-box,
     .ck-vendor-image-box {
-        border-radius: 14px;
+        border-radius: 8px;
         min-height: 230px;
     }
 
@@ -2367,7 +2398,7 @@ html {
     .upcoming-services-section { padding: 46px 0; }
     .upcoming-services-heading { margin-bottom: 26px; }
     .upcoming-auto-scroll-track { gap: 16px; animation-duration: 30s; }
-    .upcoming-card    { width: 76vw; min-width: 76vw; max-width: 290px; border-radius: 16px; }
+    .upcoming-card    { width: 76vw; min-width: 76vw; max-width: 290px; border-radius: 8px; }
     .upcoming-card-image { height: 170px; }
 
     .ck-testimonial-grid {
