@@ -25,6 +25,7 @@ class ConstructionEducationPostController extends Controller
             'instagram_url' => 'required|url|max:500',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240',
             'sort_order' => 'nullable|integer|min:0',
+            'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
         ]);
 
@@ -45,6 +46,7 @@ class ConstructionEducationPostController extends Controller
             'instagram_url' => 'required|url|max:500',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240',
             'sort_order' => 'nullable|integer|min:0',
+            'published_at' => 'nullable|date',
             'is_published' => 'nullable|boolean',
         ]);
 

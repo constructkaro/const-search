@@ -64,17 +64,21 @@
         <h5><i class="bi bi-plus-circle-fill text-warning me-2"></i>Add Instagram Education Post</h5>
         <form action="{{ route('construction-education-posts.store') }}" method="POST" enctype="multipart/form-data" class="row g-3">
             @csrf
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label fw-bold">Post Title</label>
                 <input type="text" name="title" value="{{ old('title') }}" class="form-control" placeholder="What is Structural Engineering?" required>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label fw-bold">Instagram Post URL</label>
                 <input type="url" name="instagram_url" value="{{ old('instagram_url') }}" class="form-control" placeholder="https://www.instagram.com/p/..." required>
             </div>
             <div class="col-md-2">
                 <label class="form-label fw-bold">Sort Order</label>
                 <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}" class="form-control" min="0">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-bold">Published Date</label>
+                <input type="date" name="published_at" value="{{ old('published_at') }}" class="form-control">
             </div>
             <div class="col-md-2">
                 <label class="form-label fw-bold">Published</label>
@@ -118,7 +122,11 @@
                                 <label class="form-label fw-bold">Sort</label>
                                 <input type="number" name="sort_order" value="{{ old('sort_order', $post->sort_order) }}" class="form-control" min="0">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Published Date</label>
+                                <input type="date" name="published_at" value="{{ old('published_at', optional($post->published_at)->format('Y-m-d')) }}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
                                 <label class="form-label fw-bold">Replace Image</label>
                                 <input type="file" name="image" class="form-control" accept="image/png,image/jpeg,image/webp">
                             </div>

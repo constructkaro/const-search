@@ -11,10 +11,12 @@ class ConstructionEducationPost extends Model
         'image',
         'instagram_url',
         'sort_order',
+        'published_at',
         'is_published',
     ];
 
     protected $casts = [
+        'published_at' => 'date',
         'is_published' => 'boolean',
     ];
 }

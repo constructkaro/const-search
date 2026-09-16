@@ -49,6 +49,10 @@ class HomeController extends Controller
 
     public function constructioneduction(){
         $educationPosts = ConstructionEducationPost::where('is_published', true)
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhereDate('published_at', '<=', now()->toDateString());
+            })
             ->when(request('search'), function ($query, $search) {
                 $query->where('title', 'like', '%'.$search.'%');
             })
@@ -122,6 +126,10 @@ class HomeController extends Controller
 
     public function blogsinsights(){
         $blogs = Blog::where('is_published', true)
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhereDate('published_at', '<=', now()->toDateString());
+            })
             ->when(request('search'), function ($query, $search) {
                 $query->where(function ($subQuery) use ($search) {
                     $subQuery->where('title', 'like', '%'.$search.'%')
@@ -145,6 +153,10 @@ class HomeController extends Controller
     {
         $blog = Blog::where('slug', $slug)
             ->where('is_published', true)
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhereDate('published_at', '<=', now()->toDateString());
+            })
             ->firstOrFail();
 
         return view('main.blog_show', compact('blog'));
