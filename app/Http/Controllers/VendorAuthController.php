@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 
 class VendorAuthController extends Controller
@@ -50,7 +51,63 @@ class VendorAuthController extends Controller
             return redirect()->route('login')->with('error', 'Please login first.');
         }
 
-        return view('vendor.vendor_dashboard');
+        $vendorId = Session::get('vendor_id');
+
+        $notificationCount = Schema::hasTable('vendor_project_notifications')
+            ? DB::table('vendor_project_notifications')->where('vendor_id', $vendorId)->count()
+            : 0;
+
+        $unreadCount = Schema::hasTable('vendor_project_notifications')
+            ? DB::table('vendor_project_notifications')
+                ->where('vendor_id', $vendorId)
+                ->where('status', 'unread')
+                ->count()
+            : 0;
+
+        $interestedCount = Schema::hasTable('vendor_notification_responses')
+            ? DB::table('vendor_notification_responses')
+                ->where('vendor_id', $vendorId)
+                ->where('is_interested', 1)
+                ->count()
+            : 0;
+
+        $completedProfiles = collect([
+            'Contractor' => 'contractor_providers',
+            'Architect' => 'architect_providers',
+            'Interior Designer' => 'interior_providers',
+            'Surveyor' => 'surveyor_providers',
+            'BOQ / Estimation Expert' => 'vendor_boq_profiles',
+            'Structural Auditor / Engineer' => 'structural_audit_providers',
+        ])->filter(function ($table) use ($vendorId) {
+            return Schema::hasTable($table)
+                && DB::table($table)->where('vendor_id', $vendorId)->exists();
+        })->keys()->values();
+
+        $latestNotifications = Schema::hasTable('vendor_project_notifications')
+            ? DB::table('vendor_project_notifications as vpn')
+                ->leftJoin('posts as p', 'vpn.post_id', '=', 'p.id')
+                ->where('vpn.vendor_id', $vendorId)
+                ->select(
+                    'vpn.id',
+                    'vpn.post_id',
+                    'vpn.status',
+                    'vpn.created_at',
+                    'p.title',
+                    'p.service_type',
+                    'p.city_id'
+                )
+                ->orderByDesc('vpn.id')
+                ->limit(5)
+                ->get()
+            : collect();
+
+        return view('vendor.vendor_dashboard', [
+            'notificationCount' => $notificationCount,
+            'unreadCount' => $unreadCount,
+            'interestedCount' => $interestedCount,
+            'completedProfiles' => $completedProfiles,
+            'latestNotifications' => $latestNotifications,
+        ]);
     }
 
     public function logout()
