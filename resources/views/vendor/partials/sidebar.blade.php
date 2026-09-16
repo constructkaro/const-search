@@ -1,9 +1,14 @@
 <div class="sidebar">
-    <div class="brand">
-        <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" class="brand-logo">
-    </div>
+    <a href="{{ route('dashboard') }}" class="brand">
+        <span class="brand-logo-wrap">
+            <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" class="brand-logo">
+        </span>
+        <span class="brand-kicker">Vendor Portal</span>
+    </a>
 
     <div class="sidebar-menu">
+        <div class="sidebar-label">Workspace</div>
+
         <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
             <i class="fa-solid fa-house"></i>
             <span>Dashboard</span>
@@ -29,5 +34,15 @@
                 <span class="badge bg-danger ms-auto">{{ $unreadCount }}</span>
             @endif
         </a>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="sidebar-footer-icon">
+            <i class="fa-solid fa-headset"></i>
+        </div>
+        <div>
+            <strong>Need help?</strong>
+            <span>Contact ConstructKaro team</span>
+        </div>
     </div>
 </div>

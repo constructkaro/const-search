@@ -9,13 +9,22 @@
     .category-page-card {
         background: #fff;
         border: 1px solid #e7edf5;
-        border-radius: 18px;
-        padding: 30px;
-        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+        border-radius: 24px;
+        padding: 0;
+        box-shadow: 0 18px 46px rgba(15, 23, 42, 0.07);
+        overflow: hidden;
+    }
+
+    .category-page-head {
+        padding: 32px 36px 28px;
+        background:
+            linear-gradient(135deg, rgba(7,92,159,0.08) 0%, rgba(244,123,32,0.08) 100%),
+            #fff;
+        border-bottom: 1px solid #edf2f7;
     }
 
     .category-page-head h2 {
-        font-size: 28px;
+        font-size: 30px;
         line-height: 1.2;
         color: var(--vendor-text, #071832);
         margin-bottom: 8px;
@@ -30,13 +39,17 @@
     }
 
     .category-progress {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 10px;
-        color: #667085;
+        color: var(--vendor-blue, #075c9f);
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 900;
         margin-bottom: 18px;
+        padding: 8px 12px 8px 8px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #e7edf5;
     }
 
     .category-progress span {
@@ -47,26 +60,29 @@
         height: 28px;
         border-radius: 50%;
         background: var(--vendor-orange, #f47b20);
-        color: var(--vendor-navy, #071832);
+        color: #fff;
         font-weight: 800;
+    }
+
+    .category-body {
+        padding: 30px 36px 34px;
     }
 
     .category-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
-        margin-top: 30px;
     }
 
     .category-item {
-        border: 1px solid #d8dde6;
-        border-radius: 14px;
-        min-height: 86px;
+        border: 1px solid #dce4ef;
+        border-radius: 18px;
+        min-height: 96px;
         display: flex;
         align-items: center;
         gap: 16px;
         padding: 18px;
-        background: #fff;
+        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
         color: inherit;
         cursor: pointer;
         position: relative;
@@ -78,7 +94,7 @@
     .category-item:hover,
     .category-item:focus-visible {
         border-color: var(--vendor-orange, #f47b20);
-        box-shadow: 0 8px 20px rgba(244,123,32,0.12);
+        box-shadow: 0 14px 26px rgba(7, 24, 50, 0.08);
         transform: translateY(-2px);
         outline: none;
     }
@@ -86,15 +102,15 @@
     .category-item > i {
         font-size: 24px;
         color: #7c8798;
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: #f5f7fb;
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: #f2f6fb;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        flex: 0 0 48px;
+        flex: 0 0 52px;
     }
 
     .category-copy {
@@ -118,8 +134,8 @@
 
     .category-check {
         margin-left: auto;
-        width: 26px;
-        height: 26px;
+        width: 28px;
+        height: 28px;
         border: 1px solid #d8dde6;
         border-radius: 50%;
         display: inline-flex;
@@ -132,13 +148,13 @@
 
     .category-item.is-selected {
         border-color: var(--vendor-orange, #f47b20);
-        background: #fff6ef;
-        box-shadow: 0 10px 24px rgba(244,123,32,0.15);
+        background: linear-gradient(180deg, #fff8f2 0%, #ffffff 100%);
+        box-shadow: 0 16px 30px rgba(244,123,32,0.14);
     }
 
     .category-item.is-selected i {
-        background: var(--vendor-orange, #f47b20);
-        color: var(--vendor-navy, #071832);
+        background: linear-gradient(135deg, var(--vendor-orange, #f47b20), #ffae42);
+        color: #fff;
     }
 
     .category-check i,
@@ -161,7 +177,9 @@
         align-items: center;
         justify-content: space-between;
         gap: 18px;
-        margin-top: 34px;
+        margin-top: 30px;
+        padding-top: 24px;
+        border-top: 1px solid #edf2f7;
     }
 
     .btn-back {
@@ -174,7 +192,7 @@
         border-radius: 12px;
         background: #fff;
         color: var(--vendor-text, #071832);
-        font-weight: 700;
+        font-weight: 900;
         transition: 0.2s ease;
     }
 
@@ -191,7 +209,8 @@
         border-radius: 14px;
         background: linear-gradient(135deg, var(--vendor-orange, #f47b20) 0%, #ffa726 100%);
         color: var(--vendor-navy, #071832);
-        font-weight: 700;
+        font-weight: 900;
+        box-shadow: 0 14px 24px rgba(244, 123, 32, 0.22);
         border: none;
         min-width: 188px;
         justify-content: center;
@@ -211,7 +230,11 @@
         gap: 8px;
         color: #667085;
         font-size: 14px;
-        margin-top: 18px;
+        margin-top: 20px;
+        padding: 13px 14px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #edf2f7;
     }
 
     .category-help i {
@@ -220,8 +243,12 @@
 
     @media (max-width: 768px) {
         .category-page-card {
-            padding: 20px;
             border-radius: 14px;
+        }
+
+        .category-page-head,
+        .category-body {
+            padding: 20px;
         }
 
         .category-page-head h2 {
@@ -256,37 +283,39 @@
         <p>Choose the service category that best matches your business. After continuing, you can complete the details required for that category.</p>
     </div>
 
-    <div class="category-grid">
-        @foreach($categories as $category)
-            <button type="button"
-                class="category-item"
-                data-category-url="{{ route('vendor.category.form', $category['slug']) }}"
-                aria-pressed="false">
-                <i class="{{ $category['icon'] }}"></i>
-                <span class="category-copy">
-                    <strong>{{ $category['name'] }}</strong>
-                    <span>Continue with {{ strtolower($category['name']) }} profile</span>
-                </span>
-                <span class="category-check" aria-hidden="true">
-                    <i class="fa-solid fa-check"></i>
-                </span>
-            </button>
-        @endforeach
-    </div>
+    <div class="category-body">
+        <div class="category-grid">
+            @foreach($categories as $category)
+                <button type="button"
+                    class="category-item"
+                    data-category-url="{{ route('vendor.category.form', $category['slug']) }}"
+                    aria-pressed="false">
+                    <i class="{{ $category['icon'] }}"></i>
+                    <span class="category-copy">
+                        <strong>{{ $category['name'] }}</strong>
+                        <span>Continue with {{ strtolower($category['name']) }} profile</span>
+                    </span>
+                    <span class="category-check" aria-hidden="true">
+                        <i class="fa-solid fa-check"></i>
+                    </span>
+                </button>
+            @endforeach
+        </div>
 
-    <div class="category-help">
-        <i class="fa-solid fa-circle-info"></i>
-        <span>Select one category now. You can return later if you need to update your service profile.</span>
-    </div>
+        <div class="category-help">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Select one category now. You can return later if you need to update your service profile.</span>
+        </div>
 
-    <div class="category-actions">
-        <a href="{{ route('dashboard') }}" class="btn-back">
-            <i class="fa-solid fa-arrow-left"></i> Back
-        </a>
+        <div class="category-actions">
+            <a href="{{ route('dashboard') }}" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
 
-        <a href="#" class="btn-continue is-disabled" id="categoryContinue" aria-disabled="true">
-            Continue <i class="fa-solid fa-arrow-right"></i>
-        </a>
+            <a href="#" class="btn-continue is-disabled" id="categoryContinue" aria-disabled="true">
+                Continue <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
     </div>
 </div>
 
