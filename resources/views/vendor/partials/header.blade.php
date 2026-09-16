@@ -81,7 +81,7 @@
     <div class="container header-container">
         <div class="logo">
             <a href="{{ url('/') }}" aria-label="ConstructKaro home">
-                <img src="{{ asset('images/constructkaro-logo.svg') }}" alt="ConstructKaro Logo" onerror="this.onerror=null;this.src='{{ asset('images/logo.png') }}';">
+                <img src="{{ asset('images//logo.png') }}" alt="ConstructKaro Logo" onerror="this.onerror=null;this.src='{{ asset('images/logo.png') }}';">
             </a>
         </div>
 
