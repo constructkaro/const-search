@@ -92,8 +92,8 @@ class VendorAuthController extends Controller
                     'vpn.post_id',
                     'vpn.status',
                     'vpn.created_at',
+                    'vpn.service_type',
                     'p.title',
-                    'p.service_type',
                     'p.city_id'
                 )
                 ->orderByDesc('vpn.id')
