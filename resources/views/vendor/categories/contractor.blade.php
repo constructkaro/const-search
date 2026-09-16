@@ -1165,9 +1165,13 @@
 
                     <div>
                         <div class="field-label">Accepting projects of minimum value (₹) <span class="req">*</span></div>
-                        <input type="text" class="form-input" name="minimum_project_value"
+                        <input type="number" class="form-input" name="minimum_project_value"
+                               min="0" step="1" inputmode="numeric"
                                value="{{ old('minimum_project_value', $existingData->minimum_project_value ?? '') }}"
-                               placeholder="Enter minimum project value">
+                               placeholder="Example: 500000">
+                        @error('minimum_project_value')
+                            <small style="display:block;color:#ef4444;font-weight:700;margin-top:8px;">{{ $message }}</small>
+                        @enderror
                         <small class="text-muted">
                             Please enter amount in numbers only. Example: 500000 for ₹5 Lakhs.
                         </small>

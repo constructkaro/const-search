@@ -7,6 +7,7 @@ use App\Models\ContractorProvider;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ContractorController extends Controller
 {
@@ -47,6 +48,7 @@ class ContractorController extends Controller
         'project_types' => 'required|array',
         'company_name' => 'required|string|max:255',
         'msme_registered' => 'required',
+        'minimum_project_value' => 'required|string|max:100',
 
         'city_ids' => 'required|array|min:1',
         'city_ids.*' => 'required',
@@ -67,6 +69,16 @@ class ContractorController extends Controller
         'work_photo_2' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
         'work_photo_3' => 'nullable|file|mimes:jpg,jpeg,png|max:20480',
     ]);
+
+    $minimumProjectValue = $this->parseProjectValue($request->minimum_project_value);
+
+    if ($minimumProjectValue === null) {
+        return back()
+            ->withErrors([
+                'minimum_project_value' => 'Please enter a valid minimum project value. Example: 500000, 5 lakh, or 5 Cr.',
+            ])
+            ->withInput();
+    }
 
     $existing = ContractorProvider::where('vendor_id', $vendorId)->first();
 
@@ -108,7 +120,7 @@ class ContractorController extends Controller
         'area_ids' => $request->area_ids,
         'pincode' => $request->pincode,
 
-        'minimum_project_value' => $request->minimum_project_value,
+        'minimum_project_value' => $minimumProjectValue,
 
         'company_name' => $request->company_name,
         'entity_type' => $request->entity_type,
@@ -152,6 +164,41 @@ class ContractorController extends Controller
     ContractorProvider::create($data);
 
     return back()->with('success', 'Contractor profile saved successfully.');
+}
+
+private function parseProjectValue($value): ?float
+{
+    if ($value === null) {
+        return null;
+    }
+
+    $rawValue = trim((string) $value);
+
+    if ($rawValue === '') {
+        return null;
+    }
+
+    $normalizedValue = Str::of($rawValue)
+        ->lower()
+        ->replace([',', '₹', 'rs.', 'rs', 'inr'], '')
+        ->replace(['crore', 'crores'], 'cr')
+        ->replace(['lakhs', 'lacs', 'lac'], 'lakh')
+        ->trim()
+        ->toString();
+
+    if (!preg_match('/\d+(?:\.\d+)?/', $normalizedValue, $matches)) {
+        return null;
+    }
+
+    $amount = (float) $matches[0];
+
+    if (Str::contains($normalizedValue, 'cr')) {
+        $amount *= 10000000;
+    } elseif (Str::contains($normalizedValue, 'lakh')) {
+        $amount *= 100000;
+    }
+
+    return $amount >= 0 ? $amount : null;
 }
 
 public function acceptContractorAgreement(Request $request)
