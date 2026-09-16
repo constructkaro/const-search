@@ -1,0 +1,19 @@
+<svg width="920" height="220" viewBox="0 0 920 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="920" height="220" rx="26" fill="#0D1C3D"/>
+
+  <g>
+    <rect x="20" y="20" width="160" height="180" rx="26" fill="#F5B52C"/>
+    <path d="M60 72H150C158.837 72 166 79.1634 166 88V118C166 126.837 158.837 134 150 134H60C51.1634 134 44 126.837 44 118V88C44 79.1634 51.1634 72 60 72Z" fill="#0D1C3D"/>
+    <path d="M55 122L80 98L100 118L126 92L160 126V150H55V122Z" fill="#F5B52C"/>
+    <path d="M74 161H130C138.837 161 146 153.837 146 145V113L122 89L84 127L74 117L44 147V145C44 153.837 51.1634 161 60 161H74Z" fill="#0D1C3D"/>
+    <path d="M131 71H142L122 91H111L131 71Z" fill="#0D1C3D"/>
+    <path d="M60 57L125 57C137.15 57 147 66.8497 147 79V80H60C47.8497 80 38 70.1503 38 58V57H60Z" fill="#0D1C3D"/>
+  </g>
+
+  <g>
+    <text x="214" y="132" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" letter-spacing="-1.5">ConstructKaro</text>
+    <path d="M216 160H634" stroke="#F5B52C" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 18"/>
+    <path d="M650 160H760" stroke="#F5B52C" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 18"/>
+    <path d="M780 160H850" stroke="#F5B52C" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 18"/>
+  </g>
+</svg>
