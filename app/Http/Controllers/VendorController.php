@@ -68,9 +68,11 @@ public function vendorstore(Request $request)
         'updated_at' => now(),
     ]);
 
-    // Store vendor login session
+    // Start the vendor session immediately after registration.
+    $request->session()->regenerate();
     Session::put('vendor_id', $vendorId);
     Session::put('vendor_name', $validated['full_name']);
+    Session::put('vendor_mobile', $validated['mobile']);
     Session::put('vendor_email', $validated['email']);
 
     // Redirect to dashboard
