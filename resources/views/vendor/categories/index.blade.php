@@ -16,7 +16,7 @@
     .category-page-head h2 {
         font-size: 30px;
         line-height: 1.2;
-        color: #111633;
+        color: var(--vendor-text, #071832);
         margin-bottom: 8px;
     }
 
@@ -45,8 +45,8 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        background: #f5a623;
-        color: #111633;
+        background: var(--vendor-orange, #f47b20);
+        color: var(--vendor-navy, #071832);
         font-weight: 800;
     }
 
@@ -76,8 +76,8 @@
 
     .category-item:hover,
     .category-item:focus-visible {
-        border-color: #f5a623;
-        box-shadow: 0 8px 20px rgba(245,166,35,0.10);
+        border-color: var(--vendor-orange, #f47b20);
+        box-shadow: 0 8px 20px rgba(244,123,32,0.12);
         transform: translateY(-2px);
         outline: none;
     }
@@ -106,7 +106,7 @@
     .category-copy strong {
         font-size: 16px;
         font-weight: 800;
-        color: #111633;
+        color: var(--vendor-text, #071832);
     }
 
     .category-copy span {
@@ -130,14 +130,14 @@
     }
 
     .category-item.is-selected {
-        border-color: #f5a623;
-        background: #fff9ee;
-        box-shadow: 0 10px 24px rgba(245,166,35,0.14);
+        border-color: var(--vendor-orange, #f47b20);
+        background: #fff6ef;
+        box-shadow: 0 10px 24px rgba(244,123,32,0.15);
     }
 
     .category-item.is-selected i {
-        background: #f5a623;
-        color: #111633;
+        background: var(--vendor-orange, #f47b20);
+        color: var(--vendor-navy, #071832);
     }
 
     .category-check i,
@@ -150,8 +150,8 @@
     }
 
     .category-item.is-selected .category-check {
-        background: #111633;
-        border-color: #111633;
+        background: var(--vendor-blue, #075c9f);
+        border-color: var(--vendor-blue, #075c9f);
         color: #fff;
     }
 
@@ -172,13 +172,13 @@
         border: 1px solid #d8dde6;
         border-radius: 14px;
         background: #fff;
-        color: #111633;
+        color: var(--vendor-text, #071832);
         font-weight: 700;
         transition: 0.2s ease;
     }
 
     .btn-back:hover {
-        border-color: #111633;
+        border-color: var(--vendor-blue, #075c9f);
     }
 
     .btn-continue {
@@ -188,8 +188,8 @@
         height: 54px;
         padding: 0 28px;
         border-radius: 14px;
-        background: #f5a623;
-        color: #111633;
+        background: linear-gradient(135deg, var(--vendor-orange, #f47b20) 0%, #ffa726 100%);
+        color: var(--vendor-navy, #071832);
         font-weight: 700;
         border: none;
         min-width: 188px;
@@ -214,7 +214,7 @@
     }
 
     .category-help i {
-        color: #f5a623;
+        color: var(--vendor-orange, #f47b20);
     }
 
     @media (max-width: 768px) {

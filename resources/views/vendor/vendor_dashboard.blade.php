@@ -21,7 +21,7 @@
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 22px;
         align-items: center;
-        background: linear-gradient(135deg, #111633 0%, #1e3766 100%);
+        background: linear-gradient(135deg, var(--vendor-navy, #071832) 0%, var(--vendor-blue, #075c9f) 100%);
         border-radius: 22px;
         padding: 28px;
         color: #fff;
@@ -38,7 +38,7 @@
         width: 220px;
         height: 220px;
         border-radius: 50%;
-        background: rgba(245, 166, 35, 0.18);
+        background: rgba(244, 123, 32, 0.18);
     }
 
     .dashboard-hero h1 {
@@ -73,9 +73,9 @@
         justify-content: center;
         gap: 9px;
         font-weight: 800;
-        color: #111633;
-        background: #f5a623;
-        border: 1px solid #f5a623;
+        color: var(--vendor-navy, #071832);
+        background: var(--vendor-orange, #f47b20);
+        border: 1px solid var(--vendor-orange, #f47b20);
     }
 
     .hero-btn.secondary {
@@ -106,13 +106,13 @@
         align-items: center;
         justify-content: center;
         background: #fff4eb;
-        color: #eb7a2f;
+        color: var(--vendor-orange, #f47b20);
         margin-bottom: 16px;
     }
 
     .metric-card strong {
         display: block;
-        color: #111633;
+        color: var(--vendor-text, #071832);
         font-size: 30px;
         line-height: 1;
         margin-bottom: 8px;
@@ -148,7 +148,7 @@
 
     .panel-title h2 {
         margin: 0;
-        color: #111633;
+        color: var(--vendor-text, #071832);
         font-size: 20px;
     }
 
@@ -170,7 +170,7 @@
         height: 100%;
         width: var(--progress);
         border-radius: inherit;
-        background: linear-gradient(90deg, #f5a623, #eb7a2f);
+        background: linear-gradient(90deg, var(--vendor-orange, #f47b20), var(--vendor-blue, #075c9f));
     }
 
     .profile-list,
@@ -213,7 +213,7 @@
 
     .lead-item strong {
         display: block;
-        color: #111633;
+        color: var(--vendor-text, #071832);
         margin-bottom: 5px;
     }
 

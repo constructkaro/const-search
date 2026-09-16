@@ -1,6 +1,6 @@
 <div class="sidebar">
     <div class="brand">
-        <img src="{{ asset('images//logo.png') }}" alt="ConstructKaro" class="brand-logo">
+        <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" class="brand-logo">
     </div>
 
     <div class="sidebar-menu">

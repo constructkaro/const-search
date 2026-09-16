@@ -9,13 +9,14 @@
 
     <style>
         :root {
-            --vendor-bg: #f4f7fb;
+            --vendor-bg: #f3f7fb;
             --vendor-card: #ffffff;
-            --vendor-navy: #111633;
-            --vendor-navy-soft: #1e3766;
-            --vendor-orange: #f5a623;
-            --vendor-orange-dark: #eb7a2f;
-            --vendor-text: #111633;
+            --vendor-navy: #071832;
+            --vendor-navy-soft: #0b3f76;
+            --vendor-blue: #075c9f;
+            --vendor-orange: #f47b20;
+            --vendor-orange-dark: #df6415;
+            --vendor-text: #071832;
             --vendor-muted: #667085;
             --vendor-line: #e7edf5;
             --vendor-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
@@ -46,21 +47,21 @@
         }
 
         .sidebar {
-            width: 260px;
+            width: 300px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #111633 0%, #0d122b 100%);
+            background: linear-gradient(180deg, #071832 0%, #08264b 100%);
             color: #fff;
             position: fixed;
             left: 0;
             top: 0;
-            padding: 22px 14px;
+            padding: 22px 18px;
             z-index: 120;
-            box-shadow: 12px 0 36px rgba(17, 22, 51, 0.14);
+            box-shadow: 12px 0 36px rgba(7, 24, 50, 0.16);
         }
 
         .main-wrapper {
-            margin-left: 260px;
-            width: calc(100% - 260px);
+            margin-left: 300px;
+            width: calc(100% - 300px);
             min-height: 100vh;
         }
 
@@ -87,33 +88,36 @@
         .brand {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            min-height: 54px;
-            padding: 0 8px 0 6px;
-            margin-bottom: 22px;
-            letter-spacing: 0;
+            justify-content: center;
+            min-height: 104px;
+            padding: 14px;
+            margin-bottom: 24px;
+            border-radius: 20px;
+            background: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
         }
 
         .brand-logo {
             display: block;
             width: auto;
-            max-width: 210px;
-            height: 48px;
+            max-width: 232px;
+            max-height: 74px;
+            height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 8px 18px rgba(245,166,35,0.15));
         }
 
         .sidebar-menu a {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: #d5dbff;
-            padding: 14px 14px;
+            color: rgba(255, 255, 255, 0.82);
+            padding: 15px 16px;
             border-radius: 14px;
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
             transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .sidebar-menu a i {
@@ -124,9 +128,10 @@
 
         .sidebar-menu a:hover,
         .sidebar-menu a.active {
-            background: var(--vendor-orange);
+            background: linear-gradient(135deg, var(--vendor-orange) 0%, #ffa726 100%);
             color: var(--vendor-navy);
             transform: translateX(2px);
+            box-shadow: 0 14px 28px rgba(244, 123, 32, 0.22);
         }
 
         .header-left h2 {
@@ -241,12 +246,12 @@
 
         @media (max-width: 992px) {
             .sidebar {
-                width: 220px;
+                width: 250px;
             }
 
             .main-wrapper {
-                margin-left: 220px;
-                width: calc(100% - 220px);
+                margin-left: 250px;
+                width: calc(100% - 250px);
             }
 
             .grid-3 {
@@ -269,8 +274,14 @@
 
             .brand {
                 text-align: left;
-                padding: 0 6px;
+                min-height: 86px;
+                padding: 12px;
                 margin-bottom: 14px;
+            }
+
+            .brand-logo {
+                max-width: 190px;
+                max-height: 58px;
             }
 
             .sidebar-menu {
@@ -322,12 +333,6 @@
                 white-space: nowrap;
             }
         }
-
-        .sidebar-menu a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
         .sidebar-menu a .badge {
             margin-left: auto;
