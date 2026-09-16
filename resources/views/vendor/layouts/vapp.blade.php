@@ -87,27 +87,20 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: flex-start;
             min-height: 54px;
-            padding: 0 12px;
-            font-size: 23px;
-            font-weight: 900;
+            padding: 0 8px 0 6px;
             margin-bottom: 22px;
             letter-spacing: 0;
         }
 
-        .brand::before {
-            content: "CK";
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: var(--vendor-orange);
-            color: var(--vendor-navy);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 900;
+        .brand-logo {
+            display: block;
+            width: auto;
+            max-width: 210px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 18px rgba(245,166,35,0.15));
         }
 
         .sidebar-menu a {

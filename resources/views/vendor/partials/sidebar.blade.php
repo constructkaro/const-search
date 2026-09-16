@@ -1,5 +1,7 @@
 <div class="sidebar">
-    <div class="brand">ConstructKaro</div>
+    <div class="brand">
+        <img src="{{ asset('images/constructkaro-logo.svg') }}" alt="ConstructKaro" class="brand-logo">
+    </div>
 
     <div class="sidebar-menu">
         <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
