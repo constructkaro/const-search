@@ -96,24 +96,19 @@
 }
 
 .logo img {
-    max-height: 74px;
-    width: auto;
-    display: block;
-}
+        max-height: 72px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+        filter: drop-shadow(0 6px 10px rgba(245,166,35,0.18));
+    }
 
 </style>
 <header class="vendor-header">
     <div class="container header-container">
         <div class="logo">
-              <a href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro">
-            </a>
-        </div>
-
-        <nav class="nav-menu">
-            <a href="#who-can-join">Who Can Join</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#why-join">Why Join</a>
+            <a href="{{ url('/') }}" aria-label="ConstructKaro home">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro Logo" onerror="this.onerror=null;this.src='{{ asset('images/logo.webp') }}';">
             <a href="{{route('login')}}" class="register-btn">Login</a>
         </nav>
     </div>
