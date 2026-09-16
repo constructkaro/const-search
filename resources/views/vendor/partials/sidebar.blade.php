@@ -3,7 +3,7 @@
         <span class="brand-logo-wrap">
             <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" class="brand-logo">
         </span>
-        <!-- <span class="brand-kicker">Vendor Portal</span> -->
+        <span class="brand-kicker">Vendor Portal</span>
     </a>
 
     <div class="sidebar-menu">
