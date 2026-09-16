@@ -47,21 +47,21 @@
         }
 
         .sidebar {
-            width: 300px;
+            width: 260px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #071832 0%, #08264b 100%);
+            background: linear-gradient(180deg, #071832 0%, #061f3f 58%, #06172f 100%);
             color: #fff;
             position: fixed;
             left: 0;
             top: 0;
-            padding: 22px 18px;
+            padding: 24px 16px;
             z-index: 120;
             box-shadow: 12px 0 36px rgba(7, 24, 50, 0.16);
         }
 
         .main-wrapper {
-            margin-left: 300px;
-            width: calc(100% - 300px);
+            margin-left: 260px;
+            width: calc(100% - 260px);
             min-height: 100vh;
         }
 
@@ -89,20 +89,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 104px;
-            padding: 14px;
-            margin-bottom: 24px;
-            border-radius: 20px;
-            background: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.78);
-            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
+            min-height: 74px;
+            padding: 10px 12px;
+            margin-bottom: 22px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.12);
         }
 
         .brand-logo {
             display: block;
             width: auto;
-            max-width: 232px;
-            max-height: 74px;
+            max-width: 188px;
+            max-height: 48px;
             height: auto;
             object-fit: contain;
         }
@@ -110,11 +110,11 @@
         .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 13px;
             color: rgba(255, 255, 255, 0.82);
-            padding: 15px 16px;
+            padding: 14px 16px;
             border-radius: 14px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
             margin-bottom: 10px;
@@ -131,7 +131,7 @@
             background: linear-gradient(135deg, var(--vendor-orange) 0%, #ffa726 100%);
             color: var(--vendor-navy);
             transform: translateX(2px);
-            box-shadow: 0 14px 28px rgba(244, 123, 32, 0.22);
+            box-shadow: 0 10px 22px rgba(244, 123, 32, 0.20);
         }
 
         .header-left h2 {
@@ -246,12 +246,12 @@
 
         @media (max-width: 992px) {
             .sidebar {
-                width: 250px;
+                width: 230px;
             }
 
             .main-wrapper {
-                margin-left: 250px;
-                width: calc(100% - 250px);
+                margin-left: 230px;
+                width: calc(100% - 230px);
             }
 
             .grid-3 {
@@ -274,14 +274,14 @@
 
             .brand {
                 text-align: left;
-                min-height: 86px;
-                padding: 12px;
+                min-height: 68px;
+                padding: 10px;
                 margin-bottom: 14px;
             }
 
             .brand-logo {
-                max-width: 190px;
-                max-height: 58px;
+                max-width: 168px;
+                max-height: 44px;
             }
 
             .sidebar-menu {

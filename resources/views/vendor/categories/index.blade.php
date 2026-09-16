@@ -8,13 +8,14 @@
 <style>
     .category-page-card {
         background: #fff;
-        border-radius: 20px;
-        padding: 32px;
-        box-shadow: 0 8px 28px rgba(0,0,0,0.05);
+        border: 1px solid #e7edf5;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
     }
 
     .category-page-head h2 {
-        font-size: 30px;
+        font-size: 28px;
         line-height: 1.2;
         color: var(--vendor-text, #071832);
         margin-bottom: 8px;
@@ -53,14 +54,14 @@
     .category-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
+        gap: 16px;
         margin-top: 30px;
     }
 
     .category-item {
         border: 1px solid #d8dde6;
-        border-radius: 16px;
-        min-height: 92px;
+        border-radius: 14px;
+        min-height: 86px;
         display: flex;
         align-items: center;
         gap: 16px;
@@ -87,7 +88,7 @@
         color: #7c8798;
         width: 48px;
         height: 48px;
-        border-radius: 14px;
+        border-radius: 12px;
         background: #f5f7fb;
         display: flex;
         align-items: center;
@@ -170,7 +171,7 @@
         height: 54px;
         padding: 0 22px;
         border: 1px solid #d8dde6;
-        border-radius: 14px;
+        border-radius: 12px;
         background: #fff;
         color: var(--vendor-text, #071832);
         font-weight: 700;
@@ -219,8 +220,8 @@
 
     @media (max-width: 768px) {
         .category-page-card {
-            padding: 22px;
-            border-radius: 16px;
+            padding: 20px;
+            border-radius: 14px;
         }
 
         .category-page-head h2 {
