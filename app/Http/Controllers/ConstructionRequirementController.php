@@ -10,15 +10,22 @@ class ConstructionRequirementController extends Controller
 {
     public function store(Request $request)
     {
+        $services = (array) $request->input('services', []);
+        $isErpEnquiry = in_array('ERP Enquiry', $services, true);
+
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:20',
+            'mobile' => ['required', 'string', 'max:20', 'regex:/^(?:\+91|91)?[6-9][0-9]{9}$/'],
             'email' => 'nullable|email|max:255',
+            'website' => 'prohibited',
 
             'house_name' => 'nullable|string|max:255',
             'area' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:100',
-            'pincode' => 'nullable|string|max:20',
+            'pincode' => [
+                $isErpEnquiry ? 'required' : 'nullable',
+                'digits:6',
+            ],
 
             'services' => 'nullable|array',
             'services.*' => 'string|max:255',
@@ -27,9 +34,11 @@ class ConstructionRequirementController extends Controller
             'project_description' => 'nullable|string',
         ]);
 
+        $mobile = preg_replace('/^(?:\+91|91)/', '', $request->mobile);
+
         $data = [
             'full_name' => $request->full_name,
-            'mobile' => $request->mobile,
+            'mobile' => $mobile,
             'email' => $request->email,
 
             'house_name' => $request->house_name,

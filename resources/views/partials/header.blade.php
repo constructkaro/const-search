@@ -773,6 +773,7 @@ body {
             @csrf
             <input type="hidden" name="services[]" value="ERP Enquiry">
             <input type="hidden" name="planning_timeframe" value="ERP requirement">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;opacity:0;" aria-hidden="true">
 
             <div class="erp-form-group">
                 <label for="erpFullName">Full Name</label>
@@ -791,7 +792,12 @@ body {
 
             <div class="erp-form-group">
                 <label for="erpCity">City</label>
-                <input type="text" id="erpCity" name="city" autocomplete="address-level2">
+                <input type="text" id="erpCity" name="city" required autocomplete="address-level2">
+            </div>
+
+            <div class="erp-form-group">
+                <label for="erpPincode">Pincode</label>
+                <input type="text" id="erpPincode" name="pincode" required pattern="[0-9]{6}" maxlength="6" inputmode="numeric" autocomplete="postal-code">
             </div>
 
             <div class="erp-form-group">
