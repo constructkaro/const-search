@@ -289,11 +289,22 @@ public function allvendors(Request $request)
         ");
 
     if ($request->filled('city')) {
-        $cityId = (string) $request->city;
+        $cityId = trim((string) $request->city);
+        $jsonCityId = json_encode($cityId);
+        $jsonNumericCityId = is_numeric($cityId) ? json_encode((int) $cityId) : $jsonCityId;
 
-        $query->where(function ($q) use ($cityId) {
-            $q->whereJsonContains('city_ids', $cityId)
-                ->orWhereJsonContains('city_ids', (int) $cityId);
+        $query->where(function ($q) use ($cityId, $jsonCityId, $jsonNumericCityId) {
+            $q->whereRaw(
+                "CASE
+                    WHEN JSON_VALID(vendor_register.city_ids) THEN
+                        JSON_CONTAINS(vendor_register.city_ids, ?)
+                        OR JSON_CONTAINS(vendor_register.city_ids, ?)
+                    ELSE 0
+                END",
+                [$jsonCityId, $jsonNumericCityId]
+            )
+                ->orWhere('vendor_register.city_ids', $cityId)
+                ->orWhereRaw('FIND_IN_SET(?, vendor_register.city_ids)', [$cityId]);
         });
     }
 
