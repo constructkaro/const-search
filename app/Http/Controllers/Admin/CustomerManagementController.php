@@ -15,7 +15,7 @@ class CustomerManagementController extends Controller
         $customers = DB::table('customers')
             ->leftJoin('posts', 'customers.id', '=', 'posts.user_id')
             ->select('customers.id', 'customers.name', 'customers.mobile', 'customers.email')
-               ->selectRaw('customers.password IS NOT NULL as has_password')
+            ->selectRaw('customers.password IS NOT NULL as has_password')
             ->selectRaw('COUNT(posts.id) as projects_count')
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = $request->input('search');
@@ -25,13 +25,32 @@ class CustomerManagementController extends Controller
                         ->orWhere('customers.email', 'like', '%'.$search.'%');
                 });
             })
-            ->groupBy('customers.id', 'customers.name', 'customers.mobile', 'customers.email')
-               ->groupBy('customers.id', 'customers.name', 'customers.mobile', 'customers.email', 'customers.password')
+                ->groupBy('customers.id', 'customers.name', 'customers.mobile', 'customers.email', 'customers.password')
             ->orderByDesc('customers.id')
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.customers.index', compact('customers'));
+        return view('admin.customers.index', [
+            'customers' => $customers,
+            'editingCustomer' => null,
+        ]);
+    }
+
+    public function edit(Customer $customer)
+    {
+        $customers = DB::table('customers')
+            ->leftJoin('posts', 'customers.id', '=', 'posts.user_id')
+            ->select('customers.id', 'customers.name', 'customers.mobile', 'customers.email')
+            ->selectRaw('customers.password IS NOT NULL as has_password')
+            ->selectRaw('COUNT(posts.id) as projects_count')
+            ->groupBy('customers.id', 'customers.name', 'customers.mobile', 'customers.email', 'customers.password')
+            ->orderByDesc('customers.id')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.customers.index', compact('customers', 'customer') + [
+            'editingCustomer' => $customer,
+        ]);
     }
 
     public function store(Request $request)
@@ -62,5 +81,25 @@ class CustomerManagementController extends Controller
 
         return redirect()->route('admin.customers.index')
             ->with('success', 'Customer account saved. They can sign in at /customer/login using the mobile number and password you set.');
+    }
+
+    public function update(Request $request, Customer $customer)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'mobile' => ['required', 'digits:10', 'unique:customers,mobile,'.$customer->id],
+            'email' => ['nullable', 'email', 'max:255', 'unique:customers,email,'.$customer->id],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $customer->fill([
+            'name' => $validated['name'],
+            'mobile' => $validated['mobile'],
+            'email' => $validated['email'] ?: null,
+            'password' => Hash::make($validated['password']),
+        ])->save();
+
+        return redirect()->route('admin.customers.index')
+            ->with('success', 'Customer login updated. The existing customer and their projects are unchanged.');
     }
 }

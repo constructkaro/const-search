@@ -42,23 +42,26 @@
     @endif
 
     <section class="customer-panel">
-        <h3>Create customer login</h3>
+        <h3>{{ $editingCustomer ? 'Set customer password' : 'Create customer login' }}</h3>
         <p class="text-muted">Set a mobile number and password for the customer. Saving an existing mobile updates that customer’s login.</p>
-        <form method="POST" action="{{ route('admin.customers.store') }}" class="customer-form">
+        <form method="POST" action="{{ $editingCustomer ? route('admin.customers.update', $editingCustomer) : route('admin.customers.store') }}" class="customer-form">
             @csrf
+            @if($editingCustomer)
+                @method('PUT')
+            @endif
             <div>
                 <label for="customer-name">Customer name</label>
-                <input id="customer-name" name="name" value="{{ old('name') }}" required maxlength="255">
+                <input id="customer-name" name="name" value="{{ old('name', $editingCustomer?->name) }}" required maxlength="255">
                 @error('name')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
             </div>
             <div>
                 <label for="customer-mobile">Mobile number</label>
-                <input id="customer-mobile" name="mobile" value="{{ old('mobile') }}" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10">
+                <input id="customer-mobile" name="mobile" value="{{ old('mobile', $editingCustomer?->mobile) }}" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10">
                 @error('mobile')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
             </div>
             <div>
                 <label for="customer-email">Email (optional)</label>
-                <input id="customer-email" name="email" type="email" value="{{ old('email') }}" maxlength="255">
+                <input id="customer-email" name="email" type="email" value="{{ old('email', $editingCustomer?->email) }}" maxlength="255">
                 @error('email')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
             </div>
             <div>
@@ -71,7 +74,10 @@
                 <input id="customer-password-confirmation" name="password_confirmation" type="password" required minlength="8" autocomplete="new-password">
             </div>
             <div class="wide">
-                <button class="customer-submit" type="submit">Save customer login</button>
+                <button class="customer-submit" type="submit">{{ $editingCustomer ? 'Update customer password' : 'Save customer login' }}</button>
+                @if($editingCustomer)
+                    <a class="btn btn-outline-secondary ms-2" href="{{ route('admin.customers.index') }}">Cancel</a>
+                @endif
             </div>
         </form>
     </section>
@@ -86,7 +92,7 @@
         <div class="table-scroll">
             <table class="customer-table">
                 <thead>
-                    <tr><th>Name</th><th>Mobile</th><th>Email</th><th>Login</th><th>Projects</th></tr>
+                    <tr><th>Name</th><th>Mobile</th><th>Email</th><th>Login</th><th>Projects</th><th>Action</th></tr>
                 </thead>
                 <tbody>
                     @forelse($customers as $customer)
@@ -96,9 +102,16 @@
                             <td>{{ $customer->email ?: '—' }}</td>
                             <td><span class="login-state {{ $customer->has_password ? '' : 'pending' }}">{{ $customer->has_password ? 'Enabled' : 'Password needed' }}</span></td>
                             <td>{{ $customer->projects_count }}</td>
+                            <td>
+                                @if(!$customer->has_password)
+                                    <a class="btn btn-sm btn-warning" href="{{ route('admin.customers.edit', $customer->id) }}">Set Password</a>
+                                @else
+                                    <span class="text-muted">—</span>
+                                @endif
+                            </td>
                         </tr>
                     @empty
-                        <tr><td colspan="5">No customers found.</td></tr>
+                        <tr><td colspan="6">No customers found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

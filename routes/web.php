@@ -140,6 +140,8 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
         Route::get('/customers', [CustomerManagementController::class, 'index'])->name('customers.index');
         Route::post('/customers', [CustomerManagementController::class, 'store'])->name('customers.store');
+        Route::get('/customers/{customer}/edit', [CustomerManagementController::class, 'edit'])->name('customers.edit');
+        Route::put('/customers/{customer}', [CustomerManagementController::class, 'update'])->name('customers.update');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
         Route::post('/post-leads/store', [PostLeadController::class, 'store'])->name('save.adminpost');
         
