@@ -211,13 +211,22 @@ class PostLeadController extends Controller
 
     public function edit($id)
     {
-        $post = DB::table('posts')->where('id', $id)->first();
+        $post = DB::table('posts')
+            ->leftJoin('city', function ($join) {
+                $join->on('posts.city_id', '=', 'city.id')
+                    ->orOn('posts.city_id', '=', 'city.name');
+            })
+            ->select('posts.*', 'city.id as matched_city_id', 'city.name as city_name')
+            ->where('posts.id', $id)
+            ->first();
 
         if (! $post) {
             return redirect()->route('admin.allprojects')->with('error', 'Lead not found.');
         }
 
-        return view('admin.project.edit', compact('post'));
+        $cities = DB::table('city')->orderBy('name')->get();
+
+        return view('admin.project.edit', compact('post', 'cities'));
     }
 
     public function update(Request $request, $id)
@@ -227,7 +236,7 @@ class PostLeadController extends Controller
             'contact_name' => 'required|string|max:255',
             'mobile' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
-            'city' => 'nullable|string|max:250',
+            'city_id' => 'nullable|string|max:250',
             'state' => 'nullable|string|max:255',
             'lead_status' => 'nullable|in:timepass,exploring,serious',
             'region' => 'nullable|string|max:250',
@@ -266,7 +275,7 @@ class PostLeadController extends Controller
             'email' => $request->email,
             'state' => $request->state,
             'region' => $request->region,
-            'city' => $request->city,
+            'city_id' => $request->city_id ?: null,
             'lead_status' => $request->lead_status,
             'pincode' => $request->pincode,
             'description' => $request->description,

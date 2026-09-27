@@ -177,7 +177,19 @@
 
                 <div class="col-md-3 mb-3">
                     <label class="form-label">City</label>
-                    <input type="text" name="city" class="form-control" value="{{ old('city', $post->city) }}">
+                    @php($selectedCity = old('city_id', $post->matched_city_id ?: $post->city_id))
+                    <select name="city_id" class="form-select">
+                        <option value="">Select City</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city->id }}" {{ (string) $selectedCity === (string) $city->id || (string) $selectedCity === (string) $city->name ? 'selected' : '' }}>
+                                {{ $city->name }}
+                            </option>
+                        @endforeach
+                        @if($post->city_id && ! $post->matched_city_id && ! $cities->contains(fn ($city) => (string) $city->name === (string) $post->city_id))
+                            <option value="{{ $post->city_id }}" selected>{{ $post->city_id }} (existing value)</option>
+                        @endif
+                    </select>
+                    @error('city_id') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="col-md-3 mb-3">
