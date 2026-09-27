@@ -1415,6 +1415,9 @@ class MobileAppController extends Controller
             'stage_no' => str_pad((string) ($step->step_order ?? $fallbackOrder), 2, '0', STR_PAD_LEFT),
             'title' => $step->step_title ?? 'Project milestone',
             'short_details' => $description,
+            'milestone_date' => isset($step->milestone_date)
+                ? \Illuminate\Support\Carbon::parse($step->milestone_date)->toDateString()
+                : null,
             'scope_items' => $this->trackingScopeItems($description),
             'sub_points' => $this->formatTrackingSubPoints($extraData['sub_points'] ?? [], (int) ($step->step_order ?? $fallbackOrder)),
             'type' => $step->step_type ?? 'normal',

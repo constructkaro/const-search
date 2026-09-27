@@ -264,7 +264,7 @@
                 <h4>Company</h4>
                 <ul>
                     <li><a href="{{ route('aboutus') }}">About Us</a></li>
-                    <li><span class="footer-disabled-link">Careers</span></li>
+                    <li><a href="https://vendor.constructkaro.com/">vendors</span></li>
                     <li><a href="{{ route('knowledgehub') }}">Constructshala</a></li>
                     <li><a href="{{ route('welcome') }}#mainServicesSection">Services</a></li>
                 </ul>
@@ -299,15 +299,7 @@
                         </span>
                         <span>+91 73858 82657</span>
                     </div>
-                    <div class="footer-contact-item">
-                        <span class="footer-contact-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                        </span>
-                        <span>Maharashtra, India</span>
-                    </div>
+                   
                 </div>
             </div>
         </div>

@@ -1,0 +1,118 @@
+<svg width="1600" height="980" viewBox="0 0 1600 980" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="980" fill="#E8E8E8"/>
+  <text x="800" y="78" text-anchor="middle" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="-2">PLATFORM MANAGED VS UNMANAGED EXECUTION</text>
+  <line x1="360" y1="112" x2="720" y2="112" stroke="#EF6C1C" stroke-width="6" stroke-linecap="round"/>
+  <line x1="880" y1="112" x2="1240" y2="112" stroke="#2478BB" stroke-width="6" stroke-linecap="round"/>
+
+  <g>
+    <rect x="120" y="170" width="420" height="110" rx="36" fill="#2F87D3" stroke="#2978C8" stroke-width="3"/>
+    <text x="330" y="210" text-anchor="middle" fill="white" font-family="Poppins, Arial, sans-serif" font-size="42" font-weight="800">ConstructKaro</text>
+    <text x="330" y="255" text-anchor="middle" fill="white" font-family="Poppins, Arial, sans-serif" font-size="42" font-weight="800">Approach</text>
+  </g>
+
+  <g>
+    <rect x="1090" y="170" width="410" height="110" rx="36" fill="#F28A3D" stroke="#F07C2E" stroke-width="3"/>
+    <text x="1295" y="210" text-anchor="middle" fill="white" font-family="Poppins, Arial, sans-serif" font-size="42" font-weight="800">Typical Unmanaged</text>
+    <text x="1295" y="255" text-anchor="middle" fill="white" font-family="Poppins, Arial, sans-serif" font-size="42" font-weight="800">Approach</text>
+  </g>
+
+  <g>
+    <line x1="540" y1="300" x2="780" y2="300" stroke="#2D7CBE" stroke-width="3"/>
+    <line x1="820" y1="300" x2="1060" y2="300" stroke="#F07C2E" stroke-width="3"/>
+    <circle cx="800" cy="300" r="8" fill="#F8F8F8" stroke="#2E2E2E" stroke-width="2"/>
+  </g>
+
+  <g>
+    <rect x="145" y="338" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#2A7BC8" stroke-width="3"/>
+    <rect x="165" y="356" width="56" height="56" rx="10" fill="#2A7BC8"/>
+    <path d="M180 387L196 403L220 372" stroke="white" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="245" y="398" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Relevant experts by</text>
+    <text x="245" y="430" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">service and location</text>
+  </g>
+
+  <g>
+    <rect x="1105" y="338" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#F07C2E" stroke-width="3"/>
+    <rect x="1125" y="356" width="56" height="56" rx="10" fill="#F07C2E"/>
+    <path d="M1143 377H1172" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <path d="M1157 378L1166 368L1175 378" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1152 387L1157 392L1162 387" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M1160 388V403" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <path d="M1150 403H1170" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="1205" y="398" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Random referrals</text>
+    <text x="1205" y="430" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">and limited options</text>
+  </g>
+
+  <g>
+    <rect x="170" y="495" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#2A7BC8" stroke-width="3"/>
+    <rect x="190" y="512" width="56" height="56" rx="10" fill="#2A7BC8"/>
+    <path d="M201 530H228" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <path d="M201 545H228" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <path d="M205 519V562" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <path d="M224 519V562" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="270" y="555" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Requirement-led</text>
+    <text x="270" y="587" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">conversations</text>
+  </g>
+
+  <g>
+    <rect x="1105" y="495" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#F07C2E" stroke-width="3"/>
+    <rect x="1125" y="512" width="56" height="56" rx="10" fill="#F07C2E"/>
+    <path d="M1142 528L1166 520L1178 533L1166 549L1142 541L1134 533L1142 528Z" fill="white"/>
+    <path d="M1151 541L1166 557" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="1205" y="555" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Verbal scope and</text>
+    <text x="1205" y="587" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">repeated confusion</text>
+  </g>
+
+  <g>
+    <rect x="126" y="655" width="390" height="108" rx="16" fill="#F4F5F5" stroke="#2A7BC8" stroke-width="3"/>
+    <rect x="145" y="672" width="56" height="56" rx="10" fill="#2A7BC8"/>
+    <path d="M158 700H175V680H196V700H213V687L183 670L158 687V700Z" fill="white"/>
+    <path d="M173 686H186" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="245" y="715" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Design, BOQ, survey,</text>
+    <text x="245" y="747" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">legal, &amp; audit routes</text>
+  </g>
+
+  <g>
+    <rect x="1105" y="655" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#F07C2E" stroke-width="3"/>
+    <rect x="1125" y="672" width="56" height="56" rx="10" fill="#F07C2E"/>
+    <path d="M1141 692L1162 680L1178 696L1166 720L1141 708L1132 696L1141 692Z" fill="white"/>
+    <path d="M1157 708L1176 690" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="1205" y="715" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Separate follow-ups</text>
+    <text x="1205" y="747" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">with no single flow</text>
+  </g>
+
+  <g>
+    <rect x="170" y="820" width="360" height="108" rx="16" fill="#F4F5F5" stroke="#2A7BC8" stroke-width="3"/>
+    <rect x="190" y="837" width="56" height="56" rx="10" fill="#2A7BC8"/>
+    <path d="M203 845H227V875H203V845Z" fill="white"/>
+    <path d="M218 854V865" stroke="#2A7BC8" stroke-width="6" stroke-linecap="round"/>
+    <path d="M208 864H228" stroke="#2A7BC8" stroke-width="6" stroke-linecap="round"/>
+    <text x="275" y="880" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">On-ground support &amp;</text>
+    <text x="275" y="912" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">transparent</text>
+    <text x="275" y="944" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">communication</text>
+  </g>
+
+  <g>
+    <rect x="1105" y="820" width="350" height="108" rx="16" fill="#F4F5F5" stroke="#F07C2E" stroke-width="3"/>
+    <rect x="1125" y="837" width="56" height="56" rx="10" fill="#F07C2E"/>
+    <path d="M1140 857L1160 845L1184 859L1168 885L1140 872L1132 859L1140 857Z" fill="white"/>
+    <path d="M1155 873L1177 855" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <text x="1205" y="880" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">Phone updates and</text>
+    <text x="1205" y="912" fill="#2C2C2C" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="600">uncertainty</text>
+  </g>
+
+  <g>
+    <rect x="640" y="290" width="320" height="700" rx="22" fill="#F6F6F6" stroke="#202020" stroke-width="3"/>
+    <text x="800" y="335" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700">01</text>
+    <rect x="725" y="365" width="150" height="150" rx="20" fill="#EAF0F5" stroke="#2D2D2D" stroke-width="2"/>
+    <text x="800" y="455" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="52">📍</text>
+    <text x="800" y="585" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="800">SERVICE</text>
+    <text x="800" y="625" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="800">DISCOVERY</text>
+
+    <line x1="800" y1="662" x2="800" y2="700" stroke="#2A2A2A" stroke-width="3"/>
+    <text x="800" y="785" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="26" font-weight="700">02</text>
+    <rect x="725" y="815" width="150" height="150" rx="20" fill="#EAF0F5" stroke="#2D2D2D" stroke-width="2"/>
+    <text x="800" y="905" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="52">📝</text>
+    <text x="800" y="1035" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="800">SCOPE</text>
+    <text x="800" y="1075" text-anchor="middle" fill="#1E1E1E" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="800">CLARITY</text>
+  </g>
+</svg>

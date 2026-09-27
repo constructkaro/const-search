@@ -120,7 +120,7 @@ html {
     width: 100%;
 }
 
-.home-page img {
+.home-page img:not(.ck-compare-heading-image):not(.ck-compare-managed-image):not(.ck-compare-unmanaged-image):not(.ck-package-cta-image):not(.ck-package-visual-image) {
     max-width: 100%;
     display: block;
 }
@@ -173,19 +173,19 @@ html {
    ============================================================ */
 .hero-banner {
     width: 100vw;
-    min-height: clamp(420px, 44vw, 610px);
+    min-height: clamp(420px, 44vw, 688px);
     margin-left: calc(50% - 50vw);
     background-image:
-        linear-gradient(90deg, rgba(8,18,32,.94) 0%, rgba(8,18,32,.74) 47%, rgba(8,18,32,.16) 100%),
+        /* linear-gradient(90deg, rgba(8,18,32,.94) 0%, rgba(8,18,32,.74) 47%, rgba(8,18,32,.16) 100%), */
         image-set(
-            url("{{ asset('images/banner.webp') }}") type("image/webp"),
-            url("{{ asset('images/banner.jpg') }}") type("image/jpeg")
+           
+            url("{{ asset('images/banner.png') }}") type("image/png")
         );
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
-    padding: 68px 0;
+    padding: 50px 0;
     position: relative;
     overflow: hidden;
 }
@@ -269,6 +269,7 @@ html {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-left: 20px;
     gap: 10px;
     min-height: 54px;
     padding: 0 28px;
@@ -333,43 +334,67 @@ html {
    TRUST STRIP
    ============================================================ */
 .ck-trust-section {
-    padding: 54px 0;
-    background: #fff;
+    padding: 40px 0 46px;
+    background: #f4f7fa;
+}
+
+.ck-trust-heading {
+    width: min(90%, 866px);
+    margin: 0 auto 44px;
+    text-align: center;
+}
+
+.ck-trust-heading h2 {
+    color: #173f63;
+    font-size: clamp(28px, 3vw, 46px);
+    font-weight: 800;
+    line-height: 1.15;
+    text-transform: uppercase;
+}
+
+.ck-trust-heading-line {
+    width: 100%;
+    height: 4px;
+    margin-top: 10px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ef6c1c 0%, #1d72b8 100%);
 }
 
 .ck-trust-container {
     width: var(--container-w);
-    max-width: var(--container-max);
+    max-width: 1765px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* display: grid; */
+    grid-template-columns: 454fr 483fr 352fr 359fr;
     gap: 18px;
+    align-items: center;
+    border-radius: 18px;
+    overflow: hidden;
 }
 
 .ck-trust-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-    padding: 24px 18px;
-    border: 1px solid #eef2f6;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 10px 24px rgba(16,36,58,.05);
+    position: relative;
+    min-width: 0;
 }
 
-.ck-trust-icon-img {
-    width: 70px;
-    height: 66px;
-    object-fit: contain;
+.ck-trust-item:hover {
+    z-index: 2;
 }
 
-.ck-trust-title {
-    font-size: clamp(15px, 1.35vw, 19px);
-    font-weight: 800;
-    color: var(--ink);
-    line-height: 1.35;
+.ck-trust-item picture {
+    display: block;
+}
+
+.ck-trust-card-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform .25s ease, filter .25s ease;
+}
+
+.ck-trust-item:hover .ck-trust-card-img {
+    transform: translateY(-8px) scale(1.03);
+    filter: brightness(1.08) drop-shadow(3px 6px 4px rgba(0, 0, 0, .25));
 }
 
 /* ============================================================
@@ -484,6 +509,128 @@ html {
 /* ============================================================
    EXPLORE MORE SERVICES
    ============================================================ */
+.our-services-section {
+    padding: 56px 0 64px;
+    background: #ececec;
+}
+
+.our-services-shell {
+    width: 96%;
+    max-width: 1840px;
+    margin: 0 auto;
+}
+
+.our-services-heading {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.our-services-heading h2 {
+    margin: 0;
+    color: #292929;
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.our-services-heading-line {
+    width: min(90%, 400px);
+    height: 4px;
+    margin: 10px auto 26px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ef6c1c 0%, #2478bb 100%);
+}
+
+.our-services-heading h3 {
+    margin: 0 0 10px;
+    color: #333;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.our-services-heading h3 span {
+    color: #ef7121;
+}
+
+.our-services-heading p {
+    margin: 0;
+    color: #333;
+    font-size: 22px;
+    line-height: 1.4;
+}
+
+.our-services-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.our-service-card {
+    position: relative;
+    display: block;
+    min-width: 0;
+    aspect-ratio: 366 / 443;
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: transparent;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.our-service-card:hover,
+.our-service-card:focus {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+
+.our-service-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity .4s ease;
+}
+
+.our-service-card .hover-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.our-service-card:hover .default-state,
+.our-service-card:focus-visible .default-state {
+    opacity: 0;
+}
+
+.our-service-card:hover .hover-state,
+.our-service-card:focus-visible .hover-state {
+    opacity: 1;
+}
+
+@media (max-width: 1400px) {
+    .our-services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .our-services-section { padding: 44px 0; }
+    .our-services-heading h2 { font-size: 34px; }
+    .our-services-heading h3 { font-size: 25px; }
+    .our-services-heading p { font-size: 17px; }
+    .our-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+}
+
+@media (max-width: 480px) {
+    .our-services-grid { grid-template-columns: 1fr; }
+    .our-service-card { width: min(100%, 366px); margin: 0 auto; }
+}
+
 .explore-services-section {
     padding: 68px 0 78px;
     background: var(--bg);
@@ -645,125 +792,125 @@ html {
 }
 
 .ck-solution-section {
-    padding: 78px 0;
-    background: linear-gradient(180deg, #f8fafc 0%, #eef3f7 100%);
+    padding: 36px 0 56px;
+    background: #fff;
 }
 
 .ck-solution-shell {
     width: var(--container-w);
-    max-width: var(--container-max);
+    max-width: 1765px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-    gap: 30px;
-    align-items: stretch;
 }
 
 .ck-solution-intro {
-    padding: 34px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid var(--line);
-    box-shadow: var(--ck-shadow);
+    padding: 0;
 }
 
 .ck-solution-badge {
     display: inline-flex;
-    margin-bottom: 16px;
-    padding: 7px 13px;
+    margin-bottom: 14px;
+    padding: 7px 12px;
     border-radius: 999px;
-    background: #fff4ec;
-    color: #c54e17;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .8px;
+    background: #2275b9;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
     text-transform: uppercase;
-}
-
-.ck-solution-intro h2 {
-    color: var(--ink);
-    font-size: clamp(30px, 3.3vw, 46px);
-    font-weight: 900;
-    line-height: 1.08;
-    margin-bottom: 16px;
 }
 
 .ck-solution-headline {
     display: grid;
-    gap: 12px;
-    margin-bottom: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 70px;
+    margin: 0 0 10px;
 }
 
 .ck-solution-headline span {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-left: 0;
-}
-
-.ck-solution-headline span::before {
-    content: attr(data-icon);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-    border-radius: 8px;
-    background: #fff4ec;
-    color: #df6d1c;
-    font-size: 22px;
-    box-shadow: 0 8px 18px rgba(223,109,28,.15);
-}
-
-.ck-solution-headline span + span::before {
-    background: #eef7ff;
-    color: #1f67ab;
-    box-shadow: 0 8px 18px rgba(31,103,171,.15);
+    color: #292929;
+    font-size: 29px;
+    font-weight: 800;
+    line-height: 1.15;
 }
 
 .ck-solution-intro p {
-    color: var(--muted);
+    max-width: 1660px;
+    color: #292929;
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.4;
 }
 
 .ck-solution-options {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 70px;
+    width: 94%;
+    margin: 42px auto 0;
 }
 
 .ck-solution-card {
-    padding: 26px 24px;
-    border-radius: 8px;
+    position: relative;
+    min-width: 0;
+    aspect-ratio: 2792 / 1684;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
     background: #fff;
-    border: 1px solid var(--line);
-    box-shadow: var(--ck-shadow-soft);
+    box-shadow: none;
+    overflow: hidden;
+    transition: none;
 }
 
-.ck-solution-card.primary {
-    border-top: 4px solid var(--orange-light);
+.ck-solution-card:hover {
+    box-shadow: none;
+    transform: none;
 }
 
-.ck-solution-card.secondary {
-    border-top: 4px solid var(--blue-light);
+.ck-solution-card picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.ck-solution-card-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: none;
+}
+
+.ck-solution-card-img.hover-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.ck-solution-card:hover .ck-solution-card-img.default-state {
+    opacity: 0;
+}
+
+.ck-solution-card:hover .ck-solution-card-img.hover-state {
+    opacity: 1;
 }
 
 .ck-solution-card h3 {
-    color: var(--ink);
-    font-size: 20px;
-    font-weight: 900;
+    color: #292929;
+    font-size: 28px;
+    font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    transition: color .25s ease;
+}
+
+.ck-solution-card:hover h3 {
+    color: #2478bb;
 }
 
 .ck-solution-card p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.55;
-    margin-bottom: 16px;
+    color: #292929;
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 12px;
 }
 
 .ck-solution-list {
@@ -776,169 +923,626 @@ html {
 
 .ck-solution-list li {
     position: relative;
-    padding-left: 20px;
-    color: #354353;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1.35;
+    padding-left: 28px;
+    color: #292929;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.25;
 }
 
 .ck-solution-list li::before {
     content: "";
     position: absolute;
     left: 0;
-    top: .45em;
-    width: 8px;
-    height: 8px;
+    top: .4em;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: #df6d1c;
+    background: #292929;
+    transition: background-color .25s ease;
 }
 
-.ck-solution-card.secondary .ck-solution-list li::before {
-    background: #1f67ab;
+.ck-solution-card:hover .ck-solution-list li::before {
+    background: #2478bb;
 }
 
 .ck-assurance-section {
-    padding: 76px 0;
-    background: #eef3f7;
+    padding: 48px 0 58px;
+    background: #fff;
 }
 
 .ck-assurance-shell {
-    width: var(--container-w);
-    max-width: var(--container-max);
+    width: 94%;
+    max-width: 1780px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-    gap: 32px;
-    align-items: stretch;
 }
 
 .ck-assurance-panel {
-    padding: 34px;
-    border-radius: 8px;
-    background: #10243a;
-    color: #fff;
-    box-shadow: var(--ck-shadow);
+    padding: 0;
+    background: transparent;
+    color: #292929;
 }
 
 .ck-assurance-eyebrow {
     display: inline-flex;
-    margin-bottom: 14px;
-    padding: 7px 12px;
+    margin-bottom: 24px;
+    padding: 7px 16px;
     border-radius: 999px;
-    background: rgba(239,138,57,.18);
-    color: #ffb072;
-    font-size: 12px;
+    background: #2478bb;
+    color: #fff;
+    font-size: 15px;
     font-weight: 800;
     letter-spacing: .8px;
     text-transform: uppercase;
 }
 
 .ck-assurance-panel h2 {
-    font-size: clamp(28px, 3vw, 42px);
-    font-weight: 900;
-    line-height: 1.08;
-    margin-bottom: 16px;
+    margin: 0 0 10px;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.15;
 }
 
 .ck-assurance-panel p {
-    color: rgba(255,255,255,.76);
-    font-size: 16px;
-    line-height: 1.65;
+    color: #292929;
+    font-size: 20px;
+    line-height: 1.45;
 }
 
 .ck-assurance-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 44px;
+    margin-top: 28px;
 }
 
 .ck-assurance-item {
-    padding: 22px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: var(--ck-shadow-soft);
+    position: relative;
+    aspect-ratio: 462 / 346;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    background: transparent;
 }
 
-.ck-assurance-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    margin-bottom: 14px;
-    border-radius: 8px;
-    background: #fff4ec;
-    color: #df6d1c;
-    font-weight: 900;
+.ck-assurance-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity .35s ease;
 }
 
-.ck-assurance-item h3 {
-    color: var(--ink);
-    font-size: 17px;
-    font-weight: 900;
-    margin-bottom: 8px;
+.ck-assurance-item .hover-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
 }
 
-.ck-assurance-item p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.5;
+.ck-assurance-item:hover .default-state {
+    opacity: 0;
+}
+
+.ck-assurance-item:hover .hover-state {
+    opacity: 1;
 }
 
 .ck-compare-section {
-    padding: 76px 0;
-    background: #fff;
-}
-
-.ck-compare-table {
-    width: var(--container-w);
-    max-width: 1040px;
-    margin: 0 auto;
+    padding: 12px 0 54px;
+    background: #efefef;
     overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: var(--ck-shadow);
 }
 
-.ck-compare-row {
+.ck-compare-shell {
+    width: min(92vw, 1660px);
+    margin: 0 auto;
+}
+
+.ck-compare-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+}
+
+.ck-compare-heading-image {
+    display: block;
+    width: 80%;
+    max-width: 1450px;
+    height: auto;
+    margin: 0 auto 42px;
+    border-radius: 0;
+    cursor: zoom-in;
+    transform-origin: center;
+    transition: transform 260ms ease, filter 260ms ease;
+}
+
+.ck-compare-panels {
     display: grid;
-    grid-template-columns: 1.1fr 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+    width: min(100%, 1450px);
+    margin: 0 auto;
+    justify-content: center;
+    align-items: start;
+    gap: 42px;
 }
 
-.ck-compare-row > div {
+.ck-compare-managed-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    justify-self: end;
+    border-radius: 14px;
+    box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.16);
+    cursor: zoom-in;
+    transform-origin: center;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.ck-compare-unmanaged-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    justify-self: start;
+    border-radius: 14px;
+    box-shadow: 10px 10px 14px rgba(0, 0, 0, 0.16);
+    cursor: zoom-in;
+    transform-origin: center;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.ck-compare-update-banner {
+    width: min(100%, 1523px);
+    margin: 42px auto 0;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.ck-compare-update-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+}
+
+.ck-package-compare-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1134fr) minmax(0, 646fr);
+    align-items: start;
+    gap: 24px;
+    width: min(100%, 1523px);
+    margin: 42px auto 0;
+}
+
+.ck-package-cta-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.ck-package-cta-link {
+    display: block;
+    min-width: 0;
+    border-radius: 14px;
+    text-decoration: none;
+}
+
+.ck-package-cta-link:focus-visible {
+    outline: 4px solid #1c78bf;
+    outline-offset: 5px;
+}
+
+.ck-package-visual-image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ck-compare-heading-image:hover {
+        transform: scale(1.025);
+        filter: drop-shadow(0 12px 12px rgba(0, 0, 0, 0.16));
+    }
+
+    .ck-compare-managed-image:hover {
+        z-index: 5;
+        transform: translateY(-10px) scale(1.045);
+        box-shadow: 18px 24px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .ck-compare-unmanaged-image:hover {
+        z-index: 5;
+        transform: translateY(-10px) scale(1.045);
+        box-shadow: 18px 24px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .ck-compare-update-banner:hover {
+        transform: translateY(-6px) scale(1.012);
+        box-shadow: 0 18px 30px rgba(29, 94, 145, 0.18);
+    }
+
+    .ck-package-cta-image:hover {
+        z-index: 5;
+        transform: translateY(-8px) scale(1.025);
+        box-shadow: 0 20px 32px rgba(125, 67, 22, 0.22);
+    }
+
+    .ck-package-visual-image:hover {
+        z-index: 5;
+        transform: translateY(-8px) scale(1.035);
+        box-shadow: 0 20px 32px rgba(29, 94, 145, 0.2);
+    }
+}
+
+.ck-compare-divider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    min-height: 0;
+}
+
+.ck-compare-divider::before {
+    display: none;
+    content: "";
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    left: 50%;
+    width: 7px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #0876d1 0%, #ef7625 100%);
+    transform: translateX(-50%);
+}
+
+.ck-compare-divider-image {
+    display: block;
+    width: min(128px, 100%);
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.ck-compare-vs {
+    position: relative;
+    z-index: 1;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 96px;
+    height: 96px;
+    border: 2px solid #1680ce;
+    border-radius: 50%;
+    background: #fff;
+    color: #65788c;
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ck-compare-heading {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.ck-compare-heading::before,
+.ck-compare-heading::after {
+    content: "";
+    display: block;
+    height: 6px;
+    border-radius: 8px;
+    flex: 1 1 0;
+}
+
+.ck-compare-heading::before {
+    background: linear-gradient(90deg, #ef6c1c 0%, rgba(239,108,28,0.25));
+}
+
+.ck-compare-heading::after {
+    background: linear-gradient(90deg, rgba(37,118,187,0.25), #2478bb 100%);
+}
+
+.ck-compare-heading h2 {
+    margin: 0;
+    color: #292929;
+    font-size: clamp(34px, 4vw, 84px);
+    font-weight: 900;
+    line-height: 0.96;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.ck-compare-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.92fr) minmax(0, 1fr);
+    gap: 28px 26px;
+    align-items: start;
+}
+
+.ck-compare-column {
+    display: grid;
+    gap: 18px;
+}
+
+.ck-compare-top-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 92px;
     padding: 18px 20px;
-    border-bottom: 1px solid #e7edf3;
-    color: #46515d;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.ck-compare-row:last-child > div {
-    border-bottom: none;
-}
-
-.ck-compare-head > div {
-    background: var(--ink);
+    border-radius: 30px;
     color: #fff;
-    font-weight: 900;
-}
-
-.ck-compare-factor {
-    font-weight: 900;
-    color: #152536 !important;
-    background: #f6f9fc;
-}
-
-.ck-compare-good {
-    color: #117a3f !important;
+    font-size: clamp(22px, 2vw, 36px);
     font-weight: 800;
+    line-height: 1.05;
+    text-align: center;
+    letter-spacing: -0.04em;
+    box-shadow: 0 8px 18px rgba(16, 39, 61, 0.08);
 }
 
-.ck-compare-risk {
-    color: #a04423 !important;
+.ck-compare-top-pill.managed {
+    background: linear-gradient(180deg, #1d77c7 0%, #2f84c8 100%);
+    border: 3px solid rgba(37, 120, 187, 0.85);
+}
+
+.ck-compare-top-pill.unmanaged {
+    background: linear-gradient(180deg, #f28a3d 0%, #ef6f1a 100%);
+    border: 3px solid rgba(239, 113, 31, 0.82);
+}
+
+.ck-compare-flow {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    padding-top: 8px;
+}
+
+.ck-compare-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: center;
+}
+
+.ck-compare-step-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 92px;
+    padding: 18px 18px 18px 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.68);
+    border: 2px solid rgba(37, 120, 187, 0.7);
+    box-shadow: 0 4px 12px rgba(17, 37, 59, 0.04);
+    color: #2b2b2b;
+    font-size: clamp(18px, 1.7vw, 26px);
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.ck-compare-step-card.unmanaged {
+    border-color: rgba(239, 113, 31, 0.8);
+}
+
+.ck-compare-step-card .icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    font-size: 30px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.ck-compare-step-card.managed .icon-box {
+    background: #2d7eca;
+}
+
+.ck-compare-step-card.unmanaged .icon-box {
+    background: #ef731f;
+}
+
+.ck-compare-connector {
+    position: relative;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ck-compare-connector::before,
+.ck-compare-connector::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 46%;
+    height: 3px;
+    transform: translateY(-50%);
+}
+
+.ck-compare-connector::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(39,126,196,0.85), rgba(39,126,196,0.2));
+}
+
+.ck-compare-connector::after {
+    right: 0;
+    background: linear-gradient(90deg, rgba(239,115,31,0.2), rgba(239,115,31,0.85));
+}
+
+.ck-compare-center-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 120px;
+    padding: 16px 18px;
+    border: 3px solid rgba(71, 71, 71, 0.9);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 8px 18px rgba(25, 35, 46, 0.04);
+    text-align: center;
+}
+
+.ck-compare-center-card .step-number {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border: 2px solid rgba(62, 62, 62, 0.9);
+    border-radius: 50%;
+    background: #dfe7ec;
+    color: #1d2430;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.ck-compare-stage-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #eef3f7;
+    color: #1d2430;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.ck-compare-stage-copy {
+    color: #1d2430;
+    font-size: clamp(18px, 1.7vw, 30px);
+    font-weight: 800;
+    line-height: 1.08;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+}
+
+@media (max-width: 1200px) {
+    .ck-compare-panels {
+        grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .ck-compare-vs {
+        width: 76px;
+        height: 76px;
+        font-size: 30px;
+    }
+
+    .ck-compare-layout { grid-template-columns: 1fr; }
+    .ck-compare-heading { flex-wrap: wrap; }
+    .ck-compare-heading h2 { white-space: normal; text-align: center; }
+    .ck-compare-step { grid-template-columns: 1fr; }
+    .ck-compare-connector { min-height: 18px; }
+    .ck-compare-connector::before,
+    .ck-compare-connector::after { display: none; }
+}
+
+@media (max-width: 1100px) {
+    .ck-compare-shell { width: min(92vw, 700px); }
+    .ck-compare-heading-image {
+        width: 94%;
+        margin-bottom: 30px;
+    }
+    .ck-compare-panels { grid-template-columns: 1fr; gap: 24px; }
+    .ck-compare-managed-image {
+        width: min(100%, 600px);
+        justify-self: center;
+    }
+    .ck-compare-unmanaged-image {
+        width: min(100%, 600px);
+        justify-self: center;
+    }
+    .ck-compare-divider { min-height: 76px; }
+    .ck-compare-divider-image { display: none; }
+    .ck-compare-divider::before {
+        display: block;
+        top: 50%;
+        bottom: auto;
+        left: 8%;
+        right: 8%;
+        width: auto;
+        height: 5px;
+        transform: translateY(-50%);
+        background: linear-gradient(90deg, #0876d1 0%, #ef7625 100%);
+    }
+    .ck-compare-vs { display: inline-flex; }
+    .ck-package-compare-row {
+        grid-template-columns: minmax(0, 1134fr) minmax(0, 646fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .ck-compare-section { padding: 28px 0 34px; }
+    .ck-compare-shell { width: min(92vw, 700px); }
+    .ck-compare-heading-image { margin-bottom: 24px; }
+    .ck-compare-panels { grid-template-columns: 1fr; gap: 22px; }
+    .ck-compare-divider { min-height: 70px; }
+    .ck-compare-divider::before {
+        display: block;
+        top: 50%;
+        bottom: auto;
+        left: 8%;
+        right: 8%;
+        width: auto;
+        height: 5px;
+        transform: translateY(-50%);
+        background: linear-gradient(90deg, #0876d1 0%, #ef7625 100%);
+    }
+    .ck-compare-vs { width: 66px; height: 66px; font-size: 26px; }
+    .ck-compare-update-banner {
+        margin-top: 28px;
+    }
+    .ck-package-compare-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-top: 28px;
+    }
+    .ck-compare-heading { gap: 10px; }
+    .ck-compare-heading::before,
+    .ck-compare-heading::after { height: 4px; }
+    .ck-compare-top-pill { min-height: 74px; border-radius: 22px; }
+    .ck-compare-step-card { min-height: 74px; font-size: 17px; }
+    .ck-compare-center-card { min-height: 96px; }
+    .ck-compare-stage-copy { font-size: 18px; }
 }
 
 /* ============================================================
@@ -1411,113 +2015,36 @@ html {
    TESTIMONIALS
    ============================================================ */
 .ck-testimonial-section {
-    padding: 84px 0 78px;
+    padding: 58px 0 68px;
     background: var(--bg);
 }
 
-.ck-testimonial-heading {
-    text-align: center;
-    margin-bottom: 74px;
+.ck-testimonial-artwork-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #2478bb transparent;
 }
 
-.ck-testimonial-heading h2 {
-    font-size: clamp(28px, 3.2vw, 38px);
-    font-weight: 900;
-    color: var(--ink);
-}
-
-.ck-testimonial-line {
-    width: 92px;
-    height: 5px;
-    margin: 12px auto 0;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #ef7d2d, #2f78bf);
-}
-
-.ck-testimonial-grid {
-    width: var(--container-w);
-    max-width: var(--container-max);
+.ck-testimonial-artwork {
+    display: block;
+    width: min(96%, 1820px);
+    height: auto;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-    align-items: stretch;
 }
 
-.ck-testimonial-card {
-    position: relative;
-    background: #fff;
-    border: 1px solid rgba(43,132,198,.34);
-    border-radius: var(--radius);
-    padding: 68px 22px 26px;
-    text-align: center;
-    height: 100%;
-    transition: transform .28s ease, box-shadow .28s ease;
-}
+@media (max-width: 768px) {
+    .ck-testimonial-section {
+        padding: 42px 0 50px;
+    }
 
-.ck-testimonial-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(16,36,58,.12);
-}
-
-.ck-testimonial-img {
-    position: absolute;
-    top: -46px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: #ddd;
-    border: 3px solid #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,.18);
-}
-
-.ck-testimonial-avatar {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, #1f67ab, #ef8a39);
-    color: #fff;
-    font-size: 22px;
-    font-weight: 900;
-}
-
-.ck-testimonial-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.ck-testimonial-name {
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--ink);
-    margin: 0 0 4px;
-    line-height: 1.3;
-}
-
-.ck-testimonial-role {
-    font-size: 13px;
-    color: #777;
-    margin: 0 0 10px;
-}
-
-.ck-stars {
-    color: #ffb800;
-    font-size: 21px;
-    line-height: 1;
-    margin-bottom: 14px;
-    letter-spacing: 2px;
-}
-
-.ck-testimonial-text {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--muted);
+    .ck-testimonial-artwork {
+        width: 1100px;
+        max-width: none;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
 }
 
 /* ============================================================
@@ -1664,6 +2191,34 @@ html {
     font-size: 14px;
     color: #777;
     margin: 6px 0 22px;
+}
+
+.customer-login-methods {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    margin: 0 0 20px;
+    padding: 4px;
+    border: 1px solid #d8e1ea;
+    border-radius: 10px;
+    background: #f4f7fa;
+}
+
+.customer-login-method {
+    min-height: 40px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #536273;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.customer-login-method.active {
+    background: #fff;
+    color: #0b4c82;
+    box-shadow: 0 1px 4px rgba(28, 44, 62, 0.14);
 }
 
 .form-group { margin-bottom: 16px; }
@@ -2091,9 +2646,32 @@ html {
         grid-template-columns: 1fr;
     }
 
+    .ck-assurance-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
     .ck-solution-shell {
         grid-template-columns: 1fr;
     }
+
+    .ck-solution-headline {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .ck-solution-headline span {
+        font-size: 30px;
+    }
+
+    .ck-solution-options {
+        width: 100%;
+        gap: 40px;
+        margin-top: 32px;
+    }
+
+    .ck-solution-card h3 { font-size: 26px; }
+    .ck-solution-list li { font-size: 19px; }
 
     .ck-service-card,
     .explore-card {
@@ -2245,6 +2823,7 @@ html {
     .hero-description  { font-size: 13px; }
     .hero-plan-btn {
         width: 100%;
+        margin-left: 0;
         min-height: 50px;
         padding: 0 16px;
         font-size: 14px;
@@ -2266,13 +2845,38 @@ html {
         padding: 52px 0;
     }
 
-    .ck-solution-intro {
-        padding: 26px 22px;
+    .ck-compare-section {
+        padding: 28px 0 34px;
     }
 
-    .ck-assurance-panel {
-        padding: 26px 22px;
+    .ck-compare-shell {
+        width: min(92vw, 700px);
     }
+
+    .ck-solution-section { padding: 36px 0; }
+
+    .ck-solution-intro {
+        padding: 0;
+    }
+
+    .ck-solution-badge { font-size: 11px; }
+    .ck-solution-headline span { font-size: 25px; }
+    .ck-solution-intro p { font-size: 16px; }
+    .ck-solution-options { margin-top: 26px; gap: 22px; }
+    .ck-solution-card { padding: 0; }
+    .ck-solution-card h3 { font-size: 22px; }
+    .ck-solution-card p { font-size: 15px; }
+    .ck-solution-list { gap: 11px; }
+    .ck-solution-list li { padding-left: 22px; font-size: 16px; }
+    .ck-solution-list li::before { width: 9px; height: 9px; }
+
+    .ck-assurance-panel {
+        padding: 0;
+    }
+
+    .ck-assurance-eyebrow { margin-bottom: 18px; font-size: 12px; }
+    .ck-assurance-panel h2 { font-size: 27px; }
+    .ck-assurance-panel p { font-size: 16px; }
 
     .plan-modal-box {
         max-height: calc(100vh - 28px);
@@ -2345,11 +2949,9 @@ html {
         width: 92px;
     }
 
-    .ck-trust-section { padding: 42px 0; }
+    .ck-trust-section { padding: 34px 0 40px; }
+    .ck-trust-heading { margin-bottom: 30px; }
     .ck-trust-container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-    .ck-trust-icon-img { width: 62px; height: 58px; }
-    .ck-trust-title     { font-size: 13px; }
-
     .ck-services-section { padding: 76px 0 48px; }
 
     .ck-service-image {
@@ -2431,9 +3033,10 @@ html {
     }
 
     .ck-trust-item {
-        max-width: 220px;
+        max-width: 454px;
         margin: 0 auto;
     }
+
 
     .ck-service-card,
     .explore-card {
@@ -2484,6 +3087,385 @@ html {
     color: #555;
     font-size: 16px;
 }
+
+.hero-banner .hero-inner .hero-content .hero-plan-btn {
+    position: relative;
+    left: calc(50vw - max(4vw, calc(50vw - 660px)));
+    top: -100px;
+    width: auto;
+    min-height: 44px;
+    padding: 0 22px;
+    margin-left: 0;
+    transform: translateX(-50%);
+    border: 1px solid #666;
+    background: #454545;
+    color: #fff;
+    font-size: 14px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .25);
+    transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+.hero-banner .hero-inner .hero-content .hero-plan-btn:hover {
+    transform: translateX(-50%) translateY(-2px);
+    border-color: #f58220;
+    background: #f58220;
+    color: #fff;
+    box-shadow: 0 10px 24px rgba(245, 130, 32, .35);
+}
+
+@media (max-width: 576px) {
+    .hero-banner .hero-inner .hero-content .hero-plan-btn {
+        left: calc(50vw - 16px);
+        top: -60px;
+        min-height: 42px;
+        padding: 0 16px;
+    }
+}
+
+.home-page .hero-banner {
+    overflow: visible;
+    margin-bottom: 130px;
+    z-index: 2;
+}
+
+.home-page .ck-trust-section {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-discovery-card {
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    bottom: -110px;
+    width: min(90%, 1720px);
+    padding: 24px 35px 26px;
+    border: 1px solid #2478bb;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(20, 43, 65, .12);
+    transform: translateX(-50%);
+}
+
+.hero-discovery-search {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    padding: 8px 10px 8px 22px;
+    border: 1px solid #2478bb;
+    border-radius: 48px;
+    background: #f5f5f5;
+}
+
+.hero-discovery-location {
+    min-width: 0;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 18px 0 0;
+    border: 0;
+    border-right: 2px solid #2478bb;
+    background: transparent;
+    color: #303030;
+    font-size: 17px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.hero-discovery-location svg {
+    flex: 0 0 auto;
+    color: #2478bb;
+}
+
+.hero-discovery-location svg:first-child {
+    width: 22px;
+    height: 26px;
+}
+
+.hero-discovery-location svg:last-child {
+    width: 14px;
+    height: 14px;
+}
+
+.hero-discovery-location span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hero-discovery-input-wrap {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 0;
+}
+
+.hero-discovery-input-wrap > svg {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    color: #2478bb;
+}
+
+.hero-discovery-input {
+    width: 100%;
+    min-width: 0;
+    height: 50px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #303030;
+    font-size: 17px;
+}
+
+.hero-discovery-input::placeholder {
+    color: #929292;
+    opacity: 1;
+}
+
+.hero-discovery-submit {
+    flex: 0 0 auto;
+    min-width: 124px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 999px;
+    background: #2478bb;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.hero-discovery-submit:hover {
+    background: #135f9d;
+    transform: translateY(-1px);
+}
+
+.hero-discovery-submit svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+}
+
+.hero-discovery-status {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 2;
+    padding: 6px 10px;
+    border-radius: 5px;
+    background: #fff;
+    color: #b42318;
+    font-size: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+}
+
+.hero-discovery-status:empty {
+    display: none;
+}
+
+.hero-discovery-highlights {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: 18px;
+    margin-top: 26px;
+}
+
+.hero-discovery-highlight {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hero-discovery-highlight.has-image {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-discovery-highlight-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 72px;
+    margin: 0;
+    object-fit: contain;
+}
+
+.hero-discovery-highlight:not(.has-image) .hero-discovery-icon {
+    flex-basis: 72px;
+    width: 72px;
+    height: 72px;
+}
+
+.hero-discovery-highlight:not(.has-image) .hero-discovery-icon svg {
+    width: 38px;
+    height: 38px;
+}
+
+.hero-discovery-highlight:not(.has-image) .hero-discovery-copy {
+    font-size: 13px;
+}
+
+.hero-discovery-highlight:not(.has-image) .hero-discovery-copy strong {
+    font-size: 16px;
+    white-space: normal;
+}
+
+.hero-discovery-icon {
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #247fc2, #07508b);
+    color: #fff;
+    font-size: 26px;
+}
+
+.hero-discovery-icon svg {
+    display: block;
+    width: 29px;
+    height: 29px;
+}
+
+.hero-discovery-copy {
+    min-width: 0;
+    margin: 0;
+    color: #343434;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.hero-discovery-copy strong {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+    .hero-discovery-card {
+        width: min(94%, 1040px);
+        padding: 22px 24px 26px;
+    }
+
+    .hero-discovery-highlights {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px 16px;
+        margin-top: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-page .hero-banner {
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 0;
+        padding-bottom: 28px;
+    }
+
+    .hero-discovery-card {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: calc(100% - 32px);
+        margin: 0 auto;
+        padding: 16px;
+        transform: none;
+    }
+
+    .hero-discovery-search {
+        padding: 8px 8px 8px 14px;
+        border-radius: 16px;
+    }
+
+    .hero-discovery-location {
+        width: 100%;
+        height: 42px;
+        padding: 0 2px 7px;
+        border-right: 0;
+        border-bottom: 1px solid #2478bb;
+        font-size: 15px;
+    }
+
+    .hero-discovery-input-wrap {
+        gap: 8px;
+        padding-left: 0;
+    }
+
+    .hero-discovery-input {
+        height: 42px;
+        font-size: 14px;
+    }
+
+    .hero-discovery-submit {
+        min-width: 48px;
+        width: 48px;
+        height: 42px;
+        padding: 0;
+    }
+
+    .hero-discovery-submit span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .hero-discovery-highlights {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 10px;
+        margin-top: 20px;
+    }
+
+    .hero-discovery-highlight {
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .hero-discovery-icon {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+        font-size: 19px;
+    }
+
+    .hero-discovery-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .hero-discovery-copy {
+        font-size: 10px;
+    }
+
+    .hero-discovery-copy strong {
+        font-size: 10px;
+        white-space: normal;
+    }
+}
 </style>
 @endpush
 
@@ -2492,17 +3474,10 @@ html {
 <div class="home-page">
 
     {{-- ── HERO ── --}}
-    <section class="hero-banner">
+    <!-- <section class="hero-banner">
         <div class="hero-inner">
             <div class="hero-content">
-                <div class="hero-tech-badge" aria-label="India's No.1 tech powered end-to-end construction solution">
-                    INDIA'S NO.1 TECH POWERED END-TO-END CONSTRUCTION SOLUTION
-                </div>
-
-                <h1 class="hero-title">Plan. Hire. Execute</h1>
-                <p class="hero-subtitle">We manage your construction end-to-end</p>
-                <p class="hero-description">From planning and design to execution and quality checks — everything handled through us</p>
-
+              
                 <button type="button" class="hero-plan-btn" id="openPlanModalBtn">
                     Get End-to-End Construction Plan
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2511,47 +3486,73 @@ html {
                     </svg>
                 </button>
 
-                <div class="hero-proof-grid" aria-label="ConstructKaro highlights">
-                    <div class="hero-proof-item">
-                        <span class="hero-proof-value">20+</span>
-                        <span class="hero-proof-label">Years construction experience</span>
-                    </div>
-                    <div class="hero-proof-item">
-                        <span class="hero-proof-value">24h</span>
-                        <span class="hero-proof-label">Requirement response window</span>
-                    </div>
-                    <div class="hero-proof-item">
-                        <span class="hero-proof-value">8+</span>
-                        <span class="hero-proof-label">Construction service categories</span>
-                    </div>
-                    <div class="hero-proof-item">
-                        <span class="hero-proof-value">5</span>
-                        <span class="hero-proof-label">Cities and regions served</span>
-                    </div>
-                </div>
             </div>
         </div>
-    </section>
+    </section> -->
+<section class="hero-banner">
+    <div class="hero-inner">
+        <div class="hero-content">
 
+            <button type="button" class="hero-plan-btn" id="openPlanModalBtn">
+                <span>GET END-TO-END CONSTRUCTION PLAN</span>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m13 6 6 6-6 6"></path>
+                </svg>
+            </button>
+
+        </div>
+    </div>
+    <div class="hero-discovery-card">
+        <div class="hero-discovery-search">
+            <form class="hero-discovery-input-wrap" id="heroDiscoverySearchForm" role="search">
+                <input class="hero-discovery-input" id="heroDiscoverySearchInput" type="search" placeholder="Search Architects, Contractors, Feasibility Reports, BOQ Services & More..." aria-label="Search construction services">
+                <button class="hero-discovery-submit" type="submit" aria-label="Search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
+                    <span>Search</span>
+                </button>
+                <span class="hero-discovery-status" id="heroDiscoverySearchStatus" role="status" aria-live="polite"></span>
+            </form>
+        </div>
+
+        <div class="hero-discovery-highlights" aria-label="Why choose ConstructKaro">
+            <div class="hero-discovery-highlight has-image">
+                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/1.png') }}" alt="8+ Services - Construction Categories" width="218" height="72" loading="eager" decoding="async">
+            </div>
+            <div class="hero-discovery-highlight has-image">
+                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/4.png') }}" srcset="{{ asset('images/home/highlights/4.png') }} 1x, {{ asset('images/home/highlights/3.png') }} 4x" alt="Within 24 Hours - Requirement Response" width="275" height="72" loading="eager" decoding="async">
+            </div>
+            <div class="hero-discovery-highlight has-image">
+                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/5.png') }}" alt="Clear Pricing - Transparent Approach" width="247" height="72" loading="eager" decoding="async">
+            </div>
+            <div class="hero-discovery-highlight has-image">
+                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/6.png') }}" alt="On-site Support - Execution Assistance" width="275" height="72" loading="eager" decoding="async">
+            </div>
+            <div class="hero-discovery-highlight has-image">
+                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/7.png') }}" alt="5+ Locations - Cities and Regions Served" width="249" height="72" loading="eager" decoding="async">
+            </div>
+        </div>
+    </div>
+</section>
     {{-- ── TRUST STRIP ── --}}
     <section class="ck-trust-section">
+        <div class="ck-trust-heading">
+            <h2>How ConstructKaro Works</h2>
+            <div class="ck-trust-heading-line"></div>
+        </div>
+
         <div class="ck-trust-container">
-            <div class="ck-trust-item">
-                {!! $ckImage('images/logo/safety-helmet.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                <p class="ck-trust-title">Built by 20+ years<br>construction experience</p>
+            <div class="">
+                {!! $ckImage('images/home/process/share-requirement-hour.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img', ['width' => 7362, 'height' => 1276, 'loading' => 'eager', 'decoding' => 'async']) !!}
             </div>
-            <div class="ck-trust-item">
-                {!! $ckImage('images/logo/verify.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                <p class="ck-trust-title">Verified<br>vendors only</p>
-            </div>
-            <div class="ck-trust-item">
-                {!! $ckImage('images/logo/onground.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                <p class="ck-trust-title">On-ground<br>execution support</p>
-            </div>
-            <div class="ck-trust-item">
-                {!! $ckImage('images/logo/transpernt.png', '', 'ck-trust-icon-img', ['width' => 87, 'height' => 81, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                <p class="ck-trust-title">Transparent<br>pricing approach</p>
-            </div>
+         
         </div>
     </section>
 
@@ -2559,70 +3560,26 @@ html {
   
    
 
-    <section class="ck-process-section">
-        <div class="section-container">
-            <div class="section-heading">
-                <h2>How ConstructKaro Works</h2>
-                <div class="heading-bar"></div>
-            </div>
-
-            <div class="ck-process-grid">
-                <div class="ck-process-card">
-                    <span class="ck-process-number">01</span>
-                    <h3>Share your requirement</h3>
-                    <p>Tell us your service, city, timeline, and project need in a simple guided flow.</p>
-                </div>
-                <div class="ck-process-card">
-                    <span class="ck-process-number">02</span>
-                    <h3>Get matched with experts</h3>
-                    <p>We route the enquiry to relevant architects, contractors, surveyors, BOQ experts, and support teams.</p>
-                </div>
-                <div class="ck-process-card">
-                    <span class="ck-process-number">03</span>
-                    <h3>Compare with clarity</h3>
-                    <p>Review service fit, pricing approach, execution capability, and practical next steps before you decide.</p>
-                </div>
-                <div class="ck-process-card">
-                    <span class="ck-process-number">04</span>
-                    <h3>Plan and execute</h3>
-                    <p>Move from planning to site execution with on-ground coordination and transparent communication.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="ck-solution-section">
         <div class="ck-solution-shell">
             <div class="ck-solution-intro">
                 <span class="ck-solution-badge">One platform, any construction need</span>
                 <h2 class="ck-solution-headline">
-                    <span data-icon="🏗">Best for complete end-to-end construction.</span>
-                    <span data-icon="✓">Flexible for separate services too.</span>
+                    <span>Best for complete end-to-end construction.</span>
+                    <span>Flexible for separate services too.</span>
                 </h2>
-                <p>Whether you want ConstructKaro to guide the full journey from planning to execution, or you only need one service like an architect, contractor, survey, BOQ, testing, legal support, facade, or machinery, we help you find the right solution without confusion.</p>
+                <p>Whether you want ConstructKaro to guide the full journey from planning to execution, or you only need one service like an architect, contractor, survey, BOQ, testing, or facade, we help you find the right solution without confusion.</p>
             </div>
 
             <div class="ck-solution-options">
                 <div class="ck-solution-card primary">
-                    <h3>End-to-End Construction Solution</h3>
-                    <p>For customers who want one organised path from idea to execution.</p>
-                    <ul class="ck-solution-list">
-                        <li>Planning, design and BOQ clarity</li>
-                        <li>Verified experts and contractor support</li>
-                        <li>Execution coordination and site guidance</li>
-                        <li>Transparent process from start to finish</li>
-                    </ul>
+                    {!! $ckImage('images/home/solutions/end-to-end-solution.png', 'End-to-End Construction Solution', 'ck-solution-card-img default-state', ['width' => 2792, 'height' => 1684, 'loading' => 'eager', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/solutions/end-to-end-solution-hover.png', '', 'ck-solution-card-img hover-state', ['width' => 2901, 'height' => 1750, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
 
                 <div class="ck-solution-card secondary">
-                    <h3>Separate Service Solutions</h3>
-                    <p>For customers who need only one expert service at the right time.</p>
-                    <ul class="ck-solution-list">
-                        <li>Architect, contractor and interior experts</li>
-                        <li>Survey, structural audit, BOQ and testing</li>
-                        <li>NA/legal, facade, welding and machinery</li>
-                        <li>Choose one service now, add more later</li>
-                    </ul>
+                    {!! $ckImage('images/home/solutions/separate-service-solutions.png', 'Separate Service Solutions', 'ck-solution-card-img default-state', ['width' => 2792, 'height' => 1684, 'loading' => 'eager', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/solutions/separate-service-solutions-hover.png', '', 'ck-solution-card-img hover-state', ['width' => 2901, 'height' => 1750, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
             </div>
         </div>
@@ -2632,188 +3589,46 @@ html {
         <h2>We are coming soon for this location</h2>
         <p>Currently, our services are not available in your selected area. We are expanding soon.</p>
     </div>
- <section class="ck-services-section" id="mainServicesSection">
-    <div class="section-container">
-        <div class="ck-services-grid">
+    @php
+        $ourServices = [
+            ['name' => 'Architect', 'image' => 'architect.png', 'hover' => 'architect-hover.png', 'url' => route('post', ['work_type_id' => 2]), 'login' => true],
+            ['name' => 'Contractor', 'image' => 'contractor.png', 'hover' => 'contractor-hover.png', 'url' => route('post', ['work_type_id' => 1]), 'login' => true],
+            ['name' => 'Feasibility Report', 'image' => 'feasibility-report.png', 'hover' => 'feasibility-report-hover.png', 'modal' => true],
+            ['name' => 'Survey Services', 'image' => 'survey-services.png', 'hover' => 'survey-services-hover.png', 'url' => route('customer.survey'), 'login' => true],
+            ['name' => 'Structural Audit', 'image' => 'structural-audit.png', 'hover' => 'structural-audit-hover.png', 'url' => route('customer.structuralaudit'), 'login' => true],
+            ['name' => 'BOQ / Estimation', 'image' => 'boq-estimation.png', 'hover' => 'boq-estimation-hover.png', 'url' => route('customer.boq'), 'login' => true],
+            ['name' => 'Welding & Fabrication', 'image' => 'welding-fabrication.png', 'hover' => 'welding-fabrication-hover.png', 'url' => route('customer.welding_fabrication'), 'login' => true],
+            ['name' => 'Testing Services', 'image' => 'testing-services.png', 'hover' => 'testing-services-hover.png', 'url' => route('customer.testing'), 'login' => true],
+            ['name' => 'Facade Services', 'image' => 'facade-services.png', 'hover' => 'facade-services-hover.png', 'url' => route('customer.facade'), 'login' => true],
+        ];
+    @endphp
 
-            <div class="ck-service-card">
-                <div class="ck-service-image">
-                    {!! $ckImage('images/b1.png', 'Architect', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                </div>
-                <h3 class="ck-service-title">Architect</h3>
-                <div class="ck-service-line"></div>
-                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                @if($isCustomerLoggedIn)
-                    <a href="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn">Post Your Requirement</a>
-                @else
-                    <a href="{{ route('post', ['work_type_id' => 2]) }}" data-redirect="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
-                @endif
+    <section class="our-services-section" id="mainServicesSection">
+        <div class="our-services-shell">
+            <div class="our-services-heading">
+                <h2>Our Services</h2>
+                <div class="our-services-heading-line"></div>
+                <h3>Everything Your Project Needs, <span>All in One Place.</span></h3>
+                <p>From architecture and survey to contracting, BOQ, testing, facade, fabrication and more.</p>
             </div>
 
-            <div class="ck-service-card">
-                <div class="ck-service-image">
-                    {!! $ckImage('images/b2.png', 'Contractor', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                </div>
-                <h3 class="ck-service-title">Contractor</h3>
-                <div class="ck-service-line"></div>
-                <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                @if($isCustomerLoggedIn)
-                    <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
-                @else
-                    <a href="{{ route('post', ['work_type_id' => 1]) }}" data-redirect="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn open-customer-login-modal">Post Your Requirement</a>
-                @endif
-            </div>
-
-            <div class="ck-service-card">
-                <div class="ck-service-image">
-                    {!! $ckImage('images/b3.png', 'Feasibility Report', '', ['width' => 270, 'height' => 203, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                </div>
-                <h3 class="ck-service-title">Feasibility Report</h3>
-                <div class="ck-service-line"></div>
-                <p class="ck-service-text">Get architect, contractor and interior designer guidance in one report.</p>
-                <button type="button" class="ck-service-btn open-plan-modal-btn">Get Feasibility Report</button>
-            </div>
-
-        </div>
-    </div>
-</section>
-    {{-- ── EXPLORE MORE SERVICES ── --}}
-    <!-- <section class="explore-services-section"> -->
-        <section class="explore-services-section" id="exploreServicesSection">
-        <div class="section-container">
-            <div class="section-heading">
-                <h2>Explore More Services</h2>
-                <div class="heading-bar"></div>
-            </div>
-
-            <div class="explore-services-grid">
-
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/survey-services.png', 'Survey Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Survey Services</h3>
-                        <p>Explore All Categories of Survey Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.survey') }}" class="explore-btn orange-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.survey') }}" data-redirect="{{ route('customer.survey') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Testing Services</h3>
-                        <p>Explore All Categories of Testing Services</p>
-                        <a href="{{ route('customer.testing') }}" class="explore-btn blue-btn">Get Started</a>
-                    </div>
-                </div> -->
-                 <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/structural-audit.png', 'Structural Audit', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Structural Audit</h3>
-                        <p>Explore All Categories of structural Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.structuralaudit') }}" data-redirect="{{ route('customer.structuralaudit') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/boq-estimation.png', 'BOQ/Estimation', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>BOQ / Estimation</h3>
-                        <p>Explore All Categories of BOQ / Estimation Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.boq') }}" class="explore-btn orange-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.boq') }}" data-redirect="{{ route('customer.boq') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/legal-due-diligence.png', 'NA Support & Legal Due Diligence', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>NA Support & Legal Due Diligence</h3>
-                        <p>Explore All Categories of NA Support & Legal Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.nasupport') }}" class="explore-btn orange-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.nasupport') }}" data-redirect="{{ route('customer.nasupport') }}" class="explore-btn orange-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/welding-fabrication.png', 'Welding & Fabrication', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Welding & Fabrication</h3>
-                        <p>Explore All Categories of Welding & Fabrication Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.welding_fabrication') }}" class="explore-btn blue-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.welding_fabrication') }}" data-redirect="{{ route('customer.welding_fabrication') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/testing-services.jpeg', 'Testing Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Testing Services</h3>
-                        <p>Explore All Categories of Testing Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.testing') }}" class="explore-btn blue-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.testing') }}" data-redirect="{{ route('customer.testing') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="explore-card orange-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/machinaryonhire.png', 'Machinery On Hire', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Machinery On Hire</h3>
-                        <p>Explore All Categories of Machinery On Hire Services</p>
-                        <a href="{{ route('machinery_provider.create') }}" class="explore-btn orange-btn">Get Started</a>
-                    </div>
-                </div>
-
-                <div class="explore-card blue-card">
-                    <div class="explore-card-image">
-                        {!! $ckImage('images/explore/facade-services.png', 'Facade Services', '', ['width' => 420, 'height' => 263, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-                    </div>
-                    <div class="explore-card-body">
-                        <h3>Facade Services</h3>
-                        <p>Explore All Categories of Facade Services</p>
-                        @if($isCustomerLoggedIn)
-                            <a href="{{ route('customer.facade') }}" class="explore-btn blue-btn">Get Started</a>
-                        @else
-                            <a href="{{ route('customer.facade') }}" data-redirect="{{ route('customer.facade') }}" class="explore-btn blue-btn open-customer-login-modal">Get Started</a>
-                        @endif
-                    </div>
-                </div>
-
+            <div class="our-services-grid">
+                @foreach($ourServices as $service)
+                    @if(!empty($service['modal']))
+                        <button type="button" class="our-service-card open-plan-modal-btn" aria-label="{{ $service['name'] }}">
+                            {!! $ckImage('images/home/services/' . $service['image'], $service['name'], 'default-state', ['width' => 345, 'height' => 419, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                            {!! $ckImage('images/home/services/' . $service['hover'], '', 'hover-state', ['width' => 366, 'height' => 443, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
+                        </button>
+                    @else
+                        <a href="{{ $service['url'] }}"
+                           class="our-service-card{{ !$isCustomerLoggedIn && !empty($service['login']) ? ' open-customer-login-modal' : '' }}"
+                           @if(!$isCustomerLoggedIn && !empty($service['login'])) data-redirect="{{ $service['url'] }}" @endif
+                           aria-label="{{ $service['name'] }}">
+                            {!! $ckImage('images/home/services/' . $service['image'], $service['name'], 'default-state', ['width' => 345, 'height' => 419, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                            {!! $ckImage('images/home/services/' . $service['hover'], '', 'hover-state', ['width' => 366, 'height' => 443, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
+                        </a>
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>
@@ -2829,24 +3644,20 @@ html {
 
             <div class="ck-assurance-list">
                 <div class="ck-assurance-item">
-                    <span class="ck-assurance-icon">✓</span>
-                    <h3>Verified service network</h3>
-                    <p>Connect with relevant providers across architectural, contractor, survey, BOQ, audit, legal, and support services.</p>
+                    {!! $ckImage('images/home/assurance/verified-network.png', 'Verified service network', 'default-state', ['width' => 437, 'height' => 326, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/assurance/verified-network-hover.png', '', 'hover-state', ['width' => 462, 'height' => 346, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
                 <div class="ck-assurance-item">
-                    <span class="ck-assurance-icon">Rs</span>
-                    <h3>Transparent pricing approach</h3>
-                    <p>Get quote-led conversations that make scope and next steps clearer before committing.</p>
+                    {!! $ckImage('images/home/assurance/transparent-pricing.png', 'Transparent pricing approach', 'default-state', ['width' => 437, 'height' => 326, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/assurance/transparent-pricing-hover.png', '', 'hover-state', ['width' => 460, 'height' => 346, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
                 <div class="ck-assurance-item">
-                    <span class="ck-assurance-icon">24</span>
-                    <h3>Fast requirement response</h3>
-                    <p>Post your requirement and get guided follow-up so your project does not stay stuck at the starting line.</p>
+                    {!! $ckImage('images/home/assurance/fast-response.png', 'Fast requirement response', 'default-state', ['width' => 437, 'height' => 326, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/assurance/fast-response-hover.png', '', 'hover-state', ['width' => 460, 'height' => 346, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
                 <div class="ck-assurance-item">
-                    <span class="ck-assurance-icon">Go</span>
-                    <h3>End-to-end path</h3>
-                    <p>From design and approvals to BOQ, vendors, materials, testing, and execution support in one place.</p>
+                    {!! $ckImage('images/home/assurance/end-to-end-path.png', 'End-to-end path', 'default-state', ['width' => 437, 'height' => 326, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                    {!! $ckImage('images/home/assurance/end-to-end-path-hover.png', '', 'hover-state', ['width' => 460, 'height' => 346, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
                 </div>
             </div>
         </div>
@@ -2878,62 +3689,76 @@ html {
    
     {{-- ── VENDOR ── --}}
     <section class="ck-compare-section">
-        <div class="section-heading">
-            <h2>Platform Managed vs Unmanaged Execution</h2>
-            <div class="heading-bar"></div>
-        </div>
-
-        <div class="ck-compare-table">
-            <div class="ck-compare-row ck-compare-head">
-                <div>Factor</div>
-                <div>ConstructKaro Approach</div>
-                <div>Typical Unmanaged Approach</div>
+        <div class="ck-compare-shell">
+            <img src="{{ asset('images/home/compare/Group 947.png') }}"
+                 alt="Platform Managed vs Unmanaged Execution"
+                 class="ck-compare-heading-image"
+                 loading="lazy"
+                 decoding="async">
+            <div class="ck-compare-panels">
+                <img src="{{ asset('images/home/compare/BLU.png') }}"
+                     alt="ConstructKaro managed project experience"
+                     class="ck-compare-managed-image"
+                     width="2796"
+                     height="2828"
+                     loading="lazy"
+                     decoding="async">
+                <div class="ck-compare-divider" aria-hidden="true">
+                    <img src="{{ asset('images/home/compare/line.png') }}"
+                         alt=""
+                         class="ck-compare-divider-image"
+                         width="416"
+                         height="1965"
+                         loading="lazy"
+                         decoding="async">
+                    <span class="ck-compare-vs">VS</span>
+                </div>
+                <img src="{{ asset('images/home/compare/ORG.png') }}"
+                     alt="Traditional unmanaged project experience"
+                     class="ck-compare-unmanaged-image"
+                     width="2796"
+                     height="2828"
+                     loading="lazy"
+                     decoding="async">
             </div>
-            <div class="ck-compare-row">
-                <div class="ck-compare-factor">Service discovery</div>
-                <div class="ck-compare-good">Relevant experts by service and location</div>
-                <div class="ck-compare-risk">Random referrals and limited options</div>
+            <div class="ck-compare-update-banner">
+                <img src="{{ asset('images/home/compare/STAY.png') }}"
+                     alt="Stay updated. Stay in control with ConstructKaro"
+                     class="ck-compare-update-image"
+                     loading="lazy"
+                     decoding="async">
             </div>
-            <div class="ck-compare-row">
-                <div class="ck-compare-factor">Scope clarity</div>
-                <div class="ck-compare-good">Requirement-led conversations</div>
-                <div class="ck-compare-risk">Verbal scope and repeated confusion</div>
-            </div>
-            <div class="ck-compare-row">
-                <div class="ck-compare-factor">Planning support</div>
-                <div class="ck-compare-good">Design, BOQ, survey, legal, and audit routes</div>
-                <div class="ck-compare-risk">Separate follow-ups with no single flow</div>
-            </div>
-            <div class="ck-compare-row">
-                <div class="ck-compare-factor">Execution confidence</div>
-                <div class="ck-compare-good">On-ground support and transparent communication</div>
-                <div class="ck-compare-risk">Phone updates and uncertainty</div>
+            <div class="ck-package-compare-row">
+                <a href="{{ route('guide.requirement') }}"
+                   class="ck-package-cta-link"
+                   aria-label="Open construction requirement form">
+                    <img src="{{ asset('images/home/compare/Group 950.png') }}"
+                         alt="Find the right construction package"
+                         class="ck-package-cta-image"
+                         loading="lazy"
+                         decoding="async">
+                </a>
+                <img src="{{ asset('images/home/compare/Group 667.png') }}"
+                     alt="Compare Core and Shell with Turnkey construction packages"
+                     class="ck-package-visual-image"
+                     loading="lazy"
+                     decoding="async">
             </div>
         </div>
     </section>
 
-    <section class="ck-vendor-section">
-        <div class="ck-vendor-container">
-            <div class="ck-vendor-content-box">
-                <h2 class="ck-vendor-title">Get real construction projects in your area</h2>
-                <p class="ck-vendor-text">Join ConstructKaro and start receiving verified leads. No commission, no listing fees.</p>
-                <a href="https://vendor.constructkaro.com/" class="ck-vendor-btn">Join as Vendor</a>
-            </div>
-            <div class="ck-vendor-image-box">
-                {!! $ckImage('images/logo/a1.jpg', 'Construction Projects', '', ['width' => 520, 'height' => 300, 'loading' => 'lazy', 'decoding' => 'async']) !!}
-            </div>
-        </div>
-    </section>
+
 
     {{-- ── CITIES ── --}}
     <section class="ck-city-section">
-        <h2 class="ck-city-title">Cities We Serve</h2>
+        <!-- <h2 class="ck-city-title">Cities We Serve</h2> -->
         <div class="ck-city-grid">
-            <div class="ck-city-card">{!! $ckImage('images/logo/navi-mumbai.png', 'Navi Mumbai', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
-            <div class="ck-city-card">{!! $ckImage('images/logo/mumbai.png', 'Mumbai', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
-            <div class="ck-city-card">{!! $ckImage('images/logo/thane.png', 'Thane', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
-            <div class="ck-city-card">{!! $ckImage('images/logo/pune.png', 'Pune', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
-            <div class="ck-city-card">{!! $ckImage('images/logo/raigad.png', 'Raigad', '', ['width' => 180, 'height' => 180, 'loading' => 'lazy', 'decoding' => 'async']) !!}</div>
+             <img src="{{ asset('images/home/compare/Group848.png') }}"
+                 alt="Platform Managed vs Unmanaged Execution"
+                 class="ck-compare-image"
+                 loading="lazy"
+                 decoding="async">
+         
         </div>
     </section>
 
@@ -2986,53 +3811,14 @@ html {
 
     {{-- ── TESTIMONIALS ── --}}
     <section class="ck-testimonial-section">
-        <div class="ck-testimonial-heading">
-            <h2>What People Say About Us</h2>
-            <div class="ck-testimonial-line"></div>
-        </div>
-
-        <div class="ck-testimonial-grid">
-
-            <div class="ck-testimonial-card">
-                <div class="ck-testimonial-img">
-                    <div class="ck-testimonial-avatar" aria-hidden="true">PI</div>
-                </div>
-                <h3 class="ck-testimonial-name">Patil Infra & Realtors Pvt. Ltd.</h3>
-                <p class="ck-testimonial-role">Real Estate Developer | Khopoli</p>
-                <div class="ck-stars">★★★★☆</div>
-                <p class="ck-testimonial-text">For our ongoing building projects, finding dependable contractors on time is always a challenge. Through ConstructKaro, we were able to identify suitable labour contractors quickly, improving our execution efficiency.</p>
-            </div>
-
-            <div class="ck-testimonial-card">
-                <div class="ck-testimonial-img">
-                    <div class="ck-testimonial-avatar" aria-hidden="true">DS</div>
-                </div>
-                <h3 class="ck-testimonial-name">Dinesh Shirke</h3>
-                <p class="ck-testimonial-role">Home Owner | Nagothane, Maharashtra</p>
-                <div class="ck-stars">★★★★☆</div>
-                <p class="ck-testimonial-text">I was planning to construct a bungalow and didn't know how to start. I posted my requirement on ConstructKaro and received genuine responses. One lead converted into actual work and my bungalow construction has started.</p>
-            </div>
-
-            <div class="ck-testimonial-card">
-                <div class="ck-testimonial-img">
-                    <div class="ck-testimonial-avatar" aria-hidden="true">OV</div>
-                </div>
-                <h3 class="ck-testimonial-name">Omkar Vidhate</h3>
-                <p class="ck-testimonial-role">Architect | Pune</p>
-                <div class="ck-stars">★★★☆☆</div>
-                <p class="ck-testimonial-text">After leaving my job, getting independent projects was challenging. Through ConstructKaro, I received architectural planning and interior design work that matched my skills perfectly.</p>
-            </div>
-
-            <div class="ck-testimonial-card">
-                <div class="ck-testimonial-img">
-                    <div class="ck-testimonial-avatar" aria-hidden="true">SA</div>
-                </div>
-                <h3 class="ck-testimonial-name">Sanket Asgaonkar</h3>
-                <p class="ck-testimonial-role">Land Surveyor & Drone Survey Specialist | Raigad</p>
-                <div class="ck-stars">★★★★☆</div>
-                <p class="ck-testimonial-text">I had the skills and equipment, but finding the right drone survey clients was difficult. Through ConstructKaro, I received a drone survey requirement in Poladpur that perfectly matched my profile.</p>
-            </div>
-
+        <div class="ck-testimonial-artwork-wrap">
+            <img src="{{ asset('images/home/compare/testomeni.png') }}"
+                 alt="What people say about ConstructKaro"
+                 class="ck-testimonial-artwork"
+                 width="7698"
+                 height="1792"
+                 loading="lazy"
+                 decoding="async">
         </div>
     </section>
 
@@ -3170,10 +3956,15 @@ html {
 
         <div class="custom-modal-header">
             <h3>Login to Continue</h3>
-            <p>Enter your mobile number to get OTP</p>
+            <p id="customerLoginHelp">Enter your mobile number to get OTP</p>
         </div>
 
         <input type="hidden" id="customer_redirect_url">
+
+        <div class="customer-login-methods" role="tablist" aria-label="Choose login method">
+            <button type="button" class="customer-login-method active" id="customerOtpTab" data-customer-login-method="otp" role="tab" aria-selected="true">Login with OTP</button>
+            <button type="button" class="customer-login-method" id="customerPasswordTab" data-customer-login-method="password" role="tab" aria-selected="false">Login with Password</button>
+        </div>
 
         <div class="form-group">
             <label>Mobile Number</label>
@@ -3187,11 +3978,18 @@ html {
             <small class="error-text" id="customer_otp_error"></small>
         </div>
 
+        <div class="form-group" id="customerPasswordSection" style="display:none;">
+            <label>Password</label>
+            <input type="password" id="customer_password" class="custom-input" placeholder="Enter password" autocomplete="current-password">
+            <small class="error-text" id="customer_password_error"></small>
+        </div>
+
         <div class="otp-success-msg" id="customer_otp_success_msg"></div>
 
         <div class="custom-modal-actions">
             <button type="button" class="modal-btn primary-btn" id="customerSendOtpBtn">Get OTP</button>
             <button type="button" class="modal-btn verify-btn" id="customerVerifyOtpBtn" style="display:none;">Verify OTP</button>
+            <button type="button" class="modal-btn primary-btn" id="customerPasswordLoginBtn" style="display:none;">Login</button>
         </div>
     </div>
 </div>
@@ -3322,18 +4120,43 @@ $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
 $(document).ready(function () {
 
+    function setCustomerLoginMethod(method) {
+        const passwordMode = method === 'password';
+
+        $('#customerOtpTab').removeClass('active').prop('ariaSelected', !passwordMode);
+        $('#customerPasswordTab').removeClass('active').prop('ariaSelected', passwordMode);
+        $(passwordMode ? '#customerPasswordTab' : '#customerOtpTab').addClass('active');
+        $('#customerLoginHelp').text(passwordMode
+            ? 'Enter your mobile number and password'
+            : 'Enter your mobile number to get OTP');
+        $('#customerPasswordSection')[passwordMode ? 'show' : 'hide']();
+        $('#customerPasswordLoginBtn')[passwordMode ? 'show' : 'hide']();
+        $('#customerSendOtpBtn')[passwordMode ? 'hide' : 'show']();
+        $('#customerOtpSection').hide();
+        $('#customerVerifyOtpBtn').hide();
+        $('#customer_otp_code').val('');
+        $('#customer_password').val('');
+        $('#customer_otp_error').text('');
+        $('#customer_password_error').text('');
+        $('#customer_otp_success_msg').text('');
+    }
+
+    $(document).on('click', '[data-customer-login-method]', function () {
+        setCustomerLoginMethod($(this).data('customerLoginMethod'));
+    });
+
     $(document).on('click', '.open-customer-login-modal', function (event) {
         event.preventDefault();
         let redirectUrl = $(this).data('redirect') || $(this).attr('href') || '';
         $('#customer_redirect_url').val(redirectUrl);
         $('#customer_mobile_number').val('');
         $('#customer_otp_code').val('');
+        $('#customer_password').val('');
         $('#customer_mobile_error').text('');
         $('#customer_otp_error').text('');
+        $('#customer_password_error').text('');
         $('#customer_otp_success_msg').text('');
-        $('#customerOtpSection').hide();
-        $('#customerVerifyOtpBtn').hide();
-        $('#customerSendOtpBtn').show();
+        setCustomerLoginMethod('otp');
         $('#customerLoginOtpModal').addClass('active');
     });
 
@@ -3656,6 +4479,46 @@ $(document).on('click', '#customerVerifyOtpBtn', function (e) {
         complete: function () { btn.prop('disabled', false).text('Verify OTP'); }
     });
 });
+
+$(document).on('click', '#customerPasswordLoginBtn', function (e) {
+    e.preventDefault();
+    const mobile = $('#customer_mobile_number').val().trim();
+    const password = $('#customer_password').val();
+    const redirectUrl = $('#customer_redirect_url').val();
+    $('#customer_mobile_error').text('');
+    $('#customer_password_error').text('');
+    $('#customer_otp_success_msg').text('');
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        $('#customer_mobile_error').text('Please enter valid 10 digit mobile number');
+        return;
+    }
+    if (!password) {
+        $('#customer_password_error').text('Please enter your password');
+        return;
+    }
+
+    const btn = $(this);
+    btn.prop('disabled', true).text('Logging in...');
+
+    $.ajax({
+        url: "{{ route('customer.login.password') }}",
+        type: 'POST',
+        data: { mobile, password, redirect_url: redirectUrl },
+        success: function (response) {
+            $('#customer_otp_success_msg').text(response.message || 'Login successful');
+            setTimeout(function () {
+                redirectUrl ? window.location.href = redirectUrl : window.location.reload();
+            }, 500);
+        },
+        error: function (response) {
+            $('#customer_password_error').text(response.message || 'Unable to login. Please try again.');
+        },
+        complete: function () {
+            btn.prop('disabled', false).text('Login');
+        }
+    });
+});
 </script>
 
 <script>
@@ -3708,9 +4571,70 @@ document.addEventListener("DOMContentLoaded", function () {
     const mainServicesSection = document.getElementById("mainServicesSection");
     const exploreServicesSection = document.getElementById("exploreServicesSection");
     const comingSoonLocationBox = document.getElementById("comingSoonLocationBox");
+    const heroDiscoveryLocation = document.getElementById("heroDiscoveryLocation");
+    const heroDiscoveryLocationText = document.getElementById("heroDiscoveryLocationText");
+    const headerLocationButton = document.getElementById("openLocationModal");
+    const headerLocationText = document.getElementById("selectedLocationText");
+    const heroDiscoverySearchForm = document.getElementById("heroDiscoverySearchForm");
+    const heroDiscoverySearchInput = document.getElementById("heroDiscoverySearchInput");
+    const heroDiscoverySearchStatus = document.getElementById("heroDiscoverySearchStatus");
     const revealItems = document.querySelectorAll(
         '.hero-banner, .ck-trust-section, .ck-process-section, .ck-solution-section, .ck-services-section, .explore-services-section, .ck-assurance-section, .ck-guide-section, .ck-compare-section, .ck-vendor-section, .ck-city-section, .ck-all-services-section, .ck-testimonial-section'
     );
+
+    if (heroDiscoveryLocation && heroDiscoveryLocationText && headerLocationButton && headerLocationText) {
+        const syncHeroLocation = function () {
+            heroDiscoveryLocationText.textContent = headerLocationText.textContent.trim();
+        };
+
+        syncHeroLocation();
+        new MutationObserver(syncHeroLocation).observe(headerLocationText, {
+            childList: true,
+            characterData: true,
+            subtree: true
+        });
+
+        heroDiscoveryLocation.addEventListener("click", function () {
+            headerLocationButton.click();
+        });
+    }
+
+    if (heroDiscoverySearchForm && heroDiscoverySearchInput && heroDiscoverySearchStatus) {
+        heroDiscoverySearchForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            heroDiscoverySearchStatus.textContent = "";
+
+            const terms = heroDiscoverySearchInput.value.toLowerCase()
+                .replace(/[^a-z0-9\s]/g, " ")
+                .split(/\s+/)
+                .filter(function (term) {
+                    return term.length > 2 && !["search", "for", "residential", "commercial", "construction", "services"].includes(term);
+                });
+
+            if (!terms.length) {
+                heroDiscoverySearchInput.focus();
+                return;
+            }
+
+            const matchingService = Array.from(document.querySelectorAll(".our-service-card")).find(function (card) {
+                const serviceName = (card.getAttribute("aria-label") || "").toLowerCase();
+                return terms.some(function (term) {
+                    return serviceName.includes(term);
+                });
+            });
+
+            if (matchingService) {
+                matchingService.click();
+                return;
+            }
+
+            heroDiscoverySearchStatus.textContent = "No matching service found. Try Architect, Contractor, Survey, BOQ, Testing or Facade.";
+        });
+
+        heroDiscoverySearchInput.addEventListener("input", function () {
+            heroDiscoverySearchStatus.textContent = "";
+        });
+    }
 
     function showServices() {
         if (mainServicesSection) mainServicesSection.style.display = "block";

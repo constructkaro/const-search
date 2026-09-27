@@ -59,6 +59,7 @@
                 <option value="Interior" {{ request('work_type') == 'Interior' ? 'selected' : '' }}>Interior</option>
                 <option value="Surveyor" {{ request('work_type') == 'Surveyor' ? 'selected' : '' }}>Surveyor</option>
                 <option value="BOQ" {{ request('work_type') == 'BOQ' ? 'selected' : '' }}>BOQ</option>
+                <option value="Structural Audit" {{ request('work_type') == 'Structural Audit' ? 'selected' : '' }}>Structural Audit</option>
             </select>
         </div>
 

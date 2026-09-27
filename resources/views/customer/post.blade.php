@@ -501,17 +501,17 @@ body{
 
                             <div class="form-field">
                                 <label>Contact Name</label>
-                                <input type="text" class="form-control-custom" name="contact_name" placeholder="e.g. Aniket Patil">
+                                          <input type="text" class="form-control-custom" name="contact_name" placeholder="e.g. Aniket Patil" value="{{ old('contact_name', $customer?->name) }}">
                             </div>
 
                             <div class="form-field">
                                 <label>Mobile</label>
-                                <input type="text" class="form-control-custom" name="mobile" id="main_mobile" placeholder="e.g. 9876543210">
+                                          <input type="text" class="form-control-custom" name="mobile" id="main_mobile" placeholder="e.g. 9876543210" value="{{ old('mobile', $customer?->mobile) }}">
                             </div>
 
                             <div class="form-field">
                                 <label>Email</label>
-                                <input type="email" class="form-control-custom" name="email" placeholder="e.g. aniket@example.com">
+                                          <input type="email" class="form-control-custom" name="email" placeholder="e.g. aniket@example.com" value="{{ old('email', $customer?->email) }}">
                             </div>
 
                             <div class="form-field">

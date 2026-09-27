@@ -54,8 +54,8 @@ body {
 
 .header .logo picture,
 .header .logo img {
-    width: 170px;
-    max-height: 62px;
+    width: 205px;
+    max-height: 95px;
     object-fit: contain;
     display: block;
 }

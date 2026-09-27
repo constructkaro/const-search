@@ -179,6 +179,9 @@
                                 Tab: {{ ucfirst($step->tab_type) }} |
                                 Step Order: {{ $step->step_order }} |
                                 Type: {{ ucfirst($step->step_type) }}
+                                @if($step->milestone_date)
+                                    | Scheduled: {{ $step->milestone_date->format('d M Y') }}
+                                @endif
                             </div>
 
                             @if($step->input_value)

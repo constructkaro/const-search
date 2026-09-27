@@ -20,6 +20,9 @@
                     @endif
                     <div class="step-meta">
                         Step {{ $step->step_order }} | {{ ucfirst($step->step_type ?: 'normal') }}
+                        @if($step->milestone_date)
+                            | Scheduled: {{ $step->milestone_date->format('d M Y') }}
+                        @endif
                     </div>
                     @if($subPoints->isNotEmpty())
                         <div class="mt-2">

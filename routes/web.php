@@ -33,6 +33,7 @@ use App\Http\Controllers\TestingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\EngineerDeskController;
 use App\Http\Controllers\Admin\PostLeadController;
+use App\Http\Controllers\Admin\CustomerManagementController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ConstructionEducationPostController;
 use App\Http\Controllers\HomeController;
@@ -137,6 +138,8 @@ Route::middleware(['auth', 'role:super_admin,telecaller,admin'])
         Route::get('/vendors', [AdminController::class, 'allvendors'])->name('allvendors');
 
         Route::get('/projects', [PostLeadController::class, 'index'])->name('allprojects');
+        Route::get('/customers', [CustomerManagementController::class, 'index'])->name('customers.index');
+        Route::post('/customers', [CustomerManagementController::class, 'store'])->name('customers.store');
         Route::get('/post-leads/create', [PostLeadController::class, 'create'])->name('post-leads.create');
         Route::post('/post-leads/store', [PostLeadController::class, 'store'])->name('save.adminpost');
         
@@ -272,6 +275,10 @@ Route::domain('vendor.constructkaro.com')->group(function () {
 // Route::get('/', [CustomerController::class, 'welcome'])->name('welcome');
 Route::post('/customer/send-otp', [CustomerController::class, 'sendOtp'])->name('customer.send.otp');
 Route::post('/customer/verify-otp', [CustomerController::class, 'verifyOtp'])->name('customer.verify.otp');
+Route::post('/customer/login-with-password', [CustomerController::class, 'loginWithPassword'])->name('customer.login.password');
+Route::get('/customer/login', [CustomerController::class, 'showLoginForm'])->name('customer.login');
+Route::post('/customer/login', [CustomerController::class, 'login'])->name('customer.login.submit');
+Route::get('/customer/projects', [CustomerController::class, 'myProjects'])->name('customer.projects');
 
 Route::get('/customer/survey', [CustomerController::class, 'surveyPage'])->name('customer.survey');
 Route::get('/customer/testing', [CustomerController::class, 'testingPage'])->name('customer.testing');
@@ -422,6 +429,9 @@ Route::get('interior-boq', [HomeController::class, 'interior_boq'])->name('inter
 Route::get('renovation-repair-estimation', [HomeController::class, 'renovation_repair_estimation'])->name('renovation.repair.estimation');
 
 Route::get('guide-me', [HomeController::class, 'confused_guide_me'])->name('confused_guide_me');
+
+Route::get('project-requirement', [HomeController::class, 'guide_me'])
+    ->name('guide.requirement');
 
 
 Route::post('/construction-requirement/store', [ConstructionRequirementController::class, 'store'])

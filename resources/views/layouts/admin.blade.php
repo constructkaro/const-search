@@ -336,6 +336,12 @@
                                         'active' => ['admin.allprojects', 'admin.post-leads.*'],
                                     ],
                                     [
+                                        'label' => 'Customers',
+                                        'icon' => 'bi-person-lines-fill',
+                                        'route' => 'admin.customers.index',
+                                        'active' => ['admin.customers.*'],
+                                    ],
+                                    [
                                         'label' => 'Engineer Desk Flow',
                                         'icon' => 'bi-diagram-3-fill',
                                         'route' => 'admin.engineer-desk.create',

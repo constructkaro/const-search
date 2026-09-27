@@ -8,6 +8,7 @@ use App\Models\SurveyBooking;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
  use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Services\OtpService;
@@ -189,6 +190,58 @@ public function verifyOtp(Request $request, OtpService $otpService)
         ], 500);
     }
 }
+
+    public function loginWithPassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'mobile' => ['required', 'digits:10'],
+                'password' => ['required', 'string'],
+                'redirect_url' => ['nullable', 'string'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Please enter a valid mobile number and password.',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+
+        $customer = Customer::where('mobile', $request->mobile)->first();
+
+        if (! $customer || ! $customer->password || ! Hash::check($request->password, $customer->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid mobile number or password. Use OTP if you have not set a password.',
+            ], 422);
+        }
+
+        $request->session()->regenerate();
+
+        session([
+            'customer_id' => $customer->id,
+            'customer_name' => $customer->name ?: 'User',
+            'customer_mobile' => $customer->mobile,
+            'customer_logged_in' => true,
+        ]);
+
+        Cache::put(
+            'api_customer_login:'.sha1($request->ip().'|'.(string) $request->userAgent()),
+            $customer->id,
+            now()->addDays(30)
+        );
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Login successful.',
+            'customer_id' => $customer->id,
+            'customer_name' => $customer->name ?: 'User',
+            'customer_mobile' => $customer->mobile,
+            'reload' => true,
+            'redirect' => $request->redirect_url ?: route('customer.survey'),
+        ]);
+    }
+
     public function surveyPage()
     {
         return view('customer.survey');
@@ -277,6 +330,7 @@ public function verifyOtp(Request $request, OtpService $otpService)
         $budget_range = DB::table('budget_range')->get();
         $unit         = DB::table('cust_unit')->get();
         $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        $customer = session('customer_id') ? Customer::find(session('customer_id')) : null;
 
         $selectedWorkTypeId = $request->work_type_id;
 
@@ -285,8 +339,60 @@ public function verifyOtp(Request $request, OtpService $otpService)
             'states',
             'budget_range',
             'unit','cities',
-            'selectedWorkTypeId'
+            'selectedWorkTypeId',
+            'customer'
         ));
+    }
+
+    public function showLoginForm()
+    {
+        if (session('customer_logged_in')) {
+            return redirect()->route('customer.projects');
+        }
+
+        return view('customer.login');
+    }
+
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'mobile' => ['required', 'digits:10'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $customer = Customer::where('mobile', $validated['mobile'])->first();
+
+        if (! $customer || ! $customer->password || ! Hash::check($validated['password'], $customer->password)) {
+            return back()->withErrors([
+                'mobile' => 'The mobile number or password is incorrect.',
+            ])->onlyInput('mobile');
+        }
+
+        $request->session()->regenerate();
+        $request->session()->put([
+            'customer_id' => $customer->id,
+            'customer_name' => $customer->name ?: 'Customer',
+            'customer_mobile' => $customer->mobile,
+            'customer_logged_in' => true,
+        ]);
+
+        return redirect()->intended(route('customer.projects'));
+    }
+
+    public function myProjects()
+    {
+        if (! session('customer_logged_in') || ! session('customer_id')) {
+            return redirect()->route('customer.login');
+        }
+
+        $projects = DB::table('posts')
+            ->leftJoin('city', 'posts.city_id', '=', 'city.id')
+            ->where('posts.user_id', session('customer_id'))
+            ->select('posts.id', 'posts.title', 'posts.created_at', 'posts.lead_status', 'city.name as city_name')
+            ->latest('posts.created_at')
+            ->paginate(10);
+
+        return view('customer.projects', compact('projects'));
     }
 
 

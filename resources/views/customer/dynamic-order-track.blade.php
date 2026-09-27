@@ -351,6 +351,10 @@
                             <div class="track-card">
                                 <h4>{{ $step->step_title }}</h4>
 
+                                @if($step->milestone_date)
+                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $step->milestone_date->format('d M Y') }}</p>
+                                @endif
+
                                 @if(!empty($step->step_description))
                                     <p>{{ $step->step_description }}</p>
                                 @endif
@@ -465,6 +469,10 @@
 
                             <div class="track-card">
                                 <h4>{{ $step->step_title }}</h4>
+
+                                @if($step->milestone_date)
+                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $step->milestone_date->format('d M Y') }}</p>
+                                @endif
 
                                 @if(!empty($step->step_description))
                                     <p>{{ $step->step_description }}</p>

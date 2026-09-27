@@ -449,6 +449,10 @@
                 <label class="form-label">Progress %</label>
                 <input type="number" name="progress_percent" class="form-control" min="0" max="100" placeholder="0-100">
             </div>
+            <div class="col-md-2">
+                <label class="form-label">Date</label>
+                <input type="date" name="milestone_date" class="form-control" value="{{ old('milestone_date') }}">
+            </div>
             <div class="col-md-3">
                 <label class="form-label">Button Text</label>
                 <input type="text" name="button_text" class="form-control" placeholder="Optional">
@@ -588,6 +592,10 @@
                                 <div>
                                     <label class="form-label">Progress %</label>
                                     <input type="number" name="progress_percent" value="{{ $progressPercent }}" class="form-control" min="0" max="100" placeholder="0-100">
+                                </div>
+                                <div>
+                                    <label class="form-label">Date</label>
+                                    <input type="date" name="milestone_date" value="{{ $step->milestone_date?->format('Y-m-d') }}" class="form-control">
                                 </div>
                                 <div>
                                     <label class="form-label">Button Text</label>

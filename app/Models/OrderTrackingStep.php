@@ -15,6 +15,7 @@ class OrderTrackingStep extends Model
         'step_order',
         'step_title',
         'step_description',
+        'milestone_date',
         'step_type',
         'status',
         'button_text',
@@ -24,6 +25,7 @@ class OrderTrackingStep extends Model
 
     protected $casts = [
         'extra_data' => 'array',
+        'milestone_date' => 'date',
     ];
 
     public function tracking()
