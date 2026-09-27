@@ -435,17 +435,15 @@ body{
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-briefcase"></i></div>
 
-                                    <select class="form-select-custom" id="work_type" disabled>
+                                    <select class="form-select-custom" id="work_type" name="work_type_id">
                                         <option value="">Select Vendor Type</option>
                                         @foreach($work_types as $worktype)
                                             <option value="{{ $worktype->id }}"
-                                                {{ ((string)($selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
+                                                {{ ((string) old('work_type_id', $selectedWorkTypeId ?? '') === (string)$worktype->id) ? 'selected' : '' }}>
                                                 {{ $worktype->work_type }}
                                             </option>
                                         @endforeach
                                     </select>
-
-                                    <input type="hidden" name="work_type_id" id="work_type_hidden" value="{{ $selectedWorkTypeId ?? '' }}">
                                 </div>
                             </div>
 
@@ -660,7 +658,6 @@ $(document).ready(function () {
 
     $('#work_type').on('change', function () {
         let workTypeId = $(this).val();
-        $('#work_type_hidden').val(workTypeId);
         loadProjectTypes(workTypeId);
     });
 
