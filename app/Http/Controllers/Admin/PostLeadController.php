@@ -47,14 +47,19 @@ class PostLeadController extends Controller
         $budget_range = DB::table('budget_range')->get();
         $unit = DB::table('cust_unit')->get();
         $cities = DB::table('city')->orderBy('name', 'asc')->get();
+        $customers = DB::table('customers')
+            ->select('id', 'name', 'mobile', 'email')
+            ->orderBy('name')
+            ->get();
 
-        return view('admin.project.create', compact('work_types', 'states', 'budget_range', 'unit', 'cities'));
+        return view('admin.project.create', compact('work_types', 'states', 'budget_range', 'unit', 'cities', 'customers'));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'selected_customer_id' => 'nullable|integer|exists:customers,id',
             'contact_name' => 'required|string|max:255',
             'mobile' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
@@ -118,12 +123,14 @@ class PostLeadController extends Controller
         }
 
         $insertId = DB::transaction(function () use ($request, $areaIdsJson, $pincode, $filePath) {
-            $customer = DB::table('customers')
-                ->where('mobile', $request->mobile)
-                ->when($request->filled('email'), function ($query) use ($request) {
-                    $query->orWhere('email', $request->email);
-                })
-                ->first();
+            $customer = $request->filled('selected_customer_id')
+                ? DB::table('customers')->where('id', $request->selected_customer_id)->first()
+                : DB::table('customers')
+                    ->where('mobile', $request->mobile)
+                    ->when($request->filled('email'), function ($query) use ($request) {
+                        $query->orWhere('email', $request->email);
+                    })
+                    ->first();
 
             if ($customer) {
                 $customerId = $customer->id;

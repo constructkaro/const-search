@@ -631,6 +631,21 @@ body {
                     <div class="cp-grid-3">
 
                         <div class="cp-field">
+                            <label class="cp-label" for="selected_customer_id">Select Customer</label>
+                            <select class="cp-select" id="selected_customer_id" name="selected_customer_id">
+                                <option value="">New customer / choose later</option>
+                                @foreach($customers as $customer)
+                                    <option value="{{ $customer->id }}"
+                                        data-customer-name="{{ $customer->name }}"
+                                        data-customer-mobile="{{ $customer->mobile }}"
+                                        data-customer-email="{{ $customer->email }}">
+                                        {{ $customer->name ?: 'Customer' }} · {{ $customer->mobile }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="cp-field">
                             <label class="cp-label">Vendor Type <span class="req">*</span></label>
                             <div class="cp-input-wrap">
                                 <i class="bi bi-briefcase cp-icon"></i>
@@ -938,6 +953,12 @@ $(function () {
         width: '100%'
     });
 
+    $('#selected_customer_id').select2({
+        placeholder: 'Search customer by name or mobile',
+        allowClear: true,
+        width: '100%'
+    });
+
     $('#area_id').select2({
         placeholder: 'Select areas',
         allowClear: true,
@@ -1037,6 +1058,19 @@ $(function () {
 
     $('input[name="mobile"]').on('input', function () {
         $('#sum-mobile').text($(this).val() || '—');
+    });
+
+    $('#selected_customer_id').on('change', function () {
+        const option = this.selectedOptions[0];
+        if (!option || !option.value) return;
+
+        const name = option.dataset.customerName || '';
+        const mobile = option.dataset.customerMobile || '';
+        const email = option.dataset.customerEmail || '';
+
+        $('input[name="contact_name"]').val(name).trigger('input');
+        $('input[name="mobile"]').val(mobile).trigger('input');
+        $('input[name="email"]').val(email);
     });
 
     $('select[name="budget"]').on('change', function () {
