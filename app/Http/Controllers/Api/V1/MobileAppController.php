@@ -327,12 +327,17 @@ class MobileAppController extends Controller
 
     public function projects(Request $request): JsonResponse
     {
-        $request->validate([
-            'customer_id' => ['required', 'integer', 'exists:customers,id'],
-        ]);
+        $customer = $this->customerFromRequest($request);
+
+        if (! $customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer login could not be resolved. Please log in again.',
+            ], 401);
+        }
 
         return response()->json([
-            'data' => Post::where('user_id', $request->integer('customer_id'))
+            'data' => Post::where('user_id', $customer->id)
                 ->latest()
                 ->get(),
         ]);
@@ -566,7 +571,7 @@ class MobileAppController extends Controller
             return Customer::where('email', $request->input('email'))->first();
         }
 
-        return null;
+        return $this->customerFromRememberedLogin($request);
     }
 
     private function projectCustomerFromRequest(Request $request): ?Customer
