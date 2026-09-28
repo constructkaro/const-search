@@ -316,6 +316,14 @@ class TrackingTemplateController extends Controller
     ]);
 
     $templateCode = $request->template_code ?: 'manual';
+    $customerId = $request->customer_id;
+
+    if ($request->service_key === 'project' && $request->source_table === 'posts') {
+        $customerId = DB::table('posts')
+            ->where('id', $request->source_id)
+            ->value('user_id') ?? $customerId;
+    }
+
     $existingTracking = \App\Models\OrderTracking::where('service_key', $request->service_key)
         ->where('source_id', $request->source_id)
         ->first();
@@ -326,7 +334,7 @@ class TrackingTemplateController extends Controller
             'source_id'   => $request->source_id,
         ],
         [
-            'customer_id'   => $request->customer_id,
+            'customer_id'   => $customerId,
             'source_table'  => $request->source_table,
             'template_code' => $templateCode,
             'status'        => 'in_progress',
@@ -1075,7 +1083,7 @@ public function startProjectTracking($postId)
         return redirect()->route('admin.allprojects')->with('error', 'Project not found.');
     }
 
-    \App\Models\OrderTracking::firstOrCreate(
+    \App\Models\OrderTracking::updateOrCreate(
         [
             'service_key' => 'project',
             'source_id' => $post->id,
