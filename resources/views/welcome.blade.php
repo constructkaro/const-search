@@ -71,7 +71,7 @@
 <link rel="preload" as="image" href="{{ asset('images/banner.webp') }}" type="image/webp" media="(min-width: 768px)" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -101,6 +101,11 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+:is(h1, h2, h3, h4, h5, h6),
+:is(h1, h2, h3, h4, h5, h6) * {
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -182,7 +187,7 @@ html {
             url("{{ asset('images/banner.png') }}") type("image/png")
         );
     background-size: cover;
-    background-position: center;
+    background-position: center clamp(-112px, -5.8vw, -78px);
     display: flex;
     align-items: center;
     padding: 50px 0;
@@ -339,7 +344,8 @@ html {
 }
 
 .ck-trust-heading {
-    width: min(90%, 866px);
+    width: fit-content;
+    max-width: 90%;
     margin: 0 auto 44px;
     text-align: center;
 }
@@ -607,6 +613,7 @@ html {
 
 .our-service-card {
     position: relative;
+    z-index: 0;
     display: block;
     min-width: 0;
     aspect-ratio: 366 / 443;
@@ -618,13 +625,19 @@ html {
     color: inherit;
     text-decoration: none;
     cursor: pointer;
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 4px 5px rgba(16, 36, 58, .12));
+    transition: transform .28s ease, filter .28s ease;
 }
 
 .our-service-card:hover,
-.our-service-card:focus {
+.our-service-card:focus-visible {
     color: inherit;
     text-decoration: none;
     outline: none;
+    z-index: 5;
+    transform: translateY(-12px) scale(1.06);
+    filter: drop-shadow(0 18px 16px rgba(16, 36, 58, .24));
 }
 
 .our-service-card img {
@@ -649,6 +662,13 @@ html {
 .our-service-card:hover .hover-state,
 .our-service-card:focus-visible .hover-state {
     opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .our-service-card,
+    .our-service-card img {
+        transition: none;
+    }
 }
 
 @media (max-width: 1400px) {
@@ -1097,7 +1117,7 @@ html {
 
 .ck-compare-panels {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr);
     width: min(100%, 1450px);
     margin: 0 auto;
     justify-content: center;
@@ -1169,10 +1189,38 @@ html {
 }
 
 .ck-package-cta-link {
+    position: relative;
+    z-index: 1;
     display: block;
     min-width: 0;
     border-radius: 14px;
     text-decoration: none;
+    transition: transform 260ms ease, filter 260ms ease;
+}
+
+.ck-package-cta-button {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 18%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(34%, 330px);
+    min-height: clamp(38px, 3.5vw, 54px);
+    padding: 6px 20px;
+    border: 1px solid rgba(66, 66, 66, .72);
+    border-radius: 12px;
+    background: #fff;
+    color: #2b2b2b;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(16px, 1.8vw, 28px);
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, .3);
+    transform: translateX(-50%);
+    transition: background-color 220ms ease, color 220ms ease, box-shadow 220ms ease;
 }
 
 .ck-package-cta-link:focus-visible {
@@ -1213,10 +1261,16 @@ html {
         box-shadow: 0 18px 30px rgba(29, 94, 145, 0.18);
     }
 
-    .ck-package-cta-image:hover {
+    .ck-package-cta-link:hover {
         z-index: 5;
         transform: translateY(-8px) scale(1.025);
-        box-shadow: 0 20px 32px rgba(125, 67, 22, 0.22);
+        filter: drop-shadow(0 20px 16px rgba(125, 67, 22, .22));
+    }
+
+    .ck-package-cta-link:hover .ck-package-cta-button {
+        background: #fff;
+        color: #ec6c20;
+        box-shadow: 0 7px 12px rgba(97, 45, 10, .34);
     }
 
     .ck-package-visual-image:hover {
@@ -1250,7 +1304,7 @@ html {
 
 .ck-compare-divider-image {
     display: block;
-    width: min(128px, 100%);
+    width: min(104px, 100%);
     max-width: 100%;
     height: auto;
     max-height: 100%;
@@ -1493,7 +1547,7 @@ html {
 
 @media (max-width: 1200px) {
     .ck-compare-panels {
-        grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
         gap: 24px;
     }
 
@@ -1572,6 +1626,13 @@ html {
         grid-template-columns: 1fr;
         gap: 18px;
         margin-top: 28px;
+    }
+    .ck-package-cta-button {
+        width: min(56%, 240px);
+        min-height: 38px;
+        bottom: 14%;
+        padding-inline: 12px;
+        font-size: 15px;
     }
     .ck-compare-heading { gap: 10px; }
     .ck-compare-heading::before,
@@ -1972,8 +2033,19 @@ html {
     border-radius: 50px;
     background: linear-gradient(90deg, #ef7d2d, #2f78bf);
 }
-
 .ck-service-slider {
+    width: var(--container-w);
+    max-width: 998px;
+    height: 444px;
+    margin: 0 auto;
+    display: flex;
+    gap: 7px;
+    overflow: hidden;
+    align-items: stretch;
+    touch-action: pan-x;
+}
+
+/* .ck-service-slider {
     width: var(--container-w);
     max-width: 960px;
     height: 420px;
@@ -1983,11 +2055,11 @@ html {
     overflow: hidden;
     align-items: stretch;
     touch-action: pan-x;
-}
+} */
 
 .ck-slide {
     flex: 1;
-    min-width: 68px;
+    min-width: 58px;
     border-radius: 8px;
     overflow: hidden;
     position: relative;
@@ -1996,7 +2068,12 @@ html {
     cursor: pointer;
 }
 
-.ck-slide.active { flex: 3.2; }
+.ck-slide.active { flex: 6.2; }
+
+.ck-slide:not(.active) img {
+    transform: scaleY(1.16);
+    transform-origin: top;
+}
 
 .ck-slide:hover {
     transform: translateY(-4px);
@@ -2004,7 +2081,7 @@ html {
 }
 
 .ck-slide img {
-    width: 110%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
@@ -2056,19 +2133,79 @@ html {
     background: var(--bg);
 }
 
-.ck-testimonial-artwork-wrap {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: #2478bb transparent;
+.ck-testimonial-shell {
+    width: min(96%, 1840px);
+    margin: 0 auto;
 }
 
-.ck-testimonial-artwork {
+.ck-testimonial-heading {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.ck-testimonial-heading h2 {
+    margin: 0;
+    color: #252525;
+    font-size: clamp(34px, 3.4vw, 58px);
+    font-weight: 900;
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+.ck-testimonial-line {
+    width: min(42%, 770px);
+    height: 5px;
+    margin: 18px auto 0;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #ee6b1d, #2478bb);
+}
+
+.ck-testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    align-items: start;
+}
+
+.ck-testimonial-card {
+    position: relative;
+    z-index: 0;
     display: block;
-    width: min(96%, 1820px);
-    height: auto;
-    margin: 0 auto;
+    aspect-ratio: 1509 / 1380;
+    min-width: 0;
+    outline: none;
+    transform: translateY(0) scale(1);
+    transition: transform 260ms ease;
+}
+
+.ck-testimonial-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 260ms ease;
+}
+
+.ck-testimonial-card .hover-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.ck-testimonial-card:hover,
+.ck-testimonial-card:focus-visible {
+    z-index: 3;
+    transform: translateY(-8px) scale(1.04);
+}
+
+.ck-testimonial-card:hover .default-state,
+.ck-testimonial-card:focus-visible .default-state {
+    opacity: 0;
+}
+
+.ck-testimonial-card:hover .hover-state,
+.ck-testimonial-card:focus-visible .hover-state {
+    opacity: 1;
 }
 
 @media (max-width: 768px) {
@@ -2076,11 +2213,21 @@ html {
         padding: 42px 0 50px;
     }
 
-    .ck-testimonial-artwork {
-        width: 1100px;
-        max-width: none;
-        margin-left: 16px;
-        margin-right: 16px;
+    .ck-testimonial-shell {
+        width: min(92%, 680px);
+    }
+
+    .ck-testimonial-heading {
+        margin-bottom: 24px;
+    }
+
+    .ck-testimonial-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ck-testimonial-line {
+        width: 120px;
+        height: 4px;
     }
 }
 
@@ -2648,8 +2795,8 @@ html {
    ============================================================ */
 @media (max-width: 1200px) {
     .ck-testimonial-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 80px 24px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
     }
 }
 
@@ -3042,11 +3189,13 @@ html {
 
     .ck-testimonial-grid {
         grid-template-columns: 1fr;
-        gap: 80px;
+        gap: 18px;
     }
 
-    .ck-testimonial-card { padding: 76px 16px 22px; }
-    .ck-testimonial-name { font-size: 15px; }
+    .ck-testimonial-card {
+        width: min(100%, 420px);
+        margin: 0 auto;
+    }
 
     #comingSoonLocationBox {
         width: calc(100% - 32px);
@@ -3128,7 +3277,7 @@ html {
 .hero-banner .hero-inner .hero-content .hero-plan-btn {
     position: relative;
     left: calc(50vw - max(4vw, calc(50vw - 660px)));
-    top: -100px;
+    top: -156px;
     width: auto;
     min-height: 44px;
     padding: 0 22px;
@@ -3804,6 +3953,7 @@ html {
                          class="ck-package-cta-image"
                          loading="lazy"
                          decoding="async">
+                    <span class="ck-package-cta-button">View Packages</span>
                 </a>
                 <img src="{{ asset('images/home/compare/Group 667.png') }}"
                      alt="Compare Core and Shell with Turnkey construction packages"
@@ -3873,19 +4023,54 @@ html {
                     <!-- <span class="ck-slide-label">BOQ</span> -->
                 </a>
             </div>
+            <div class="ck-slide">
+                <a href="{{ route('construction.feasibility') }}">
+                    {!! $ckImage('images/services/flexiblity.png', 'Feasibility Report', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                </a>
+            </div>
+            <div class="ck-slide">
+                <a href="{{ route('customer.facade') }}">
+                    {!! $ckImage('images/services/facade.png', 'Facade Services', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                </a>
+            </div>
+            <div class="ck-slide">
+                <a href="{{ route('customer.testing') }}">
+                    {!! $ckImage('images/services/testing.png', 'Testing Services', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                </a>
+            </div>
+            <div class="ck-slide">
+                <a href="{{ route('construction.welding.fabrication.work') }}">
+                    {!! $ckImage('images/services/welding.png', 'Welding and Fabrication', '', ['width' => 140, 'height' => 420, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                </a>
+            </div>
         </div>
     </section>
 
     {{-- ── TESTIMONIALS ── --}}
     <section class="ck-testimonial-section">
-        <div class="ck-testimonial-artwork-wrap">
-            <img src="{{ asset('images/home/compare/testomeni.png') }}"
-                 alt="What people say about ConstructKaro"
-                 class="ck-testimonial-artwork"
-                 width="7698"
-                 height="1792"
-                 loading="lazy"
-                 decoding="async">
+        <div class="ck-testimonial-shell">
+            <div class="ck-testimonial-heading">
+                <h2>What People Say About Us</h2>
+                <div class="ck-testimonial-line"></div>
+            </div>
+
+            <div class="ck-testimonial-grid">
+                @foreach(['A', 'B', 'C', 'D', 'E'] as $testimonialImage)
+                    <article class="ck-testimonial-card" tabindex="0">
+                        <img src="{{ asset('images/home/compare/' . $testimonialImage . '.png') }}"
+                             alt="ConstructKaro customer testimonial"
+                             class="default-state"
+                             loading="lazy"
+                             decoding="async">
+                        <img src="{{ asset('images/home/compare/' . $testimonialImage . '1.png') }}"
+                             alt=""
+                             class="hover-state"
+                             aria-hidden="true"
+                             loading="lazy"
+                             decoding="async">
+                    </article>
+                @endforeach
+            </div>
         </div>
     </section>
 

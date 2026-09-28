@@ -431,6 +431,10 @@ Route::get('interior-boq', [HomeController::class, 'interior_boq'])->name('inter
 Route::get('renovation-repair-estimation', [HomeController::class, 'renovation_repair_estimation'])->name('renovation.repair.estimation');
 
 Route::get('guide-me', [HomeController::class, 'confused_guide_me'])->name('confused_guide_me');
+Route::get('construction-feasibility-report', [HomeController::class, 'constructionFeasibilityReport'])
+    ->name('construction.feasibility');
+Route::get('construction-welding-fabrication-work', [HomeController::class, 'constructionWeldingFabricationWork'])
+    ->name('construction.welding.fabrication.work');
 
 Route::get('project-requirement', [HomeController::class, 'guide_me'])
     ->name('guide.requirement');

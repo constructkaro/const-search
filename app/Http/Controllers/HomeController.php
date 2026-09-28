@@ -417,6 +417,14 @@ class HomeController extends Controller
         return view('main.guide_me');
     }
 
+    public function constructionFeasibilityReport(){
+        return view('main.construction_feasibility_report');
+    }
+
+    public function constructionWeldingFabricationWork(){
+        return view('main.construction_welding_fabrication_work');
+    }
+
     public function architect_services(){
         return view('main.architect_services');
     }
