@@ -101,6 +101,92 @@
         text-align:left;
     }
 
+    .arch-service-search{
+        max-width:1180px;
+        margin:0 auto 20px;
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+
+    .arch-service-search-field{
+        position:relative;
+        flex:1 1 auto;
+        min-width:0;
+    }
+
+    .arch-service-search-icon{
+        position:absolute;
+        top:50%;
+        left:17px;
+        width:21px;
+        height:21px;
+        color:var(--ck-blue);
+        pointer-events:none;
+        transform:translateY(-50%);
+    }
+
+    .arch-service-search-input{
+        width:100%;
+        height:52px;
+        padding:0 18px 0 50px;
+        border:1px solid #b8c5d1;
+        border-radius:7px;
+        outline:none;
+        background:var(--ck-white);
+        color:var(--ck-navy);
+        font:inherit;
+        font-size:16px;
+        box-shadow:0 2px 6px rgba(28,44,62,.10);
+        transition:border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .arch-service-search-input:focus{
+        border-color:var(--ck-blue);
+        box-shadow:0 0 0 3px rgba(30,115,190,.14);
+    }
+
+    .arch-service-search-submit{
+        flex:0 0 auto;
+        height:52px;
+        padding:0 24px;
+        border:0;
+        border-radius:7px;
+        background:var(--ck-blue);
+        color:var(--ck-white);
+        font:inherit;
+        font-size:16px;
+        font-weight:800;
+        cursor:pointer;
+        transition:background-color .2s ease, transform .2s ease;
+    }
+
+    .arch-service-search-submit:hover{
+        background:#155f9f;
+        transform:translateY(-1px);
+    }
+
+    .arch-service-search-status{
+        max-width:1180px;
+        min-height:22px;
+        margin:-10px auto 14px;
+        color:#667085;
+        font-size:14px;
+        text-align:left;
+    }
+
+    .arch-service-empty{
+        max-width:1180px;
+        margin:0 auto;
+        padding:24px;
+        border:1px dashed #b8c5d1;
+        border-radius:7px;
+        background:var(--ck-white);
+        color:#667085;
+        font-size:16px;
+        text-align:center;
+    }
+
     .arch-service-button{
         min-height:46px;
         display:flex;
@@ -292,6 +378,20 @@
             font-size:14px;
         }
 
+        .arch-service-search{
+            align-items:stretch;
+        }
+
+        .arch-service-search-input,
+        .arch-service-search-submit{
+            height:46px;
+            font-size:14px;
+        }
+
+        .arch-service-search-submit{
+            padding:0 16px;
+        }
+
         .arch-use-cards{
             max-width:320px;
         }
@@ -432,12 +532,36 @@
         ];
     @endphp
 
-    <div class="arch-service-list">
+    <form class="arch-service-search" id="architectServiceSearchForm" role="search">
+        <div class="arch-service-search-field">
+            <svg class="arch-service-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-4-4"></path>
+            </svg>
+            <input
+                class="arch-service-search-input"
+                id="architectServiceSearchInput"
+                type="search"
+                placeholder="Search architect services..."
+                autocomplete="off"
+                aria-label="Search architect services"
+            >
+        </div>
+        <button class="arch-service-search-submit" type="submit">Search</button>
+    </form>
+    <p class="arch-service-search-status" id="architectServiceSearchStatus" role="status" aria-live="polite"></p>
+
+    <div class="arch-service-list" id="architectServiceList">
         @foreach($services as $service)
-            <a href="{{ route('architectural.service.details', $service['slug']) }}" class="arch-service-button">
+            <a href="{{ route('architectural.service.details', $service['slug']) }}"
+               class="arch-service-button"
+               data-service-search="{{ strtolower($service['title'] . ' ' . $service['desc']) }}">
                 <span>{{ $service['title'] }}</span>
             </a>
         @endforeach
+    </div>
+    <div class="arch-service-empty" id="architectServiceEmpty" hidden>
+        No matching architect service found. Try words like residential, office, floor plan, facade, or renovation.
     </div>
 </section>
 
@@ -532,5 +656,53 @@
         <p>Contractor Services | Interior Design Services | Survey Services | Testing Services | BOQ/Estimation Services</p>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('architectServiceSearchForm');
+    const input = document.getElementById('architectServiceSearchInput');
+    const status = document.getElementById('architectServiceSearchStatus');
+    const emptyState = document.getElementById('architectServiceEmpty');
+    const serviceButtons = Array.from(document.querySelectorAll('#architectServiceList .arch-service-button'));
+
+    if (!form || !input || !status || !emptyState || !serviceButtons.length) return;
+
+    const filterServices = function () {
+        const query = input.value.toLowerCase().replace(/\s+/g, ' ').trim();
+        let visibleCount = 0;
+
+        serviceButtons.forEach(function (button) {
+            const searchText = button.dataset.serviceSearch || '';
+            const isMatch = !query || searchText.includes(query);
+            button.hidden = !isMatch;
+            if (isMatch) visibleCount += 1;
+        });
+
+        emptyState.hidden = visibleCount !== 0;
+        status.textContent = query && visibleCount
+            ? visibleCount + (visibleCount === 1 ? ' service found' : ' services found')
+            : '';
+
+        return serviceButtons.find(function (button) {
+            return !button.hidden;
+        });
+    };
+
+    input.addEventListener('input', filterServices);
+    input.addEventListener('search', filterServices);
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const firstMatch = filterServices();
+
+        if (!input.value.trim()) {
+            input.focus();
+            return;
+        }
+
+        if (firstMatch) window.location.assign(firstMatch.href);
+    });
+});
+</script>
 
 @endsection

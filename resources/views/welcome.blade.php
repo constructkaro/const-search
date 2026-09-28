@@ -345,9 +345,9 @@ html {
 }
 
 .ck-trust-heading h2 {
-    color: #173f63;
-    font-size: clamp(28px, 3vw, 46px);
-    font-weight: 800;
+    color: #000408;
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 650;
     line-height: 1.15;
     text-transform: uppercase;
 }
@@ -395,6 +395,43 @@ html {
 .ck-trust-item:hover .ck-trust-card-img {
     transform: translateY(-8px) scale(1.03);
     filter: brightness(1.08) drop-shadow(3px 6px 4px rgba(0, 0, 0, .25));
+}
+
+.ck-process-image-swap {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.ck-process-image-swap picture {
+    display: contents;
+}
+
+.ck-process-image-swap .ck-process-image-after {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.ck-process-image-swap img {
+    width: 100%;
+    height: auto;
+    transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+}
+
+.ck-process-image-swap:hover .ck-process-image-before,
+.ck-process-image-swap:focus-within .ck-process-image-before {
+    opacity: 0;
+}
+
+.ck-process-image-swap:hover .ck-process-image-after,
+.ck-process-image-swap:focus-within .ck-process-image-after {
+    opacity: 1;
+}
+
+.ck-process-image-swap:hover img {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 12px 18px rgba(16, 36, 58, .18));
 }
 
 /* ============================================================
@@ -3513,7 +3550,36 @@ html {
     <div class="hero-discovery-card">
         <div class="hero-discovery-search">
             <form class="hero-discovery-input-wrap" id="heroDiscoverySearchForm" role="search">
-                <input class="hero-discovery-input" id="heroDiscoverySearchInput" type="search" placeholder="Search Architects, Contractors, Feasibility Reports, BOQ Services & More..." aria-label="Search construction services">
+                <input class="hero-discovery-input" id="heroDiscoverySearchInput" type="search" list="heroServiceSuggestions" autocomplete="off" placeholder="Search Architects, Contractors, Feasibility Reports, BOQ Services & More..." aria-label="Search construction services">
+                <datalist id="heroServiceSuggestions">
+                    <option value="Architect"></option>
+                    <option value="Contractor"></option>
+                    <option value="Interior Design"></option>
+                    <option value="Survey Services"></option>
+                    <option value="Structural Services"></option>
+                    <option value="Structural Audit"></option>
+                    <option value="BOQ / Estimation"></option>
+                    <option value="Testing Services"></option>
+                    <option value="Facade Services"></option>
+                    <option value="Welding & Fabrication"></option>
+                    <option value="Feasibility Report"></option>
+                    <option value="Residential Architectural Planning"></option>
+                    <option value="Bungalow and Villa Design"></option>
+                    <option value="Apartment and Flat Layout Planning"></option>
+                    <option value="Commercial Building Design"></option>
+                    <option value="Office Planning"></option>
+                    <option value="Showroom Planning"></option>
+                    <option value="Farmhouse Design"></option>
+                    <option value="Plot Development Planning"></option>
+                    <option value="Elevation and Facade Design"></option>
+                    <option value="Floor Plan Design"></option>
+                    <option value="Space Planning"></option>
+                    <option value="Concept Design"></option>
+                    <option value="Renovation Planning"></option>
+                    <option value="Approval Drawing Support"></option>
+                    <option value="Submission Drawing Assistance"></option>
+                    <option value="Basic Design Consultation"></option>
+                </datalist>
                 <button class="hero-discovery-submit" type="submit" aria-label="Search">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
                     <span>Search</span>
@@ -3549,8 +3615,9 @@ html {
         </div>
 
         <div class="ck-trust-container">
-            <div class="">
-                {!! $ckImage('images/home/process/share-requirement-hour.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img', ['width' => 7362, 'height' => 1276, 'loading' => 'eager', 'decoding' => 'async']) !!}
+            <div class="ck-process-image-swap">
+                {!! $ckImage('images/home/process/share-requirement.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img ck-process-image-before', ['width' => 7138, 'height' => 1192, 'loading' => 'eager', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/home/process/share-requirement-hour.png', 'How ConstructKaro works with 24 hour response', 'ck-trust-card-img ck-process-image-after', ['width' => 7362, 'height' => 1276, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => 'true']) !!}
             </div>
          
         </div>
@@ -3763,7 +3830,7 @@ html {
     </section>
 
     {{-- ── ALL SERVICES SLIDER ── --}}
-    <section class="ck-all-services-section">
+    <section class="ck-all-services-section" id="exploreAllServicesSection">
         <h2 class="ck-all-services-title">Explore All Our Services</h2>
         <div class="ck-all-services-line"></div>
 
@@ -4565,6 +4632,36 @@ document.querySelectorAll('.ck-slide').forEach(function (slide) {
     });
 });
 </script>
+@php
+    $serviceSearchCatalog = [
+        ['name' => 'Residential Architectural Planning', 'aliases' => ['residential architectural planning', 'residential planning', 'house planning'], 'url' => route('architectural.service.details', 'residential-architectural-planning')],
+        ['name' => 'Bungalow and Villa Design', 'aliases' => ['bungalow design', 'villa design', 'bungalow and villa'], 'url' => route('architectural.service.details', 'bungalow-and-villa-design')],
+        ['name' => 'Apartment and Flat Layout Planning', 'aliases' => ['apartment layout', 'flat layout', 'apartment planning', 'flat planning'], 'url' => route('architectural.service.details', 'apartment-flat-layout-planning')],
+        ['name' => 'Commercial Building Design', 'aliases' => ['commercial building design', 'commercial design'], 'url' => route('architectural.service.details', 'commercial-building-design')],
+        ['name' => 'Office Planning', 'aliases' => ['office planning', 'office design', 'office layout'], 'url' => route('architectural.service.details', 'office-and-showroom-planning')],
+        ['name' => 'Showroom Planning', 'aliases' => ['showroom planning', 'showroom design', 'showroom layout'], 'url' => route('architectural.service.details', 'showroom-planning')],
+        ['name' => 'Farmhouse Design', 'aliases' => ['farmhouse design', 'farmhouse planning'], 'url' => route('architectural.service.details', 'farmhouse-design')],
+        ['name' => 'Plot Development Planning', 'aliases' => ['plot development', 'plot planning', 'land development planning'], 'url' => route('architectural.service.details', 'plot-development-planning')],
+        ['name' => 'Elevation and Facade Design', 'aliases' => ['elevation design', 'facade design', 'elevation and facade'], 'url' => route('architectural.service.details', 'elevation-and-facade-design')],
+        ['name' => 'Floor Plan Design', 'aliases' => ['floor plan', 'floor plan design', 'floor planning'], 'url' => route('architectural.service.details', 'floor-plan-design')],
+        ['name' => 'Space Planning', 'aliases' => ['space planning', 'space plan'], 'url' => route('architectural.service.details', 'space-planning')],
+        ['name' => 'Concept Design', 'aliases' => ['concept design', 'design concept'], 'url' => route('architectural.service.details', 'concept-design')],
+        ['name' => 'Renovation Planning', 'aliases' => ['renovation planning', 'renovation design', 'redesign planning'], 'url' => route('architectural.service.details', 'renovation-planning')],
+        ['name' => 'Approval Drawing Support', 'aliases' => ['approval drawing', 'municipal drawing', 'approval support'], 'url' => route('architectural.service.details', 'approval-drawing-support')],
+        ['name' => 'Submission Drawing Assistance', 'aliases' => ['submission drawing', 'drawing submission'], 'url' => route('architectural.service.details', 'submission-drawing-assistance')],
+        ['name' => 'Basic Design Consultation', 'aliases' => ['design consultation', 'basic design consultation', 'architect consultation'], 'url' => route('architectural.service.details', 'basic-design-consultation')],
+        ['name' => 'Structural Audit', 'aliases' => ['structural audit', 'building audit', 'safety audit'], 'url' => route('customer.structuralaudit')],
+        ['name' => 'Architect', 'aliases' => ['architect', 'architects', 'architecture', 'architectural'], 'url' => route('architect.services')],
+        ['name' => 'Contractor', 'aliases' => ['contractor', 'contractors', 'construction contractor'], 'url' => route('contractor.services')],
+        ['name' => 'Interior Design', 'aliases' => ['interior', 'interior design', 'interior designer'], 'url' => route('interior.services')],
+        ['name' => 'Survey Services', 'aliases' => ['survey', 'surveyor', 'land survey', 'survey services'], 'url' => route('survey.services')],
+        ['name' => 'Structural Services', 'aliases' => ['structural', 'structural services', 'structural design'], 'url' => route('survey.structural')],
+        ['name' => 'BOQ / Estimation', 'aliases' => ['boq', 'estimation', 'estimate', 'bill of quantities'], 'url' => route('boq.testing')],
+        ['name' => 'Testing Services', 'aliases' => ['testing', 'test', 'material testing', 'testing services'], 'url' => route('customer.testing')],
+        ['name' => 'Facade Services', 'aliases' => ['facade', 'facade services', 'elevation'], 'url' => route('customer.facade')],
+        ['name' => 'Welding & Fabrication', 'aliases' => ['welding', 'fabrication', 'welding fabrication'], 'url' => route('customer.welding_fabrication')],
+    ];
+@endphp
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -4578,6 +4675,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const heroDiscoverySearchForm = document.getElementById("heroDiscoverySearchForm");
     const heroDiscoverySearchInput = document.getElementById("heroDiscoverySearchInput");
     const heroDiscoverySearchStatus = document.getElementById("heroDiscoverySearchStatus");
+    const exploreAllServicesSection = document.getElementById("exploreAllServicesSection");
+    const serviceSearchCatalog = @json($serviceSearchCatalog);
     const revealItems = document.querySelectorAll(
         '.hero-banner, .ck-trust-section, .ck-process-section, .ck-solution-section, .ck-services-section, .explore-services-section, .ck-assurance-section, .ck-guide-section, .ck-compare-section, .ck-vendor-section, .ck-city-section, .ck-all-services-section, .ck-testimonial-section'
     );
@@ -4604,31 +4703,39 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             heroDiscoverySearchStatus.textContent = "";
 
-            const terms = heroDiscoverySearchInput.value.toLowerCase()
+            const query = heroDiscoverySearchInput.value.toLowerCase()
                 .replace(/[^a-z0-9\s]/g, " ")
-                .split(/\s+/)
-                .filter(function (term) {
-                    return term.length > 2 && !["search", "for", "residential", "commercial", "construction", "services"].includes(term);
-                });
+                .replace(/\s+/g, " ")
+                .trim();
 
-            if (!terms.length) {
+            if (!query) {
                 heroDiscoverySearchInput.focus();
                 return;
             }
 
-            const matchingService = Array.from(document.querySelectorAll(".our-service-card")).find(function (card) {
-                const serviceName = (card.getAttribute("aria-label") || "").toLowerCase();
-                return terms.some(function (term) {
-                    return serviceName.includes(term);
+            const matchingService = serviceSearchCatalog.find(function (service) {
+                return service.aliases.some(function (alias) {
+                    return query.includes(alias) || alias.includes(query);
                 });
             });
 
             if (matchingService) {
-                matchingService.click();
+                window.location.assign(matchingService.url);
                 return;
             }
 
-            heroDiscoverySearchStatus.textContent = "No matching service found. Try Architect, Contractor, Survey, BOQ, Testing or Facade.";
+            if (query.includes("feasibility")) {
+                const feasibilityCard = document.querySelector('.our-service-card[aria-label="Feasibility Report"]');
+                if (feasibilityCard) {
+                    feasibilityCard.click();
+                    return;
+                }
+            }
+
+            heroDiscoverySearchStatus.textContent = "Service not found. Explore all available services below.";
+            if (exploreAllServicesSection) {
+                exploreAllServicesSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         });
 
         heroDiscoverySearchInput.addEventListener("input", function () {

@@ -327,7 +327,7 @@ body{
 }
 
 .ck-trust-section {
-    background: #eeeeee;
+    background: #ecedee;
     padding: 28px 0;
 }
 
