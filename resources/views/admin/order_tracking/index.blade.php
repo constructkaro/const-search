@@ -101,7 +101,7 @@
 
     .tracking-table {
         margin-bottom: 0;
-        min-width: 1120px;
+        min-width: 1320px;
     }
 
     .tracking-table thead th {
@@ -134,6 +134,34 @@
         color: #64748b;
         font-size: 12px;
         line-height: 1.6;
+    }
+
+    .customer-name {
+        color: #1c2c3e;
+        font-size: 14px;
+        font-weight: 900;
+        margin-bottom: 4px;
+    }
+
+    .customer-contact {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        max-width: 210px;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.55;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+    }
+
+    .customer-contact:hover {
+        color: #1d4ed8;
+    }
+
+    .customer-contact i {
+        flex: 0 0 auto;
+        color: #f25c05;
     }
 
     .service-chip,
@@ -272,6 +300,7 @@
                 <thead>
                     <tr>
                         <th>Project</th>
+                        <th>Customer</th>
                         <th>Service</th>
                         <th>Type</th>
                         <th>Location</th>
@@ -293,6 +322,24 @@
                             <td>
                                 <div class="project-title">{{ $order->title }}</div>
                                 <div class="muted-line">ID #{{ str_pad($order->id, 3, '0', STR_PAD_LEFT) }}</div>
+                            </td>
+                            <td>
+                                <div class="customer-name">{{ $order->customer_name ?: 'Customer not linked' }}</div>
+                                @if($order->customer_mobile)
+                                    <a class="customer-contact" href="tel:{{ preg_replace('/\s+/', '', $order->customer_mobile) }}">
+                                        <i class="bi bi-telephone"></i>
+                                        <span>{{ $order->customer_mobile }}</span>
+                                    </a>
+                                @endif
+                                @if($order->customer_email)
+                                    <a class="customer-contact" href="mailto:{{ $order->customer_email }}">
+                                        <i class="bi bi-envelope"></i>
+                                        <span>{{ $order->customer_email }}</span>
+                                    </a>
+                                @endif
+                                @if($order->customer_id)
+                                    <div class="muted-line">Customer ID #{{ $order->customer_id }}</div>
+                                @endif
                             </td>
                             <td>
                                 <span class="service-chip">{{ ucfirst($order->service_key) }}</span>
@@ -350,7 +397,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="empty-row">No projects or orders found.</td>
+                            <td colspan="9" class="empty-row">No projects or orders found.</td>
                         </tr>
                     @endforelse
                 </tbody>

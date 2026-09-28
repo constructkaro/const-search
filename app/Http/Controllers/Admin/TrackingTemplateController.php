@@ -139,6 +139,9 @@ class TrackingTemplateController extends Controller
                 return (object) [
                     'id' => $item->id,
                     'customer_id' => $item->user_id ?? null,
+                    'customer_name' => $item->contact_name ?? null,
+                    'customer_mobile' => $item->mobile ?? null,
+                    'customer_email' => $item->email ?? null,
                     'type' => 'Posted Project',
                     'service_key' => 'project',
                     'title' => $item->title ?? 'Project',
@@ -156,6 +159,9 @@ class TrackingTemplateController extends Controller
             return (object) [
                 'id' => $item->id,
                 'customer_id' => $item->customer_id ?? null,
+                'customer_name' => $item->full_name ?? null,
+                'customer_mobile' => $item->mobile ?? null,
+                'customer_email' => $item->email ?? null,
                 'type' => 'Survey Booking',
                 'service_key' => 'survey',
                 'title' => $item->service_name ?? 'Survey Service',
@@ -175,7 +181,10 @@ class TrackingTemplateController extends Controller
 
             return (object) [
                 'id' => $item->id,
-                'customer_id' => $item->customer_id ?? null,
+                'customer_id' => $item->customer_id ?? $item->customerId ?? null,
+                'customer_name' => $item->full_name ?? $item->customer_name ?? null,
+                'customer_mobile' => $item->mobile ?? $item->mobile_number ?? null,
+                'customer_email' => $item->email ?? null,
                 'type' => 'Testing Enquiry',
                 'service_key' => 'testing',
                 'title' => $item->project_name ?? $item->service_name ?? 'Testing Service',
@@ -195,7 +204,10 @@ class TrackingTemplateController extends Controller
 
             return (object) [
                 'id' => $item->id,
-                'customer_id' => $item->customer_id ?? null,
+                'customer_id' => $item->customer_id ?? $item->customerId ?? null,
+                'customer_name' => $item->full_name ?? $item->customer_name ?? null,
+                'customer_mobile' => $item->mobile ?? $item->mobile_number ?? null,
+                'customer_email' => $item->email ?? null,
                 'type' => 'BOQ Enquiry',
                 'service_key' => 'boq',
                 'title' => $item->project_name ?? $item->service_name ?? 'BOQ / Estimation',
@@ -215,7 +227,10 @@ class TrackingTemplateController extends Controller
 
             return (object) [
                 'id' => $item->id,
-                'customer_id' => $item->customer_id ?? null,
+                'customer_id' => $item->customer_id ?? $item->customerId ?? null,
+                'customer_name' => $item->full_name ?? $item->customer_name ?? null,
+                'customer_mobile' => $item->mobile ?? $item->mobile_number ?? null,
+                'customer_email' => $item->email ?? null,
                 'type' => 'Contractor Booking',
                 'service_key' => 'contractor',
                 'title' => $item->project_name ?? $item->service_name ?? 'Contractor Service',
@@ -235,7 +250,10 @@ class TrackingTemplateController extends Controller
 
             return (object) [
                 'id' => $item->id,
-                'customer_id' => $item->customer_id ?? null,
+                'customer_id' => $item->customer_id ?? $item->customerId ?? $item->user_id ?? null,
+                'customer_name' => $item->full_name ?? $item->customer_name ?? null,
+                'customer_mobile' => $item->mobile ?? $item->mobile_number ?? null,
+                'customer_email' => $item->email ?? null,
                 'type' => 'Interior Booking',
                 'service_key' => 'interior',
                 'title' => $item->project_name ?? $item->service_name ?? 'Interior Service',
@@ -254,6 +272,22 @@ class TrackingTemplateController extends Controller
             ->concat($interiorBookings)
             ->sortByDesc('created_at')
             ->values();
+
+        $customers = DB::table('customers')
+            ->select('id', 'name', 'mobile', 'email')
+            ->whereIn('id', $allOrders->pluck('customer_id')->filter()->unique()->values())
+            ->get()
+            ->keyBy('id');
+
+        $allOrders = $allOrders->map(function ($order) use ($customers) {
+            $customer = $order->customer_id ? $customers->get($order->customer_id) : null;
+
+            $order->customer_name = $customer->name ?? $order->customer_name ?? null;
+            $order->customer_mobile = $customer->mobile ?? $order->customer_mobile ?? null;
+            $order->customer_email = $customer->email ?? $order->customer_email ?? null;
+
+            return $order;
+        });
 
         $templateOptions = TrackingTemplate::select('service_key', 'template_code', 'template_name')
             ->whereNotNull('template_code')
