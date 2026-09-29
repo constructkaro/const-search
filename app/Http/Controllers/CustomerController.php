@@ -22,7 +22,21 @@ use Throwable;
 class CustomerController extends Controller
 {
     public function welcome(){
-        return view('welcome');
+        $homeWorkTypeIds = DB::table('work_types')
+            ->whereIn('work_type', [
+                'Architect',
+                'Contractor',
+                'Surveyor',
+                'BOQ / Estimation Expert',
+                'Structural Auditor / Engineer',
+                'Welding & Fabrication',
+                'Facade Specialist',
+                'Testing Services',
+                'Feasibility Report',
+            ])
+            ->pluck('id', 'work_type');
+
+        return view('welcome', compact('homeWorkTypeIds'));
     }
 
     public function sendOtp(Request $request, OtpService $otpService)
@@ -332,7 +346,10 @@ public function verifyOtp(Request $request, OtpService $otpService)
         $cities = DB::table('city')->orderBy('name', 'asc')->get();
         $customer = session('customer_id') ? Customer::find(session('customer_id')) : null;
 
-        $selectedWorkTypeId = $request->work_type_id;
+        $requestedWorkTypeId = $request->integer('work_type_id');
+        $selectedWorkTypeId = $work_types->contains('id', $requestedWorkTypeId)
+            ? $requestedWorkTypeId
+            : null;
 
         return view('customer.post', compact(
             'work_types',

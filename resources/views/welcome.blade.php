@@ -3907,16 +3907,22 @@ html {
         <p>Currently, our services are not available in your selected area. We are expanding soon.</p>
     </div>
     @php
+        $postUrlFor = static function (string $workType) use ($homeWorkTypeIds) {
+            $workTypeId = $homeWorkTypeIds->get($workType);
+
+            return $workTypeId ? route('post', ['work_type_id' => $workTypeId]) : route('post');
+        };
+
         $ourServices = [
-            ['name' => 'Architect', 'image' => 'architect.png', 'hover' => 'architect-hover.png', 'url' => route('post', ['work_type_id' => 2]), 'login' => true],
-            ['name' => 'Contractor', 'image' => 'contractor.png', 'hover' => 'contractor-hover.png', 'url' => route('post', ['work_type_id' => 1]), 'login' => true],
-            ['name' => 'Feasibility Report', 'image' => 'feasibility-report.png', 'hover' => 'feasibility-report-hover.png', 'modal' => true],
-            ['name' => 'Survey Services', 'image' => 'survey-services.png', 'hover' => 'survey-services-hover.png', 'url' => route('customer.survey'), 'login' => true],
-            ['name' => 'Structural Audit', 'image' => 'structural-audit.png', 'hover' => 'structural-audit-hover.png', 'url' => route('customer.structuralaudit'), 'login' => true],
-            ['name' => 'BOQ / Estimation', 'image' => 'boq-estimation.png', 'hover' => 'boq-estimation-hover.png', 'url' => route('customer.boq'), 'login' => true],
-            ['name' => 'Welding & Fabrication', 'image' => 'welding-fabrication.png', 'hover' => 'welding-fabrication-hover.png', 'url' => route('customer.welding_fabrication'), 'login' => true],
-            ['name' => 'Testing Services', 'image' => 'testing-services.png', 'hover' => 'testing-services-hover.png', 'url' => route('customer.testing'), 'login' => true],
-            ['name' => 'Facade Services', 'image' => 'facade-services.png', 'hover' => 'facade-services-hover.png', 'url' => route('customer.facade'), 'login' => true],
+            ['name' => 'Architect', 'image' => 'architect.png', 'hover' => 'architect-hover.png', 'url' => $postUrlFor('Architect'), 'login' => true],
+            ['name' => 'Contractor', 'image' => 'contractor.png', 'hover' => 'contractor-hover.png', 'url' => $postUrlFor('Contractor'), 'login' => true],
+            ['name' => 'Feasibility Report', 'image' => 'feasibility-report.png', 'hover' => 'feasibility-report-hover.png', 'url' => $postUrlFor('Feasibility Report'), 'login' => true],
+            ['name' => 'Survey Services', 'image' => 'survey-services.png', 'hover' => 'survey-services-hover.png', 'url' => $postUrlFor('Surveyor'), 'login' => true],
+            ['name' => 'Structural Audit', 'image' => 'structural-audit.png', 'hover' => 'structural-audit-hover.png', 'url' => $postUrlFor('Structural Auditor / Engineer'), 'login' => true],
+            ['name' => 'BOQ / Estimation', 'image' => 'boq-estimation.png', 'hover' => 'boq-estimation-hover.png', 'url' => $postUrlFor('BOQ / Estimation Expert'), 'login' => true],
+            ['name' => 'Welding & Fabrication', 'image' => 'welding-fabrication.png', 'hover' => 'welding-fabrication-hover.png', 'url' => $postUrlFor('Welding & Fabrication'), 'login' => true],
+            ['name' => 'Testing Services', 'image' => 'testing-services.png', 'hover' => 'testing-services-hover.png', 'url' => $postUrlFor('Testing Services'), 'login' => true],
+            ['name' => 'Facade Services', 'image' => 'facade-services.png', 'hover' => 'facade-services-hover.png', 'url' => $postUrlFor('Facade Specialist'), 'login' => true],
         ];
     @endphp
 
