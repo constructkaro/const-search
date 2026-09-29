@@ -209,7 +209,7 @@ public function verifyOtp(Request $request, OtpService $otpService)
 
         $customer = Customer::where('mobile', $request->mobile)->first();
 
-        if (! $customer || ! $customer->password || ! Hash::check($request->password, $customer->password)) {
+        if (! $customer || ! $this->customerPasswordMatches($customer, $request->password)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid mobile number or password. Use OTP if you have not set a password.',
@@ -362,7 +362,7 @@ public function verifyOtp(Request $request, OtpService $otpService)
 
         $customer = Customer::where('mobile', $validated['mobile'])->first();
 
-        if (! $customer || ! $customer->password || ! Hash::check($validated['password'], $customer->password)) {
+        if (! $customer || ! $this->customerPasswordMatches($customer, $validated['password'])) {
             return back()->withErrors([
                 'mobile' => 'The mobile number or password is incorrect.',
             ])->onlyInput('mobile');
@@ -377,6 +377,29 @@ public function verifyOtp(Request $request, OtpService $otpService)
         ]);
 
         return redirect()->intended(route('customer.projects'));
+    }
+
+    private function customerPasswordMatches(Customer $customer, string $plainPassword): bool
+    {
+        $storedPassword = (string) $customer->password;
+
+        if ($storedPassword === '') {
+            return false;
+        }
+
+        if (Hash::isHashed($storedPassword)) {
+            return Hash::check($plainPassword, $storedPassword);
+        }
+
+        if (! hash_equals($storedPassword, $plainPassword)) {
+            return false;
+        }
+
+        $customer->forceFill([
+            'password' => Hash::make($plainPassword),
+        ])->save();
+
+        return true;
     }
 
     public function myProjects()

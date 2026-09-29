@@ -3494,6 +3494,7 @@ html {
 .hero-discovery-highlights {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: 72px;
     align-items: center;
     gap: 18px;
     margin-top: 26px;
@@ -3507,26 +3508,29 @@ html {
 }
 
 .hero-discovery-highlight.has-image {
-    min-height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    height: 72px;
+    display: grid;
+    place-items: center;
 }
 
 .hero-discovery-highlight-image {
     display: block;
     width: auto;
-    max-width: 100%;
-    height: auto;
-    max-height: 72px;
+    max-width: none;
+    height: 68px;
     margin: 0;
     object-fit: contain;
+    object-position: center;
 }
 
 .hero-discovery-image-swap {
     position: relative;
-    display: block;
-    max-width: 100%;
+    display: grid;
+    place-items: center;
+    width: 259px;
+    max-width: none;
+    height: 68px;
 }
 
 .hero-discovery-image-swap .hero-discovery-highlight-image {
@@ -3535,8 +3539,10 @@ html {
 
 .hero-discovery-highlight-image.hover-state {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 50%;
     opacity: 0;
+    transform: translateX(-50%);
 }
 
 .hero-discovery-highlight:hover .default-state,
@@ -3552,6 +3558,11 @@ html {
 .hero-discovery-highlight:hover .hero-discovery-highlight-image,
 .hero-discovery-highlight:focus-within .hero-discovery-highlight-image {
     transform: translateY(-2px);
+}
+
+.hero-discovery-highlight:hover .hero-discovery-highlight-image.hover-state,
+.hero-discovery-highlight:focus-within .hero-discovery-highlight-image.hover-state {
+    transform: translateX(-50%) translateY(-2px);
 }
 
 .hero-discovery-highlight:not(.has-image) .hero-discovery-icon {
@@ -3609,16 +3620,39 @@ html {
     white-space: nowrap;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1700px) {
     .hero-discovery-card {
-        width: min(94%, 1040px);
+        width: min(94%, 1720px);
         padding: 22px 24px 26px;
     }
 
     .hero-discovery-highlights {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px 16px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
         margin-top: 28px;
+    }
+
+    .hero-discovery-image-swap,
+    .hero-discovery-highlight.has-image {
+        height: 56px;
+    }
+
+    .hero-discovery-image-swap {
+        width: 214px;
+    }
+
+    .hero-discovery-highlight-image {
+        height: 56px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .hero-discovery-highlights {
+        grid-template-columns: repeat(6, 214px);
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 0 10px;
+        scrollbar-width: thin;
     }
 }
 
@@ -3681,7 +3715,7 @@ html {
     }
 
     .hero-discovery-highlights {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(6, 214px);
         gap: 16px 10px;
         margin-top: 20px;
     }
@@ -3786,20 +3820,20 @@ html {
         <div class="hero-discovery-highlights" aria-label="Why choose ConstructKaro">
             <div class="hero-discovery-highlight has-image">
                 <span class="hero-discovery-image-swap">
-                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/1.png') }}" alt="20+ Years - Construction Experience" width="218" height="72" loading="eager" decoding="async">
-                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/11.png') }}" alt="" width="218" height="72" loading="eager" decoding="async" aria-hidden="true">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/1.png') }}" alt="20+ Years - Construction Experience" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/11.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
                 </span>
             </div>
             <div class="hero-discovery-highlight has-image">
                 <span class="hero-discovery-image-swap">
-                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/2.png') }}" alt="8+ Services - Construction Categories" width="218" height="72" loading="eager" decoding="async">
-                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/22.png') }}" alt="" width="218" height="72" loading="eager" decoding="async" aria-hidden="true">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/2.png') }}" alt="8+ Services - Construction Categories" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/22.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
                 </span>
             </div>
             <div class="hero-discovery-highlight has-image">
                 <span class="hero-discovery-image-swap">
-                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/3.png') }}" alt="5+ Locations - Cities and Regions Served" width="249" height="72" loading="eager" decoding="async">
-                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/33.png') }}" alt="" width="249" height="72" loading="eager" decoding="async" aria-hidden="true">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/3.png') }}" alt="5+ Locations - Cities and Regions Served" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/33.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
                 </span>
             </div>
             <div class="hero-discovery-highlight has-image">
@@ -3810,8 +3844,8 @@ html {
             </div>
             <div class="hero-discovery-highlight has-image">
                 <span class="hero-discovery-image-swap">
-                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/5.png') }}" alt="Clear Pricing - Transparent Approach" width="247" height="72" loading="eager" decoding="async">
-                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/55.png') }}" alt="" width="247" height="72" loading="eager" decoding="async" aria-hidden="true">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/5.png') }}" alt="Clear Pricing - Transparent Approach" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/55.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
                 </span>
             </div>
             <div class="hero-discovery-highlight has-image">
