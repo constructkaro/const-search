@@ -23,18 +23,86 @@ class MobileAppController extends Controller
     {
         $customer = $this->customerFromRequest($request);
 
+        if (! $customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer login could not be resolved. Please log in again.',
+            ], 401);
+        }
+
+        $projects = Post::query()
+            ->where('user_id', $customer->id)
+            ->latest('created_at')
+            ->get();
+
+        $trackings = OrderTracking::query()
+            ->with('steps')
+            ->where('service_key', 'project')
+            ->whereIn('source_id', $projects->pluck('id'))
+            ->get()
+            ->keyBy('source_id');
+
+        $activeProjects = $trackings
+            ->whereIn('status', ['active', 'in_progress'])
+            ->count();
+
         return response()->json([
+            'status' => true,
             'data' => [
-                'customer' => $customer,
+                'customer' => $this->formatCustomer($customer),
                 'stats' => [
-                    'projects' => $customer ? Post::where('user_id', $customer->id)->count() : 0,
+                    'projects' => $projects->count(),
+                    'active' => $activeProjects,
+                    'active_projects' => $activeProjects,
+                    'verified_experts' => '100+',
                 ],
+                'recent_projects' => $projects
+                    ->take(5)
+                    ->map(fn (Post $project) => $this->formatDashboardProject(
+                        $project,
+                        $trackings->get($project->id)
+                    ))
+                    ->values(),
                 'next_actions' => [
                     'post_project_requirement',
                     'view_my_projects',
                 ],
             ],
         ]);
+    }
+
+    private function formatDashboardProject(Post $project, ?OrderTracking $tracking): array
+    {
+        $steps = $tracking
+            ? DefaultProjectTrackingSteps::allWithAdminSteps($tracking->steps)
+                ->values()
+                ->map(fn ($step, int $index) => $this->formatTrackingStep($step, $index + 1))
+                ->values()
+            : collect();
+
+        $completedStages = $steps->where('status_key', 'completed')->count();
+        $progressPercent = $steps->isEmpty()
+            ? 0
+            : (int) round($steps->avg('progress_percent'));
+
+        return [
+            'id' => $project->id,
+            'title' => $project->title,
+            'service' => 'Project',
+            'location' => collect([
+                $project->area,
+                $project->region,
+                $project->state,
+            ])->filter()->implode(', '),
+            'created_at' => optional($project->created_at)->toISOString(),
+            'has_tracking' => (bool) $tracking,
+            'tracking_id' => $tracking?->id,
+            'tracking_status' => $tracking?->status ?? 'not_started',
+            'progress_percent' => $progressPercent,
+            'completed_stages' => $completedStages,
+            'total_stages' => $steps->count(),
+            'tracking_url' => route('api.customer.projects.tracking', ['project' => $project->id]),
+        ];
     }
 
     public function profile(Request $request): JsonResponse

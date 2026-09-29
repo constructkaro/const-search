@@ -340,7 +340,7 @@ html {
    ============================================================ */
 .ck-trust-section {
     padding: 40px 0 46px;
-    background: #f4f7fa;
+    background: var(--bg);
 }
 
 .ck-trust-heading {
@@ -607,7 +607,8 @@ html {
 .our-services-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 18px;
+    column-gap: 32px;
+    row-gap: 38px;
     align-items: start;
 }
 
@@ -615,6 +616,7 @@ html {
     position: relative;
     z-index: 0;
     display: block;
+    width: 100%;
     min-width: 0;
     aspect-ratio: 366 / 443;
     padding: 0;
@@ -623,8 +625,13 @@ html {
     overflow: hidden;
     background: transparent;
     color: inherit;
+    font: inherit;
+    text-align: inherit;
     text-decoration: none;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transform-origin: center center;
     transform: translateY(0) scale(1);
     filter: drop-shadow(0 4px 5px rgba(16, 36, 58, .12));
     transition: transform .28s ease, filter .28s ease;
@@ -636,7 +643,7 @@ html {
     text-decoration: none;
     outline: none;
     z-index: 5;
-    transform: translateY(-12px) scale(1.06);
+    transform: translateY(-10px) scale(1.04);
     filter: drop-shadow(0 18px 16px rgba(16, 36, 58, .24));
 }
 
@@ -644,8 +651,12 @@ html {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: opacity .4s ease;
+    object-fit: cover;
+    border-radius: 14px;
+    pointer-events: none;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: opacity .4s ease, transform .28s ease;
 }
 
 .our-service-card .hover-state {
@@ -664,6 +675,20 @@ html {
     opacity: 1;
 }
 
+.our-service-card.open-plan-modal-btn {
+    overflow: visible;
+}
+
+.our-service-card.open-plan-modal-btn:hover,
+.our-service-card.open-plan-modal-btn:focus-visible {
+    transform: translateY(-10px);
+}
+
+.our-service-card.open-plan-modal-btn:hover img,
+.our-service-card.open-plan-modal-btn:focus-visible img {
+    transform: scale(1.04);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .our-service-card,
     .our-service-card img {
@@ -680,7 +705,7 @@ html {
     .our-services-heading h2 { font-size: 34px; }
     .our-services-heading h3 { font-size: 25px; }
     .our-services-heading p { font-size: 17px; }
-    .our-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .our-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 }
 
 @media (max-width: 480px) {
@@ -1744,15 +1769,19 @@ html {
     font-weight: 900;
     box-shadow: 0 5px 12px rgba(0,0,0,.3);
     white-space: nowrap;
-    transition: transform .2s ease, box-shadow .2s ease, opacity .2s;
+    transition: color .2s ease, background-color .2s ease, border-radius .2s ease, transform .2s ease, box-shadow .2s ease, text-shadow .2s ease;
 }
 
-.ck-guide-btn:hover {
-    color: #222;
-    opacity: .9;
+.ck-guide-btn:hover,
+.ck-guide-btn:focus-visible {
+    color: #1976b9;
+    background: #fff;
+    border-radius: 12px;
     text-decoration: none;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(0,0,0,.24);
+    outline: none;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 14px rgba(0,0,0,.38), inset 0 1px 3px rgba(0,0,0,.14);
+    text-shadow: 0 2px 2px rgba(0,0,0,.24);
 }
 
 /* ============================================================
@@ -3464,7 +3493,7 @@ html {
 
 .hero-discovery-highlights {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     align-items: center;
     gap: 18px;
     margin-top: 26px;
@@ -3492,6 +3521,37 @@ html {
     max-height: 72px;
     margin: 0;
     object-fit: contain;
+}
+
+.hero-discovery-image-swap {
+    position: relative;
+    display: block;
+    max-width: 100%;
+}
+
+.hero-discovery-image-swap .hero-discovery-highlight-image {
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.hero-discovery-highlight-image.hover-state {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.hero-discovery-highlight:hover .default-state,
+.hero-discovery-highlight:focus-within .default-state {
+    opacity: 0;
+}
+
+.hero-discovery-highlight:hover .hover-state,
+.hero-discovery-highlight:focus-within .hover-state {
+    opacity: 1;
+}
+
+.hero-discovery-highlight:hover .hero-discovery-highlight-image,
+.hero-discovery-highlight:focus-within .hero-discovery-highlight-image {
+    transform: translateY(-2px);
 }
 
 .hero-discovery-highlight:not(.has-image) .hero-discovery-icon {
@@ -3660,21 +3720,7 @@ html {
 <div class="home-page">
 
     {{-- ── HERO ── --}}
-    <!-- <section class="hero-banner">
-        <div class="hero-inner">
-            <div class="hero-content">
-              
-                <button type="button" class="hero-plan-btn" id="openPlanModalBtn">
-                    Get End-to-End Construction Plan
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"></path>
-                        <path d="m13 6 6 6-6 6"></path>
-                    </svg>
-                </button>
 
-            </div>
-        </div>
-    </section> -->
 <section class="hero-banner">
     <div class="hero-inner">
         <div class="hero-content">
@@ -3739,19 +3785,40 @@ html {
 
         <div class="hero-discovery-highlights" aria-label="Why choose ConstructKaro">
             <div class="hero-discovery-highlight has-image">
-                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/1.png') }}" alt="8+ Services - Construction Categories" width="218" height="72" loading="eager" decoding="async">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/1.png') }}" alt="20+ Years - Construction Experience" width="218" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/11.png') }}" alt="" width="218" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
             </div>
             <div class="hero-discovery-highlight has-image">
-                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/4.png') }}" srcset="{{ asset('images/home/highlights/4.png') }} 1x, {{ asset('images/home/highlights/3.png') }} 4x" alt="Within 24 Hours - Requirement Response" width="275" height="72" loading="eager" decoding="async">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/2.png') }}" alt="8+ Services - Construction Categories" width="218" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/22.png') }}" alt="" width="218" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
             </div>
             <div class="hero-discovery-highlight has-image">
-                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/5.png') }}" alt="Clear Pricing - Transparent Approach" width="247" height="72" loading="eager" decoding="async">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/3.png') }}" alt="5+ Locations - Cities and Regions Served" width="249" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/33.png') }}" alt="" width="249" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
             </div>
             <div class="hero-discovery-highlight has-image">
-                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/6.png') }}" alt="On-site Support - Execution Assistance" width="275" height="72" loading="eager" decoding="async">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/4.png') }}" alt="On-site Support - Execution Assistance" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/44.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
             </div>
             <div class="hero-discovery-highlight has-image">
-                <img class="hero-discovery-highlight-image" src="{{ asset('images/home/highlights/7.png') }}" alt="5+ Locations - Cities and Regions Served" width="249" height="72" loading="eager" decoding="async">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/5.png') }}" alt="Clear Pricing - Transparent Approach" width="247" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/55.png') }}" alt="" width="247" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
+            </div>
+            <div class="hero-discovery-highlight has-image">
+                <span class="hero-discovery-image-swap">
+                    <img class="hero-discovery-highlight-image default-state" src="{{ asset('images/home/highlights/6.png') }}" alt="Within 24 Hours - Requirement Response" width="275" height="72" loading="eager" decoding="async">
+                    <img class="hero-discovery-highlight-image hover-state" src="{{ asset('images/home/highlights/66.png') }}" alt="" width="275" height="72" loading="eager" decoding="async" aria-hidden="true">
+                </span>
             </div>
         </div>
     </div>
@@ -3765,7 +3832,7 @@ html {
 
         <div class="ck-trust-container">
             <div class="ck-process-image-swap">
-                {!! $ckImage('images/home/process/share-requirement.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img ck-process-image-before', ['width' => 7138, 'height' => 1192, 'loading' => 'eager', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/home/process/share-requirement-matched.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img ck-process-image-before', ['width' => 7138, 'height' => 1192, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 {!! $ckImage('images/home/process/share-requirement-hour.png', 'How ConstructKaro works with 24 hour response', 'ck-trust-card-img ck-process-image-after', ['width' => 7362, 'height' => 1276, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => 'true']) !!}
             </div>
          
@@ -3831,10 +3898,14 @@ html {
             <div class="our-services-grid">
                 @foreach($ourServices as $service)
                     @if(!empty($service['modal']))
-                        <button type="button" class="our-service-card open-plan-modal-btn" aria-label="{{ $service['name'] }}">
+                        <a href="#freePlanModal"
+                           class="our-service-card open-plan-modal-btn"
+                           aria-label="{{ $service['name'] }}"
+                           aria-haspopup="dialog"
+                           aria-controls="freePlanModal">
                             {!! $ckImage('images/home/services/' . $service['image'], $service['name'], 'default-state', ['width' => 345, 'height' => 419, 'loading' => 'lazy', 'decoding' => 'async']) !!}
                             {!! $ckImage('images/home/services/' . $service['hover'], '', 'hover-state', ['width' => 366, 'height' => 443, 'loading' => 'lazy', 'decoding' => 'async', 'aria-hidden' => true]) !!}
-                        </button>
+                        </a>
                     @else
                         <a href="{{ $service['url'] }}"
                            class="our-service-card{{ !$isCustomerLoggedIn && !empty($service['login']) ? ' open-customer-login-modal' : '' }}"
@@ -4467,7 +4538,8 @@ $(document).ready(function () {
         planSetStep(1);
     }
 
-    $('#openPlanModalBtn, .open-plan-modal-btn').on('click', function () {
+    $('#openPlanModalBtn, .open-plan-modal-btn').on('click', function (event) {
+        event.preventDefault();
         planReset();
         $('#freePlanModal').addClass('active');
         setTimeout(function () {

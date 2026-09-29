@@ -266,7 +266,7 @@
                     <li><a href="{{ route('aboutus') }}">About Us</a></li>
                     <li><a href="https://vendor.constructkaro.com/">vendors</span></li>
                     <li><a href="{{ route('knowledgehub') }}">Constructshala</a></li>
-                    <li><a href="{{ route('welcome') }}#mainServicesSection">Services</a></li>
+                    <li><a href="{{ route('completed.projects') }}#mainServicesSection">Projects</a></li>
                 </ul>
             </div>
 
