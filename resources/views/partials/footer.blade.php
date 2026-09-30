@@ -140,6 +140,17 @@
     word-break: break-word;
 }
 
+.footer-contact-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-contact-item a:hover,
+.footer-contact-item a:focus-visible {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
 .footer-contact-item i {
     width: 16px;
     margin-top: 3px;
@@ -289,7 +300,7 @@
                                 <path d="m4 7 8 6 8-6"/>
                             </svg>
                         </span>
-                        <span>connect@constructkaro.com</span>
+                        <a href="mailto:connect@constructkaro.com">connect@constructkaro.com</a>
                     </div>
                     <div class="footer-contact-item">
                         <span class="footer-contact-icon" aria-hidden="true">

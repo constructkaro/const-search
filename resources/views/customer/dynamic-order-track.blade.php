@@ -301,6 +301,49 @@
         color:#6b7280;
     }
 
+    .document-list{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .document-row{
+        display:grid;
+        grid-template-columns:42px minmax(0, 1fr) auto;
+        gap:12px;
+        align-items:center;
+        padding:12px;
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+        background:#f9fafb;
+    }
+
+    .document-icon{
+        width:42px;
+        height:42px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:8px;
+        background:#e8f2fb;
+        color:#2f7ec6;
+        font-size:20px;
+    }
+
+    .document-name{
+        margin:0 0 2px;
+        color:#111827;
+        font-size:14px;
+        font-weight:800;
+        overflow-wrap:anywhere;
+    }
+
+    .document-source{
+        margin:0;
+        color:#6b7280;
+        font-size:12px;
+    }
+
     @media(max-width:767px){
         .tracking-step-row{
             grid-template-columns:1fr;
@@ -313,6 +356,15 @@
         .tracking-tab{
             min-width:100%;
         }
+
+        .document-row{
+            grid-template-columns:42px minmax(0, 1fr);
+        }
+
+        .document-row .mini-btn{
+            grid-column:1 / -1;
+            width:100%;
+        }
     }
 </style>
 
@@ -322,6 +374,9 @@
         <div class="tracking-tabs">
             <button class="tracking-tab active" data-tab="orderTab">Order Tracking</button>
             <button class="tracking-tab" data-tab="executionTab">Project Execution Progress</button>
+            @if(($documents ?? collect())->isNotEmpty())
+                <button class="tracking-tab" data-tab="documentsTab">Documents ({{ $documents->count() }})</button>
+            @endif
         </div>
 
         <div class="tracking-panel active" id="orderTab">
@@ -569,6 +624,27 @@
                 </div>
             @endif
         </div>
+
+        @if(($documents ?? collect())->isNotEmpty())
+            <div class="tracking-panel" id="documentsTab">
+                <div class="tracking-box">
+                    <div class="document-list">
+                        @foreach($documents as $document)
+                            <div class="document-row">
+                                <div class="document-icon"><i class="bi bi-file-earmark-text"></i></div>
+                                <div>
+                                    <p class="document-name">{{ $document['name'] }}</p>
+                                    <p class="document-source">{{ $document['source'] }}</p>
+                                </div>
+                                <a href="{{ $document['url'] }}" class="mini-btn blue" download>
+                                    <i class="bi bi-download me-1"></i> Download
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
 
     </div>
 </div>

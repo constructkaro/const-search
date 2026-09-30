@@ -461,6 +461,7 @@ class MobileAppController extends Controller
             ?: $formattedSteps->firstWhere('status_key', 'pending')
             ?: $formattedSteps->firstWhere('status_key', 'upcoming')
             ?: $formattedSteps->last();
+        $documents = $this->projectTrackingDocuments($post, $formattedSteps);
 
         return response()->json([
             'status' => true,
@@ -486,12 +487,15 @@ class MobileAppController extends Controller
                     'completed_stages' => $completedStages,
                     'total_stages' => $totalStages,
                     'current_stage_id' => $currentStage['id'] ?? null,
+                    'documents_count' => $documents->count(),
                 ],
                 'tabs' => [
                     'order' => $formattedSteps->where('tab_type', 'order')->values(),
                     'execution' => $formattedSteps->where('tab_type', 'execution')->values(),
+                    'documents' => $documents,
                 ],
                 'stages' => $formattedSteps,
+                'documents' => $documents,
             ],
         ]);
     }
@@ -1599,10 +1603,55 @@ class MobileAppController extends Controller
                     'name' => $attachment['name'] ?? basename($attachment['path']),
                     'path' => $attachment['path'],
                     'url' => Storage::disk('public')->url($attachment['path']),
+                    'download_url' => Storage::disk('public')->url($attachment['path']),
                 ];
             })
             ->values()
             ->all();
+    }
+
+    private function projectTrackingDocuments(Post $post, $formattedSteps): \Illuminate\Support\Collection
+    {
+        $documents = collect($formattedSteps)->flatMap(function (array $step) {
+            return collect($step['attachments'] ?? [])->map(function (array $attachment) use ($step) {
+                return [
+                    ...$attachment,
+                    'source' => 'tracking_step',
+                    'source_label' => $step['title'] ?? 'Tracking update',
+                    'step_id' => $step['id'] ?? null,
+                    'tab_type' => $step['tab_type'] ?? null,
+                ];
+            });
+        });
+
+        if (! empty($post->files)) {
+            $projectFiles = json_decode($post->files, true);
+            $projectFiles = is_array($projectFiles) ? $projectFiles : [$post->files];
+
+            foreach ($projectFiles as $path) {
+                if (! is_string($path) || $path === '') {
+                    continue;
+                }
+
+                $normalizedPath = ltrim(str_replace('\\', '/', $path), '/');
+                $downloadUrl = str_contains($normalizedPath, '/')
+                    ? Storage::disk('public')->url($normalizedPath)
+                    : asset('uploads/posts/'.$normalizedPath);
+
+                $documents->push([
+                    'name' => basename($normalizedPath),
+                    'path' => $normalizedPath,
+                    'url' => $downloadUrl,
+                    'download_url' => $downloadUrl,
+                    'source' => 'project',
+                    'source_label' => 'Project document',
+                    'step_id' => null,
+                    'tab_type' => null,
+                ]);
+            }
+        }
+
+        return $documents->unique('download_url')->values();
     }
 
     private function onlyExistingColumns(string $table, array $data): array

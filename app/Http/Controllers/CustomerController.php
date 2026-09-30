@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
  use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use App\Services\OtpService;
 use App\Models\OrderTracking;
@@ -1048,11 +1049,14 @@ public function storeInteriorRequirement(Request $request)
                 $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
             }
 
+            $documents = $this->trackingDocuments($service_key, $source_id, $orderSteps, $executionSteps);
+
             return view('customer.dynamic-order-track', compact(
                 'service',
                 'id',
                 'orderSteps',
-                'executionSteps'
+                'executionSteps',
+                'documents'
             ));
         }
 
@@ -1068,12 +1072,14 @@ public function storeInteriorRequirement(Request $request)
             $executionSteps = $trackingSteps->where('tab_type', 'execution')->values();
 
             $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
+            $documents = $this->trackingDocuments($service_key, $source_id, $orderSteps, $executionSteps);
 
             return view('customer.dynamic-order-track', compact(
                 'service',
                 'id',
                 'orderSteps',
-                'executionSteps'
+                'executionSteps',
+                'documents'
             ));
         }
 
@@ -1125,12 +1131,73 @@ public function storeInteriorRequirement(Request $request)
             $orderSteps = DefaultProjectTrackingSteps::orderWithAdminSteps($orderSteps);
         }
 
+        $documents = $this->trackingDocuments($service, $id, $orderSteps, $executionSteps);
+
         return view('customer.dynamic-order-track', compact(
             'service',
             'id',
             'orderSteps',
-            'executionSteps'
+            'executionSteps',
+            'documents'
         ));
+    }
+
+    private function trackingDocuments(string $service, $sourceId, Collection $orderSteps, Collection $executionSteps): Collection
+    {
+        $documents = $orderSteps
+            ->concat($executionSteps)
+            ->flatMap(function ($step) {
+                $extraData = $step->extra_data ?? [];
+
+                if (is_string($extraData)) {
+                    $extraData = json_decode($extraData, true) ?: [];
+                }
+
+                $attachments = $extraData['attachments'] ?? [];
+
+                if (! empty($extraData['download_file'])) {
+                    $attachments[] = [
+                        'path' => $extraData['download_file'],
+                        'name' => $extraData['download_file_name'] ?? basename($extraData['download_file']),
+                    ];
+                }
+
+                return collect($attachments)
+                    ->filter(fn ($attachment) => is_array($attachment) && ! empty($attachment['path']))
+                    ->map(fn ($attachment) => [
+                        'name' => $attachment['name'] ?? basename($attachment['path']),
+                        'url' => Storage::disk('public')->url($attachment['path']),
+                        'source' => $step->step_title ?? 'Tracking update',
+                    ]);
+            });
+
+        if ($service === 'project') {
+            $project = DB::table('posts')->select('files')->where('id', $sourceId)->first();
+
+            if ($project && ! empty($project->files)) {
+                $projectFiles = json_decode($project->files, true);
+                $projectFiles = is_array($projectFiles) ? $projectFiles : [$project->files];
+
+                foreach ($projectFiles as $path) {
+                    if (! is_string($path) || $path === '') {
+                        continue;
+                    }
+
+                    $normalizedPath = ltrim(str_replace('\\', '/', $path), '/');
+                    $url = str_contains($normalizedPath, '/')
+                        ? Storage::disk('public')->url($normalizedPath)
+                        : asset('uploads/posts/'.$normalizedPath);
+
+                    $documents->push([
+                        'name' => basename($normalizedPath),
+                        'url' => $url,
+                        'source' => 'Project document',
+                    ]);
+                }
+            }
+        }
+
+        return $documents->unique('url')->values();
     }
 
 
