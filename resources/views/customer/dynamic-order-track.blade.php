@@ -339,6 +339,10 @@
                                 ];
                             }
                             $subPoints = collect($step->extra_data['sub_points'] ?? [])->values();
+                            $milestoneDate = $step->milestone_date ?? null;
+                            if ($milestoneDate && ! $milestoneDate instanceof \Illuminate\Support\Carbon) {
+                                $milestoneDate = \Illuminate\Support\Carbon::parse($milestoneDate);
+                            }
                         @endphp
                         <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
@@ -351,8 +355,8 @@
                             <div class="track-card">
                                 <h4>{{ $step->step_title }}</h4>
 
-                                @if($step->milestone_date)
-                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $step->milestone_date->format('d M Y') }}</p>
+                                @if($milestoneDate)
+                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $milestoneDate->format('d M Y') }}</p>
                                 @endif
 
                                 @if(!empty($step->step_description))
@@ -458,6 +462,10 @@
                                 ];
                             }
                             $subPoints = collect($step->extra_data['sub_points'] ?? [])->values();
+                            $milestoneDate = $step->milestone_date ?? null;
+                            if ($milestoneDate && ! $milestoneDate instanceof \Illuminate\Support\Carbon) {
+                                $milestoneDate = \Illuminate\Support\Carbon::parse($milestoneDate);
+                            }
                         @endphp
                         <div class="tracking-step-row {{ $status }}">
                             <div class="step-left">
@@ -470,8 +478,8 @@
                             <div class="track-card">
                                 <h4>{{ $step->step_title }}</h4>
 
-                                @if($step->milestone_date)
-                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $step->milestone_date->format('d M Y') }}</p>
+                                @if($milestoneDate)
+                                    <p class="milestone-date"><i class="bi bi-calendar3"></i> Scheduled: {{ $milestoneDate->format('d M Y') }}</p>
                                 @endif
 
                                 @if(!empty($step->step_description))
