@@ -7,7 +7,7 @@
 <style>
     body{
         margin:0;
-        font-family:'Poppins',sans-serif;
+        font-family:'Inter',sans-serif;
         background:#f3f4f6;
     }
 

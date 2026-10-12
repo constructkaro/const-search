@@ -21,7 +21,7 @@
     min-height: 100vh;
     background: #f3f3f3;
     color: #231f20;
-    font-family: "Poppins", "Segoe UI", sans-serif;
+    font-family: "Inter", "Inter", sans-serif;
 }
 
 .projects-hero {

@@ -7,7 +7,7 @@
 <style>
     body {
         background: #f3f4f6;
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .facade-type-section {

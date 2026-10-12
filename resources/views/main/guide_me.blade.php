@@ -12,7 +12,7 @@
     body {
         background: #e9e9e9;
         color: #222;
-        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
     }
 
     .page-wrapper {

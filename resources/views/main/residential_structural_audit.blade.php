@@ -7,7 +7,7 @@
     body {
         background: #e9e9e9;
         color: #141414;
-        font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+        font-family: "Inter", "Inter", Arial, sans-serif;
     }
 
     .rsa-page {

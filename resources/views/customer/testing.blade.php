@@ -8,7 +8,7 @@
 body {
     margin: 0;
     background: #e6e6e6;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Layout */

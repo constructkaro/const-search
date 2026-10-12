@@ -18,7 +18,7 @@
     body {
         background: var(--profile-soft);
         color: var(--profile-ink);
-        font-family: 'Poppins', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
     }
 
     .profile-page {

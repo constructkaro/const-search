@@ -7,7 +7,7 @@
     .privacy-page {
         background: #eef2f7;
         color: #1c2c3e;
-        font-family: 'Poppins', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
         padding: 54px 0 70px;
     }
 

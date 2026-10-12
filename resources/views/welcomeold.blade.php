@@ -10,23 +10,26 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
     --blue:#1f67ab;
-    --blue-light:#2f89d0;
+    --blue-light:#2f80c8;
     --orange:#df6d1c;
-    --orange-light:#ef8a39;
-    --bg:#eeeeee;
-    --text:#222;
+    --bg:#f4f4f4;
+    --text:#333;
+    --muted:#666;
+    --border:#ddd;
+    --shadow:0 10px 30px rgba(0,0,0,0.08);
+    --radius-lg:22px;
 }
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family:'Inter', sans-serif;
 }
 
 body{
@@ -36,27 +39,45 @@ body{
 }
 
 .home-page{
-    background:#eeeeee;
+    background:var(--bg);
 }
 
-/* HERO */
+/* HERO SECTION */
+.hero-holder{
+    width:100%;
+    overflow:hidden;
+}
+
 .hero-banner{
+    position:relative;
     width:100vw;
     height:340px;
+    min-height:340px;
     margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
+    display:flex;
+    align-items:center;
+    overflow:hidden;
     background-image:
-        linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.70),rgba(0,0,0,.12)),
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.88) 0%,
+            rgba(0,0,0,0.74) 30%,
+            rgba(0,0,0,0.28) 58%,
+            rgba(0,0,0,0.05) 100%
+        ),
         url("{{ asset('images/banner.jpg') }}");
     background-size:cover;
     background-position:center;
-    display:flex;
-    align-items:center;
 }
 
 .hero-inner{
-    width:92%;
+    width:100%;
     max-width:1320px;
     margin:0 auto;
+    padding:35px 46px;
+    position:relative;
+    z-index:2;
 }
 
 .hero-content{
@@ -64,25 +85,38 @@ body{
 }
 
 .hero-title{
+    margin:0 0 10px;
     color:#fff;
     font-size:42px;
     font-weight:900;
-    line-height:1.1;
-    margin-bottom:10px;
+    line-height:1.08;
+    letter-spacing:-0.5px;
+    text-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
 .hero-subtitle{
+    margin:0 0 14px;
     color:#fff;
     font-size:22px;
     font-weight:600;
-    margin-bottom:14px;
+    line-height:1.35;
+    text-shadow:0 6px 18px rgba(0,0,0,0.35);
 }
 
 .hero-description{
+    margin:0 0 26px;
+    max-width:560px;
     color:#fff;
     font-size:16px;
-    line-height:1.5;
-    margin-bottom:26px;
+    font-weight:500;
+    line-height:1.55;
+    text-shadow:0 6px 18px rgba(0,0,0,0.35);
+}
+
+.hero-search-row{
+    width:100%;
+    display:flex;
+    align-items:center;
 }
 
 .hero-field-search{
@@ -90,10 +124,12 @@ body{
     max-width:500px;
     height:52px;
     background:#f2f2f2;
+    border:1px solid #dcdcdc;
     border-radius:16px;
     display:flex;
     align-items:center;
     padding:0 18px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.18);
 }
 
 .hero-icon-left{
@@ -101,6 +137,7 @@ body{
     height:26px;
     color:#1f78c8;
     margin-right:12px;
+    flex-shrink:0;
 }
 
 .hero-field-search input{
@@ -110,637 +147,150 @@ body{
     outline:none;
     background:transparent;
     font-size:15px;
+    color:#333;
 }
 
-/* TRUST */
-.ck-trust-section{
-    padding:70px 0;
+.hero-field-search input::placeholder{
+    color:#b5b5b5;
 }
 
-.ck-trust-container{
-    width:92%;
-    max-width:1180px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:28px;
-    text-align:center;
+/* SERVICE SECTIONS */
+.service-cards-section{
+    padding:45px 0 40px;
+    background:var(--bg);
 }
 
-.ck-trust-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-.ck-trust-icon-img{
-    width:64px;
-    height:64px;
-    object-fit:contain;
-    margin-bottom:10px;
-}
-
-.ck-trust-title{
-    font-size:18px;
-    font-weight:800;
-    line-height:1.25;
-    color:#000;
-}
-
-/* MAIN SERVICES */
-.ck-services-section{
-    padding:80px 0 55px;
-}
-
-.ck-services-container,
+.service-cards-container,
 .explore-services-container,
-.ck-guide-container,
 .faq-container{
     width:92%;
-    max-width:1500px;
+    max-width:1280px;
     margin:0 auto;
 }
 
-.ck-services-grid{
+.service-cards-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:110px;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:28px;
 }
 
-.ck-service-card{
+.service-card-item{
     background:#fff;
-    border:1.5px solid #111;
-    border-radius:18px;
-    box-shadow:0 5px 12px rgba(0,0,0,.22);
-    text-align:center;
-    height:288px;
-    padding:0 16px 22px;
-}
-
-.ck-service-image{
-    width:250px;
-    height:192px;
-    margin:-55px auto 20px;
-    border-radius:16px;
+    border-radius:var(--radius-lg);
     overflow:hidden;
-    border:1.5px solid #111;
-    box-shadow:0 4px 10px rgba(0,0,0,.22);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    transition:0.3s ease;
 }
 
-.ck-service-image img{
+.service-card-item:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 40px rgba(0,0,0,0.12);
+}
+
+.service-card-image{
     width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.ck-service-title{
-    color:var(--orange);
-    font-size:22px;
-    font-weight:800;
-}
-
-.ck-service-line{
-    width:150px;
-    height:1px;
-    background:#555;
-    margin:5px auto 12px;
-}
-
-.ck-service-text{
-    color:#555;
-    font-size:10px;
-    margin-bottom:14px;
-    font-style:oblique;
-}
-
-.ck-service-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:241px;
-    height:40px;
-    border-radius:10px;
-    background:linear-gradient(180deg,#2f89d0,#1d6eb3);
-    color:#fff;
-    text-decoration:none;
-    font-size:14px;
-    font-weight:800;
-}
-
-/* MORE SERVICES */
-.explore-services-section{
-    padding:45px 0 55px;
-}
-
-.explore-services-heading{
-    text-align:center;
-    margin-bottom:55px;
-}
-
-.explore-services-heading h2{
-    font-size:42px;
-    font-weight:900;
-    color:#1f1f1f;
-}
-
-.heading-line{
-    width:240px;
-    height:4px;
-    margin:12px auto 0;
-    border-radius:50px;
-    background:linear-gradient(90deg,#ef7d2d,#2f78bf);
-}
-
-.explore-services-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:110px;
-}
-
-.explore-card{
-    background:#fff;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 5px 12px rgba(0,0,0,.22);
-    text-align:center;
-}
-
-.orange-card{
-    border:2px solid #ef7d2d;
-}
-
-.blue-card{
-    border:2px solid #2f78bf;
-}
-
-.explore-card-image{
     height:220px;
     overflow:hidden;
+    background:#eaeaea;
 }
 
-.explore-card-image img{
+.service-card-image img{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
 
-.explore-card-body{
-    padding:18px 18px 20px;
+.service-card-box{
+    padding:18px 18px 22px;
+    text-align:center;
 }
 
-.explore-card-body h3{
-    font-size:27px;
-    font-weight:900;
+.service-card-divider{
+    display:flex;
+    justify-content:center;
     margin-bottom:14px;
 }
 
-.orange-card h3{
-    color:#df6d1c;
-}
-
-.blue-card h3{
-    color:#1f67ab;
-}
-
-.explore-card-body p{
-    font-size:14px;
-    color:#111;
-    margin-bottom:18px;
-}
-
-.explore-btn{
-    width:260px;
-    height:46px;
-    border-radius:12px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:16px;
-    font-weight:800;
-    text-decoration:none;
-}
-
-.orange-btn{
-    background:linear-gradient(180deg,#ef8a39,#df6d1c);
-}
-
-.blue-btn{
-    background:linear-gradient(180deg,#2f89d0,#1d6eb3);
-}
-
-/* GUIDE SECTION */
-.ck-guide-section{
-    padding:35px 0;
-}
-
-.ck-guide-container{
-    display:grid;
-    grid-template-columns:0.8fr 1.45fr;
-    gap:24px;
-    align-items:stretch;
-}
-
-.ck-guide-image-box{
-    height:280px;
-    border:3px solid #f26f21;
-    border-left:6px solid #1f78c8;
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 8px 12px rgba(0,0,0,.25);
-}
-
-.ck-guide-image-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center center;
-    display:block;
-}
-
-.ck-guide-content-box{
-    min-height:280px;
-    border-radius:16px;
-    overflow:hidden;
-    background:
-        /* linear-gradient(rgba(31,103,171,.88),rgba(31,103,171,.88)), */
-        url("{{ asset('images/logo/Confused.png') }}");
-    background-size:cover;
-    background-position:center;
-    box-shadow:0 8px 12px rgba(0,0,0,.25);
-    padding:32px 38px;
-    color:#fff;
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-}
-
-.ck-guide-title{
-    font-size:28px;
-    font-weight:900;
-    line-height:1.25;
-    margin-bottom:18px;
-}
-
-.ck-guide-text{
-    font-size:19px;
-    line-height:1.35;
-    margin-bottom:30px;
-}
-
-.ck-guide-btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-width:360px;
-    height:50px;
-    border-radius:10px;
-    background:#fff;
-    color:#222;
-    text-decoration:none;
-    font-size:21px;
-    font-weight:900;
-    box-shadow:0 5px 10px rgba(0,0,0,.35);
-}
-
-/* UPCOMING */
-.upcoming-services-section{
-    padding:70px 0 60px;
-    background:linear-gradient(180deg,#f7f7f7,#ececec);
-    overflow:hidden;
-}
-
-.upcoming-services-heading{
-    text-align:center;
-    margin-bottom:34px;
-}
-
-.upcoming-services-heading h2{
-    font-size:42px;
-    font-weight:800;
-    color:#1f1f1f;
-}
-
-.upcoming-heading-line{
-    width:220px;
-    height:4px;
-    margin:14px auto 0;
-    border-radius:999px;
-    background:linear-gradient(90deg,#ef7d2d,#2f78bf);
-}
-
-.upcoming-auto-scroll-wrap{
-    overflow:hidden;
-    padding:8px 0;
-}
-
-.upcoming-auto-scroll-track{
-    display:flex;
-    gap:24px;
-    width:max-content;
-    animation:upcomingAutoScroll 30s linear infinite;
-}
-
-@keyframes upcomingAutoScroll{
-    0%{transform:translateX(0);}
-    100%{transform:translateX(-50%);}
-}
-
-.upcoming-card{
-    width:390px;
-    min-width:390px;
-    background:#fff;
-    border-radius:24px;
-    overflow:hidden;
-    box-shadow:0 12px 28px rgba(0,0,0,.12);
-    position:relative;
-}
-
-.upcoming-card.orange-border{
-    border:2px solid #ef7d2d;
-}
-
-.upcoming-card.blue-border{
-    border:2px solid #2f78bf;
-}
-
-.upcoming-badge{
-    position:absolute;
-    top:14px;
-    left:14px;
-    z-index:2;
-    padding:7px 12px;
-    border-radius:999px;
-    background:rgba(17,24,39,.86);
-    color:#fff;
-    font-size:11px;
-    font-weight:700;
-}
-
-.upcoming-card-image{
-    height:250px;
-}
-
-.upcoming-card-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.upcoming-card-body{
-    padding:22px 18px 24px;
-    text-align:center;
-}
-
-.upcoming-card-body h3{
+.service-card-title{
+    margin:0 0 10px;
     font-size:22px;
-    font-weight:800;
-}
-
-.upcoming-card-body p{
-    font-size:13px;
-    color:#666;
-    margin-top:8px;
-}
-
-/* FAQ */
-.faq-section{
-    padding:70px 0 60px;
-    background:#e9e9e9;
-}
-
-.faq-container{
-    max-width:1000px;
-}
-
-.faq-heading{
-    text-align:center;
-    margin-bottom:34px;
-}
-
-.faq-heading h2{
-    font-size:32px;
-    font-weight:800;
-}
-
-.faq-heading-line{
-    display:flex;
-    justify-content:center;
-    margin-top:10px;
-}
-
-.faq-line-orange,
-.faq-line-blue{
-    width:110px;
-    height:3px;
-    display:block;
-}
-
-.faq-line-orange{
-    background:#e97827;
-    border-radius:20px 0 0 20px;
-}
-
-.faq-line-blue{
-    background:#2f78bf;
-    border-radius:0 20px 20px 0;
-}
-
-.faq-accordion{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-}
-
-.faq-item{
-    background:#fff;
-    border-radius:14px;
-    box-shadow:0 4px 10px rgba(0,0,0,.12);
-    overflow:hidden;
-}
-
-.faq-question{
-    width:100%;
-    border:none;
-    background:#fff;
-    display:flex;
-    justify-content:space-between;
-    gap:16px;
-    text-align:left;
-    padding:22px 24px;
-    font-size:18px;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.faq-icon{
-    color:var(--blue);
-    font-size:24px;
     font-weight:700;
+    color:var(--orange);
 }
 
-.faq-answer{
-    max-height:0;
-    overflow:hidden;
-    transition:.3s ease;
+.service-card-text{
+    margin:0 0 18px;
+    font-size:14px;
+    line-height:1.6;
+    color:var(--muted);
 }
 
-.faq-item.active .faq-answer{
-    max-height:300px;
-}
-
-.faq-answer p{
-    padding:0 24px 22px;
-    color:#555;
-    font-size:15px;
-    line-height:1.7;
-}
-
-/* MODAL */
-.custom-modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:none;
+.service-card-btn{
+    display:inline-flex;
     align-items:center;
     justify-content:center;
-    z-index:99999;
-    padding:20px;
-}
-
-.custom-modal-overlay.active{
-    display:flex;
-}
-
-.custom-modal-box{
-    width:100%;
-    max-width:430px;
-    background:#fff;
-    border-radius:18px;
-    padding:26px 22px;
-    position:relative;
-}
-
-.custom-modal-close{
-    position:absolute;
-    top:10px;
-    right:14px;
-    border:none;
-    background:transparent;
-    font-size:28px;
-    cursor:pointer;
-}
-
-.custom-modal-header h3{
-    font-size:26px;
-    color:#1c2c3e;
-}
-
-.custom-modal-header p{
-    font-size:14px;
-    color:#666;
-    margin:6px 0 22px;
-}
-
-.form-group{
-    margin-bottom:16px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:8px;
-    font-size:14px;
-    font-weight:600;
-}
-
-.custom-input{
-    width:100%;
-    height:48px;
-    border:1px solid #d8d8d8;
+    min-width:210px;
+    padding:12px 22px;
     border-radius:12px;
-    padding:0 14px;
-    font-size:14px;
-    outline:none;
-}
-
-.error-text{
-    display:block;
-    margin-top:6px;
-    font-size:12px;
-    color:#dc2626;
-}
-
-.otp-success-msg{
-    font-size:13px;
-    color:#15803d;
-    margin-top:8px;
-}
-
-.custom-modal-actions{
-    margin-top:14px;
-}
-
-.modal-btn{
-    width:100%;
-    border:none;
-    border-radius:12px;
-    padding:12px 18px;
-    font-size:14px;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.primary-btn{
-    background:linear-gradient(180deg,#f58a3c,#f25c05);
-    color:#fff;
-}
-
-.verify-btn{
-    background:linear-gradient(180deg,#2f80c8,#1f67ab);
-    color:#fff;
-}
-
-/* LINKS HOVER */
-.ck-service-btn:hover,
-.explore-btn:hover{
+    background:linear-gradient(180deg, var(--blue-light), var(--blue));
     color:#fff;
     text-decoration:none;
+    font-size:14px;
+    font-weight:700;
 }
 
-.ck-guide-btn:hover{
-    color:#222;
+.service-card-btn:hover{
+    color:#fff;
     text-decoration:none;
 }
 
 /* RESPONSIVE */
 @media(max-width:991px){
-    .ck-trust-container{
-        grid-template-columns:repeat(2,1fr);
+    .hero-banner{
+        height:320px;
+        min-height:320px;
+        background-position:center right;
     }
 
-    .ck-services-grid,
-    .explore-services-grid,
-    .ck-guide-container{
-        grid-template-columns:1fr;
-        gap:80px;
+    .hero-inner{
+        padding:30px 28px;
     }
 
-    .ck-service-card,
-    .explore-card{
-        max-width:470px;
-        margin:0 auto;
+    .hero-title{
+        font-size:36px;
     }
 
-    .ck-guide-container{
-        gap:24px;
+    .hero-subtitle{
+        font-size:20px;
+    }
+
+    .hero-description{
+        font-size:15px;
+        margin-bottom:22px;
+    }
+
+    .hero-field-search{
+        max-width:460px;
+    }
+
+    .service-cards-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
     }
 }
 
-@media(max-width:576px){
+@media(max-width:767px){
     .hero-banner{
         height:310px;
+        min-height:310px;
+        background-image:
+            linear-gradient(90deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.75) 100%),
+            url("{{ asset('images/hero-banner.png') }}");
+    }
+
+    .hero-inner{
+        padding:28px 18px;
     }
 
     .hero-title{
@@ -753,537 +303,1829 @@ body{
 
     .hero-description{
         font-size:14px;
+        margin-bottom:20px;
     }
 
-    .ck-trust-title{
-        font-size:15px;
+    .hero-field-search{
+        height:48px;
+        max-width:100%;
     }
 
-    .ck-services-section{
-        padding:70px 0 40px;
+    .service-cards-section{
+        padding:35px 0;
     }
 
-    .ck-service-card{
-        height:auto;
+    .service-cards-grid{
+        grid-template-columns:1fr;
     }
 
-    .ck-service-image{
-        width:92%;
-        height:210px;
-    }
-
-    .ck-service-btn,
-    .explore-btn,
-    .ck-guide-btn{
+    .service-card-item{
+        max-width:420px;
         width:100%;
-        min-width:100%;
-    }
-
-    .explore-services-heading h2,
-    .upcoming-services-heading h2{
-        font-size:32px;
-    }
-
-    .explore-card-image{
-        height:190px;
-    }
-
-    .ck-guide-title{
-        font-size:24px;
-    }
-
-    .ck-guide-text{
-        font-size:16px;
-    }
-
-    .upcoming-card{
-        width:270px;
-        min-width:270px;
-    }
-
-    .upcoming-card-image{
-        height:180px;
+        margin:0 auto;
     }
 }
 
-.ck-vendor-section {
-    background: #eeeeee;
-    padding: 45px 0;
+.ck-trust-section {
+    background: #ecedee;
+    padding: 28px 0;
 }
 
-.ck-vendor-container {
+.ck-trust-container {
     width: 92%;
-    max-width: 1500px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    align-items: stretch;
-}
-
-.ck-vendor-content-box {
-    min-height: 300px;
-    border-radius: 16px;
-    background:
-        linear-gradient(rgba(223,109,28,0.92), rgba(223,109,28,0.92)),
-        url("{{ asset('images/logo/Confused.png') }}");
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 8px 12px rgba(0,0,0,0.25);
-    padding: 42px 38px;
-    text-align: center;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.ck-vendor-title {
-    font-size: 30px;
-    font-weight: 900;
-    line-height: 1.25;
-    margin: 0 0 24px;
-}
-.ck-city-title {
-    font-size: 30px;
-    font-weight: 900;
-    line-height: 1.25;
-    margin: 0 0 24px;
-}
-.ck-vendor-text {
-    font-size: 22px;
-    line-height: 1.35;
-    margin: 0 0 28px;
-    max-width: 720px;
-}
-
-.ck-vendor-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 250px;
-    height: 52px;
-    padding: 0 26px;
-    border-radius: 10px;
-    background: #fff;
-    color: #2b2b2b;
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 900;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.35);
-}
-
-.ck-vendor-btn:hover {
-    color: #2b2b2b;
-    text-decoration: none;
-}
-
-.ck-vendor-image-box {
-    height: 300px;
-    border: 3px solid #f26f21;
-    border-left: 6px solid #1f78c8;
-    border-right: 6px solid #1f78c8;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 12px rgba(0,0,0,0.25);
-    background: #fff;
-}
-
-.ck-vendor-image-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-}
-
-@media (max-width: 991px) {
-    .ck-vendor-container {
-        grid-template-columns: 1fr;
-    }
-
-    .ck-vendor-content-box {
-        min-height: 260px;
-        padding: 34px 24px;
-    }
-
-    .ck-vendor-title {
-        font-size: 26px;
-    }
-
-    .ck-vendor-text {
-        font-size: 18px;
-    }
-
-    .ck-vendor-image-box {
-        height: 260px;
-    }
-}
-
-@media (max-width: 576px) {
-    .ck-vendor-section {
-        padding: 35px 0;
-    }
-
-    .ck-vendor-title {
-        font-size: 23px;
-    }
-
-    .ck-vendor-text {
-        font-size: 16px;
-    }
-
-    .ck-vendor-btn {
-        width: 100%;
-        min-width: 100%;
-        font-size: 18px;
-    }
-
-    .ck-vendor-image-box {
-        height: 220px;
-    }
-}
-
-.ck-vendor-content-box {
-    position: relative;
-    min-height: 300px;
-    border-radius: 16px;
-
-    background:
-        /* linear-gradient(rgba(223,109,28,0.92), rgba(223,109,28,0.92)), */
-        url("{{ asset('images/logo/area.png') }}"); /* 👈 your bg image */
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    box-shadow: 0 8px 12px rgba(0,0,0,0.25);
-    padding: 42px 38px;
-    text-align: center;
-    color: #fff;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.ck-city-section {
-    padding: 40px 0;
-    background: #f4f4f4;
-}
-
-.ck-city-grid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.ck-city-card {
-    width: 210px;
-    height: auto;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    padding: 0;
-}
-
-.ck-city-card img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-}
-
-.ck-all-services-section {
-    background: #eeeeee;
-    padding: 35px 0 60px;
-    text-align: center;
-}
-
-.ck-all-services-title {
-    font-size: 42px;
-    font-weight: 900;
-    color: #1f1f1f;
-    margin: 0;
-}
-
-.ck-all-services-line {
-    width: 260px;
-    height: 4px;
-    margin: 12px auto 45px;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #ef7d2d, #2f78bf);
-}
-
-.ck-service-slider {
-    width: 92%;
-    max-width: 940px;
-    height: 420px;
-    margin: 0 auto;
-    display: flex;
-    gap: 8px;
-    overflow: hidden;
-}
-
-.ck-slide {
-    flex: 1;
-    min-width: 78px;
-    border-radius: 14px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 6px 10px rgba(0,0,0,0.25);
-    transition: all 0.45s ease;
-    cursor: pointer;
-}
-
-.ck-slide.active {
-    flex: 3.1;
-}
-
-.ck-slide img {
-    width: 106%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(100%);
-}
-
-.ck-slide.active img {
-    filter: grayscale(0%);
-}
-
-.ck-slide-label {
-    position: absolute;
-    left: 12px;
-    bottom: 18px;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    background: #1f78c8;
-    color: #fff;
-    padding: 12px 8px;
-    border-radius: 8px;
-    font-size: 18px;
-    font-weight: 900;
-}
-
-.ck-slide.active .ck-slide-label {
-    writing-mode: initial;
-    transform: none;
-    left: 50%;
-    bottom: 18px;
-    translate: -50% 0;
-    padding: 8px 35px;
-    font-size: 15px;
-}
-
-.ck-slide-btn {
-    display: none;
-}
-
-.ck-slide.active .ck-slide-btn {
-    display: inline-flex;
-    position: absolute;
-    left: 50%;
-    bottom: 18px;
-    translate: -50% 0;
-    width: 180px;
-    height: 34px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #2f89d0, #1d6eb3);
-    color: #fff;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 800;
-}
-
-@media (max-width: 768px) {
-    .ck-service-slider {
-        height: auto;
-        flex-direction: column;
-    }
-
-    .ck-slide,
-    .ck-slide.active {
-        flex: unset;
-        height: 260px;
-    }
-
-    .ck-slide img {
-        filter: grayscale(0%);
-    }
-
-    .ck-slide-label {
-        writing-mode: initial;
-        transform: none;
-        left: 15px;
-        bottom: 15px;
-    }
-}
-
-.ck-testimonial-section {
-    background: #eeeeee;
-    padding: 55px 0 65px;
-}
-
-.ck-testimonial-heading {
-    text-align: center;
-    margin-bottom: 85px;
-}
-
-.ck-testimonial-heading h2 {
-    font-size: 42px;
-    font-weight: 900;
-    color: #1f1f1f;
-    margin: 0;
-}
-
-.ck-testimonial-line {
-    width: 460px;
-    height: 4px;
-    margin: 12px auto 0;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #ef7d2d, #2f78bf);
-}
-
-.ck-testimonial-grid {
-    width: 92%;
-    max-width: 1500px;
+    max-width: 1180px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 28px;
-}
-
-.ck-testimonial-card {
-    position: relative;
-    background: #fff;
-    border: 1.5px solid #1f67ab;
-    border-radius: 18px;
-    padding: 82px 24px 24px;
     text-align: center;
-    min-height: 255px;
 }
 
-.ck-testimonial-img {
-    position: absolute;
-    top: -62px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
+.ck-trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ck-trust-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 10px;
+    color: #1468ad;
+}
+
+.ck-trust-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #000;
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    .ck-trust-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 18px;
+    }
+
+    .ck-trust-title {
+        font-size: 15px;
+    }
+
+    .ck-trust-icon {
+        width: 52px;
+        height: 52px;
+    }
+}
+
+.ck-trust-icon-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    display: block;
+}
+
+
+.ck-services-section {
+    background: #eeeeee;
+    padding: 80px 0 55px;
+}
+
+.ck-services-container {
+    width: 92%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.ck-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 110px;
+}
+
+.ck-service-card {
+    padding: 0 16px 22px;
+    background: #fff;
+    border: 1.5px solid #111;
+    border-radius: 18px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.22);
+    text-align: center;
+    height: 288px;
+}
+
+.ck-service-image {
+    width: 250px;
+    height: 192px;
+    margin: -55px auto 20px;
+    border-radius: 16px;
     overflow: hidden;
-    background: #ddd;
+    border: 1.5px solid #111;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.22);
 }
 
-.ck-testimonial-img img {
+.ck-service-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.ck-testimonial-name {
-    font-size: 20px;
+.ck-service-title {
+    color: #df6d1c;
+    font-size: 22px;
     font-weight: 800;
-    color: #2b2b2b;
-    margin: 0 0 6px;
-}
-
-.ck-testimonial-role {
-    font-size: 15px;
-    color: #555;
-    margin: 0 0 12px;
-}
-
-.ck-stars {
-    color: #ffb800;
-    font-size: 28px;
-    line-height: 1;
-    margin-bottom: 16px;
-    letter-spacing: 2px;
-}
-
-.ck-testimonial-text {
-    font-size: 13px;
-    line-height: 1.45;
-    color: #666;
     margin: 0;
 }
 
-@media (max-width: 1200px) {
-    .ck-testimonial-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 85px 28px;
-    }
+.ck-service-line {
+    width: 150px;
+    height: 1px;
+    background: #555;
+    margin: 5px auto 12px;
 }
 
-@media (max-width: 576px) {
-    .ck-testimonial-heading h2 {
-        font-size: 30px;
-    }
+.ck-service-text {
+    color: #555;
+    font-size: 10px;
+    margin: 0 0 14px;
+    font-style: oblique;
+}
 
-    .ck-testimonial-line {
-        width: 260px;
-    }
+.ck-service-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 241px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #2f89d0 0%, #1d6eb3 100%);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+}
 
-    .ck-testimonial-grid {
+.ck-service-btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width: 991px) {
+    .ck-services-grid {
         grid-template-columns: 1fr;
         gap: 85px;
     }
 
-    .ck-testimonial-card {
-        padding: 78px 18px 22px;
+    .ck-service-card {
+        max-width: 470px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .ck-service-image {
+        width: 92%;
+        height: 210px;
+    }
+
+    .ck-service-title {
+        font-size: 27px;
+    }
+
+    .ck-service-btn {
+        width: 100%;
+        font-size: 15px;
+    }
+}
+
+
+/* ── EXPLORE MORE SERVICES ── */
+.explore-services-section {
+  padding: 60px 0;
+  background: var(--bg);
+}
+ 
+.explore-services-container {
+  width: 92%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+ 
+.explore-services-heading {
+  margin-bottom: 36px;
+}
+ 
+.explore-services-heading h2 {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+ 
+.heading-line {
+  display: flex;
+  gap: 6px;
+}
+ 
+.line-orange {
+  display: block;
+  width: 56px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--orange);
+}
+ 
+.line-blue {
+  display: block;
+  width: 28px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--blue);
+}
+ 
+.explore-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+ 
+.explore-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  background: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+ 
+.explore-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.13);
+}
+ 
+.explore-card-image {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+ 
+.explore-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+ 
+.explore-card:hover .explore-card-image img {
+  transform: scale(1.04);
+}
+ 
+.explore-card-body {
+  padding: 20px 22px 24px;
+}
+ 
+.explore-card-body h3 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+ 
+.explore-card-body p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+ 
+.explore-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+ 
+.explore-btn:hover { opacity: 0.88; text-decoration: none; }
+ 
+.orange-btn {
+  background: linear-gradient(180deg, #f07c30, var(--orange));
+  color: #fff;
+}
+ 
+.blue-btn {
+  background: linear-gradient(180deg, var(--blue-light), var(--blue));
+  color: #fff;
+}
+</style>
+<style>
+    :root{
+        --header-height: 96px;
+        --hero-full-height: calc(100vh - var(--header-height));
+        --hero-small-height: 350px;
+        --blue: #1f67ab;
+        --blue-light: #2f80c8;
+        --orange: #df6d1c;
+        --orange-light: #ef8a39;
+        --bg: #f4f4f4;
+        --white: #ffffff;
+        --text: #333333;
+        --muted: #666666;
+        --border: #dddddd;
+        --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+    }
+
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body{
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+    }
+
+    .home-page{
+        background: var(--bg);
+    }
+
+    .hero-holder{
+        position: relative;
+        width: 100%;
+    }
+
+    .hero-banner{
+        position: relative;
+        width: 100vw;
+        height: var(--hero-full-height);
+        min-height: 650px;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        background: url('{{ asset('images/banner.jpg') }}') center center / cover no-repeat;
+        transition: height 0.45s ease, min-height 0.45s ease;
+    }
+
+    .hero-banner::before{
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            90deg,
+            rgba(0,0,0,0.92) 0%,
+            rgba(0,0,0,0.82) 22%,
+            rgba(0,0,0,0.62) 42%,
+            rgba(0,0,0,0.28) 62%,
+            rgba(0,0,0,0.05) 100%
+        );
+        z-index: 1;
+    }
+
+    body.hero-scrolled .hero-banner{
+        height: var(--hero-small-height);
+        min-height: var(--hero-small-height);
+    }
+
+    .hero-inner{
+        width: 100%;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 0 46px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content{
+        max-width: 650px;
+    }
+
+    .hero-title{
+        margin: 0 0 30px;
+        color: #fff;
+        font-size: 54px;
+        font-weight: 800;
+        line-height: 1.08;
+        letter-spacing: -1px;
+        transition: all 0.45s ease;
+        text-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    body.hero-scrolled .hero-title{
+        font-size: 46px;
+        margin-bottom: 24px;
+    }
+
+    .hero-search-row{
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .hero-field{
+        position: relative;
+        height: 50px;
+        background: #fff;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .hero-field-search,
+    .hero-field-location{
+        width: 250px;
+    }
+
+    .hero-icon-left,
+    .hero-icon-right{
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        color: #9d9d9d;
+        pointer-events: none;
+    }
+
+    .hero-icon-left{
+        left: 14px;
+    }
+
+    .hero-icon-right{
+        right: 14px;
+    }
+
+    .hero-banner input,
+    .hero-banner select{
+        width: 100%;
+        height: 100%;
+        border: 0;
+        outline: none;
+        background: transparent;
+        font-size: 13px;
+        color: #7a7a7a;
+        border-radius: 999px;
+    }
+
+    .hero-banner input{
+        padding: 0 16px 0 40px;
+    }
+
+    .hero-banner select{
+        padding: 0 38px 0 40px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+    }
+
+    .hero-banner input::placeholder{
+        color: #b5b5b5;
+    }
+
+    .location-trigger-box{
+        cursor: pointer;
+    }
+
+    .location-trigger-box input{
+        cursor: pointer;
+    }
+
+    .service-cards-section{
+        padding: 65px 0 55px;
+        background: var(--bg);
+    }
+
+    .service-cards-container,
+    .explore-services-container,
+    .faq-container{
+        width: 92%;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .service-cards-grid{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px;
+    }
+
+    .service-card-item{
+        background: #fff;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card-item.show{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .service-card-item:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+
+    .service-card-item:nth-child(2){
+        transition-delay: 0.12s;
+    }
+
+    .service-card-item:nth-child(3){
+        transition-delay: 0.24s;
+    }
+
+    .service-card-image{
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        background: #eaeaea;
+    }
+
+    .service-card-image img{
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .service-card-item:hover .service-card-image img{
+        transform: scale(1.05);
+    }
+
+    .service-card-box{
+        padding: 22px 22px 26px;
+        text-align: center;
+    }
+
+    .service-card-divider{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+
+    .service-card-title{
+        margin: 0 0 10px;
+        font-size: 24px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: var(--orange);
+    }
+
+    .service-card-text{
+        margin: 0 0 20px;
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--muted);
+        min-height: 48px;
+    }
+
+    .service-card-btn{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 210px;
+        padding: 12px 22px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, var(--blue-light), var(--blue));
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 18px rgba(31, 103, 171, 0.22);
+    }
+
+    .service-card-btn:hover{
+        transform: translateY(-2px);
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .explore-services-section{
+        padding: 50px 0 35px;
+        background: var(--bg);
+    }
+
+    .explore-services-heading,
+    .upcoming-services-heading,
+    .faq-heading{
+        text-align: center;
+        margin-bottom: 34px;
+    }
+
+    .explore-services-heading h2,
+    .faq-heading h2{
+        margin: 0;
+        color: #1f1f1f;
+        font-size: 34px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .heading-line,
+    .faq-heading-line{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .heading-line{
+        gap: 8px;
+    }
+
+    .heading-line span,
+    .faq-heading-line span{
+        display: block;
+        height: 3px;
+    }
+
+    .line-orange{
+        width: 88px;
+        background: #e97827;
+        border-radius: 20px;
+    }
+
+    .line-blue{
+        width: 126px;
+        background: #2f78bf;
+        border-radius: 20px;
+    }
+
+    .faq-line-orange{
+        width: 110px;
+        background: #e97827;
+        border-radius: 20px 0 0 20px;
+    }
+
+    .faq-line-blue{
+        width: 110px;
+        background: #2f78bf;
+        border-radius: 0 20px 20px 0;
+    }
+
+    .explore-services-grid{
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 26px;
+    }
+
+    .explore-card{
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+        transition: all 0.3s ease;
+    }
+
+    .explore-card:hover{
+        transform: translateY(-6px);
+    }
+
+    .orange-card{
+        border: 2px solid #ea7a27;
+    }
+
+    .blue-card{
+        border: 2px solid #2f78bf;
+    }
+
+    .explore-card-image{
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-bottom: 1px solid #d9d9d9;
+    }
+
+    .explore-card-image img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.35s ease;
+    }
+
+    .explore-card:hover .explore-card-image img{
+        transform: scale(1.04);
+    }
+
+    .explore-card-body{
+        padding: 16px 16px 20px;
+        text-align: center;
+        background: #fff;
+    }
+
+    .explore-card-body h3{
+        margin: 0 0 10px;
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1.25;
+        min-height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .orange-card h3{
+        color: #e97827;
+    }
+
+    .blue-card h3{
+        color: #2f78bf;
+    }
+
+    .explore-card-body h3.small-title{
+        font-size: 15px;
+        line-height: 1.35;
+        letter-spacing: -0.1px;
+    }
+
+    .explore-card-body p{
+        margin: 0 0 14px;
+        color: #444;
+        font-size: 12px;
+        line-height: 1.5;
+        min-height: 38px;
+    }
+
+    .explore-btn{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 180px;
+        height: 38px;
+        padding: 0 18px;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+    }
+
+    .explore-btn:hover{
+        transform: translateY(-2px);
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .orange-btn{
+        background: linear-gradient(180deg, #ef8a39 0%, #df7122 100%);
+    }
+
+    .blue-btn{
+        background: linear-gradient(180deg, #3485cd 0%, #206eb4 100%);
+    }
+
+    .upcoming-services-section{
+        padding: 70px 0 60px;
+        background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .upcoming-services-container{
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .upcoming-services-heading h2{
+        margin: 0;
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1.15;
+        color: #1f1f1f;
+    }
+
+    .upcoming-heading-line{
+        width: 220px;
+        height: 4px;
+        margin: 14px auto 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ef7d2d 0%, #2f78bf 100%);
+    }
+
+    .upcoming-auto-scroll-wrap{
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        padding: 8px 0;
+    }
+
+    .upcoming-auto-scroll-track{
+        display: flex;
+        align-items: stretch;
+        gap: 24px;
+        width: max-content;
+        animation: upcomingAutoScroll 30s linear infinite;
+        will-change: transform;
+    }
+
+    .upcoming-auto-scroll-wrap:hover .upcoming-auto-scroll-track{
+        animation-play-state: paused;
+    }
+
+    @keyframes upcomingAutoScroll{
+        0%{ transform: translateX(0); }
+        100%{ transform: translateX(-50%); }
+    }
+
+    .upcoming-card{
+        width: 390px;
+        min-width: 390px;
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        transition: all 0.35s ease;
+        position: relative;
+    }
+
+    .upcoming-card:hover{
+        transform: translateY(-8px);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+    }
+
+    .upcoming-card.orange-border{
+        border: 2px solid #ef7d2d;
+    }
+
+    .upcoming-card.blue-border{
+        border: 2px solid #2f78bf;
+    }
+
+    .upcoming-badge{
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(17, 24, 39, 0.86);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .upcoming-card-image{
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .upcoming-card-image img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.45s ease;
+    }
+
+    .upcoming-card:hover .upcoming-card-image img{
+        transform: scale(1.06);
+    }
+
+    .upcoming-card-body{
+        padding: 22px 18px 24px;
+        text-align: center;
+    }
+
+    .upcoming-card-body h3{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1.25;
+    }
+
+    .upcoming-card.orange-border .upcoming-card-body h3{
+        color: #ef7d2d;
+    }
+
+    .upcoming-card.blue-border .upcoming-card-body h3{
+        color: #2f78bf;
+    }
+
+    .upcoming-card-body p{
+        margin: 8px 0 0;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #666;
+    }
+
+    .faq-section{
+        padding: 70px 0 60px;
+        background: #e9e9e9;
+    }
+
+    .faq-container{
+        max-width: 1000px;
+    }
+
+    .faq-heading h2{
+        margin: 0;
+        font-size: 32px;
+        font-weight: 800;
+        color: #1f1f1f;
+    }
+
+    .faq-accordion{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .faq-item{
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        overflow: hidden;
+        transition: 0.3s ease;
+    }
+
+    .faq-item.active{
+        box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+    }
+
+    .faq-question{
+        width: 100%;
+        border: none;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        text-align: left;
+        padding: 22px 24px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #111;
+        cursor: pointer;
+    }
+
+    .faq-question span:first-child{
+        flex: 1;
+        line-height: 1.5;
+    }
+
+    .faq-icon{
+        min-width: 24px;
+        text-align: center;
+        color: var(--blue);
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .faq-answer{
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+
+    .faq-item.active .faq-answer{
+        max-height: 300px;
+    }
+
+    .faq-answer p{
+        margin: 0;
+        padding: 0 24px 22px;
+        color: #555;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .custom-modal-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        padding: 20px;
+    }
+
+    .custom-modal-overlay.active{
+        display: flex;
+    }
+
+    .custom-modal-box{
+        width: 100%;
+        max-width: 430px;
+        background: #fff;
+        border-radius: 18px;
+        padding: 26px 22px;
+        position: relative;
+        box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+        animation: modalFadeIn 0.25s ease;
+    }
+
+    @keyframes modalFadeIn{
+        from{
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .custom-modal-close{
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        border: none;
+        background: transparent;
+        font-size: 28px;
+        line-height: 1;
+        cursor: pointer;
+        color: #666;
+    }
+
+    .custom-modal-header h3{
+        margin: 0 0 6px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #1c2c3e;
+    }
+
+    .custom-modal-header p{
+        margin: 0 0 22px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .form-group{
+        margin-bottom: 16px;
+    }
+
+    .form-group label{
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+    }
+
+    .custom-input{
+        width: 100%;
+        height: 48px;
+        border: 1px solid #d8d8d8;
+        border-radius: 12px;
+        padding: 0 14px;
+        font-size: 14px;
+        outline: none;
+        transition: 0.3s ease;
+    }
+
+    .custom-input:focus{
+        border-color: #f25c05;
+        box-shadow: 0 0 0 4px rgba(242,92,5,0.08);
+    }
+
+    .custom-modal-actions{
+        display: flex;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .modal-btn{
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .primary-btn{
+        background: linear-gradient(180deg, #f58a3c, #f25c05);
+        color: #fff;
+        width: 100%;
+    }
+
+    .verify-btn{
+        background: linear-gradient(180deg, #2f80c8, #1f67ab);
+        color: #fff;
+        width: 100%;
+    }
+
+    .error-text{
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+
+    .otp-success-msg{
+        font-size: 13px;
+        color: #15803d;
+        margin-top: 8px;
+    }
+
+    .floating-chatbot-btn{
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 9998;
+        height: 54px;
+        padding: 0 20px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #3485cd 0%, #206eb4 100%);
+        color: #fff !important;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 800;
+        box-shadow: 0 12px 28px rgba(32,110,180,0.28);
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255,255,255,0.20);
+        white-space: nowrap;
+    }
+
+    .floating-chatbot-btn svg{
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+
+    .floating-chatbot-btn:hover{
+        transform: translateY(-2px);
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+    .ck-location-modal-overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.58);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 999999;
+        padding: 20px;
+    }
+
+    .ck-location-modal-overlay.active{
+        display: flex;
+    }
+
+    .ck-location-modal{
+        width: 100%;
+        max-width: 650px;
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+        animation: ckLocationFade 0.25s ease;
+    }
+
+    @keyframes ckLocationFade{
+        from{
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+        }
+        to{
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .ck-location-close{
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
+        font-size: 34px;
+        line-height: 1;
+        cursor: pointer;
+        color: #222;
+        z-index: 3;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .ck-location-search-wrap{
+        margin: 32px 22px 18px;
+        height: 60px;
+        border: 1px solid #dddddd;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 18px;
+    }
+
+    .ck-location-back-icon{
+        width: 28px;
+        height: 28px;
+        color: #222;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .ck-location-back-icon svg{
+        width: 24px;
+        height: 24px;
+    }
+
+    .ck-location-search-input{
+        width: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .ck-location-search-input::placeholder{
+        color: #9a9a9a;
+    }
+
+    .ck-use-current-location{
+        margin: 0 22px 18px;
+        border: none;
+        background: transparent;
+        color: #6a38ff;
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 6px 0;
+    }
+
+    .ck-current-location-icon{
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #6a38ff;
+    }
+
+    .ck-current-location-icon svg{
+        width: 22px;
+        height: 22px;
+    }
+
+    .ck-location-divider{
+        height: 10px;
+        background: #f2f2f2;
+    }
+
+    .ck-location-body{
+        padding: 20px 22px 10px;
+        min-height: 260px;
+        max-height: 420px;
+        overflow-y: auto;
+    }
+
+    .ck-location-heading{
+        margin: 0 0 18px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+    }
+
+    .ck-recent-item,
+    .ck-search-item{
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 16px 0;
+        border-bottom: 1px solid #ececec;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .ck-recent-item:hover,
+    .ck-search-item:hover{
+        background: #fafafa;
+    }
+
+    .ck-recent-icon,
+    .ck-search-icon{
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #f2f2f2;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .ck-recent-icon svg,
+    .ck-search-icon svg{
+        width: 18px;
+        height: 18px;
+    }
+
+    .ck-recent-content h4,
+    .ck-search-content h4{
+        margin: 0 0 4px;
+        font-size: 16px;
+        color: #111;
+        font-weight: 600;
+    }
+
+    .ck-recent-content p,
+    .ck-search-content p{
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .ck-location-status{
+        margin-top: 15px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .ck-location-footer{
+        padding: 18px 22px 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+        border-top: 1px solid #ececec;
+        background: #fafafa;
+    }
+
+    @media (max-width: 1200px){
+        .hero-title{
+            font-size: 48px;
+        }
+
+        body.hero-scrolled .hero-title{
+            font-size: 40px;
+        }
+    }
+
+    @media (max-width: 991px){
+        .hero-inner{
+            padding: 0 28px;
+        }
+
+        .hero-title{
+            font-size: 42px;
+        }
+
+        body.hero-scrolled .hero-title{
+            font-size: 36px;
+        }
+
+        .service-cards-grid,
+        .explore-services-grid{
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .upcoming-services-heading h2{
+            font-size: 34px;
+        }
+
+        .upcoming-card{
+            width: 320px;
+            min-width: 320px;
+        }
+
+        .upcoming-card-image{
+            height: 210px;
+        }
+    }
+
+    @media (max-width: 767px){
+        .hero-banner,
+        body.hero-scrolled .hero-banner{
+            height: 430px;
+            min-height: 430px;
+            background-position: 72% center;
+        }
+
+        .hero-banner::before{
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.84) 0%,
+                rgba(0,0,0,0.62) 52%,
+                rgba(0,0,0,0.25) 100%
+            );
+        }
+
+        .hero-inner{
+            padding: 0 18px;
+        }
+
+        .hero-title,
+        body.hero-scrolled .hero-title{
+            font-size: 31px;
+            margin-bottom: 24px;
+        }
+
+        .hero-search-row{
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .hero-field-search,
+        .hero-field-location{
+            width: 100%;
+        }
+
+        .service-cards-grid,
+        .explore-services-grid{
+            grid-template-columns: 1fr;
+        }
+
+        .service-card-item,
+        .explore-card{
+            max-width: 420px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .service-card-image{
+            height: 230px;
+        }
+
+        .explore-card-image{
+            height: 190px;
+        }
+
+        .explore-services-heading h2,
+        .faq-heading h2{
+            font-size: 26px;
+        }
+
+        .upcoming-services-section{
+            padding: 46px 0 38px;
+        }
+
+        .upcoming-services-heading h2{
+            font-size: 28px;
+        }
+
+        .upcoming-heading-line{
+            width: 165px;
+            height: 3px;
+        }
+
+        .upcoming-auto-scroll-track{
+            gap: 16px;
+            animation-duration: 22s;
+        }
+
+        .upcoming-card{
+            width: 270px;
+            min-width: 270px;
+            border-radius: 18px;
+        }
+
+        .upcoming-card-image{
+            height: 180px;
+        }
+
+        .upcoming-card-body{
+            padding: 16px 12px 18px;
+        }
+
+        .upcoming-card-body h3{
+            font-size: 18px;
+        }
+
+        .faq-question{
+            padding: 18px 16px;
+            font-size: 16px;
+        }
+
+        .faq-answer p{
+            padding: 0 16px 18px;
+            font-size: 14px;
+        }
+
+        .floating-chatbot-btn{
+            right: 14px;
+            bottom: 16px;
+            height: 48px;
+            padding: 0 16px;
+            font-size: 15px;
+            border-radius: 14px;
+            gap: 8px;
+        }
+
+        .floating-chatbot-btn svg{
+            width: 20px;
+            height: 20px;
+        }
+
+        .ck-location-modal{
+            max-width: 100%;
+            border-radius: 20px;
+        }
+
+        .ck-location-search-wrap{
+            margin: 22px 14px 14px;
+            height: 54px;
+            padding: 0 14px;
+        }
+
+        .ck-use-current-location{
+            margin: 0 14px 14px;
+            font-size: 15px;
+        }
+
+        .ck-location-body{
+            padding: 18px 14px 10px;
+        }
+
+        .ck-location-close{
+            top: 10px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            font-size: 30px;
+        }
+    }
+
+    @media (max-width: 480px){
+        .hero-title,
+        body.hero-scrolled .hero-title{
+            font-size: 28px;
+        }
+
+        .service-card-image{
+            height: 210px;
+        }
+
+        .service-card-title{
+            font-size: 22px;
+        }
+
+        .service-card-btn{
+            width: 100%;
+            min-width: 100%;
+        }
+
+        .explore-btn{
+            min-width: 100%;
+        }
+
+        .floating-chatbot-btn{
+            right: 12px;
+            left: auto;
+            bottom: 12px;
+        }
+    }
+
+    .ck-guide-section {
+    background: #eeeeee;
+    padding: 55px 0;
+}
+
+.ck-guide-container {
+    width: 92%;
+    max-width: 1500px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 28px;
+    align-items: stretch;
+}
+
+.ck-guide-image-box {
+    border: 3px solid #f26f21;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 12px rgba(0,0,0,0.25);
+    background: #fff;
+}
+
+.ck-guide-image-box img {
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+    object-fit: cover;
+    display: block;
+}
+
+.ck-guide-content-box {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(31,103,171,0.92), rgba(31,103,171,0.92)),
+        url("{{ asset('images/guide-bg.png') }}");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 12px rgba(0,0,0,0.25);
+    padding: 48px 55px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ck-guide-title {
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.28;
+    margin: 0 0 26px;
+}
+
+.ck-guide-text {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.35;
+    max-width: 900px;
+    margin: 0 0 42px;
+}
+
+.ck-guide-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 410px;
+    height: 56px;
+    padding: 0 28px;
+    border-radius: 10px;
+    background: #fff;
+    color: #2b2b2b;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: 900;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.35);
+}
+
+.ck-guide-btn:hover {
+    color: #2b2b2b;
+    text-decoration: none;
+}
+
+@media (max-width: 991px) {
+    .ck-guide-container {
+        grid-template-columns: 1fr;
+    }
+
+    .ck-guide-content-box {
+        padding: 38px 24px;
+    }
+
+    .ck-guide-title {
+        font-size: 28px;
+    }
+
+    .ck-guide-text {
+        font-size: 19px;
+    }
+
+    .ck-guide-btn {
+        min-width: auto;
+        width: 100%;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .ck-guide-section {
+        padding: 38px 0;
+    }
+
+    .ck-guide-image-box img {
+        min-height: 260px;
+    }
+
+    .ck-guide-title {
+        font-size: 24px;
+    }
+
+    .ck-guide-text {
+        font-size: 16px;
+        margin-bottom: 28px;
+    }
+
+    .ck-guide-btn {
+        height: 50px;
+        font-size: 17px;
     }
 }
 </style>
-
 <div class="home-page">
 
-    <section class="hero-banner">
-        <div class="hero-inner">
-            <div class="hero-content">
-                <h1 class="hero-title">Plan. Hire. Execute</h1>
-                <p class="hero-subtitle">We manage your construction end-to-end</p>
-                <p class="hero-description">From planning and design to execution and quality checks everything handled through us</p>
+    <div class="hero-holder">
+        <section class="hero-banner">
+            <div class="hero-inner">
+                <div class="hero-content">
 
-                <div class="hero-field-search">
-                    <svg class="hero-icon-left" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
-                    </svg>
-                    <input type="text" placeholder="Search for Residential Architect">
+                    <h1 class="hero-title">Plan. Hire. Execute</h1>
+
+                    <p class="hero-subtitle">
+                        We manage your construction end-to-end
+                    </p>
+
+                    <p class="hero-description">
+                        From planning and design to execution and quality checks everything handled through us
+                    </p>
+
+                    <div class="hero-search-row">
+                        <div class="hero-field-search">
+                            <svg class="hero-icon-left" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
+                            </svg>
+
+                            <input type="text" placeholder="Search for Residential Architect">
+                        </div>
+
+                        <input type="hidden" id="location_json">
+                        <input type="hidden" id="location_lat">
+                        <input type="hidden" id="location_long">
+                        <input type="hidden" id="location_pincode">
+                        <input type="hidden" id="location_city_key">
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    </div>
     <section class="ck-trust-section">
         <div class="ck-trust-container">
+
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/safety-helmet.png') }}" class="ck-trust-icon-img" alt="">
-                <p class="ck-trust-title">Built by 20+ years<br>construction experience</p>
+                <img src="{{ asset('images/logo/safety-helmet.png') }}" 
+                    alt="Built by 20+ years construction experience" 
+                    class="ck-trust-icon-img">
+
+                <p class="ck-trust-title">
+                    Built by 20+ years<br>construction experience
+                </p>
             </div>
 
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/verify.png') }}" class="ck-trust-icon-img" alt="">
+                <img src="{{ asset('images/logo/verify.png') }}" 
+                    alt="Built by 20+ years construction experience" 
+                    class="ck-trust-icon-img">
                 <p class="ck-trust-title">Verified<br>vendors only</p>
             </div>
 
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/onground.png') }}" class="ck-trust-icon-img" alt="">
+                <img src="{{ asset('images/logo/onground.png') }}" 
+                    alt="Built by 20+ years construction experience" 
+                    class="ck-trust-icon-img">
                 <p class="ck-trust-title">On-ground<br>execution support</p>
             </div>
 
             <div class="ck-trust-item">
-                <img src="{{ asset('images/logo/transpernt.png') }}" class="ck-trust-icon-img" alt="">
+                <img src="{{ asset('images/logo/transpernt.png') }}" 
+                    alt="Built by 20+ years construction experience" 
+                    class="ck-trust-icon-img">
                 <p class="ck-trust-title">Transparent<br>pricing approach</p>
             </div>
+
         </div>
     </section>
 
@@ -1295,45 +2137,69 @@ body{
                     <div class="ck-service-image">
                         <img src="{{ asset('images/b1.png') }}" alt="Architect">
                     </div>
+
                     <h3 class="ck-service-title">Architect</h3>
                     <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn">Post Your Requirement</a>
+
+                    <p class="ck-service-text">
+                        Post your requirements and get your quote within 24 hours.
+                    </p>
+
+                    <a href="{{ route('post', ['work_type_id' => 2]) }}" class="ck-service-btn">
+                        Post Your Requirement
+                    </a>
                 </div>
 
                 <div class="ck-service-card">
                     <div class="ck-service-image">
                         <img src="{{ asset('images/b2.png') }}" alt="Contractor">
                     </div>
+
                     <h3 class="ck-service-title">Contractor</h3>
                     <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">Post Your Requirement</a>
+
+                    <p class="ck-service-text">
+                        Post your requirements and get your quote within 24 hours.
+                    </p>
+
+                    <a href="{{ route('post', ['work_type_id' => 1]) }}" class="ck-service-btn">
+                        Post Your Requirement
+                    </a>
                 </div>
 
                 <div class="ck-service-card">
                     <div class="ck-service-image">
                         <img src="{{ asset('images/b3.png') }}" alt="Interior Designer">
                     </div>
+
                     <h3 class="ck-service-title">Interior Designer</h3>
                     <div class="ck-service-line"></div>
-                    <p class="ck-service-text">Post your requirements and get your quote within 24 hours.</p>
-                    <a href="{{ route('post', ['work_type_id' => 4]) }}" class="ck-service-btn">Post Your Requirement</a>
+
+                    <p class="ck-service-text">
+                        Post your requirements and get your quote within 24 hours.
+                    </p>
+
+                    <a href="{{ route('post', ['work_type_id' => 4]) }}" class="ck-service-btn">
+                        Post Your Requirement
+                    </a>
                 </div>
 
             </div>
         </div>
     </section>
-
     <section class="explore-services-section">
         <div class="explore-services-container">
             <div class="explore-services-heading">
                 <h2>Explore More Services</h2>
-                <div class="heading-line"></div>
+                <div class="heading-line">
+                    <span class="line-orange"></span>
+                    <span class="line-blue"></span>
+                </div>
             </div>
 
             <div class="explore-services-grid">
 
+                @php $surveyUrl = route('customer.survey'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/survey-services.png') }}" alt="Survey Services">
@@ -1341,10 +2207,15 @@ body{
                     <div class="explore-card-body">
                         <h3>Survey Services</h3>
                         <p>Explore All Categories of Survey Services</p>
-                        <a href="{{ route('customer.survey') }}" class="explore-btn orange-btn">Get Started</a>
+                        <a href="{{ $isCustomerLoggedIn ? $surveyUrl : 'javascript:void(0)' }}"
+                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $surveyUrl }}">
+                            Get Started
+                        </a>
                     </div>
                 </div>
 
+                @php $testingUrl = route('customer.testing'); @endphp
                 <div class="explore-card blue-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/testing-services.png') }}" alt="Testing Services">
@@ -1352,10 +2223,15 @@ body{
                     <div class="explore-card-body">
                         <h3>Testing Services</h3>
                         <p>Explore All Categories of Testing Services</p>
-                        <a href="{{ route('customer.testing') }}" class="explore-btn blue-btn">Get Started</a>
+                        <a href="{{ $isCustomerLoggedIn ? $testingUrl : 'javascript:void(0)' }}"
+                           class="explore-btn blue-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $testingUrl }}">
+                            Get Started
+                        </a>
                     </div>
                 </div>
 
+                @php $boqUrl = route('customer.boq'); @endphp
                 <div class="explore-card orange-card">
                     <div class="explore-card-image">
                         <img src="{{ asset('images/explore/boq-estimation.png') }}" alt="BOQ/Estimation">
@@ -1363,18 +2239,22 @@ body{
                     <div class="explore-card-body">
                         <h3>BOQ / Estimation</h3>
                         <p>Explore All Categories of BOQ / Estimation Services</p>
-                        <a href="{{ route('customer.boq') }}" class="explore-btn orange-btn">Get Started</a>
+                        <a href="{{ $isCustomerLoggedIn ? $boqUrl : 'javascript:void(0)' }}"
+                           class="explore-btn orange-btn {{ $isCustomerLoggedIn ? '' : 'open-customer-login-modal' }}"
+                           data-redirect="{{ $boqUrl }}">
+                            Get Started
+                        </a>
                     </div>
                 </div>
 
             </div>
         </div>
-    </section>
-
+    </section>  
     <section class="ck-guide-section">
         <div class="ck-guide-container">
+
             <div class="ck-guide-image-box">
-                <img src="{{ asset('images/logo/confused-customer.jpg') }}" alt="Confused Customer">
+                <img src="{{ asset('images/confused-customer.png') }}" alt="Confused About Construction Service">
             </div>
 
             <div class="ck-guide-content-box">
@@ -1388,404 +2268,12 @@ body{
                     guides you with the right services at every stage.
                 </p>
 
-                <a href="javascript:void(0)" class="ck-guide-btn open-customer-login-modal">
+                <a href="#" class="ck-guide-btn">
                     Let ConstructKaro Guide Me
                 </a>
             </div>
+
         </div>
     </section>
 
-    <section class="upcoming-services-section">
-        <div class="upcoming-services-container">
-            <div class="upcoming-services-heading">
-                <h2>Our Upcoming Services</h2>
-                <div class="upcoming-heading-line"></div>
-            </div>
-
-            <div class="upcoming-auto-scroll-wrap">
-                <div class="upcoming-auto-scroll-track">
-                    @foreach ([
-                        ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
-                        ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                        ['structural-audit.png','Structural Audit','blue-border'],
-                        ['machinery-on-hire.png','Machinery On Hire','orange-border'],
-                        ['facade-services.png','Facade Services','blue-border'],
-                        ['legal-due-diligence.png','NA Support & Legal Due Diligence','orange-border'],
-                        ['welding-fabrication.png','Welding & Fabrication','blue-border'],
-                        ['structural-audit.png','Structural Audit','blue-border'],
-                        ['machinery-on-hire.png','Machinery On Hire','orange-border'],
-                        ['facade-services.png','Facade Services','blue-border'],
-                    ] as $upcoming)
-                        <div class="upcoming-card {{ $upcoming[2] }}">
-                            <span class="upcoming-badge">Coming Soon</span>
-                            <div class="upcoming-card-image">
-                                <img src="{{ asset('images/explore/' . $upcoming[0]) }}" alt="{{ $upcoming[1] }}">
-                            </div>
-                            <div class="upcoming-card-body">
-                                <h3>{{ $upcoming[1] }}</h3>
-                                <p>Launching soon on ConstructKaro</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-<section class="ck-vendor-section">
-    <div class="ck-vendor-container">
-
-        <div class="ck-vendor-content-box">
-            <h2 class="ck-vendor-title">
-                Get real construction projects in your area
-            </h2>
-
-            <p class="ck-vendor-text">
-                Join ConstructKaro and start receiving verified leads.
-                No commission, no listing fees.
-            </p>
-
-            <a href="#" class="ck-vendor-btn">
-                Join as Vendor
-            </a>
-        </div>
-
-        <div class="ck-vendor-image-box">
-            <img src="{{ asset('images/logo/a1.jpg') }}" alt="Construction Projects">
-        </div>
-
-    </div>
-</section>
-<section class="ck-city-section">
-     <h2 class="ck-city-title">
-                Cities We Serve
-            </h2>
-   
-    <div class="ck-city-grid">
-        <div class="ck-city-card">
-            <img src="{{ asset('images/logo/navi-mumbai.png') }}" alt="Navi Mumbai">
-        </div>
-
-        <div class="ck-city-card">
-            <img src="{{ asset('images/logo/mumbai.png') }}" alt="Mumbai">
-        </div>
-
-        <div class="ck-city-card">
-            <img src="{{ asset('images/logo/thane.png') }}" alt="Thane">
-        </div>
-
-        <div class="ck-city-card">
-            <img src="{{ asset('images/logo/pune.png') }}" alt="Pune">
-        </div>
-
-        <div class="ck-city-card">
-            <img src="{{ asset('images/logo/raigad.png') }}" alt="Raigad">
-        </div>
-    </div>
-</section>
- 
-<section class="ck-all-services-section">
-    <h2 class="ck-all-services-title">Explore All Our Services</h2>
-    <div class="ck-all-services-line"></div>
-
-    <div class="ck-service-slider">
-
-        <div class="ck-slide">
-            <img src="{{ asset('images/services/contractor.png') }}" alt="Contractor">
-            <!-- <div class="ck-slide-label">Contractor</div> -->
-        </div>
-
-        <div class="ck-slide">
-            <img src="{{ asset('images/services/architect.png') }}" alt="Architect">
-            <!-- <div class="ck-slide-label">Architect</div> -->
-        </div>
-
-        <div class="ck-slide active">
-            <img src="{{ asset('images/services/interior.png') }}" alt="Interior Designing">
-            <!-- <a href="#" class="ck-slide-btn">Know More</a> -->
-        </div>
-
-        <div class="ck-slide">
-            <img src="{{ asset('images/services/survey.png') }}" alt="Survey">
-            <!-- <div class="ck-slide-label">Survey</div> -->
-        </div>
-
-        <div class="ck-slide">
-            <img src="{{ asset('images/services/testing.png') }}" alt="Testing">
-            <!-- <div class="ck-slide-label">Testing</div> -->
-        </div>
-
-        <div class="ck-slide">
-            <img src="{{ asset('images/services/boq.png') }}" alt="BOQ">
-            <!-- <div class="ck-slide-label">BOQ</div> -->
-        </div>
-
-    </div>
-</section>
-
-
-<section class="ck-testimonial-section">
-    <div class="ck-testimonial-heading">
-        <h2>What People Say About Us</h2>
-        <div class="ck-testimonial-line"></div>
-    </div>
-
-    <div class="ck-testimonial-grid">
-
-        <div class="ck-testimonial-card">
-            <div class="ck-testimonial-img">
-                <img src="{{ asset('images/testimonials/client1.png') }}" alt="Client">
-            </div>
-
-            <h3 class="ck-testimonial-name">Patil Infra & Realtors Pvt. Ltd.</h3>
-            <p class="ck-testimonial-role">Real Estate Developer | Khopoli</p>
-
-            <div class="ck-stars">★★★★☆</div>
-
-            <p class="ck-testimonial-text">
-                For our ongoing building projects, finding dependable contractors on time is always a challenge.
-                Through ConstructKaro, we were able to identify suitable labour contractors quickly,
-                improving our execution efficiency.
-            </p>
-        </div>
-
-        <div class="ck-testimonial-card">
-            <div class="ck-testimonial-img">
-                <img src="{{ asset('images/testimonials/client2.png') }}" alt="Client">
-            </div>
-
-            <h3 class="ck-testimonial-name">Dinesh Shirke</h3>
-            <p class="ck-testimonial-role">Home Owner | Nagothane, Maharashtra</p>
-
-            <div class="ck-stars">★★★★☆</div>
-
-            <p class="ck-testimonial-text">
-                I was planning to construct a bungalow and didn’t know how to start.
-                I posted my requirement on ConstructKaro and received genuine responses.
-                One lead converted into actual work and my bungalow construction has started.
-            </p>
-        </div>
-
-        <div class="ck-testimonial-card">
-            <div class="ck-testimonial-img">
-                <img src="{{ asset('images/testimonials/client3.png') }}" alt="Client">
-            </div>
-
-            <h3 class="ck-testimonial-name">Omkar Vidhate</h3>
-            <p class="ck-testimonial-role">Architect | Pune</p>
-
-            <div class="ck-stars">★★★☆☆</div>
-
-            <p class="ck-testimonial-text">
-                After leaving my job, getting independent projects was challenging.
-                Through ConstructKaro, I received architectural planning and interior design work
-                that matched my skills perfectly.
-            </p>
-        </div>
-
-        <div class="ck-testimonial-card">
-            <div class="ck-testimonial-img">
-                <img src="{{ asset('images/testimonials/client4.png') }}" alt="Client">
-            </div>
-
-            <h3 class="ck-testimonial-name">Sanket Asgaonkar</h3>
-            <p class="ck-testimonial-role">Land Surveyor & Drone Survey Specialist | Raigad</p>
-
-            <div class="ck-stars">★★★★☆</div>
-
-            <p class="ck-testimonial-text">
-                I had the skills and equipment, but finding the right drone survey clients was difficult.
-                Through ConstructKaro, I received a drone survey requirement in Poladpur that perfectly matched my profile.
-            </p>
-        </div>
-
-    </div>
-</section>
-</div>
-
-<div id="customerLoginOtpModal" class="custom-modal-overlay">
-    <div class="custom-modal-box">
-        <button type="button" class="custom-modal-close" id="closeCustomerLoginModal">&times;</button>
-
-        <div class="custom-modal-header">
-            <h3>Login to Continue</h3>
-            <p>Enter your mobile number to get OTP</p>
-        </div>
-
-        <input type="hidden" id="customer_redirect_url">
-
-        <div class="form-group">
-            <label>Mobile Number</label>
-            <input type="text" id="customer_mobile_number" class="custom-input" placeholder="Enter mobile number" maxlength="10">
-            <small class="error-text" id="customer_mobile_error"></small>
-        </div>
-
-        <div class="form-group" id="customerOtpSection" style="display:none;">
-            <label>Enter OTP</label>
-            <input type="text" id="customer_otp_code" class="custom-input" placeholder="Enter OTP" maxlength="6">
-            <small class="error-text" id="customer_otp_error"></small>
-        </div>
-
-        <div class="otp-success-msg" id="customer_otp_success_msg"></div>
-
-        <div class="custom-modal-actions">
-            <button type="button" class="modal-btn primary-btn" id="customerSendOtpBtn">Get OTP</button>
-            <button type="button" class="modal-btn verify-btn" id="customerVerifyOtpBtn" style="display:none;">Verify OTP</button>
-        </div>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-});
-
-$(document).ready(function () {
-    $(document).on('click', '.open-customer-login-modal', function () {
-        let redirectUrl = $(this).data('redirect') || '';
-
-        $('#customer_redirect_url').val(redirectUrl);
-        $('#customer_mobile_number').val('');
-        $('#customer_otp_code').val('');
-        $('#customer_mobile_error').text('');
-        $('#customer_otp_error').text('');
-        $('#customer_otp_success_msg').text('');
-        $('#customerOtpSection').hide();
-        $('#customerVerifyOtpBtn').hide();
-        $('#customerSendOtpBtn').show();
-
-        $('#customerLoginOtpModal').addClass('active');
-    });
-
-    $('#closeCustomerLoginModal').on('click', function () {
-        $('#customerLoginOtpModal').removeClass('active');
-    });
-
-    $('#customerLoginOtpModal').on('click', function (e) {
-        if (e.target.id === 'customerLoginOtpModal') {
-            $('#customerLoginOtpModal').removeClass('active');
-        }
-    });
-
-    $('.faq-question').on('click', function () {
-        const item = $(this).closest('.faq-item');
-        const active = item.hasClass('active');
-
-        $('.faq-item').removeClass('active');
-        $('.faq-icon').text('+');
-
-        if (!active) {
-            item.addClass('active');
-            item.find('.faq-icon').text('−');
-        }
-    });
-});
-
-$(document).on('click', '#customerSendOtpBtn', function (e) {
-    e.preventDefault();
-
-    let mobile = $('#customer_mobile_number').val().trim();
-
-    $('#customer_mobile_error').text('');
-    $('#customer_otp_error').text('');
-    $('#customer_otp_success_msg').text('');
-
-    if (mobile === '') {
-        $('#customer_mobile_error').text('Please enter mobile number');
-        return;
-    }
-
-    if (!/^[0-9]{10}$/.test(mobile)) {
-        $('#customer_mobile_error').text('Please enter valid 10 digit mobile number');
-        return;
-    }
-
-    let btn = $(this);
-    btn.prop('disabled', true).text('Sending...');
-
-    $.ajax({
-        url: "{{ route('customer.send.otp') }}",
-        type: "POST",
-        data: { mobile: mobile },
-        success: function (response) {
-            if (response.status === true) {
-                $('#customerOtpSection').show();
-                $('#customerVerifyOtpBtn').show();
-                $('#customerSendOtpBtn').hide();
-                $('#customer_otp_success_msg').text(response.message || 'OTP sent successfully');
-            } else {
-                $('#customer_mobile_error').text(response.message || 'Failed to send OTP');
-            }
-        },
-        error: function () {
-            $('#customer_mobile_error').text('Something went wrong while sending OTP');
-        },
-        complete: function () {
-            btn.prop('disabled', false).text('Get OTP');
-        }
-    });
-});
-
-$(document).on('click', '#customerVerifyOtpBtn', function (e) {
-    e.preventDefault();
-
-    let mobile = $('#customer_mobile_number').val().trim();
-    let otp = $('#customer_otp_code').val().trim();
-    let redirectUrl = $('#customer_redirect_url').val();
-
-    $('#customer_otp_error').text('');
-    $('#customer_otp_success_msg').text('');
-
-    if (otp === '') {
-        $('#customer_otp_error').text('Please enter OTP');
-        return;
-    }
-
-    let btn = $(this);
-    btn.prop('disabled', true).text('Verifying...');
-
-    $.ajax({
-        url: "{{ route('customer.verify.otp') }}",
-        type: "POST",
-        data: {
-            mobile: mobile,
-            otp: otp
-        },
-        success: function (response) {
-            if (response.status === true) {
-                $('#customer_otp_success_msg').text(response.message || 'OTP verified successfully');
-
-                setTimeout(function () {
-                    if (redirectUrl) {
-                        window.location.href = redirectUrl;
-                    } else {
-                        window.location.reload();
-                    }
-                }, 700);
-            } else {
-                $('#customer_otp_error').text(response.message || 'Invalid OTP');
-            }
-        },
-        error: function () {
-            $('#customer_otp_error').text('Something went wrong while verifying OTP');
-        },
-        complete: function () {
-            btn.prop('disabled', false).text('Verify OTP');
-        }
-    });
-});
-</script>
-<script>
-document.querySelectorAll('.ck-slide').forEach(function(slide) {
-    slide.addEventListener('mouseenter', function() {
-        document.querySelectorAll('.ck-slide').forEach(function(item) {
-            item.classList.remove('active');
-        });
-        slide.classList.add('active');
-    });
-});
-</script>
 @endsection

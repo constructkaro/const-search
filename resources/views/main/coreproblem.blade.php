@@ -3,12 +3,12 @@
 @section('title', 'The Core Problem | ConstructKaro')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
 <style>
     .core-problem-page {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         background: linear-gradient(to bottom, #f7f8fb 0%, #f2f4f8 100%);
         padding: 55px 0 80px;
     }

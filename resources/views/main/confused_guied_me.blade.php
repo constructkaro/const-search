@@ -8,7 +8,7 @@
 .package-section {
     padding: 20px 35px 45px;
     background: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .top-area {

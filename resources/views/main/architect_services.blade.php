@@ -16,7 +16,7 @@
     }
 
     body{
-        font-family:"Poppins","Segoe UI",sans-serif;
+        font-family:"Inter","Inter",sans-serif;
         background:var(--ck-soft);
         color:#222;
     }

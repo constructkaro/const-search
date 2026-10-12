@@ -7,7 +7,7 @@
     body {
         background: #eeeeee;
         color: #222;
-        font-family: "Poppins", Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
     }
 
     .case-studies-section {

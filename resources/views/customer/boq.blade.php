@@ -7,7 +7,7 @@
 <style>
     body {
         background: #f4f4f4;
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .boq-section {

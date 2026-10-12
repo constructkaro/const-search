@@ -32,7 +32,7 @@
         --wf-line: #d9e2ec;
         color: var(--wf-ink);
         background: #f5f7f9;
-        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
     }
 
     .wf-hero {
@@ -61,7 +61,7 @@
     .wf-hero h1 {
         max-width: 1050px;
         margin: 0 0 14px;
-        font-family: 'Montserrat', 'Poppins', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
         font-size: clamp(34px, 4.7vw, 58px);
         font-weight: 900;
         line-height: 1.1;
@@ -91,7 +91,7 @@
     .wf-section h2 {
         margin: 0 0 16px;
         color: var(--wf-ink);
-        font-family: 'Montserrat', 'Poppins', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
         font-size: clamp(25px, 3vw, 34px);
         font-weight: 900;
         line-height: 1.2;
@@ -255,7 +255,7 @@
         display: block;
         margin-bottom: 15px;
         color: var(--wf-blue);
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-size: 25px;
         font-weight: 900;
     }

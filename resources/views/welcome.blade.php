@@ -441,6 +441,215 @@ html {
 }
 
 /* ============================================================
+   END TO END SOLUTIONS MARQUEE
+   ============================================================ */
+.ck-endtoend-section {
+    padding: 38px 0 44px;
+    background: #fff;
+}
+
+.ck-endtoend-shell {
+    width: var(--container-w);
+    max-width: 1760px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(420px, 640px) minmax(0, 1fr);
+    gap: clamp(44px, 5vw, 86px);
+    align-items: center;
+}
+
+.ck-endtoend-copy {
+    min-width: 0;
+}
+
+.ck-endtoend-copy-image-link {
+    display: block;
+    width: 100%;
+    max-width: 760px;
+    text-decoration: none;
+}
+
+.ck-endtoend-copy-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.ck-endtoend-copy h2 {
+    color: #202124;
+    font-size: clamp(42px, 5.3vw, 96px);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: 0;
+}
+
+.ck-endtoend-copy h2 span {
+    display: block;
+}
+
+.ck-endtoend-copy h2 strong {
+    display: block;
+    font-size: clamp(64px, 8vw, 138px);
+    line-height: .92;
+    letter-spacing: 0;
+}
+
+.ck-endtoend-copy p {
+    max-width: 670px;
+    margin-top: 32px;
+    color: #5a5c60;
+    font-size: clamp(18px, 1.65vw, 26px);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+.ck-endtoend-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px 34px;
+    margin-top: 42px;
+}
+
+.ck-endtoend-point {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #202124;
+    font-size: clamp(18px, 1.7vw, 26px);
+    font-weight: 800;
+    line-height: 1.12;
+}
+
+.ck-endtoend-point-icon {
+    width: 49px;
+    height: 49px;
+    flex: 0 0 49px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #d9efff;
+    color: #1877bd;
+    box-shadow: 0 3px 6px rgba(16, 36, 58, .22);
+}
+
+.ck-endtoend-point-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.ck-endtoend-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 54px;
+    margin-top: 45px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #2f91d6 0%, #1f73b6 100%);
+    color: #fff;
+    font-size: clamp(18px, 1.6vw, 24px);
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: inset 0 2px 2px rgba(255,255,255,.28), 0 4px 8px rgba(16, 36, 58, .24);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ck-endtoend-cta:hover,
+.ck-endtoend-cta:focus-visible {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: inset 0 2px 2px rgba(255,255,255,.28), 0 9px 18px rgba(16, 36, 58, .24);
+}
+
+.ck-endtoend-cta svg {
+    width: 25px;
+    height: 25px;
+}
+
+.ck-endtoend-gallery {
+    position: relative;
+    height: clamp(430px, 35vw, 620px);
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
+    gap: clamp(16px, 1.8vw, 28px);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.ck-endtoend-gallery::before,
+.ck-endtoend-gallery::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 96px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.ck-endtoend-gallery::before {
+    top: 0;
+    background: linear-gradient(180deg, #fff 5%, rgba(255,255,255,0));
+}
+
+.ck-endtoend-gallery::after {
+    bottom: 0;
+    background: linear-gradient(0deg, #fff 5%, rgba(255,255,255,0));
+}
+
+.ck-endtoend-column {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.ck-endtoend-track {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 1.8vw, 28px);
+    will-change: transform;
+    animation: ckEndToEndScrollUp 25s linear infinite;
+}
+
+.ck-endtoend-column.is-down .ck-endtoend-track {
+    animation-name: ckEndToEndScrollDown;
+    transform: translateY(-50%);
+}
+
+.ck-endtoend-gallery:hover .ck-endtoend-track {
+    animation-play-state: paused;
+}
+
+.ck-endtoend-card {
+    display: block;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #eef4fa;
+    box-shadow: 0 4px 8px rgba(16, 36, 58, .28);
+}
+
+.ck-endtoend-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1210 / 892;
+    object-fit: cover;
+}
+
+@keyframes ckEndToEndScrollUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
+}
+
+@keyframes ckEndToEndScrollDown {
+    from { transform: translateY(-50%); }
+    to { transform: translateY(0); }
+}
+
+/* ============================================================
    MAIN SERVICE CARDS
    ============================================================ */
 .ck-services-section {
@@ -2817,11 +3026,28 @@ html {
         opacity: 1;
         transform: none;
     }
+
+    .ck-endtoend-track,
+    .ck-endtoend-column.is-down .ck-endtoend-track {
+        animation: none !important;
+        transform: none;
+    }
 }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+@media (max-width: 1280px) {
+    .ck-endtoend-shell {
+        grid-template-columns: minmax(360px, 520px) minmax(0, 1fr);
+        gap: 38px;
+    }
+
+    .ck-endtoend-gallery {
+        height: 520px;
+    }
+}
+
 @media (max-width: 1200px) {
     .ck-testimonial-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2915,6 +3141,20 @@ html {
     .ck-city-grid {
         gap: 26px;
     }
+
+    .ck-endtoend-shell {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .ck-endtoend-copy {
+        max-width: 760px;
+    }
+
+    .ck-endtoend-gallery {
+        height: 500px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
@@ -2981,6 +3221,78 @@ html {
         font-size: 13px;
     }
 
+    .ck-endtoend-section {
+        padding: 46px 0 54px;
+    }
+
+    .ck-endtoend-copy h2 {
+        font-size: clamp(34px, 10vw, 58px);
+    }
+
+    .ck-endtoend-copy h2 strong {
+        font-size: clamp(52px, 15vw, 82px);
+    }
+
+    .ck-endtoend-copy p {
+        margin-top: 22px;
+        font-size: 17px;
+        line-height: 1.25;
+    }
+
+    .ck-endtoend-points {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 28px;
+    }
+
+    .ck-endtoend-point {
+        font-size: 19px;
+    }
+
+    .ck-endtoend-cta {
+        width: 100%;
+        min-height: 50px;
+        margin-top: 30px;
+        font-size: 18px;
+    }
+
+    .ck-endtoend-gallery {
+        height: auto;
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px 2px 14px;
+    }
+
+    .ck-endtoend-gallery::before,
+    .ck-endtoend-gallery::after {
+        display: none;
+    }
+
+    .ck-endtoend-column {
+        display: contents;
+    }
+
+    .ck-endtoend-track,
+    .ck-endtoend-column.is-down .ck-endtoend-track {
+        display: contents;
+        animation: none;
+        transform: none;
+    }
+
+    .ck-endtoend-card[aria-hidden="true"] {
+        display: none;
+    }
+
+    .ck-endtoend-card {
+        flex: 0 0 min(76vw, 360px);
+        scroll-snap-align: center;
+        border-radius: 16px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -3165,6 +3477,21 @@ html {
     .ck-trust-section { padding: 34px 0 40px; }
     .ck-trust-heading { margin-bottom: 30px; }
     .ck-trust-container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+
+    .ck-endtoend-shell {
+        width: calc(100% - 32px);
+    }
+
+    .ck-endtoend-point-icon {
+        width: 43px;
+        height: 43px;
+        flex-basis: 43px;
+    }
+
+    .ck-endtoend-point-icon svg {
+        width: 24px;
+        height: 24px;
+    }
     .ck-services-section { padding: 76px 0 48px; }
 
     .ck-service-image {
@@ -3339,7 +3666,7 @@ html {
 
 .home-page .hero-banner {
     overflow: visible;
-    margin-bottom: 130px;
+    margin-bottom: 104px;
     z-index: 2;
 }
 
@@ -3352,9 +3679,9 @@ html {
     position: absolute;
     z-index: 5;
     left: 50%;
-    bottom: -110px;
-    width: min(90%, 1720px);
-    padding: 24px 35px 26px;
+    bottom: -84px;
+    width: min(95%, 1804px);
+    padding: 18px 28px;
     border: 1px solid #2478bb;
     border-radius: 18px;
     background: #fff;
@@ -3494,10 +3821,10 @@ html {
 .hero-discovery-highlights {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-auto-rows: 72px;
+    grid-auto-rows: 64px;
     align-items: center;
-    gap: 18px;
-    margin-top: 26px;
+    gap: 16px;
+    margin-top: 0;
 }
 
 .hero-discovery-highlight {
@@ -3509,7 +3836,7 @@ html {
 
 .hero-discovery-highlight.has-image {
     width: 100%;
-    height: 72px;
+    height: 64px;
     display: grid;
     place-items: center;
     min-width: 0;
@@ -3517,9 +3844,9 @@ html {
 
 .hero-discovery-highlight-image {
     display: block;
-    width: auto;
-    max-width: none;
-    height: 68px;
+    width: 100%;
+    max-width: 240px;
+    height: 60px;
     margin: 0;
     object-fit: contain;
     object-position: center;
@@ -3530,21 +3857,20 @@ html {
     display: grid;
     place-items: center;
     width: 100%;
-    max-width: 259px;
-    height: 68px;
+    max-width: 240px;
+    height: 60px;
     min-width: 0;
 }
 
 .hero-discovery-image-swap .hero-discovery-highlight-image {
+    max-width: 100%;
     transition: opacity .25s ease, transform .25s ease;
 }
 
 .hero-discovery-highlight-image.hover-state {
     position: absolute;
-    top: 0;
-    left: 50%;
+    inset: 0;
     opacity: 0;
-    transform: translateX(-50%);
 }
 
 .hero-discovery-highlight:hover .default-state,
@@ -3564,7 +3890,7 @@ html {
 
 .hero-discovery-highlight:hover .hero-discovery-highlight-image.hover-state,
 .hero-discovery-highlight:focus-within .hero-discovery-highlight-image.hover-state {
-    transform: translateX(-50%) translateY(-2px);
+    transform: translateY(-2px);
 }
 
 .hero-discovery-highlight:not(.has-image) .hero-discovery-icon {
@@ -3625,13 +3951,13 @@ html {
 @media (max-width: 1700px) {
     .hero-discovery-card {
         width: min(94%, 1720px);
-        padding: 22px 24px 26px;
+        padding: 16px 22px;
     }
 
     .hero-discovery-highlights {
         grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 10px;
-        margin-top: 28px;
+        margin-top: 0;
     }
 
     .hero-discovery-image-swap,
@@ -3662,7 +3988,7 @@ html {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         grid-auto-rows: 58px;
         gap: 14px 12px;
-        margin-top: 22px;
+        margin-top: 0;
     }
 
     .hero-discovery-image-swap,
@@ -3755,7 +4081,7 @@ html {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-auto-rows: auto;
         gap: 16px 10px;
-        margin-top: 20px;
+        margin-top: 0;
     }
 
     .hero-discovery-highlight {
@@ -3871,46 +4197,6 @@ html {
         </div>
     </div>
     <div class="hero-discovery-card">
-        <div class="hero-discovery-search">
-            <form class="hero-discovery-input-wrap" id="heroDiscoverySearchForm" role="search">
-                <input class="hero-discovery-input" id="heroDiscoverySearchInput" type="search" list="heroServiceSuggestions" autocomplete="off" placeholder="Search Architects, Contractors, Feasibility Reports, BOQ Services & More..." aria-label="Search construction services">
-                <datalist id="heroServiceSuggestions">
-                    <option value="Architect"></option>
-                    <option value="Contractor"></option>
-                    <option value="Interior Design"></option>
-                    <option value="Survey Services"></option>
-                    <option value="Structural Services"></option>
-                    <option value="Structural Audit"></option>
-                    <option value="BOQ / Estimation"></option>
-                    <option value="Testing Services"></option>
-                    <option value="Facade Services"></option>
-                    <option value="Welding & Fabrication"></option>
-                    <option value="Feasibility Report"></option>
-                    <option value="Residential Architectural Planning"></option>
-                    <option value="Bungalow and Villa Design"></option>
-                    <option value="Apartment and Flat Layout Planning"></option>
-                    <option value="Commercial Building Design"></option>
-                    <option value="Office Planning"></option>
-                    <option value="Showroom Planning"></option>
-                    <option value="Farmhouse Design"></option>
-                    <option value="Plot Development Planning"></option>
-                    <option value="Elevation and Facade Design"></option>
-                    <option value="Floor Plan Design"></option>
-                    <option value="Space Planning"></option>
-                    <option value="Concept Design"></option>
-                    <option value="Renovation Planning"></option>
-                    <option value="Approval Drawing Support"></option>
-                    <option value="Submission Drawing Assistance"></option>
-                    <option value="Basic Design Consultation"></option>
-                </datalist>
-                <button class="hero-discovery-submit" type="submit" aria-label="Search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16 16 5 5"/></svg>
-                    <span>Search</span>
-                </button>
-                <span class="hero-discovery-status" id="heroDiscoverySearchStatus" role="status" aria-live="polite"></span>
-            </form>
-        </div>
-
         <div class="hero-discovery-highlights" aria-label="Why choose ConstructKaro">
             <div class="hero-discovery-highlight has-image">
                 <span class="hero-discovery-image-swap">
@@ -3960,7 +4246,7 @@ html {
 
         <div class="ck-trust-container">
             <div class="ck-process-image-swap">
-                {!! $ckImage('images/home/process/share-requirement-matched.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img ck-process-image-before', ['width' => 7138, 'height' => 1192, 'loading' => 'eager', 'decoding' => 'async']) !!}
+                {!! $ckImage('images/home/process/share-requirement.png', 'How ConstructKaro works in four steps', 'ck-trust-card-img ck-process-image-before', ['width' => 7138, 'height' => 1192, 'loading' => 'eager', 'decoding' => 'async']) !!}
                 {!! $ckImage('images/home/process/share-requirement-hour.png', 'How ConstructKaro works with 24 hour response', 'ck-trust-card-img ck-process-image-after', ['width' => 7362, 'height' => 1276, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => 'true']) !!}
             </div>
          
@@ -3971,30 +4257,59 @@ html {
   
    
 
-    <section class="ck-solution-section">
-        <div class="ck-solution-shell">
-            <div class="ck-solution-intro">
-                <span class="ck-solution-badge">One platform, any construction need</span>
-                <h2 class="ck-solution-headline">
-                    <span>Best for complete end-to-end construction.</span>
-                    <span>Flexible for separate services too.</span>
-                </h2>
-                <p>Whether you want ConstructKaro to guide the full journey from planning to execution, or you only need one service like an architect, contractor, survey, BOQ, testing, or facade, we help you find the right solution without confusion.</p>
+    @php
+        $endToEndColumns = [
+            [
+                ['title' => 'Residential Homes', 'image' => 'residential-homes.png'],
+                ['title' => 'Farmhouse', 'image' => 'farmhouse.png'],
+                ['title' => 'PEB Warehouse', 'image' => 'peb-warehouse.png'],
+                ['title' => 'Road Work', 'image' => 'road-work.png'],
+            ],
+            [
+                ['title' => 'Plotting Development', 'image' => 'plotting-development.png'],
+                ['title' => 'Resort', 'image' => 'resort.png'],
+                ['title' => 'Hospital', 'image' => 'hospital.png'],
+                ['title' => 'Commercial Building', 'image' => 'commercial-building.png'],
+            ],
+            [
+                ['title' => 'Residential Building', 'image' => 'residential-building.png'],
+                ['title' => 'Hotel', 'image' => 'hotel.png'],
+                ['title' => 'Sports Complex', 'image' => 'sports-complex.png'],
+                ['title' => 'RCC Warehouse', 'image' => 'rcc-warehouse.png'],
+            ],
+        ];
+    @endphp
+
+    <section class="ck-endtoend-section" aria-labelledby="ckEndToEndHeading">
+        <div class="ck-endtoend-shell">
+            <div class="ck-endtoend-copy">
+                <a class="ck-endtoend-copy-image-link" href="{{ route('end.to.end.solutions') }}" aria-labelledby="ckEndToEndHeading">
+                    <span class="ck-visually-hidden" id="ckEndToEndHeading">Discover Our All End-to-End Construction Solutions</span>
+                    {!! $ckImage('images/home/end-to-end/end-to-end-copy.png', 'Discover Our All End-to-End Construction Solutions', 'ck-endtoend-copy-image', ['width' => 2840, 'height' => 2470, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                </a>
             </div>
 
-            <div class="ck-solution-options">
-                <div class="ck-solution-card primary">
-                    {!! $ckImage('images/home/solutions/end-to-end-solution.png', 'End-to-End Construction Solution', 'ck-solution-card-img default-state', ['width' => 2792, 'height' => 1684, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                    {!! $ckImage('images/home/solutions/end-to-end-solution-hover.png', '', 'ck-solution-card-img hover-state', ['width' => 2901, 'height' => 1750, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => true]) !!}
-                </div>
-
-                <div class="ck-solution-card secondary">
-                    {!! $ckImage('images/home/solutions/separate-service-solutions.png', 'Separate Service Solutions', 'ck-solution-card-img default-state', ['width' => 2792, 'height' => 1684, 'loading' => 'eager', 'decoding' => 'async']) !!}
-                    {!! $ckImage('images/home/solutions/separate-service-solutions-hover.png', '', 'ck-solution-card-img hover-state', ['width' => 2901, 'height' => 1750, 'loading' => 'eager', 'decoding' => 'async', 'aria-hidden' => true]) !!}
-                </div>
+            <div class="ck-endtoend-gallery" aria-label="Construction solution categories">
+                @foreach($endToEndColumns as $columnIndex => $columnItems)
+                    <div class="ck-endtoend-column{{ $columnIndex === 1 ? ' is-down' : '' }}">
+                        <div class="ck-endtoend-track">
+                            @foreach($columnItems as $solution)
+                                <div class="ck-endtoend-card">
+                                    {!! $ckImage('images/home/end-to-end/' . $solution['image'], $solution['title'], '', ['width' => 1210, 'height' => 892, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                                </div>
+                            @endforeach
+                            @foreach($columnItems as $solution)
+                                <div class="ck-endtoend-card" aria-hidden="true">
+                                    {!! $ckImage('images/home/end-to-end/' . $solution['image'], '', '', ['width' => 1210, 'height' => 892, 'loading' => 'lazy', 'decoding' => 'async']) !!}
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
+
 
     <div id="comingSoonLocationBox" style="display:none;">
         <h2>We are coming soon for this location</h2>

@@ -22,7 +22,7 @@
 
     body{
         background: var(--bg);
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .engineer-detail-page{

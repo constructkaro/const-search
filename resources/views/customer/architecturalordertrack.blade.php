@@ -11,7 +11,7 @@
 
     body {
         margin: 0;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         background: #f3f3f3;
         color: #222;
     }
@@ -325,7 +325,7 @@
         padding: 10px 12px;
         font-size: 12px;
         color: #333;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .submit-small-btn {

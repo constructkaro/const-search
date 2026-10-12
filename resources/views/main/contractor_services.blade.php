@@ -6,7 +6,7 @@
 
 @section('content')
 
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -31,7 +31,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); }
 
 .ck-wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
@@ -93,7 +93,7 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
 }
 
 .ck-hero-text h1 {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: clamp(28px, 3.8vw, 52px);
     font-weight: 900;
     color: var(--white);
@@ -163,7 +163,7 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
 }
 
 .ck-section-head h2 {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: clamp(22px, 2.6vw, 34px);
     font-weight: 900;
     color: var(--dark);
@@ -290,7 +290,7 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
 }
 
 .ck-service-foot h3 {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 800;
     color: var(--dark);
@@ -356,7 +356,7 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
     border: none;
     text-align: left;
     padding: 20px 24px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 700;
     color: var(--dark);
@@ -426,7 +426,7 @@ body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(-
 }
 
 .ck-meta-block h4 {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 800;
     color: var(--dark);

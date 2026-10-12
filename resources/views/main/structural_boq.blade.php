@@ -6,7 +6,7 @@
 
 <style>
     /* body{
-        font-family:"Poppins","Segoe UI",sans-serif;
+        font-family:"Inter","Inter",sans-serif;
         background:#f3f3f3;
         color:#1f2933;
     } */

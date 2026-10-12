@@ -3,11 +3,11 @@
 @section('title', 'Who We Are | ConstructKaro')
 
 @section('content')
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
     .who-we-are-page {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         background: linear-gradient(to bottom, #f7f8fb 0%, #f3f5f9 100%);
         padding: 50px 0 70px;
     }

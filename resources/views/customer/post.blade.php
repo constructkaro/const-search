@@ -23,7 +23,7 @@
 
 body{
     background: var(--bg);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .project-page{
@@ -369,6 +369,209 @@ body{
     outline: none !important;
 }
 
+.ete-post-page{
+    background: #e8e8e8;
+    padding: 24px 0 112px;
+}
+
+.ete-post-page .project-wrapper{
+    max-width: 1520px;
+    padding: 0 18px;
+}
+
+.ete-post-page .project-shell{
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.ete-post-page .project-header{
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.ete-post-banner{
+    display: block;
+    width: 100%;
+    border-radius: 13px;
+    box-shadow: 3px 4px 7px rgba(0,0,0,.28);
+}
+
+.ete-post-page .project-body{
+    margin-top: 26px;
+    padding: 0;
+    background: #fff;
+    border-radius: 0 0 13px 13px;
+    box-shadow: 4px 5px 8px rgba(0,0,0,.28);
+}
+
+.ete-post-page .form-section{
+    position: relative;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding: 44px 30px 22px;
+    background: #fff;
+}
+
+.ete-post-page .form-section:first-child{
+    border-radius: 0;
+    box-shadow: none;
+    padding-top: 50px;
+}
+
+.ete-post-page .form-section:last-child{
+    border-radius: 0 0 13px 13px;
+    box-shadow: none;
+    padding-bottom: 48px;
+}
+
+.ete-post-page .section-title{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateY(-50%);
+    display: inline-flex;
+    margin: 0;
+    padding: 9px 22px;
+    border-radius: 0 8px 8px 0;
+    background: #1f75bc;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 900;
+    box-shadow: 2px 3px 5px rgba(0,0,0,.25);
+}
+
+.ete-post-page .section-title::before,
+.ete-post-page .input-icon,
+.ete-post-page .field-hint,
+.ete-post-page .tip-box{
+    display: none;
+}
+
+.ete-post-page .ete-hidden-field{
+    display: none;
+}
+
+.ete-post-page .form-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 72px;
+}
+
+.ete-post-page .form-field label,
+.ete-post-page .cp-label{
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #222;
+    font-weight: 900;
+}
+
+.ete-post-page .form-control-custom,
+.ete-post-page .form-select-custom,
+.ete-post-page .cp-select,
+.ete-post-page .cp-input{
+    min-height: 44px;
+    border: none;
+    border-radius: 7px;
+    background: #ebebeb;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.ete-post-page .input-group-custom .form-control-custom,
+.ete-post-page .input-group-custom .form-select-custom{
+    border-radius: 7px;
+}
+
+.ete-post-page .select2-container .select2-selection--single,
+.ete-post-page .select2-container .select2-selection--multiple{
+    min-height: 44px !important;
+    border: none !important;
+    border-radius: 7px !important;
+    background: #ebebeb !important;
+    padding: 5px 12px !important;
+}
+
+.ete-post-page .select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 34px !important;
+    font-size: 14px !important;
+}
+
+.ete-post-page .select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 42px !important;
+}
+
+.ete-post-page .upload-box{
+    border: 1px dashed #4f4f4f;
+    border-radius: 18px;
+    background: #f3f3f3;
+    padding: 44px 30px 24px;
+}
+
+.ete-post-page .upload-icon{
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    background: #dff0ff;
+    color: #1f75bc;
+    border: 2px solid #9bcdf2;
+}
+
+.ete-post-page .upload-title{
+    color: #222;
+    font-size: 17px;
+    margin-bottom: 14px;
+}
+
+.ete-post-page .upload-box .form-control-custom{
+    background: #fff;
+    border: 1px solid #a9a9a9;
+    min-height: 40px;
+    padding: 7px 10px;
+}
+
+.ete-post-page .upload-subtitle{
+    margin-top: 14px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.ete-post-page .desc-box{
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+}
+
+.ete-post-page .form-textarea-custom{
+    min-height: 160px;
+    border: none;
+    border-radius: 7px;
+    background: #ebebeb;
+    font-size: 14px;
+    padding: 18px;
+}
+
+.ete-post-page .form-actions{
+    justify-content: center;
+    margin-top: 46px;
+}
+
+.ete-post-page .submit-btn{
+    min-width: 430px;
+    height: 78px;
+    border-radius: 18px;
+    background: #f47721;
+    font-size: 28px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.28), 0 4px 8px rgba(0,0,0,.25);
+}
+
 @media (max-width: 1200px){
     .project-title{
         font-size: 36px;
@@ -410,32 +613,56 @@ body{
     .submit-btn{
         width: 100%;
     }
+
+    .ete-post-page .form-section{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .ete-post-page .form-grid{
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .ete-post-page .submit-btn{
+        min-width: 0;
+        width: 100%;
+    }
 }
 </style>
 
-<div class="project-page">
+<div class="project-page {{ !empty($endToEndProject) ? 'ete-post-page' : '' }}">
     <div class="project-wrapper">
         <div class="project-shell">
             <div class="project-header">
-                <h1 class="project-title">Create New Project</h1>
-                <p class="project-subtitle">Submit your project details to connect with verified vendors</p>
+                @if(!empty($endToEndProject))
+                    <h1 class="visually-hidden">{{ $endToEndProject['title'] }} End-to-End Construction Solution</h1>
+                    <img class="ete-post-banner" src="{{ asset('images/home/end-to-end/banners/' . $endToEndProject['banner']) }}" alt="{{ $endToEndProject['title'] }} End-to-End Construction Solution" loading="eager" decoding="async">
+                @else
+                    <h1 class="project-title">Create New Project</h1>
+                    <p class="project-subtitle">Submit your project details to connect with verified vendors</p>
+                @endif
             </div>
 
             <div class="project-body">
                 <form action="{{ route('save.post') }}" method="POST" enctype="multipart/form-data" id="projectPostForm">
                     @csrf
+                    @if(!empty($endToEndProject))
+                        <input type="hidden" name="work_type_id" value="{{ $selectedWorkTypeId }}">
+                        <input type="hidden" name="work_subtype_id" value="{{ $selectedWorkSubtypeId }}">
+                    @endif
 
                     <div class="form-section">
                         <h2 class="section-title">Project Information</h2>
 
                         <div class="form-grid">
 
-                            <div class="form-field">
+                            <div class="form-field {{ !empty($endToEndProject) ? 'ete-hidden-field' : '' }}">
                                 <label>Vendor Type</label>
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-briefcase"></i></div>
 
-                                    <select class="form-select-custom" id="work_type" name="work_type_id">
+                                    <select class="form-select-custom" id="work_type" name="work_type_id" {{ !empty($endToEndProject) ? 'disabled' : '' }}>
                                         <option value="">Select Vendor Type</option>
                                         @foreach($work_types as $worktype)
                                             <option value="{{ $worktype->id }}"
@@ -447,11 +674,11 @@ body{
                                 </div>
                             </div>
 
-                            <div class="form-field">
+                            <div class="form-field {{ !empty($endToEndProject) ? 'ete-hidden-field' : '' }}">
                                 <label>Project Type</label>
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-diagram-3"></i></div>
-                                    <select class="form-select-custom" id="work_subtype" name="work_subtype_id">
+                                    <select class="form-select-custom" id="work_subtype" name="work_subtype_id" {{ !empty($endToEndProject) ? 'disabled' : '' }}>
                                         <option value="">Select Project Type</option>
                                     </select>
                                 </div>
@@ -662,8 +889,9 @@ $(document).ready(function () {
     });
 
     let initialWorkTypeId = $('#work_type').val();
+    let initialWorkSubtypeId = "{{ old('work_subtype_id', $selectedWorkSubtypeId ?? '') }}";
     if (initialWorkTypeId !== '') {
-        loadProjectTypes(initialWorkTypeId, "{{ old('work_subtype_id') }}");
+        loadProjectTypes(initialWorkTypeId, initialWorkSubtypeId);
     }
 
     $('#work_subtype').on('change', function () {

@@ -6,7 +6,7 @@
 
 <style>
     .road-page {
-        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
         background: #efefef;
         color: #222;
     }

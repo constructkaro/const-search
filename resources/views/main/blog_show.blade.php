@@ -7,7 +7,7 @@
     body {
         background: #f1f1f1;
         color: #263238;
-        font-family: "Poppins", Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
     }
 
     .blog-detail-hero {

@@ -8,7 +8,7 @@
 .material-section {
     padding: 20px 30px 50px;
     background: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     text-align: center;
 }
 
@@ -229,7 +229,7 @@
 .flow-section {
     padding: 35px 20px 60px;
     background: #fff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     text-align: center;
 }
 

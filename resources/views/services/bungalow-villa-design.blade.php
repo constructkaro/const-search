@@ -21,7 +21,7 @@
     }
 
     .bv-page{
-        font-family:"Poppins","Segoe UI",sans-serif;
+        font-family:"Inter","Inter",sans-serif;
         background:var(--bv-bg);
         color:var(--bv-dark);
         overflow:hidden;

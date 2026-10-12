@@ -5,7 +5,7 @@
 @section('content')
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -20,8 +20,8 @@
     --sub:#4a637e;
     --muted:#8aa0b8;
     --green:#14a044;
-    --fh:'Outfit',sans-serif;
-    --fb:'Plus Jakarta Sans',sans-serif;
+    --fh:'Inter',sans-serif;
+    --fb:'Inter',sans-serif;
     --inp-h:52px;
     --shadow-lg:0 16px 56px rgba(26,109,191,.15);
 }

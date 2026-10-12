@@ -12,7 +12,7 @@
     .ef-page {
         background: #eeeeee;
         color: #20242c;
-        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
         overflow: hidden;
     }
 

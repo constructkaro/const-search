@@ -68,7 +68,7 @@
     color: #ffffff;
     line-height: 1.16;
     letter-spacing: -0.5px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     text-shadow: 0 2px 12px rgba(0,0,0,0.4);
   }
 
@@ -94,7 +94,7 @@
     color: #111;
     margin-bottom: 10px;
     line-height: 1.2;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
   .sa-title.center { text-align: center; }
 
@@ -125,7 +125,7 @@
     color: #111;
     text-align: center;
     margin-bottom: 8px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
   .sa-intro-text {
     font-size: 15px;
@@ -143,7 +143,7 @@
     color: #111;
     text-align: center;
     margin-bottom: 10px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
   .sa-what-text {
     font-size: 15px;
@@ -205,7 +205,7 @@
     text-align: center;
     line-height: 1.35;
     background: #fff;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
   .sa-card.orange .sa-card-label { background: #fff5ee; }
 
@@ -232,7 +232,7 @@
     color: #111;
     margin-bottom: 10px;
     line-height: 1.3;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
 
   .sa-test-card ul { list-style: none; padding: 0; }
@@ -270,7 +270,7 @@
     color: #111;
     text-align: center;
     margin-bottom: 10px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
   }
 
   .sa-why-list { list-style: none; padding: 0; }
@@ -293,7 +293,7 @@
      LOCATIONS
   ═══════════════════════════════ */
   .sa-loc-text  { font-size: 15px; color: #111; line-height: 1.75; margin-bottom: 12px; }
-  .sa-loc-title { font-size: 16px; font-weight: 900; color: #111; margin-bottom: 6px; font-family: 'Segoe UI', Arial, sans-serif; }
+  .sa-loc-title { font-size: 16px; font-weight: 900; color: #111; margin-bottom: 6px; font-family: 'Inter', Arial, sans-serif; }
   .sa-loc-links { font-size: 15px; color: #111; line-height: 1.8; }
 
   /* ═══════════════════════════════

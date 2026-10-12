@@ -6,7 +6,7 @@
 
 @section('content')
 
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -21,7 +21,7 @@
 
     body {
         background: var(--ec-bg);
-        font-family: "Inter", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
         color: var(--ec-text);
     }
 
@@ -48,7 +48,7 @@
         max-width: 650px;
         margin: 0;
         color: #fff;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: clamp(34px, 4vw, 56px);
         font-weight: 900;
         line-height: 1.08;
@@ -61,7 +61,7 @@
     .ec-title {
         margin: 0 0 10px;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: clamp(24px, 2.4vw, 34px);
         font-weight: 900;
         line-height: 1.2;
@@ -113,7 +113,7 @@
         border-radius: 8px;
         background: #eaf6ff;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 15px;
         font-weight: 900;
         line-height: 1.2;
@@ -169,7 +169,7 @@
         border-radius: 8px;
         background: var(--ec-orange);
         color: #fff;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-weight: 900;
     }
 
@@ -180,7 +180,7 @@
     .ec-number-card strong {
         display: block;
         margin-bottom: 8px;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 14px;
         font-weight: 900;
     }
@@ -226,7 +226,7 @@
         justify-content: center;
         padding: 10px;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 12px;
         font-weight: 900;
         line-height: 1.15;
@@ -256,7 +256,7 @@
         background: transparent;
         cursor: pointer;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 14px;
         font-weight: 900;
         text-align: left;

@@ -6,7 +6,7 @@
 
 @section('content')
 
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
     :root {
@@ -22,7 +22,7 @@
 
     body {
         background: var(--cksn-page);
-        font-family: "Inter", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
     }
 
     .cksn-page {
@@ -55,7 +55,7 @@
     .cksn-hero-copy h1 {
         margin: 0;
         color: #fff;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 25px;
         font-weight: 900;
         line-height: 1.13;
@@ -79,7 +79,7 @@
     .cksn-title {
         margin: 0 0 8px;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 20px;
         font-weight: 900;
         line-height: 1.2;
@@ -150,7 +150,7 @@
         justify-content: center;
         padding: 6px 6px 7px;
         color: #151515;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 10px;
         font-weight: 800;
         line-height: 1.12;
@@ -197,7 +197,7 @@
         border-radius: 8px;
         background: var(--cksn-orange);
         color: #fff;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 13px;
         font-weight: 900;
         line-height: 1;
@@ -225,7 +225,7 @@
         max-width: 150px;
         margin: 0;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 10px;
         font-weight: 900;
         line-height: 1.25;
@@ -254,7 +254,7 @@
         background: transparent;
         color: #161616;
         cursor: pointer;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 10px;
         font-weight: 900;
         line-height: 1.25;
@@ -281,7 +281,7 @@
     .cksn-meta h2 {
         margin: 0 0 6px;
         color: #111;
-        font-family: "Manrope", sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 11px;
         font-weight: 900;
     }

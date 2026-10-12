@@ -5,7 +5,7 @@
 @section('content')
 
 <style>
-    body{font-family:"Poppins","Segoe UI",sans-serif;background:#f7f7f7;color:#222;font-size:18px}
+    body{font-family:"Inter","Inter",sans-serif;background:#f7f7f7;color:#222;font-size:18px}
 
     .ci-hero{
         min-height:320px;

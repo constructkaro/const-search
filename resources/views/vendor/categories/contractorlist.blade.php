@@ -4,7 +4,7 @@
     <title>{{ ucfirst(str_replace('-', ' ', $slug)) }} List</title>
     <style>
         body{
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
             background: #f8f9fa;
             margin: 0;
             padding: 30px;

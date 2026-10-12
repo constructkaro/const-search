@@ -3,7 +3,7 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 .main-header {

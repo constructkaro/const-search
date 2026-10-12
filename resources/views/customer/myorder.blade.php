@@ -17,7 +17,7 @@
     }
 
     body {
-        font-family: 'Poppins', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
         background: var(--orders-soft);
         color: var(--orders-ink);
     }

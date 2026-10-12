@@ -7,7 +7,7 @@
 <style>
     body {
         background: #efefef;
-        font-family: 'Segoe UI', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
     .na-support-section {

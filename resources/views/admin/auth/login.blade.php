@@ -22,7 +22,7 @@
 
         body {
             margin: 0;
-            font-family: 'Poppins', Inter, Arial, sans-serif;
+            font-family: 'Inter', Inter, Arial, sans-serif;
             background:
                 radial-gradient(circle at 18% 18%, rgba(255, 122, 26, 0.14), transparent 28%),
                 linear-gradient(135deg, #edf6ff 0%, #f8fbff 48%, #eef3f8 100%);

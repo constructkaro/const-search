@@ -398,6 +398,9 @@ Route::get('commercial-interior-design', [HomeController::class, 'commercial_int
 Route::get('retail-showroom-interior', [HomeController::class, 'retail_showroom_interior'])->name('retail.showroom.interior');
 Route::get('hospitality-interior-design', [HomeController::class, 'hospitality_interior_design'])->name('hospitality.interior.design');
 Route::get('industrial-specialized-interior', [HomeController::class, 'industrial_specialized_interior'])->name('industrial.specialized.interior');
+Route::get('end-to-end-solutions', function () {
+    return view('main.end_to_end_solutions');
+})->name('end.to.end.solutions');
 // Commercial interior design static page
 Route::get('commercial-interior', function(){
     return view('main.commercial_interior');

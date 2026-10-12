@@ -7,7 +7,7 @@
     body {
         background: #e9e9e9;
         color: #171717;
-        font-family: "Poppins", Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
     }
 
     .plot-guide {

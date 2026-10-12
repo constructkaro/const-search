@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 .header {
@@ -351,7 +351,7 @@ body {
     border-top: 1px solid #f0f0f0;
     text-align: center;
     color: #8a8a8a;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 13px;
     font-weight: 400;
 }

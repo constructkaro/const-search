@@ -34,6 +34,7 @@ class CustomerController extends Controller
                 'Facade Specialist',
                 'Testing Services',
                 'Feasibility Report',
+                'All in One Solution',
             ])
             ->pluck('id', 'work_type');
 
@@ -351,6 +352,43 @@ public function verifyOtp(Request $request, OtpService $otpService)
         $selectedWorkTypeId = $work_types->contains('id', $requestedWorkTypeId)
             ? $requestedWorkTypeId
             : null;
+        if ($requestedWorkTypeId === 17) {
+            $selectedWorkTypeId = 17;
+        }
+
+        $endToEndSolutions = [
+            'residential-home' => ['title' => 'Residential Home', 'banner' => 'residential-home.png'],
+            'peb-warehouse' => ['title' => 'Peb Warehouse', 'banner' => 'peb-warehouse.png'],
+            'rcc-warehouse' => ['title' => 'Rcc Warehouse', 'banner' => 'rcc-warehouse.png'],
+            'commercial-building' => ['title' => 'Commercial Building', 'banner' => 'commercial-building.png'],
+            'hotel' => ['title' => 'Hotel', 'banner' => 'hotel.png'],
+            'residential-building' => ['title' => 'Residential Building', 'banner' => 'residential-home.png'],
+            'plotting-development' => ['title' => 'Plotted Development', 'banner' => 'plotting-development.png'],
+            'resort' => ['title' => 'Complete Resort', 'banner' => 'resort.png'],
+            'farmhouse' => ['title' => 'Dream Farmhouse', 'banner' => 'farmhouse.png'],
+            'healthcare' => ['title' => 'Healthcare', 'banner' => 'healthcare.png'],
+            'college-university' => ['title' => 'College/University', 'banner' => 'college-university.png'],
+            'road-work' => ['title' => 'Road Work', 'banner' => 'road-work.png'],
+            'sports-complex' => ['title' => 'Sports Complex', 'banner' => 'sports-complex.png'],
+        ];
+        $endToEndProject = $requestedWorkTypeId === 17
+            ? ($endToEndSolutions[$request->query('solution')] ?? null)
+            : null;
+
+        $requestedWorkSubtypeId = $request->integer('work_subtype_id');
+        $selectedWorkSubtypeId = $selectedWorkTypeId && DB::table('work_subtypes')
+            ->where('id', $requestedWorkSubtypeId)
+            ->where('work_type_id', $selectedWorkTypeId)
+            ->exists()
+                ? $requestedWorkSubtypeId
+                : null;
+
+        if ($selectedWorkTypeId === 17 && ! $selectedWorkSubtypeId) {
+            $selectedWorkSubtypeId = DB::table('work_subtypes')
+                ->where('work_type_id', 17)
+                ->orderBy('id')
+                ->value('id') ?: 139;
+        }
 
         return view('customer.post', compact(
             'work_types',
@@ -358,6 +396,8 @@ public function verifyOtp(Request $request, OtpService $otpService)
             'budget_range',
             'unit','cities',
             'selectedWorkTypeId',
+            'selectedWorkSubtypeId',
+            'endToEndProject',
             'customer'
         ));
     }

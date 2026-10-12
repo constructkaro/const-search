@@ -7,7 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +33,7 @@
 
 body {
     background: var(--bg);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--navy);
 }
 
@@ -258,7 +258,7 @@ body {
     border-radius: var(--radius-md);
     padding: 12px 15px;
     font-size: 14px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--navy);
     outline: none;
     transition: all .22s ease;
@@ -482,7 +482,7 @@ body {
     color: #fff;
     font-size: 15px;
     font-weight: 800;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     box-shadow: var(--shadow-btn);
     cursor: pointer;
     transition: .25s;
@@ -504,7 +504,7 @@ body {
     border-radius: var(--radius-md) !important;
     background: var(--input-bg) !important;
     padding: 4px 8px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     display: flex;
     align-items: center;
 }
@@ -534,7 +534,7 @@ body {
     border-radius: 14px !important;
     border: 1.5px solid var(--border) !important;
     box-shadow: 0 8px 32px rgba(15,30,48,0.12) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 13px;
 }
 

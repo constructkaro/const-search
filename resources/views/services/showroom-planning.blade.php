@@ -12,7 +12,7 @@
     .sp-page {
         background: #f1f1f1;
         color: #222;
-        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-family: "Inter", "Inter", sans-serif;
         overflow: hidden;
     }
 

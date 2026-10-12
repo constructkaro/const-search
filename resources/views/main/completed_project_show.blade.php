@@ -31,7 +31,7 @@
     padding: 42px 0 64px;
     background: #fff;
     color: #111;
-    font-family: "Poppins", "Segoe UI", sans-serif;
+    font-family: "Inter", "Inter", sans-serif;
 }
 
 .project-detail-shell {

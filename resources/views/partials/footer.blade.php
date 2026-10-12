@@ -4,7 +4,7 @@
     background: linear-gradient(90deg, #071226 0%, #0d1e39 35%, #21364d 100%);
     padding: 56px 0 18px;
     color: #ffffff;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     overflow: hidden;
 }
 

@@ -18,7 +18,7 @@
     }
 
     .af-page{
-        font-family:"Poppins","Segoe UI",sans-serif;
+        font-family:"Inter","Inter",sans-serif;
         background:var(--af-bg);
         color:var(--af-dark);
         overflow:hidden;

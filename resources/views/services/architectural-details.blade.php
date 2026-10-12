@@ -15,7 +15,7 @@
     .ra-page {
         background: #f0f0f0;
         color: #111;
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
         overflow-x: hidden;
     }
 
@@ -55,7 +55,7 @@
         color: #111;
         margin: 0 0 10px;
         line-height: 1.2;
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
     }
 
     .ra-title.center {
@@ -68,7 +68,7 @@
         color: #111;
         text-align: center;
         margin: 0 0 10px;
-        font-family: 'Segoe UI', Arial, sans-serif;
+        font-family: 'Inter', Arial, sans-serif;
     }
 
     .ra-underline {

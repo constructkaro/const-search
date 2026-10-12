@@ -15,7 +15,7 @@
         --fr-line: #d9e2ec;
         color: var(--fr-ink);
         background: #f5f7f9;
-        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
     }
 
     .fr-hero {
@@ -44,7 +44,7 @@
     .fr-hero h1 {
         max-width: 820px;
         margin: 0 0 14px;
-        font-family: 'Montserrat', 'Poppins', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
         font-size: clamp(36px, 5vw, 62px);
         font-weight: 900;
         line-height: 1.08;
@@ -75,7 +75,7 @@
     .fr-section h2 {
         margin: 0 0 16px;
         color: var(--fr-ink);
-        font-family: 'Montserrat', 'Poppins', sans-serif;
+        font-family: 'Inter', 'Inter', sans-serif;
         font-size: clamp(25px, 3vw, 34px);
         font-weight: 900;
         line-height: 1.2;
@@ -411,7 +411,7 @@
             padding: 24px;
             color: #172b3e;
             background: #fff;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         .fr-print-sample h1 {
