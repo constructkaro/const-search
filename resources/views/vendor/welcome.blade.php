@@ -694,7 +694,7 @@ body {
 
 .vendor-hero-copy h1 {
     margin: 0 0 16px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: clamp(44px, 5.8vw, 86px);
     line-height: .9;
     font-weight: 900;
@@ -1347,7 +1347,7 @@ body {
 
 /* Final alignment pass */
 .vendor-page {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 .vendor-page .container {
