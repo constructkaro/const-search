@@ -1355,11 +1355,17 @@ body {
 }
 
 .vendor-hero {
-    padding: 34px 0 54px;
+    padding: 0 0 54px;
+}
+
+.vendor-hero .container {
+    width: 100%;
+    max-width: none;
 }
 
 .vendor-hero-image-link {
-    border-radius: 8px;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .vendor-section,
@@ -1436,7 +1442,7 @@ body {
     }
 
     .vendor-hero {
-        padding: 22px 0 34px;
+        padding: 0 0 34px;
     }
 
     .vendor-page .category-card {
