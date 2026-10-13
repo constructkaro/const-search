@@ -670,53 +670,66 @@ body {
 }
 
 .vendor-hero-card {
-    min-height: 350px;
+    min-height: 500px;
     position: relative;
     overflow: hidden;
-    display: grid;
-    grid-template-columns: 0.92fr 1.08fr;
-    align-items: stretch;
+    display: block;
     border-radius: 10px;
-    background: #fff;
+    background:
+        linear-gradient(90deg, #fff 0%, #fff 35%, rgba(255,255,255,.90) 47%, rgba(255,255,255,.28) 63%, rgba(255,255,255,0) 100%),
+        url("{{ asset('images/bannerold.png') }}") center / cover no-repeat;
     box-shadow: 0 7px 13px rgba(0,0,0,.24);
 }
 
 .vendor-hero-copy {
     position: relative;
-    z-index: 2;
-    padding: 34px 34px 22px;
+    z-index: 3;
+    width: min(58%, 900px);
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 52px 42px 38px;
 }
 
 .vendor-hero-copy h1 {
-    margin: 0 0 6px;
+    margin: 0 0 16px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: clamp(30px, 4.6vw, 54px);
-    line-height: .96;
+    font-size: clamp(44px, 5.8vw, 86px);
+    line-height: .9;
     font-weight: 900;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
     text-transform: uppercase;
     color: #135d96;
 }
 
-.vendor-hero-copy h1 span {
+.vendor-hero-copy h1 .hero-as {
+    color: #5d565d;
+}
+
+.vendor-hero-copy h1 .hero-vendor {
     color: #8c5129;
 }
 
 .vendor-hero-copy h2 {
-    margin: 0 0 14px;
-    font-size: clamp(18px, 2vw, 26px);
-    line-height: 1.08;
+    margin: 0 0 24px;
+    font-size: clamp(28px, 3.4vw, 50px);
+    line-height: 1.02;
     font-weight: 900;
     color: #111;
 }
 
 .vendor-hero-copy p {
-    max-width: 560px;
-    margin: 0 0 20px;
-    font-size: 14px;
-    line-height: 1.45;
-    color: #1f2937;
+    max-width: 780px;
+    margin: 0 0 28px;
+    font-size: clamp(18px, 2vw, 30px);
+    line-height: 1.25;
+    color: #282828;
     font-weight: 700;
+}
+
+.vendor-hero-copy p strong {
+    font-weight: 900;
 }
 
 .vendor-hero-actions {
@@ -759,41 +772,81 @@ body {
 .hero-feature-row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    max-width: 620px;
+    gap: 22px;
+    max-width: 880px;
+    margin-top: auto;
 }
 
 .hero-feature {
     display: flex;
     align-items: center;
-    gap: 8px;
-    min-height: 50px;
-    padding: 8px 10px;
-    border: 1px solid #d9e6ef;
-    background: #fff;
-    border-radius: 4px;
-    font-size: 12px;
-    line-height: 1.1;
+    gap: 14px;
+    min-height: 78px;
+    padding: 10px 0;
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    font-size: clamp(16px, 1.45vw, 28px);
+    line-height: 1.15;
     font-weight: 900;
-    color: #213547;
+    color: #202020;
 }
 
 .hero-feature i {
-    color: #f7941d;
-    font-size: 18px;
+    width: 66px;
+    height: 66px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 66px;
+    border: 1px solid #ffb27b;
+    border-radius: 8px;
+    background: #fff1e8;
+    color: #f26722;
+    font-size: 30px;
 }
 
 .vendor-hero-media {
-    position: relative;
-    min-height: 350px;
-    background: url("{{ asset('images/logo/a1.jpg') }}") center / cover no-repeat;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .vendor-hero-media::before {
-    content: "";
+    display: none;
+}
+
+.hero-service-pill {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,.72) 21%, rgba(255,255,255,0) 48%);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 31px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #fff;
+    color: #27415f;
+    border: 1px solid rgba(20,116,187,.18);
+    box-shadow: 0 7px 14px rgba(0,0,0,.15);
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.hero-service-pill i {
+    color: #f26722;
+    font-size: 14px;
+}
+
+.hero-service-pill.architect { top: 23%; left: 62%; }
+.hero-service-pill.contractor { top: 18%; right: 20%; }
+.hero-service-pill.facade { top: 10%; right: 4%; }
+.hero-service-pill.audit { top: 33%; right: 10%; }
+.hero-service-pill.boq { top: 45%; right: 3%; }
+.hero-service-pill.survey { top: 56%; left: 57%; }
+.hero-service-pill.fabrication { top: 61%; right: 2%; }
+.hero-service-pill.testing { bottom: 18%; right: 9%; }
 }
 
 .vendor-section {
@@ -1215,9 +1268,20 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .vendor-hero-card {
+        min-height: auto;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.92) 62%, rgba(255,255,255,.72) 100%),
+            url("{{ asset('images/bannerold.png') }}") center / cover no-repeat;
+    }
+
+    .vendor-hero-copy {
+        width: 100%;
+        min-height: auto;
+    }
+
     .vendor-hero-media {
-        min-height: 240px;
-        order: -1;
+        display: none;
     }
 
     .vendor-hero-media::before {
@@ -1248,6 +1312,10 @@ body {
         padding: 24px 18px;
     }
 
+    .vendor-hero-copy h1 {
+        letter-spacing: -1px;
+    }
+
     .hero-feature-row,
     .vendor-page .grid-4,
     .join-grid,
@@ -1271,11 +1339,11 @@ body {
         <div class="container">
             <div class="vendor-hero-card">
                 <div class="vendor-hero-copy">
-                    <h1>Register as a <span>Vendor</span></h1>
+                    <h1>Register <span class="hero-as">as a</span> <span class="hero-vendor">Vendor</span></h1>
                     <h2>Get Construction Projects in Your Area</h2>
                     <p>
                         Join ConstructKaro and connect with verified project requirements based
-                        on your service category and preferred work locations.
+                        on your <strong>Service Category</strong> and <strong>Preferred Work Locations.</strong>
                     </p>
 
                     <div class="vendor-hero-actions">
@@ -1304,7 +1372,16 @@ body {
                         </div>
                     </div>
                 </div>
-                <div class="vendor-hero-media" aria-hidden="true"></div>
+                <div class="vendor-hero-media" aria-hidden="true">
+                    <span class="hero-service-pill architect"><i class="fa-solid fa-building-user"></i> Architect</span>
+                    <span class="hero-service-pill contractor"><i class="fa-solid fa-helmet-safety"></i> Civil Contractor</span>
+                    <span class="hero-service-pill facade"><i class="fa-solid fa-border-all"></i> Facade</span>
+                    <span class="hero-service-pill audit"><i class="fa-solid fa-magnifying-glass-chart"></i> Structural Audit</span>
+                    <span class="hero-service-pill boq"><i class="fa-solid fa-calculator"></i> BOQ &amp; Estimation</span>
+                    <span class="hero-service-pill survey"><i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Survey</span>
+                    <span class="hero-service-pill fabrication"><i class="fa-solid fa-handshake-angle"></i> Fabrication</span>
+                    <span class="hero-service-pill testing"><i class="fa-solid fa-flask"></i> Testing</span>
+                </div>
             </div>
         </div>
     </section>
