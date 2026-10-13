@@ -397,7 +397,7 @@ body{
     display: block;
     width: 100%;
     border-radius: 13px;
-    box-shadow: 3px 4px 7px rgba(0,0,0,.28);
+   
 }
 
 .ete-post-page .project-body{

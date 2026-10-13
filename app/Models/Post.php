@@ -16,6 +16,8 @@ class Post extends Model
         'state',
         'region',
         'city',
+        'city_id',
+        'area_ids',
         'budget_id',
         'contact_name',
         'mobile',

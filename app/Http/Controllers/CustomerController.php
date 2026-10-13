@@ -128,14 +128,15 @@ public function verifyOtp(Request $request, OtpService $otpService)
         if (session()->has('pending_post')) {
             $pendingPost = session('pending_post');
             $pendingFiles = session('pending_post_files', []);
+            $areaIdsJson = json_encode($pendingPost['area_ids'] ?? []);
 
             $data = [
                 'user_id'         => $customer->id,
                 'title'           => $pendingPost['title'] ?? null,
                 'work_type_id'    => $pendingPost['work_type_id'] ?? null,
                 'work_subtype_id' => $pendingPost['work_subtype_id'] ?? null,
-              
-                'city'            => $pendingPost['city'] ?? null,
+                'area_ids'        => $areaIdsJson,
+                'city_id'         => $pendingPost['city_id'] ?? null,
                 'pincode'         => $pendingPost['pincode'] ?? null,
                 'budget_id'       => $pendingPost['budget'] ?? null,
                 'contact_name'    => $pendingPost['contact_name'] ?? null,
