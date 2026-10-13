@@ -1344,6 +1344,111 @@ body {
         padding: 30px 20px;
     }
 }
+
+/* Final alignment pass */
+.vendor-page {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.vendor-page .container {
+    width: min(88%, 1600px);
+}
+
+.vendor-hero {
+    padding: 34px 0 54px;
+}
+
+.vendor-hero-image-link {
+    border-radius: 8px;
+}
+
+.vendor-section,
+.vendor-page .section {
+    padding: 58px 0;
+}
+
+.vendor-page #who-can-join {
+    padding-top: 52px;
+}
+
+.vendor-page .section-head,
+.vendor-section-title {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.vendor-page .grid-4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 18px;
+}
+
+.vendor-page .category-card {
+    flex: 0 1 calc((100% - 72px) / 5);
+    max-width: 275px;
+    min-width: 210px;
+}
+
+.vendor-page .grid-3 {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 28px;
+}
+
+.vendor-page .step-card {
+    min-height: 118px;
+}
+
+.vendor-page #why-join {
+    padding: 62px 0;
+}
+
+.vendor-page .benefit-card {
+    min-height: 145px;
+}
+
+.need-grid {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 22px;
+}
+
+.faq-list {
+    max-width: 1220px;
+}
+
+@media (max-width: 1200px) {
+    .vendor-page .category-card {
+        flex-basis: calc((100% - 36px) / 3);
+    }
+}
+
+@media (max-width: 760px) {
+    .vendor-page .container {
+        width: min(92%, 1600px);
+    }
+
+    .vendor-hero {
+        padding: 22px 0 34px;
+    }
+
+    .vendor-page .category-card {
+        flex-basis: 100%;
+        max-width: 420px;
+    }
+
+    .vendor-section,
+    .vendor-page .section {
+        padding: 42px 0;
+    }
+}
 </style>
 
 <div class="vendor-page">
