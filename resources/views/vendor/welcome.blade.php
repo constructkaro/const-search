@@ -626,52 +626,688 @@ a {
     .continue-btn { width: 100%; }
     .register-card { padding: 24px 18px; }
 }
+
+/* Reference-style vendor landing page */
+body {
+    background: #ededed;
+    color: #141414;
+}
+
+.vendor-header {
+    background: #fff !important;
+    border-bottom: 1px solid #d9d9d9 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.vendor-header .header-container {
+    min-height: 72px !important;
+}
+
+.vendor-header .logo img {
+    max-height: 58px !important;
+    filter: none !important;
+}
+
+.vendor-header .nav-menu a {
+    color: #24364b !important;
+    font-weight: 800 !important;
+}
+
+.vendor-header .register-btn {
+    background: #f7941d !important;
+    color: #111 !important;
+    border-radius: 8px !important;
+    padding: 12px 24px !important;
+    box-shadow: 0 8px 18px rgba(247,148,29,0.22) !important;
+}
+
+.vendor-page {
+    background: #ededed;
+}
+
+.vendor-hero {
+    padding: 28px 0 18px;
+}
+
+.vendor-hero-card {
+    min-height: 350px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    align-items: stretch;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 7px 13px rgba(0,0,0,.24);
+}
+
+.vendor-hero-copy {
+    position: relative;
+    z-index: 2;
+    padding: 34px 34px 22px;
+}
+
+.vendor-hero-copy h1 {
+    margin: 0 0 6px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(30px, 4.6vw, 54px);
+    line-height: .96;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: #135d96;
+}
+
+.vendor-hero-copy h1 span {
+    color: #8c5129;
+}
+
+.vendor-hero-copy h2 {
+    margin: 0 0 14px;
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.08;
+    font-weight: 900;
+    color: #111;
+}
+
+.vendor-hero-copy p {
+    max-width: 560px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.vendor-hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.vendor-btn {
+    min-width: 170px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border-radius: 5px;
+    padding: 10px 16px;
+    border: 0;
+    font-size: 14px;
+    font-weight: 900;
+    transition: .2s ease;
+}
+
+.vendor-btn.primary {
+    background: #1474bb;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(20,116,187,.28);
+}
+
+.vendor-btn.dark {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.vendor-btn:hover {
+    transform: translateY(-1px);
+}
+
+.hero-feature-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 620px;
+}
+
+.hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 8px 10px;
+    border: 1px solid #d9e6ef;
+    background: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.1;
+    font-weight: 900;
+    color: #213547;
+}
+
+.hero-feature i {
+    color: #f7941d;
+    font-size: 18px;
+}
+
+.vendor-hero-media {
+    position: relative;
+    min-height: 350px;
+    background: url("{{ asset('images/logo/a1.jpg') }}") center / cover no-repeat;
+}
+
+.vendor-hero-media::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,.72) 21%, rgba(255,255,255,0) 48%);
+}
+
+.vendor-section {
+    padding: 38px 0;
+}
+
+.vendor-section.white {
+    background: #fff;
+}
+
+.vendor-section.grey {
+    background: #ededed;
+}
+
+.vendor-section-title {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.vendor-section-title h2 {
+    display: inline-block;
+    margin: 0 0 8px;
+    border-bottom: 4px solid #f7941d;
+    font-size: clamp(22px, 2.5vw, 32px);
+    line-height: 1.1;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #202020;
+}
+
+.vendor-section-title p {
+    margin: 0;
+    color: #5f6b76;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.join-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.join-card {
+    overflow: hidden;
+    min-height: 128px;
+    border: 3px solid #1f75bc;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,.16);
+}
+
+.join-card img {
+    width: 100%;
+    height: 88px;
+    display: block;
+    object-fit: cover;
+}
+
+.join-card h3 {
+    min-height: 40px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background: #f8fbff;
+    color: #123b5f;
+    font-size: 12px;
+    line-height: 1.12;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 42px;
+    margin-top: 28px;
+}
+
+.process-step {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    align-items: start;
+}
+
+.process-step .num {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f7941d;
+    color: #fff;
+    font-weight: 900;
+    font-size: 13px;
+}
+
+.process-step h3 {
+    margin: 0 0 4px;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.process-step p {
+    margin: 0;
+    color: #667085;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.why-band {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    min-height: 300px;
+    background: #fff;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.why-image {
+    background: url("{{ asset('images/logo/c1.png') }}") center / cover no-repeat;
+}
+
+.why-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 52px;
+}
+
+.why-copy .small-tag {
+    align-self: flex-start;
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #e6f2fb;
+    color: #1f75bc;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.why-copy h2 {
+    margin: 0 0 10px;
+    font-size: clamp(28px, 3.5vw, 46px);
+    line-height: .98;
+    font-weight: 900;
+    color: #111;
+}
+
+.why-copy h2 span {
+    color: #1f75bc;
+}
+
+.why-copy p {
+    margin: 0 0 20px;
+    max-width: 680px;
+    color: #5f6b76;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.why-mini-grid,
+.need-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.why-mini,
+.need-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.why-mini i,
+.need-item i {
+    color: #1f75bc;
+    font-size: 22px;
+}
+
+.why-mini strong,
+.need-item strong {
+    display: block;
+    color: #1b2937;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.why-mini span,
+.need-item span {
+    display: block;
+    margin-top: 3px;
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.need-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.faq-list {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    gap: 14px;
+}
+
+.faq-item {
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+}
+
+.faq-item summary {
+    cursor: pointer;
+    padding: 18px 22px;
+    color: #111;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.faq-item p {
+    margin: 0;
+    padding: 0 22px 18px;
+    color: #667085;
+    font-weight: 700;
+}
+
+.vendor-page .section {
+    padding: 42px 0;
+}
+
+.vendor-page .section-light,
+.vendor-page .section-dark {
+    background: #ededed;
+    color: #151515;
+}
+
+.vendor-page .section-head {
+    margin-bottom: 24px;
+}
+
+.vendor-page .section-head span {
+    display: none;
+}
+
+.vendor-page .section-head h2 {
+    display: inline-block;
+    margin: 0 0 8px;
+    border-bottom: 4px solid #f7941d;
+    color: #202020;
+    font-size: clamp(22px, 2.5vw, 32px);
+    line-height: 1.1;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.vendor-page .section-head p,
+.vendor-page .section-dark .section-head p {
+    color: #5f6b76;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.vendor-page .category-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 135px;
+    border: 3px solid #1f75bc;
+    border-radius: 6px;
+    padding: 96px 8px 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,.16);
+}
+
+.vendor-page .category-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 86px;
+    background: var(--category-image, url("{{ asset('images/logo/c1.png') }}")) center / cover no-repeat;
+}
+
+.vendor-page .category-card .icon-box {
+    display: none;
+}
+
+.vendor-page .category-card:nth-child(1) { --category-image: url("{{ asset('images/logo/c1.png') }}"); }
+.vendor-page .category-card:nth-child(2) { --category-image: url("{{ asset('images/logo/a1.jpg') }}"); }
+.vendor-page .category-card:nth-child(3) { --category-image: url("{{ asset('images/logo/i1.png') }}"); }
+.vendor-page .category-card:nth-child(4) { --category-image: url("{{ asset('images/logo/ts1.png') }}"); }
+.vendor-page .category-card:nth-child(5) { --category-image: url("{{ asset('images/logo/bdc1.png') }}"); }
+.vendor-page .category-card:nth-child(6) { --category-image: url("{{ asset('images/logo/tss1.png') }}"); }
+.vendor-page .category-card:nth-child(7) { --category-image: url("{{ asset('images/logo/st1.png') }}"); }
+.vendor-page .category-card:nth-child(8) { --category-image: url("{{ asset('images/logo/coc1.png') }}"); }
+.vendor-page .category-card:nth-child(9) { --category-image: url("{{ asset('images/logo/fp1.png') }}"); }
+.vendor-page .category-card:nth-child(10) { --category-image: url("{{ asset('images/logo/wc1.png') }}"); }
+.vendor-page .category-card:nth-child(11) { --category-image: url("{{ asset('images/logo/lps1.png') }}"); }
+
+.vendor-page .category-card h3,
+.vendor-page .benefit-card h3 {
+    color: #123b5f;
+    font-size: 14px;
+    line-height: 1.15;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.vendor-page .grid-4 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.vendor-page .category-card p {
+    display: none;
+}
+
+.vendor-page .benefit-card p {
+    display: block;
+    margin-top: 8px;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+.vendor-page .step-card {
+    min-height: 150px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 8px 0;
+}
+
+.vendor-page .step-top {
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.vendor-page .step-number {
+    width: 34px;
+    height: 34px;
+    background: #f7941d;
+    color: #fff;
+    font-size: 13px;
+}
+
+.vendor-page .step-top i {
+    color: #1f75bc;
+}
+
+.vendor-page .step-card h3 {
+    margin-bottom: 4px;
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.vendor-page .step-card p {
+    color: #667085;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.vendor-page #why-join {
+    background: #fff;
+    border-top: 1px solid #d2d2d2;
+    border-bottom: 1px solid #d2d2d2;
+}
+
+.vendor-page #why-join .container {
+    position: relative;
+}
+
+.vendor-page #why-join .section-head h2 {
+    border-bottom: 0;
+    font-size: clamp(30px, 3.2vw, 46px);
+    text-transform: none;
+}
+
+.vendor-page .benefit-card {
+    border-radius: 6px;
+    padding: 18px;
+    box-shadow: none;
+    border: 1px solid #dbe6ef;
+}
+
+.vendor-page .benefit-card i {
+    color: #1f75bc;
+}
+
+.vendor-page #register,
+.vendor-page .cta-box {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .vendor-page .grid-4,
+    .join-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .need-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+    .vendor-hero-card,
+    .why-band {
+        grid-template-columns: 1fr;
+    }
+
+    .vendor-hero-media {
+        min-height: 240px;
+        order: -1;
+    }
+
+    .vendor-hero-media::before {
+        background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 100%);
+    }
+
+    .steps-grid,
+    .why-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .vendor-header .header-container {
+        gap: 10px;
+        padding: 12px 0 !important;
+    }
+
+    .vendor-header .nav-menu {
+        gap: 12px !important;
+    }
+
+    .vendor-header .nav-menu a:not(.register-btn) {
+        font-size: 13px;
+    }
+
+    .vendor-hero-copy {
+        padding: 24px 18px;
+    }
+
+    .hero-feature-row,
+    .vendor-page .grid-4,
+    .join-grid,
+    .need-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vendor-btn {
+        width: 100%;
+    }
+
+    .why-copy {
+        padding: 30px 20px;
+    }
+}
 </style>
 
-{{-- ===================== HERO ===================== --}}
-<section class="hero" id="top">
-    <div class="container hero-inner">
-        <div class="hero-content">
-            <div class="eyebrow">
-                <i class="fa-solid fa-circle-check"></i>
-                Verified vendor onboarding platform
-            </div>
+<div class="vendor-page">
+    {{-- ===================== HERO ===================== --}}
+    <section class="vendor-hero" id="top">
+        <div class="container">
+            <div class="vendor-hero-card">
+                <div class="vendor-hero-copy">
+                    <h1>Register as a <span>Vendor</span></h1>
+                    <h2>Get Construction Projects in Your Area</h2>
+                    <p>
+                        Join ConstructKaro and connect with verified project requirements based
+                        on your service category and preferred work locations.
+                    </p>
 
-            <h1>Get Verified Construction Projects in Your Area</h1>
+                    <div class="vendor-hero-actions">
+                        <a href="javascript:void(0)" class="vendor-btn primary openVendorModalBtn">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Register as a Vendor
+                        </a>
+                        <a href="tel:+919999999999" class="vendor-btn dark">
+                            <i class="fa-solid fa-phone"></i>
+                            Talk to Team
+                        </a>
+                    </div>
 
-            <p>
-                Join ConstructKaro as a trusted service partner and receive genuine,
-                location-based project opportunities tailored to your category and expertise.
-            </p>
-
-            <div class="hero-actions">
-                <a href="javascript:void(0)" class="btn-primary openVendorModalBtn">
-                    <i class="fa-regular fa-user"></i>
-                    Register as Vendor
-                </a>
-                <a href="tel:+919999999999" class="btn-outline">
-                    <i class="fa-solid fa-phone"></i>
-                    Talk to Team
-                </a>
-            </div>
-
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <h3>Verified</h3>
-                    <p>Focused onboarding for serious service partners</p>
+                    <div class="hero-feature-row">
+                        <div class="hero-feature">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            <span>Verified Project<br>Requirements</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span>Projects in Your<br>Preferred Area</span>
+                        </div>
+                        <div class="hero-feature">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Multiple Service<br>Categories</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3>Category-Based</h3>
-                    <p>Relevant project matching by expertise</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Region-Specific</h3>
-                    <p>Get leads based on your selected service area</p>
-                </div>
+                <div class="vendor-hero-media" aria-hidden="true"></div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {{-- ===================== WHO CAN JOIN ===================== --}}
 <section class="section section-light" id="who-can-join">
@@ -864,6 +1500,83 @@ a {
         </div>
     </div>
 </section>
+
+{{-- ===================== WHAT YOU NEED ===================== --}}
+<section class="vendor-section grey">
+    <div class="container">
+        <div class="vendor-section-title">
+            <h2>What You'll Need</h2>
+        </div>
+
+        <div class="need-grid">
+            <div class="need-item">
+                <i class="fa-regular fa-id-card"></i>
+                <div>
+                    <strong>Business Details</strong>
+                    <span>Name, address and business type.</span>
+                </div>
+            </div>
+            <div class="need-item">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <div>
+                    <strong>Service Expertise</strong>
+                    <span>Select categories and experience.</span>
+                </div>
+            </div>
+            <div class="need-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                    <strong>Preferred Locations</strong>
+                    <span>Choose service areas you work in.</span>
+                </div>
+            </div>
+            <div class="need-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <strong>Verification Documents</strong>
+                    <span>Upload professional documents.</span>
+                </div>
+            </div>
+            <div class="need-item">
+                <i class="fa-regular fa-images"></i>
+                <div>
+                    <strong>Portfolio</strong>
+                    <span>Add past project details, if available.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ===================== FAQ ===================== --}}
+<section class="vendor-section grey">
+    <div class="container">
+        <div class="vendor-section-title">
+            <h2>Frequently Asked Questions (FAQs)</h2>
+        </div>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>1. Who can register as a vendor?</summary>
+                <p>Contractors, architects, surveyors, testing agencies, BOQ experts, interior professionals, facade teams and other construction service providers can register.</p>
+            </details>
+            <details class="faq-item">
+                <summary>2. What documents are required?</summary>
+                <p>Basic business details, contact information, service category, location details and verification documents are required during onboarding.</p>
+            </details>
+            <details class="faq-item">
+                <summary>3. Can I choose multiple service categories?</summary>
+                <p>Yes, you can select categories that match the services your business provides.</p>
+            </details>
+            <details class="faq-item">
+                <summary>4. Can I choose more than one city or service area?</summary>
+                <p>Yes, you can select multiple cities and areas so project opportunities match your preferred working locations.</p>
+            </details>
+        </div>
+    </div>
+</section>
+
+</div>
 
 {{-- ===================== OLD DATA ===================== --}}
 @php
