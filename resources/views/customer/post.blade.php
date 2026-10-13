@@ -4,6 +4,12 @@
 
 @section('content')
 
+@php
+    $projectTitlePlaceholder = !empty($endToEndProject)
+        ? 'e.g. ' . $endToEndProject['title'] . ' Construction Project'
+        : 'e.g. 2BHK Residential Construction, Office Renovation';
+@endphp
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -17,6 +23,9 @@
     --bg:#f4f7fb;
     --card:#ffffff;
     --muted:#6b7280;
+    --form-label:#111827;
+    --form-text:#6f7682;
+    --form-placeholder:#8f96a3;
     --border:#e4e9f2;
     --input:#fbfcff;
 }
@@ -113,10 +122,11 @@ body{
 .form-field label,
 .cp-label{
     display: block;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: var(--form-label);
+    margin-bottom: 10px;
 }
 
 .req{
@@ -130,15 +140,35 @@ body{
 .cp-input{
     width: 100%;
     min-height: 58px;
-    background: #fbfcff;
+    background: #f2f2f2;
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 14px 16px;
     font-size: 15px;
-    color: #1f2937;
+    font-weight: 600;
+    color: var(--form-text);
     outline: none;
     box-sizing: border-box;
     transition: all .25s ease;
+}
+
+.form-control-custom::placeholder,
+.form-textarea-custom::placeholder,
+.cp-input::placeholder{
+    color: var(--form-placeholder);
+    font-weight: 600;
+    opacity: 1;
+}
+
+.form-select-custom:invalid,
+.cp-select:invalid{
+    color: var(--form-placeholder);
+}
+
+.form-control-custom[readonly],
+.cp-input[readonly]{
+    background: #eeeeee;
+    color: var(--form-placeholder);
 }
 
 .form-textarea-custom{
@@ -166,7 +196,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f3f6fb;
+    background: #f2f2f2;
     border: 1px solid var(--border);
     border-right: none;
     color: #94a3b8;
@@ -195,7 +225,7 @@ body{
 
 .field-hint{
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--form-placeholder);
     margin-top: 6px;
 }
 
@@ -303,6 +333,15 @@ body{
     min-height: 52px;
     border-radius: 14px;
     border: 1px solid var(--border);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--form-text);
+}
+
+.modal-content .form-control::placeholder{
+    color: var(--form-placeholder);
+    font-weight: 600;
+    opacity: 1;
 }
 
 .otp-note{
@@ -325,16 +364,31 @@ body{
     min-height: 58px !important;
     border: 1px solid var(--border) !important;
     border-radius: 16px !important;
-    background: #fbfcff !important;
+    background: #f2f2f2 !important;
     padding: 8px 12px !important;
     display: flex !important;
     align-items: center !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered{
-    color: #1f2937 !important;
+    color: var(--form-text) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
     line-height: 40px !important;
     padding-left: 0 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder,
+.select2-container--default .select2-search--inline .select2-search__field::placeholder{
+    color: var(--form-placeholder) !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
+.select2-results__option{
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--form-text);
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow{
@@ -467,7 +521,7 @@ body{
 .ete-post-page .cp-label{
     margin-bottom: 8px;
     font-size: 14px;
-    color: #222;
+    color: var(--form-label);
     font-weight: 900;
 }
 
@@ -481,7 +535,16 @@ body{
     background: #ebebeb;
     padding: 10px 15px;
     font-size: 14px;
-    color: #374151;
+    font-weight: 600;
+    color: var(--form-text);
+}
+
+.ete-post-page .form-control-custom::placeholder,
+.ete-post-page .form-textarea-custom::placeholder,
+.ete-post-page .cp-input::placeholder{
+    color: var(--form-placeholder);
+    font-weight: 600;
+    opacity: 1;
 }
 
 .ete-post-page .input-group-custom .form-control-custom,
@@ -501,6 +564,15 @@ body{
 .ete-post-page .select2-container--default .select2-selection--single .select2-selection__rendered{
     line-height: 34px !important;
     font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--form-text) !important;
+}
+
+.ete-post-page .select2-container--default .select2-selection--single .select2-selection__placeholder,
+.ete-post-page .select2-container--default .select2-search--inline .select2-search__field::placeholder{
+    color: var(--form-placeholder) !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
 }
 
 .ete-post-page .select2-container--default .select2-selection--single .select2-selection__arrow{
@@ -688,7 +760,7 @@ body{
                                 <label>Project Title</label>
                                 <div class="input-group-custom">
                                     <div class="input-icon"><i class="bi bi-pencil"></i></div>
-                                    <input type="text" class="form-control-custom" name="title" id="project_title" placeholder="e.g. 2BHK Residential Construction, Office Renovation">
+                                    <input type="text" class="form-control-custom" name="title" id="project_title" placeholder="{{ $projectTitlePlaceholder }}">
                                 </div>
                                 <div class="field-hint">A sample title will appear automatically after project type selection.</div>
                             </div>
@@ -852,6 +924,7 @@ body{
 
 <script>
 $(document).ready(function () {
+    const defaultProjectTitlePlaceholder = @json($projectTitlePlaceholder);
 
     $('#area_id').select2({
         placeholder: 'Select Area',
@@ -899,7 +972,7 @@ $(document).ready(function () {
         if ($(this).val()) {
             $('#project_title').attr('placeholder', selectedText + ' Project');
         } else {
-            $('#project_title').attr('placeholder', 'e.g. 2BHK Residential Construction, Office Renovation');
+            $('#project_title').attr('placeholder', defaultProjectTitlePlaceholder);
         }
     });
 
@@ -995,7 +1068,7 @@ $(document).ready(function () {
                     form.reset();
                     $('#area_id').empty().trigger('change');
                     $('#pincode_id').val('');
-                    $('#project_title').attr('placeholder', 'e.g. 2BHK Residential Construction, Office Renovation');
+                    $('#project_title').attr('placeholder', defaultProjectTitlePlaceholder);
 
                     let currentWorkTypeId = $('#work_type').val();
                     if (currentWorkTypeId) {
