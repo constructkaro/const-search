@@ -847,6 +847,19 @@ body {
 .hero-service-pill.survey { top: 56%; left: 57%; }
 .hero-service-pill.fabrication { top: 61%; right: 2%; }
 .hero-service-pill.testing { bottom: 18%; right: 9%; }
+
+.vendor-hero-image-link {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 7px 13px rgba(0,0,0,.24);
+    background: #fff;
+}
+
+.vendor-hero-image {
+    width: 100%;
+    display: block;
+    height: auto;
 }
 
 .vendor-section {
@@ -1337,52 +1350,14 @@ body {
     {{-- ===================== HERO ===================== --}}
     <section class="vendor-hero" id="top">
         <div class="container">
-            <div class="vendor-hero-card">
-                <div class="vendor-hero-copy">
-                    <h1>Register <span class="hero-as">as a</span> <span class="hero-vendor">Vendor</span></h1>
-                    <h2>Get Construction Projects in Your Area</h2>
-                    <p>
-                        Join ConstructKaro and connect with verified project requirements based
-                        on your <strong>Service Category</strong> and <strong>Preferred Work Locations.</strong>
-                    </p>
-
-                    <div class="vendor-hero-actions">
-                        <a href="javascript:void(0)" class="vendor-btn primary openVendorModalBtn">
-                            <i class="fa-solid fa-user-plus"></i>
-                            Register as a Vendor
-                        </a>
-                        <a href="tel:+919999999999" class="vendor-btn dark">
-                            <i class="fa-solid fa-phone"></i>
-                            Talk to Team
-                        </a>
-                    </div>
-
-                    <div class="hero-feature-row">
-                        <div class="hero-feature">
-                            <i class="fa-solid fa-clipboard-check"></i>
-                            <span>Verified Project<br>Requirements</span>
-                        </div>
-                        <div class="hero-feature">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                            <span>Projects in Your<br>Preferred Area</span>
-                        </div>
-                        <div class="hero-feature">
-                            <i class="fa-solid fa-layer-group"></i>
-                            <span>Multiple Service<br>Categories</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="vendor-hero-media" aria-hidden="true">
-                    <span class="hero-service-pill architect"><i class="fa-solid fa-building-user"></i> Architect</span>
-                    <span class="hero-service-pill contractor"><i class="fa-solid fa-helmet-safety"></i> Civil Contractor</span>
-                    <span class="hero-service-pill facade"><i class="fa-solid fa-border-all"></i> Facade</span>
-                    <span class="hero-service-pill audit"><i class="fa-solid fa-magnifying-glass-chart"></i> Structural Audit</span>
-                    <span class="hero-service-pill boq"><i class="fa-solid fa-calculator"></i> BOQ &amp; Estimation</span>
-                    <span class="hero-service-pill survey"><i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i> Survey</span>
-                    <span class="hero-service-pill fabrication"><i class="fa-solid fa-handshake-angle"></i> Fabrication</span>
-                    <span class="hero-service-pill testing"><i class="fa-solid fa-flask"></i> Testing</span>
-                </div>
-            </div>
+            <a href="javascript:void(0)" class="vendor-hero-image-link openVendorModalBtn" aria-label="Register as a vendor">
+                <img
+                    src="{{ asset('images/vendor-hero-register.png') }}"
+                    alt="Register as a vendor and get construction projects in your area"
+                    class="vendor-hero-image"
+                    loading="eager"
+                    decoding="async">
+            </a>
         </div>
     </section>
 
