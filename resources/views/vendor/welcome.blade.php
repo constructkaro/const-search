@@ -1342,7 +1342,6 @@ body {
 
 .vendor-page #who-can-join,
 .vendor-page #how-it-works,
-.vendor-page #why-join,
 .vendor-page #what-you-need {
     padding: clamp(24px, 3vw, 48px) 0;
     border: 0;
@@ -1350,10 +1349,21 @@ body {
 
 .vendor-page #who-can-join .vendor-join-image,
 .vendor-page #how-it-works .vendor-join-image,
-.vendor-page #why-join .vendor-join-image,
 .vendor-page #what-you-need .vendor-join-image {
     width: min(92%, 1600px);
     margin: 0 auto;
+}
+
+.vendor-page #why-join {
+    padding: 0;
+    border: 0;
+}
+
+.vendor-page #why-join .vendor-join-image {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
 }
 
 .vendor-page #who-can-join,
