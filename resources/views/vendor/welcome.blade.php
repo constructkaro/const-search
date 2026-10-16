@@ -1332,9 +1332,20 @@ body {
     background: #fff;
 }
 
+.vendor-page #who-can-join.vendor-join-image-section {
+    padding: 0 0 40px;
+    background: #fff;
+}
+
+.vendor-join-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .vendor-hero-banner .vendor-hero-actions {
     position: absolute;
-    top: 61%;
+    top: 57%;
     left: 3.4%;
     width: 46%;
     display: flex;
@@ -1514,6 +1525,18 @@ body {
     </section>
 
 {{-- ===================== WHO CAN JOIN ===================== --}}
+@if(is_file(public_path('images/vendor-who-can-join.png')))
+<section class="vendor-join-image-section" id="who-can-join" aria-label="Who can join ConstructKaro">
+    <img
+        src="{{ asset('images/vendor-who-can-join.png') }}"
+        alt="Who can join: Architect, Contractor, Feasibility Report, Survey Services, Facade Services, Structural Audit, BOQ / Estimation, Welding and Fabrication, and Testing Services. Choose the services you provide and build a professional profile around your expertise."
+        class="vendor-join-image"
+        width="7208"
+        height="2433"
+        loading="lazy"
+        decoding="async">
+</section>
+@else
 <section class="section section-light" id="who-can-join">
     <div class="container">
         <div class="section-head">
@@ -1583,6 +1606,7 @@ body {
 </section>
 
 {{-- ===================== HOW IT WORKS ===================== --}}
+@endif
 <section class="section section-dark" id="how-it-works">
     <div class="container">
         <div class="section-head">
