@@ -91,52 +91,6 @@
         background: #df6018;
     }
 
-    .vendor-header .header-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 14px;
-    }
-
-    .vendor-header .nav-menu .header-action {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-height: 50px;
-        padding: 12px 22px;
-        border: 1px solid rgba(255, 255, 255, .25);
-        border-radius: 10px;
-        background: linear-gradient(180deg, #05345b 0%, #1262a7 88%, #438ac1 100%);
-        box-shadow: inset 0 3px 5px rgba(0, 0, 0, .4), inset 0 -2px 3px rgba(255, 255, 255, .2);
-        color: #fff;
-        font-family: inherit;
-        font-size: 17px;
-        font-weight: 700;
-        line-height: 1.4;
-        white-space: nowrap;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .vendor-header .nav-menu .header-action--team {
-        background: linear-gradient(180deg, #191919 0%, #393939 88%, #686868 100%);
-    }
-
-    .vendor-header .header-action i {
-        font-size: 23px;
-    }
-
-    .vendor-header .nav-menu .header-action:hover {
-        color: #fff;
-        filter: brightness(1.12);
-    }
-
-    .vendor-header .header-action:focus-visible {
-        outline: 2px solid #2176bb;
-        outline-offset: 5px;
-    }
-
     #top, #who-can-join, #how-it-works, #why-join, #faq {
         scroll-margin-top: 125px;
     }
@@ -189,24 +143,8 @@
             border-radius: 10px;
         }
 
-        .vendor-header .header-actions {
-            width: 100%;
-            gap: 10px;
-        }
-
-        .vendor-header .nav-menu .header-action {
-            min-height: 44px;
-            padding: 10px 14px;
-            font-size: 14px;
-            white-space: normal;
-        }
-
-        .vendor-header .header-action i {
-            font-size: 20px;
-        }
-
         #top, #who-can-join, #how-it-works, #why-join, #faq {
-            scroll-margin-top: 300px;
+            scroll-margin-top: 210px;
         }
     }
 </style>
@@ -226,20 +164,7 @@
             <a href="{{ route('vendor') }}#why-join">Why Join</a>
             <a href="{{ route('vendor') }}#faq">FAQ</a>
             <a href="{{ route('login') }}" class="register-btn">Login</a>
-            <div class="header-actions">
-                @if(request()->routeIs('vendor'))
-                    <button type="button" class="header-action openVendorModalBtn" aria-haspopup="dialog" aria-controls="vendorRegisterModal">
-                        <i class="fa-solid fa-user" aria-hidden="true"></i> Register as a Vendor
-                    </button>
-                @else
-                    <a href="{{ route('vendor') }}#register" class="header-action">
-                        <i class="fa-solid fa-user" aria-hidden="true"></i> Register as a Vendor
-                    </a>
-                @endif
-                <a href="tel:+917385882657" class="header-action header-action--team">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i> Talk to Team
-                </a>
-            </div>
+
         </nav>
     </div>
 </header>

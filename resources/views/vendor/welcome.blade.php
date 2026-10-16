@@ -1327,6 +1327,78 @@ body {
     box-shadow: none;
 }
 
+.vendor-hero-banner {
+    position: relative;
+    background: #fff;
+}
+
+.vendor-hero-banner .vendor-hero-actions {
+    position: absolute;
+    top: 61%;
+    left: 3.4%;
+    width: 46%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: clamp(12px, 2.5vw, 48px);
+    margin: 0;
+}
+
+.vendor-hero-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, .7vw, 14px);
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: clamp(12px, 1vw, 20px) clamp(12px, 1.4vw, 28px);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: clamp(8px, .8vw, 15px);
+    background: linear-gradient(180deg, #05345b 0%, #1262a7 88%, #438ac1 100%);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .4), inset 0 -2px 3px rgba(255, 255, 255, .2);
+    color: #fff;
+    font-family: inherit;
+    font-size: clamp(12px, 1.65vw, 32px);
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.vendor-hero-action--team {
+    background: linear-gradient(180deg, #191919 0%, #393939 88%, #686868 100%);
+}
+
+.vendor-hero-action i {
+    font-size: 1.3em;
+}
+
+.vendor-hero-action:hover {
+    color: #fff;
+    filter: brightness(1.12);
+}
+
+.vendor-hero-action:focus-visible {
+    outline: 3px solid #2176bb;
+    outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+    .vendor-hero-banner .vendor-hero-actions {
+        position: static;
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 18px 4%;
+    }
+
+    .vendor-hero-action {
+        flex: 1 1 220px;
+        min-height: 50px;
+        font-size: 16px;
+    }
+}
+
 .vendor-section,
 .vendor-page .section {
     padding: 58px 0;
@@ -1420,6 +1492,7 @@ body {
     {{-- ===================== HERO ===================== --}}
     <section class="vendor-hero" id="top">
         <div class="container">
+            <div class="vendor-hero-banner">
             <a href="javascript:void(0)" class="vendor-hero-image-link openVendorModalBtn" aria-label="Register as a vendor">
                 <img
                     src="{{ asset('images/vendor-hero-register.png') }}"
@@ -1428,6 +1501,15 @@ body {
                     loading="eager"
                     decoding="async">
             </a>
+                <div class="vendor-hero-actions">
+                    <button type="button" class="vendor-hero-action openVendorModalBtn" aria-haspopup="dialog" aria-controls="vendorRegisterModal">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i> Register as a Vendor
+                    </button>
+                    <a href="tel:+917385882657" class="vendor-hero-action vendor-hero-action--team">
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i> Talk to Team
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
