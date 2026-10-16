@@ -1540,65 +1540,15 @@ body {
 
 {{-- ===================== HOW IT WORKS ===================== --}}
 
-<section class="section section-dark" id="how-it-works">
-    <div class="container">
-        <div class="section-head">
-            <span>Process</span>
-            <h2>How It Works</h2>
-            <p>Simple onboarding flow designed to verify your profile and connect you with relevant opportunities.</p>
-        </div>
-
-        <div class="grid-3">
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">1</div>
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
-                <h3>Register your business</h3>
-                <p>Fill in your company details, contact information and business profile.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">2</div>
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
-                <h3>Select your services</h3>
-                <p>Choose the categories, sub-categories and project types you handle.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">3</div>
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                </div>
-                <h3>Upload documents</h3>
-                <p>Submit the required verification and business support documents.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">4</div>
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <h3>Get verified</h3>
-                <p>Our team reviews your submission and activates your verified profile.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">5</div>
-                    <i class="fa-regular fa-bell"></i>
-                </div>
-                <h3>Receive inquiries</h3>
-                <p>Get matched with project opportunities based on your service area and category.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-top">
-                    <div class="step-number">6</div>
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <h3>Work as partner</h3>
-                <p>Deliver quality work, build credibility and grow with long-term opportunities.</p>
-            </div>
-        </div>
-    </div>
+<section id="how-it-works" aria-label="How it works">
+    <img
+        src="{{ asset('images/howitswork.png') }}"
+        alt="How it works: 1. Register and login. 2. Select category. 3. Add details and documents. 4. Read and accept agreement. 5. Submit your profile for verification. 6. Receive project opportunities in your preferred area."
+        class="vendor-join-image"
+        width="7784"
+        height="1884"
+        loading="lazy"
+        decoding="async">
 </section>
 
 {{-- ===================== WHY JOIN ===================== --}}
