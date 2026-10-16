@@ -1318,8 +1318,11 @@ body {
     background: #fff;
 }
 
-.vendor-hero .container {
-    width: min(92%, 1600px);
+.vendor-page .vendor-hero .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
 
 .vendor-hero-image-link {
