@@ -1454,7 +1454,7 @@ body {
 }
 
 .vendor-page #why-join {
-    padding: 62px 0;
+    padding: 0;
 }
 
 .vendor-page .benefit-card {
@@ -1552,49 +1552,28 @@ body {
 </section>
 
 {{-- ===================== WHY JOIN ===================== --}}
-<section class="section section-light" id="why-join">
-    <div class="container">
-        <div class="section-head">
-            <span>Benefits</span>
-            <h2>Why Vendors Join</h2>
-            <p>ConstructKaro helps service professionals grow with a transparent and opportunity-focused system.</p>
-        </div>
-
-        <div class="grid-3">
-            <div class="benefit-card">
-                <i class="fa-regular fa-circle-check"></i>
-                <h3>Genuine project inquiries</h3>
-                <p>Access real and relevant project opportunities from verified customer requirements.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-regular fa-map"></i>
-                <h3>Work in your region</h3>
-                <p>Receive opportunities based on the city, district and serviceable locations you select.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-solid fa-headphones"></i>
-                <h3>Dedicated support team</h3>
-                <p>Our team supports you during onboarding, verification and project coordination stages.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-regular fa-eye"></i>
-                <h3>Transparent system</h3>
-                <p>Clear process, better matching, fair platform structure and no confusing steps.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-                <h3>Long-term growth</h3>
-                <p>Build a consistent business pipeline with category-specific construction opportunities.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fa-solid fa-user-shield"></i>
-                <h3>Professional visibility</h3>
-                <p>Strengthen your brand presence as a trusted and verified construction service partner.</p>
-            </div>
-        </div>
-    </div>
+<section id="why-join" aria-label="Why professionals join ConstructKaro">
+    <img
+        src="{{ asset('images/Group1693.png') }}"
+        alt="Why professionals join ConstructKaro: Build a verified presence, choose your services and preferred work locations, and get onboarding support with profile setup and verification."
+        class="vendor-join-image"
+        width="7784"
+        height="1876"
+        loading="lazy"
+        decoding="async">
 </section>
 
+{{-- ===================== WHAT YOU NEED ===================== --}}
+<section id="what-you-need" aria-label="What you will need to register">
+    <img
+        src="{{ asset('images/Group1706.png') }}"
+        alt="Keep these ready: Business details including firm or company name and business type; service expertise and experience; preferred cities or districts; business and professional verification documents; and portfolio of completed work or project details, if applicable."
+        class="vendor-join-image"
+        width="7210"
+        height="841"
+        loading="lazy"
+        decoding="async">
+</section>
 {{-- ===================== CTA ===================== --}}
 <section class="section section-light" id="register" style="padding-top: 0;">
     <div class="container">
@@ -1612,52 +1591,7 @@ body {
     </div>
 </section>
 
-{{-- ===================== WHAT YOU NEED ===================== --}}
-<section class="vendor-section grey">
-    <div class="container">
-        <div class="vendor-section-title">
-            <h2>What You'll Need</h2>
-        </div>
 
-        <div class="need-grid">
-            <div class="need-item">
-                <i class="fa-regular fa-id-card"></i>
-                <div>
-                    <strong>Business Details</strong>
-                    <span>Name, address and business type.</span>
-                </div>
-            </div>
-            <div class="need-item">
-                <i class="fa-solid fa-screwdriver-wrench"></i>
-                <div>
-                    <strong>Service Expertise</strong>
-                    <span>Select categories and experience.</span>
-                </div>
-            </div>
-            <div class="need-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <div>
-                    <strong>Preferred Locations</strong>
-                    <span>Choose service areas you work in.</span>
-                </div>
-            </div>
-            <div class="need-item">
-                <i class="fa-solid fa-shield-halved"></i>
-                <div>
-                    <strong>Verification Documents</strong>
-                    <span>Upload professional documents.</span>
-                </div>
-            </div>
-            <div class="need-item">
-                <i class="fa-regular fa-images"></i>
-                <div>
-                    <strong>Portfolio</strong>
-                    <span>Add past project details, if available.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 {{-- ===================== FAQ ===================== --}}
 <section class="vendor-section grey" id="faq">
@@ -1682,6 +1616,10 @@ body {
             <details class="faq-item">
                 <summary>4. Can I choose more than one city or service area?</summary>
                 <p>Yes, you can select multiple cities and areas so project opportunities match your preferred working locations.</p>
+            </details>
+            <details class="faq-item">
+                <summary>5. How does vendor verification work?</summary>
+                <p>After you submit your profile, our team reviews your business details and supporting documents. Once verification is complete, your verified profile is activated.</p>
             </details>
         </div>
     </div>
