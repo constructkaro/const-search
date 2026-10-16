@@ -1310,16 +1310,16 @@ body {
 }
 
 .vendor-page .container {
-    width: min(88%, 1600px);
+    width: min(92%, 1600px);
 }
 
 .vendor-hero {
-    padding: 0 0 54px;
+    padding: 0;
+    background: #fff;
 }
 
 .vendor-hero .container {
-    width: 100%;
-    max-width: none;
+    width: min(92%, 1600px);
 }
 
 .vendor-hero-image-link {
@@ -1333,8 +1333,34 @@ body {
 }
 
 .vendor-page #who-can-join.vendor-join-image-section {
-    padding: 0 0 40px;
+    padding: clamp(24px, 3vw, 48px) 0;
     background: #fff;
+}
+
+.vendor-page #who-can-join,
+.vendor-page #how-it-works,
+.vendor-page #why-join,
+.vendor-page #what-you-need {
+    padding: clamp(24px, 3vw, 48px) 0;
+    border: 0;
+}
+
+.vendor-page #who-can-join .vendor-join-image,
+.vendor-page #how-it-works .vendor-join-image,
+.vendor-page #why-join .vendor-join-image,
+.vendor-page #what-you-need .vendor-join-image {
+    width: min(92%, 1600px);
+    margin: 0 auto;
+}
+
+.vendor-page #who-can-join,
+.vendor-page #why-join {
+    background: #fff;
+}
+
+.vendor-page #how-it-works,
+.vendor-page #what-you-need {
+    background: #ededed;
 }
 
 .vendor-join-image {
@@ -1415,10 +1441,6 @@ body {
     padding: 58px 0;
 }
 
-.vendor-page #who-can-join {
-    padding-top: 52px;
-}
-
 .vendor-page .section-head,
 .vendor-section-title {
     max-width: 900px;
@@ -1453,10 +1475,6 @@ body {
     min-height: 118px;
 }
 
-.vendor-page #why-join {
-    padding: 0;
-}
-
 .vendor-page .benefit-card {
     min-height: 145px;
 }
@@ -1472,6 +1490,46 @@ body {
     max-width: 1220px;
 }
 
+.vendor-page #faq .container {
+    max-width: 1220px;
+}
+
+.vendor-page #faq .vendor-section-title h2 {
+    font-size: clamp(24px, 2.5vw, 36px);
+    line-height: 1.3;
+    padding-bottom: 8px;
+    text-wrap: balance;
+}
+
+.vendor-page #faq .faq-list {
+    width: 100%;
+    gap: 16px;
+}
+
+.vendor-page #faq .faq-item {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+.vendor-page #faq .faq-item summary {
+    padding: 22px 24px;
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.5;
+}
+
+.vendor-page #faq .faq-item p {
+    margin: 0;
+    padding: 0 24px 24px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.vendor-page #faq .faq-item summary:focus-visible {
+    outline: 2px solid #2176bb;
+    outline-offset: -4px;
+}
+
 @media (max-width: 1200px) {
     .vendor-page .category-card {
         flex-basis: calc((100% - 36px) / 3);
@@ -1484,7 +1542,7 @@ body {
     }
 
     .vendor-hero {
-        padding: 0 0 34px;
+        padding: 0;
     }
 
     .vendor-page .category-card {
@@ -1495,6 +1553,15 @@ body {
     .vendor-section,
     .vendor-page .section {
         padding: 42px 0;
+    }
+
+    .vendor-page #faq .faq-item summary {
+        padding: 18px 16px;
+    }
+
+    .vendor-page #faq .faq-item p {
+        padding: 0 16px 18px;
+        font-size: 14px;
     }
 }
 </style>

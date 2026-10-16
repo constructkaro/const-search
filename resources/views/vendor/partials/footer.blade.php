@@ -15,7 +15,7 @@
     align-items: center;
     gap: 30px;
     width: 92%;
-    max-width: 1180px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 

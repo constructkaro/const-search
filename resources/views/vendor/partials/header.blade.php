@@ -8,8 +8,8 @@
     }
 
     .vendor-header .header-container {
-        width: 92.7%;
-        max-width: none;
+        width: 92%;
+        max-width: 1600px;
         min-height: 87px;
         margin: 0 auto;
         display: flex;
@@ -30,10 +30,9 @@
 
     .vendor-header .logo img {
         display: block;
-        width: 180px;
-        height: 100px;
-        margin-left: -33px;
-        object-fit: cover;
+        width: 220px;
+        height: 88px;
+        object-fit: contain;
     }
 
     .vendor-header .nav-menu {
@@ -109,8 +108,7 @@
         }
 
         .vendor-header .logo img {
-            width: 255px;
-            margin-left: -27px;
+            width: 200px;
         }
     }
 
@@ -153,7 +151,7 @@
     <div class="header-container">
         <div class="logo">
             <a href="{{ route('vendor') }}" aria-label="ConstructKaro vendor home">
-                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="305" height="100">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="220" height="88">
             </a>
         </div>
 
