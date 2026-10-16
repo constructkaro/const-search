@@ -1525,7 +1525,7 @@ body {
     </section>
 
 {{-- ===================== WHO CAN JOIN ===================== --}}
-<!-- @if(is_file(public_path('images/vendor-who-can-join.png'))) -->
+
 <section class="vendor-join-image-section" id="who-can-join" aria-label="Who can join ConstructKaro">
     <img
         src="{{ asset('images/vendor-who-can-join.png') }}"
@@ -1536,77 +1536,10 @@ body {
         loading="lazy"
         decoding="async">
 </section>
-<!-- @else -->
-<!-- <section class="section section-light" id="who-can-join">
-    <div class="container">
-        <div class="section-head">
-            <span>Categories</span>
-            <h2>Who Can Join</h2>
-            <p>ConstructKaro onboards verified professionals across construction-related categories and services.</p>
-        </div>
 
-        <div class="grid-4">
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-regular fa-building"></i></div>
-                <h3>Contractor</h3>
-                <p>Civil, residential, commercial, industrial and infrastructure execution experts.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-regular fa-compass"></i></div>
-                <h3>Architect</h3>
-                <p>Planning, design, approval support and technical coordination professionals.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-palette"></i></div>
-                <h3>Interior Designer</h3>
-                <p>Interior planning, fit-out, execution and turnkey design specialists.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-location-dot"></i></div>
-                <h3>Surveyor</h3>
-                <p>Land survey, drone survey, layout marking and contour survey professionals.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-calculator"></i></div>
-                <h3>BOQ / Estimation Expert</h3>
-                <p>Quantity takeoff, BOQ, cost estimation and rate analysis specialists.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
-                <h3>Testing Lab / Agency</h3>
-                <p>Soil, concrete, steel, aggregate and other technical material testing partners.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3>Structural Auditor / Engineer</h3>
-                <p>Audit, structural stability review, repair assessment and technical reporting experts.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-truck"></i></div>
-                <h3>Machinery Provider</h3>
-                <p>Construction equipment rental, machinery supply and heavy equipment operators.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-border-all"></i></div>
-                <h3>Facade Specialist</h3>
-                <p>Glass façade, ACP cladding, aluminium work and elevation execution teams.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-fire-flame-curved"></i></div>
-                <h3>Welding &amp; Fabrication</h3>
-                <p>MS, SS and structural fabrication service providers for site and workshop work.</p>
-            </div>
-            <div class="category-card">
-                <div class="icon-box"><i class="fa-solid fa-scale-balanced"></i></div>
-                <h3>Legal / NA Support</h3>
-                <p>NA conversion, due diligence, title scrutiny and land-legal support professionals.</p>
-            </div>
-        </div>
-    </div>
-</section> -->
 
 {{-- ===================== HOW IT WORKS ===================== --}}
-@endif
+
 <section class="section section-dark" id="how-it-works">
     <div class="container">
         <div class="section-head">
