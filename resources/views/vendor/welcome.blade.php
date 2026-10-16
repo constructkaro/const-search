@@ -633,34 +633,6 @@ body {
     color: #141414;
 }
 
-.vendor-header {
-    background: #fff !important;
-    border-bottom: 1px solid #d9d9d9 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.vendor-header .header-container {
-    min-height: 72px !important;
-}
-
-.vendor-header .logo img {
-    max-height: 58px !important;
-    filter: none !important;
-}
-
-.vendor-header .nav-menu a {
-    color: #24364b !important;
-    font-weight: 800 !important;
-}
-
-.vendor-header .register-btn {
-    background: #f7941d !important;
-    color: #111 !important;
-    border-radius: 8px !important;
-    padding: 12px 24px !important;
-    box-shadow: 0 8px 18px rgba(247,148,29,0.22) !important;
-}
-
 .vendor-page {
     background: #ededed;
 }
@@ -1308,19 +1280,6 @@ body {
 }
 
 @media (max-width: 640px) {
-    .vendor-header .header-container {
-        gap: 10px;
-        padding: 12px 0 !important;
-    }
-
-    .vendor-header .nav-menu {
-        gap: 12px !important;
-    }
-
-    .vendor-header .nav-menu a:not(.register-btn) {
-        font-size: 13px;
-    }
-
     .vendor-hero-copy {
         padding: 24px 18px;
     }
@@ -1712,7 +1671,7 @@ body {
 </section>
 
 {{-- ===================== FAQ ===================== --}}
-<section class="vendor-section grey">
+<section class="vendor-section grey" id="faq">
     <div class="container">
         <div class="vendor-section-title">
             <h2>Frequently Asked Questions (FAQs)</h2>

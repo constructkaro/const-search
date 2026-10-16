@@ -3,92 +3,163 @@
         position: sticky;
         top: 0;
         z-index: 1000;
-        background: rgba(17, 22, 51, 0.95);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
+        background: #d9d9d9;
+        border-bottom: 1px solid #cecece;
     }
 
-    .header-container {
-        min-height: 84px;
+    .vendor-header .header-container {
+        width: 92.7%;
+        max-width: none;
+        min-height: 108px;
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        gap: 24px;
     }
 
-    .logo {
+    .vendor-header .logo {
         display: flex;
-        align-items: center;
         flex-shrink: 0;
     }
 
-    .logo a {
+    .vendor-header .logo a {
         display: inline-flex;
         align-items: center;
-        text-decoration: none;
     }
 
-    .logo img {
-        max-height: 72px;
-        width: auto;
+    .vendor-header .logo img {
         display: block;
-        object-fit: contain;
-        filter: drop-shadow(0 6px 10px rgba(245,166,35,0.18));
+        width: 305px;
+        height: 100px;
+        margin-left: -33px;
+        object-fit: cover;
     }
 
-    .nav-menu {
+    .vendor-header .nav-menu {
         display: flex;
         align-items: center;
-        gap: 34px;
+        gap: 24px;
     }
 
-    .nav-menu a {
-        color: rgba(255,255,255,0.92);
-        font-size: 16px;
+    .vendor-header .nav-menu a {
+        color: #242424;
+        font-size: 22px;
         font-weight: 500;
+        line-height: 1.4;
+        white-space: nowrap;
         text-decoration: none;
-        transition: 0.25s ease;
     }
 
-    .nav-menu a:hover {
-        color: #f5a623;
+    .vendor-header .nav-menu a:hover {
+        color: #f37021;
     }
 
-    .register-btn {
-        padding: 14px 24px;
-        background: #f5a623;
-        color: #111633 !important;
+    .vendor-header .nav-menu a:focus-visible {
+        outline: 2px solid #2176bb;
+        outline-offset: 5px;
+    }
+
+    .vendor-header .nav-menu .is-active {
+        font-weight: 700;
+        background: linear-gradient(90deg, #2176bb, #f37021);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        border-bottom: 2px solid #97acc1;
+    }
+
+    .vendor-header .nav-menu .register-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 140px;
+        min-height: 50px;
+        padding: 8px 28px;
+        background: #f37021;
+        color: #fff;
+        border: 1px solid #ca824b;
         border-radius: 14px;
-        font-weight: 700 !important;
-        box-shadow: 0 10px 20px rgba(245,166,35,0.18);
+        font-weight: 700;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, .26), inset 0 -3px 7px rgba(255, 255, 255, .2);
     }
 
-    @media (max-width: 992px) {
-        .header-container {
-            flex-direction: column;
-            padding: 18px 0;
+    .vendor-header .nav-menu .register-btn:hover {
+        background: #df6018;
+    }
+
+    #top, #who-can-join, #how-it-works, #why-join, #faq {
+        scroll-margin-top: 125px;
+    }
+
+    @media (max-width: 1100px) {
+        .vendor-header .header-container {
+            gap: 12px;
         }
 
-        .nav-menu {
-            flex-wrap: wrap;
-            justify-content: center;
+        .vendor-header .nav-menu {
             gap: 16px;
+        }
+
+        .vendor-header .nav-menu a {
+            font-size: 16px;
+        }
+
+        .vendor-header .logo img {
+            width: 255px;
+            margin-left: -27px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .vendor-header .header-container {
+            flex-direction: column;
+            gap: 0;
+            padding: 0 0 14px;
+        }
+
+        .vendor-header .logo img {
+            height: 82px;
+            margin-left: 0;
+        }
+
+        .vendor-header .nav-menu {
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px 18px;
+        }
+
+        .vendor-header .nav-menu a {
+            font-size: 14px;
+        }
+
+        .vendor-header .nav-menu .register-btn {
+            min-width: 90px;
+            min-height: 40px;
+            padding: 6px 18px;
+            border-radius: 10px;
+        }
+
+        #top, #who-can-join, #how-it-works, #why-join, #faq {
+            scroll-margin-top: 210px;
         }
     }
 </style>
 
 <header class="vendor-header">
-    <div class="container header-container">
+    <div class="header-container">
         <div class="logo">
-            <a href="{{ url('/') }}" aria-label="ConstructKaro home">
-                <img src="{{ asset('images//logo.png') }}" alt="ConstructKaro Logo" onerror="this.onerror=null;this.src='{{ asset('images/logo.png') }}';">
+            <a href="{{ route('vendor') }}" aria-label="ConstructKaro vendor home">
+                <img src="{{ asset('images/logo.png') }}" alt="ConstructKaro" width="305" height="100">
             </a>
         </div>
 
-        <nav class="nav-menu">
-            <a href="#who-can-join">Who Can Join</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#why-join">Why Join</a>
+        <nav class="nav-menu" aria-label="Vendor navigation">
+            <a href="{{ route('vendor') }}#top" @class(['is-active' => request()->routeIs('vendor')]) @if(request()->routeIs('vendor')) aria-current="page" @endif>Home</a>
+            <a href="{{ route('vendor') }}#who-can-join">Who Can Join</a>
+            <a href="{{ route('vendor') }}#how-it-works">How It Works</a>
+            <a href="{{ route('vendor') }}#why-join">Why Join</a>
+            <a href="{{ route('vendor') }}#faq">FAQ</a>
             <a href="{{ route('login') }}" class="register-btn">Login</a>
         </nav>
     </div>
