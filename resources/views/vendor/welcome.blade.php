@@ -1525,7 +1525,7 @@ body {
     </section>
 
 {{-- ===================== WHO CAN JOIN ===================== --}}
-@if(is_file(public_path('images/vendor-who-can-join.png')))
+<!-- @if(is_file(public_path('images/vendor-who-can-join.png'))) -->
 <section class="vendor-join-image-section" id="who-can-join" aria-label="Who can join ConstructKaro">
     <img
         src="{{ asset('images/vendor-who-can-join.png') }}"
@@ -1536,8 +1536,8 @@ body {
         loading="lazy"
         decoding="async">
 </section>
-@else
-<section class="section section-light" id="who-can-join">
+<!-- @else -->
+<!-- <section class="section section-light" id="who-can-join">
     <div class="container">
         <div class="section-head">
             <span>Categories</span>
@@ -1603,7 +1603,7 @@ body {
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ===================== HOW IT WORKS ===================== --}}
 @endif
