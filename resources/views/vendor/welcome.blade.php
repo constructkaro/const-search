@@ -1584,14 +1584,14 @@ body {
     <section class="vendor-hero" id="top">
         <div class="container">
             <div class="vendor-hero-banner">
-            <a href="javascript:void(0)" class="vendor-hero-image-link openVendorModalBtn" aria-label="Register as a vendor">
-                <img
-                    src="{{ asset('images/vendor-hero-register.png') }}"
-                    alt="Register as a vendor and get construction projects in your area"
-                    class="vendor-hero-image"
-                    loading="eager"
-                    decoding="async">
-            </a>
+                <a href="javascript:void(0)" class="vendor-hero-image-link openVendorModalBtn" aria-label="Register as a vendor">
+                    <img
+                        src="{{ asset('images/vendor-hero-register.png') }}"
+                        alt="Register as a vendor and get construction projects in your area"
+                        class="vendor-hero-image"
+                        loading="eager"
+                        decoding="async">
+                </a>
                 <div class="vendor-hero-actions">
                     <button type="button" class="vendor-hero-action openVendorModalBtn" aria-haspopup="dialog" aria-controls="vendorRegisterModal">
                         <i class="fa-solid fa-user" aria-hidden="true"></i> Register as a Vendor

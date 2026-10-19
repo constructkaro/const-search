@@ -58,14 +58,19 @@
             <button type="button" data-rich-command="underline" title="Underline"><i class="bi bi-type-underline"></i></button>
             <label class="rich-color-btn" title="Text color">
                 <i class="bi bi-palette"></i>
-                <input type="color" data-rich-color value="#f37021">
+                <input type="color" data-rich-color value="#1c2c3e" aria-label="Choose text color">
             </label>
-            <select data-rich-size title="Font size">
-                <option value="">Size</option>
-                <option value="14px">Small</option>
-                <option value="16px">Normal</option>
-                <option value="20px">Large</option>
-                <option value="26px">Heading</option>
+            <select data-rich-size title="Font size" aria-label="Font size">
+                <option value="">Font size</option>
+                <option value="12px">12 px</option>
+                <option value="14px">14 px</option>
+                <option value="16px">16 px</option>
+                <option value="18px">18 px</option>
+                <option value="20px">20 px</option>
+                <option value="24px">24 px</option>
+                <option value="28px">28 px</option>
+                <option value="32px">32 px</option>
+                <option value="36px">36 px</option>
             </select>
             <button type="button" data-rich-command="insertUnorderedList" title="Bullet list"><i class="bi bi-list-ul"></i></button>
             <button type="button" data-rich-command="insertOrderedList" title="Number list"><i class="bi bi-list-ol"></i></button>

@@ -104,7 +104,7 @@
     .rich-editor-toolbar button,
     .rich-editor-toolbar select,
     .rich-color-btn {
-        min-height: 34px;
+        min-height: 42px;
         border: 1px solid #d8e0eb;
         border-radius: 8px;
         background: #fff;
@@ -113,7 +113,7 @@
     }
     .rich-editor-toolbar button,
     .rich-color-btn {
-        width: 38px;
+        width: 44px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -123,27 +123,32 @@
         position: relative;
     }
     .rich-editor-toolbar select {
-        width: 104px;
-        padding: 0 8px;
+        width: 126px;
+        padding: 0 10px;
     }
     .rich-color-btn input {
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
+        right: 4px;
+        bottom: 4px;
+        width: 14px;
+        height: 14px;
+        padding: 0;
+        border: 1px solid #cbd5e1;
+        border-radius: 3px;
         cursor: pointer;
     }
     .rich-editor {
-        height: 130px;
-        min-height: 130px;
-        max-height: 130px;
+        height: 420px;
+        min-height: 320px;
+        max-height: 70vh;
+        resize: vertical;
         border: 0;
         border-radius: 0;
-        padding: 10px 14px;
+        padding: 20px 22px;
         overflow-x: hidden;
         overflow-y: auto;
-        line-height: 1.35;
+        line-height: 1.65;
+        font-size: 16px;
         overflow-wrap: anywhere;
     }
     .rich-editor p,
@@ -238,9 +243,14 @@
         input.value = editor.innerHTML.trim();
     }
 
-    function applyRichStyle(editor, styles) {
+    function applyRichStyle(editor, styles, savedRange = null) {
         editor.focus();
         const selection = window.getSelection();
+
+        if (savedRange && editor.contains(savedRange.commonAncestorContainer)) {
+            selection.removeAllRanges();
+            selection.addRange(savedRange);
+        }
 
         if (!selection.rangeCount || selection.isCollapsed || !editor.contains(selection.anchorNode)) {
             return;
@@ -339,6 +349,12 @@
                 savedRange = selectionInsideEditor(editor) || savedRange;
             };
 
+            wrapper.querySelectorAll('.rich-editor-toolbar button, .rich-editor-toolbar select, [data-rich-color]').forEach((control) => {
+                control.addEventListener('mousedown', () => {
+                    savedRange = selectionInsideEditor(editor) || savedRange;
+                });
+            });
+
             wrapper.querySelectorAll('[data-rich-command]').forEach((button) => {
                 button.addEventListener('click', () => {
                     editor.focus();
@@ -348,13 +364,15 @@
             });
 
             wrapper.querySelector('[data-rich-color]').addEventListener('input', (event) => {
-                applyRichStyle(editor, { color: event.target.value });
+                applyRichStyle(editor, { color: event.target.value }, savedRange);
+                savedRange = selectionInsideEditor(editor) || savedRange;
                 syncRichEditor(wrapper);
             });
 
             wrapper.querySelector('[data-rich-size]').addEventListener('change', (event) => {
                 if (event.target.value) {
-                    applyRichStyle(editor, { fontSize: event.target.value });
+                    applyRichStyle(editor, { fontSize: event.target.value }, savedRange);
+                    savedRange = selectionInsideEditor(editor) || savedRange;
                     event.target.value = '';
                     syncRichEditor(wrapper);
                 }
