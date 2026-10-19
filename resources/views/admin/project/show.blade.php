@@ -311,8 +311,8 @@
 
         <div class="detail-grid">
             <div class="detail-box">
-                <label>User ID</label>
-                <div class="value">{{ $post->user_id ?? '-' }}</div>
+                <label>User Name</label>
+                <div class="value">{{ $post->user_name ?: ($post->contact_name ?: '-') }}</div>
             </div>
 
             <div class="detail-box">

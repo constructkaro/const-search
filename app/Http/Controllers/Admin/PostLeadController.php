@@ -205,13 +205,15 @@ class PostLeadController extends Controller
             ->leftJoin('work_subtypes', 'posts.work_subtype_id', '=', 'work_subtypes.id')
             ->leftJoin('budget_range', 'posts.budget_id', '=', 'budget_range.id')
             ->leftJoin('cust_unit', 'posts.unit_id', '=', 'cust_unit.id')
+            ->leftJoin('customers', 'posts.user_id', '=', 'customers.id')
             ->where('posts.id', $id)
             ->select(
                 'posts.*',
                 'work_types.work_type as work_type_name',
                 'work_subtypes.work_subtype as work_subtype_name',
                 'budget_range.budget_range as budget_name',
-                'cust_unit.unit as unit_name'
+                'cust_unit.unit as unit_name',
+                'customers.name as user_name'
             )
             ->first();
 
