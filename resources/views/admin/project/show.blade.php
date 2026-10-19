@@ -236,7 +236,7 @@
 
             <div class="detail-box">
                 <label>Area Size</label>
-                <div class="value">{{ $post->area ?? '-' }}</div>
+                <div class="value">{{ trim(($post->area ?? '').' '.($post->unit_name ?? '')) ?: '-' }}</div>
             </div>
 
             <div class="detail-box">
