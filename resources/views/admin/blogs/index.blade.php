@@ -275,17 +275,41 @@
             selection.addRange(savedRange);
         }
 
-        if (!selection.rangeCount || selection.isCollapsed || !editor.contains(selection.anchorNode)) {
+        if (!selection.rangeCount || !editor.contains(selection.anchorNode)) {
             return;
         }
 
         const range = selection.getRangeAt(0);
         const span = document.createElement('span');
         Object.entries(styles).forEach(([key, value]) => span.style[key] = value);
+
+        if (range.collapsed) {
+            span.textContent = '\u200b';
+            range.insertNode(span);
+            range.setStart(span.firstChild, 1);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            return;
+        }
+
         span.appendChild(range.extractContents());
         range.insertNode(span);
+        range.selectNodeContents(span);
         selection.removeAllRanges();
         selection.addRange(range);
+    }
+
+    function restoreRichSelection(editor, savedRange) {
+        if (!savedRange || !editor.contains(savedRange.commonAncestorContainer)) {
+            return false;
+        }
+
+        editor.focus();
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(savedRange);
+        return true;
     }
 
     const richImageUploadUrl = @json(route('admin.blogs.content-image.store'));
@@ -378,12 +402,32 @@
                 });
             });
 
-            wrapper.querySelectorAll('[data-rich-command]').forEach((button) => {
-                button.addEventListener('click', () => {
-                    editor.focus();
+            wrapper.querySelectorAll('button[data-rich-command]').forEach((button) => {
+                const runCommand = () => {
+                    restoreRichSelection(editor, savedRange);
                     document.execCommand(button.dataset.richCommand, false, null);
+                    savedRange = selectionInsideEditor(editor) || savedRange;
                     syncRichEditor(wrapper);
+                };
+
+                button.addEventListener('click', () => {
+                    runCommand();
                 });
+            });
+
+            wrapper.querySelector('[data-rich-command="fontName"]').addEventListener('change', (event) => {
+                restoreRichSelection(editor, savedRange);
+                document.execCommand('fontName', false, event.target.value);
+                savedRange = selectionInsideEditor(editor) || savedRange;
+                syncRichEditor(wrapper);
+            });
+
+            wrapper.querySelector('[data-rich-block]').addEventListener('change', (event) => {
+                restoreRichSelection(editor, savedRange);
+                document.execCommand('formatBlock', false, event.target.value);
+                savedRange = selectionInsideEditor(editor) || savedRange;
+                event.target.value = 'P';
+                syncRichEditor(wrapper);
             });
 
             wrapper.querySelector('[data-rich-color]').addEventListener('input', (event) => {

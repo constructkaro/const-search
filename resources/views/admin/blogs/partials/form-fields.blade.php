@@ -56,6 +56,12 @@
             <button type="button" data-rich-command="bold" title="Bold"><i class="bi bi-type-bold"></i></button>
             <button type="button" data-rich-command="italic" title="Italic"><i class="bi bi-type-italic"></i></button>
             <button type="button" data-rich-command="underline" title="Underline"><i class="bi bi-type-underline"></i></button>
+            <select data-rich-command="fontName" title="Font family" aria-label="Font family">
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+            </select>
             <label class="rich-color-btn" title="Text color">
                 <i class="bi bi-palette"></i>
                 <input type="color" data-rich-color value="#1c2c3e" aria-label="Choose text color">
@@ -64,6 +70,15 @@
                 <input type="number" data-rich-size min="8" max="96" step="1" placeholder="16" aria-label="Font size in pixels">
                 <span>px</span>
             </label>
+            <select data-rich-block title="Text style" aria-label="Text style">
+                <option value="P">Normal text</option>
+                <option value="H1">Heading 1</option>
+                <option value="H2">Heading 2</option>
+                <option value="H3">Heading 3</option>
+            </select>
+            <button type="button" data-rich-command="justifyLeft" title="Align left"><i class="bi bi-text-left"></i></button>
+            <button type="button" data-rich-command="justifyCenter" title="Center"><i class="bi bi-text-center"></i></button>
+            <button type="button" data-rich-command="justifyRight" title="Align right"><i class="bi bi-text-right"></i></button>
             <button type="button" data-rich-command="insertUnorderedList" title="Bullet list"><i class="bi bi-list-ul"></i></button>
             <button type="button" data-rich-command="insertOrderedList" title="Number list"><i class="bi bi-list-ol"></i></button>
             <button type="button" data-rich-image title="Add image"><i class="bi bi-image"></i></button>
