@@ -436,15 +436,12 @@
                 syncRichEditor(wrapper);
             });
 
-            wrapper.querySelector('[data-rich-size]').addEventListener('change', (event) => {
+            wrapper.querySelector('[data-rich-size]').addEventListener('input', (event) => {
                 const size = Number(event.target.value);
                 if (Number.isFinite(size) && size >= 8 && size <= 96) {
                     applyRichStyle(editor, { fontSize: `${size}px` }, savedRange);
                     savedRange = selectionInsideEditor(editor) || savedRange;
-                    event.target.value = '';
                     syncRichEditor(wrapper);
-                } else if (event.target.value) {
-                    event.target.value = '';
                 }
             });
 
