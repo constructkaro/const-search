@@ -103,7 +103,8 @@
     }
     .rich-editor-toolbar button,
     .rich-editor-toolbar select,
-    .rich-color-btn {
+    .rich-color-btn,
+    .rich-size-control {
         min-height: 42px;
         border: 1px solid #d8e0eb;
         border-radius: 8px;
@@ -125,6 +126,28 @@
     .rich-editor-toolbar select {
         width: 126px;
         padding: 0 10px;
+    }
+    .rich-size-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 0 9px;
+        cursor: text;
+    }
+    .rich-size-control input {
+        width: 42px;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        color: #1c2c3e;
+        font: inherit;
+        font-weight: 800;
+        text-align: center;
+    }
+    .rich-size-control span {
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 700;
     }
     .rich-color-btn input {
         position: absolute;
@@ -349,7 +372,7 @@
                 savedRange = selectionInsideEditor(editor) || savedRange;
             };
 
-            wrapper.querySelectorAll('.rich-editor-toolbar button, .rich-editor-toolbar select, [data-rich-color]').forEach((control) => {
+            wrapper.querySelectorAll('.rich-editor-toolbar button, .rich-editor-toolbar select, [data-rich-color], [data-rich-size]').forEach((control) => {
                 control.addEventListener('mousedown', () => {
                     savedRange = selectionInsideEditor(editor) || savedRange;
                 });
@@ -370,11 +393,14 @@
             });
 
             wrapper.querySelector('[data-rich-size]').addEventListener('change', (event) => {
-                if (event.target.value) {
-                    applyRichStyle(editor, { fontSize: event.target.value }, savedRange);
+                const size = Number(event.target.value);
+                if (Number.isFinite(size) && size >= 8 && size <= 96) {
+                    applyRichStyle(editor, { fontSize: `${size}px` }, savedRange);
                     savedRange = selectionInsideEditor(editor) || savedRange;
                     event.target.value = '';
                     syncRichEditor(wrapper);
+                } else if (event.target.value) {
+                    event.target.value = '';
                 }
             });
 
