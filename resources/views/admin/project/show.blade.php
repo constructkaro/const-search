@@ -210,11 +210,6 @@
 
         <div class="detail-grid">
             <div class="detail-box">
-                <label>ID</label>
-                <div class="value">{{ $post->id ?? '-' }}</div>
-            </div>
-
-            <div class="detail-box">
                 <label>Title</label>
                 <div class="value">{{ $post->title ?? '-' }}</div>
             </div>
