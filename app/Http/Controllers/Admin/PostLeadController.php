@@ -200,7 +200,20 @@ class PostLeadController extends Controller
 
     public function show($id)
     {
-        $post = DB::table('posts')->where('id', $id)->first();
+        $post = DB::table('posts')
+            ->leftJoin('work_types', 'posts.work_type_id', '=', 'work_types.id')
+            ->leftJoin('work_subtypes', 'posts.work_subtype_id', '=', 'work_subtypes.id')
+            ->leftJoin('budget_range', 'posts.budget_id', '=', 'budget_range.id')
+            ->leftJoin('cust_unit', 'posts.unit_id', '=', 'cust_unit.id')
+            ->where('posts.id', $id)
+            ->select(
+                'posts.*',
+                'work_types.work_type as work_type_name',
+                'work_subtypes.work_subtype as work_subtype_name',
+                'budget_range.budget_range as budget_name',
+                'cust_unit.unit as unit_name'
+            )
+            ->first();
 
         if (! $post) {
             return redirect()->route('admin.allprojects')->with('error', 'Lead not found.');

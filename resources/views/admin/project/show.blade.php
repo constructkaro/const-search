@@ -235,28 +235,28 @@
             </div>
 
             <div class="detail-box">
-                <label>Area</label>
+                <label>Area Size</label>
                 <div class="value">{{ $post->area ?? '-' }}</div>
             </div>
 
             <div class="detail-box">
-                <label>Work Type ID</label>
-                <div class="value">{{ $post->work_type_id ?? '-' }}</div>
+                <label>Work Type</label>
+                <div class="value">{{ $post->work_type_name ?: '-' }}</div>
             </div>
 
             <div class="detail-box">
-                <label>Work Subtype ID</label>
-                <div class="value">{{ $post->work_subtype_id ?? '-' }}</div>
+                <label>Project Type</label>
+                <div class="value">{{ $post->work_subtype_name ?: '-' }}</div>
             </div>
 
             <div class="detail-box">
-                <label>Budget ID</label>
-                <div class="value">{{ $post->budget_id ?? '-' }}</div>
+                <label>Approx. Budget</label>
+                <div class="value">{{ $post->budget_name ?: '-' }}</div>
             </div>
 
             <div class="detail-box">
-                <label>Unit ID</label>
-                <div class="value">{{ $post->unit_id ?? '-' }}</div>
+                <label>Unit</label>
+                <div class="value">{{ $post->unit_name ?: '-' }}</div>
             </div>
 
             <div class="detail-box">
