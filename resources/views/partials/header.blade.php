@@ -536,7 +536,7 @@ body {
     box-shadow: 0 16px 30px rgba(217,106,31,.28);
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1279px) {
     .header {
         height: auto;
         min-height: 76px;
@@ -689,6 +689,7 @@ body {
 
         <nav class="nav" id="mainNav">
             <a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('plotting.development') }}" class="{{ request()->routeIs('plotting.development') ? 'active' : '' }}" @if(request()->routeIs('plotting.development')) aria-current="page" @endif>Plotting Solutions</a>
             <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}">About Us</a>
             <a href="{{ route('completed.projects') }}" class="{{ request()->routeIs('completed.projects') ? 'active' : '' }}">Projects</a>
             <a href="{{ route('knowledgehub') }}" class="{{ request()->routeIs('knowledgehub') || request()->routeIs('case-study.*') || request()->routeIs('blogsinsights*') || request()->routeIs('constructionarticle') || request()->routeIs('chooserightcontractor') || request()->routeIs('differentconsultant') ? 'active' : '' }}">Constructshala</a>

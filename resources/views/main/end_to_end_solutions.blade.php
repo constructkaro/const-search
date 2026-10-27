@@ -218,7 +218,7 @@
 
     <div class="">
         @foreach($solutionBanners as $banner)
-            <a class="ete-banner-link" href="{{ route('post', ['work_type_id' => 17, 'solution' => $banner['slug']]) }}" aria-label="{{ $banner['title'] }}">
+            <a class="ete-banner-link" href="{{ $banner['slug'] === 'plotting-development' ? route('plotting.development') : route('post', ['work_type_id' => 17, 'solution' => $banner['slug']]) }}" aria-label="{{ $banner['title'] }}">
                 <img src="{{ asset('images/home/end-to-end/banners/' . $banner['image']) }}" alt="{{ $banner['title'] }}" width="{{ $banner['width'] }}" height="{{ $banner['height'] }}" loading="{{ $loop->first ? 'eager' : 'lazy' }}" decoding="async">
             </a>
         @endforeach

@@ -1,0 +1,9 @@
+<style>
+    .ck-plot-promo{background:#edf4f9;padding:48px 0;font-family:'Inter',Arial,sans-serif}.ck-plot-promo-inner{width:min(1200px,90%);margin:auto;display:grid;grid-template-columns:1fr 1fr;background:#102d46;border-radius:16px;overflow:hidden;align-items:center}.ck-plot-promo-copy{padding:38px;color:#fff}.ck-plot-promo-copy>span{display:block;color:#ffa65d;font-size:11px;font-weight:800;letter-spacing:1.8px;margin-bottom:13px}.ck-plot-promo-copy h2{color:#fff;font-size:clamp(26px,3vw,36px);line-height:1.15;margin:0 0 16px;font-weight:800}.ck-plot-promo-copy p{font-size:14px;color:#d4e0e9;line-height:1.7;margin:0 0 24px}.ck-plot-promo-btn{display:inline-flex;gap:20px;align-items:center;padding:14px 20px;border-radius:7px;background:#df6d1c;color:#fff!important;text-decoration:none;font-size:14px;font-weight:700}.ck-plot-promo-btn:hover{background:#be5511}.ck-plot-promo-btn:focus-visible{outline:3px solid #fff;outline-offset:4px}.ck-plot-promo-inner>img{display:block;width:100%;height:340px!important;object-fit:cover}@media(max-width:767px){.ck-plot-promo-inner{grid-template-columns:1fr}.ck-plot-promo-copy{padding:28px}.ck-plot-promo-inner>img{height:220px!important}.ck-plot-promo{padding:30px 0}}
+</style>
+<section class="ck-plot-promo" aria-labelledby="plotPromoHeading">
+    <div class="ck-plot-promo-inner">
+        <div class="ck-plot-promo-copy"><span>COMPANY PROFILE &amp; PROJECT PORTFOLIO</span><h2 id="plotPromoHeading">END-TO-END PLOTTING DEVELOPMENT SOLUTIONS</h2><p>From Planning &amp; Design to Infrastructure Development &amp; Project Handover</p><a class="ck-plot-promo-btn" href="{{ route('plotting.development') }}">Plotting Development Solutions <span aria-hidden="true">&rarr;</span></a></div>
+        <img src="{{ asset('images/plotting/hero.webp') }}" alt="Planned plots connected by roads and landscaped green spaces" width="800" height="450" loading="lazy">
+    </div>
+</section>

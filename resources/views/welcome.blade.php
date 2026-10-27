@@ -4238,6 +4238,8 @@ html {
     </div>
 </section>
     {{-- ── TRUST STRIP ── --}}
+    @include('partials.plotting-promo')
+
     <section class="ck-trust-section">
         <div class="ck-trust-heading">
             <h2>How ConstructKaro Works</h2>

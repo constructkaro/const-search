@@ -401,6 +401,9 @@ Route::get('industrial-specialized-interior', [HomeController::class, 'industria
 Route::get('end-to-end-solutions', function () {
     return view('main.end_to_end_solutions');
 })->name('end.to.end.solutions');
+
+Route::view('/end-to-end-plotting-development', 'main.plotting_development')
+    ->name('plotting.development');
 // Commercial interior design static page
 Route::get('commercial-interior', function(){
     return view('main.commercial_interior');

@@ -1606,6 +1606,8 @@ body {
 
 {{-- ===================== WHO CAN JOIN ===================== --}}
 
+@include('partials.plotting-promo')
+
 <section class="vendor-join-image-section" id="who-can-join" aria-label="Who can join ConstructKaro">
     <img
         src="{{ asset('images/vendor-who-can-join.png') }}"

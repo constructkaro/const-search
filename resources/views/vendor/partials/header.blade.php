@@ -158,6 +158,7 @@
         <nav class="nav-menu" aria-label="Vendor navigation">
             <a href="{{ route('vendor') }}#top" @class(['is-active' => request()->routeIs('vendor')]) @if(request()->routeIs('vendor')) aria-current="page" @endif>Home</a>
             <a href="{{ route('vendor') }}#who-can-join">Who Can Join</a>
+            <a href="{{ route('plotting.development') }}">Plotting Solutions</a>
             <a href="{{ route('vendor') }}#how-it-works">How It Works</a>
             <a href="{{ route('vendor') }}#why-join">Why Join</a>
             <a href="{{ route('vendor') }}#faq">FAQ</a>
