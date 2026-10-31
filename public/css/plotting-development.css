@@ -1,54 +1,739 @@
-.plot-page{background:#fff;color:#172b40;line-height:1.75}
-.plot-wrap{width:min(1200px,90%);margin:auto}
-.plot-page h1,.plot-page h2,.plot-page h3,.plot-page h4,.plot-page p{margin:0}
-.plot-page a:focus-visible{outline:3px solid #df6d1c;outline-offset:5px}
-.plot-hero{background:#102d46;color:#fff}
-.plot-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding:65px 0}
-.plot-hero h1{font-size:clamp(32px,3.5vw,50px);font-weight:800;line-height:1.18;letter-spacing:-1px}
-.plot-hero h1 em{font-style:normal;color:#ffa65d}
-.plot-hero-copy>p{color:#e2eaf1;font-size:18px;margin-top:24px}
-.plot-cover-label{font-weight:700;font-size:12px;letter-spacing:1.5px;margin-top:30px}
-.plot-cover-services{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;list-style:none;padding:0;margin:20px 0 0;font-size:12px;line-height:1.5}
-.plot-cover-services li{border-left:2px solid #ef8a39;padding-left:12px}
-.plot-cover-image{display:block;width:100%;height:auto;border-radius:12px}
-.plot-section{padding:70px 0}
-.plot-soft{background:#f3f6f8}
-.plot-page h2{font-size:clamp(24px,2.7vw,36px);line-height:1.3;font-weight:800;color:#155c96;border-bottom:3px solid #df6d1c;padding-bottom:15px;margin-bottom:28px}
-.plot-page .plot-subheading{font-size:15px;line-height:1.6;color:#a84406;letter-spacing:.5px;margin-bottom:24px}
-.plot-about-copy p{margin-bottom:20px;font-size:16px}
-.plot-about-copy p:last-child{margin-bottom:0}
-.plot-section-copy{font-size:16px;margin-bottom:28px!important}
-.plot-services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-.plot-service{background:#fff;border:1px solid #dce5ed;border-radius:10px;padding:28px}
-.plot-service h3{font-size:16px;line-height:1.5;margin-bottom:18px}
-.plot-service h3 span{display:block;color:#1f67ab;font-size:25px;margin-bottom:14px}
-.plot-service p{font-size:13px;color:#425467}
-.plot-project{display:grid;grid-template-columns:1fr 1.2fr;gap:44px;align-items:center;padding:32px;margin-top:28px;border:1px solid #dce5ed;border-radius:12px;background:#fff}
-.plot-project-copy h3{font-size:23px;line-height:1.4;color:#a84406;margin-bottom:24px}
-.plot-project dl{margin:0 0 24px;font-size:14px}
-.plot-project dl>div{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.plot-project dt{font-weight:750}
-.plot-project dd{margin:0}
-.plot-page h4{font-size:14px;margin-bottom:10px}
-.plot-project ul{margin:0;padding-left:20px;font-size:14px}
-.plot-project li+li{margin-top:8px}
-.plot-project-images{display:grid;gap:18px;min-width:0}
-.plot-project-images img{display:block;width:100%;height:auto;border-radius:7px;border:1px solid #dce5ed}
-.plot-photo-collage{margin-top:28px;border:1px solid #dce5ed;padding:24px;border-radius:12px}
-.plot-photo-collage img{display:block;width:100%;height:auto}
-.plot-upcoming{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-.plot-upcoming article{border:1px solid #dce5ed;border-top:4px solid #df6d1c;border-radius:9px;padding:25px;background:#fff}
-.plot-upcoming h3{font-size:18px;line-height:1.4;color:#a84406;margin-bottom:18px}
-.plot-upcoming-area{font-size:13px;font-weight:750;margin-bottom:22px!important}
-.plot-upcoming ul{font-size:14px;padding-left:19px;margin:0}
-.plot-upcoming li+li{margin-top:8px}
-.plot-cta{background:#102d46;color:#fff}
-.plot-cta h2{color:#fff}
-.plot-cta .plot-subheading{color:#ffa65d}
-.plot-closing-copy p{font-size:14px;margin-bottom:22px}
-.plot-closing-line{font-weight:750;color:#ffa65d}
-.plot-contact{display:flex;flex-wrap:wrap;gap:18px 48px;padding-top:18px;border-top:1px solid #456076}
-.plot-contact a{color:#fff;font-size:17px;text-underline-offset:5px}
-.plot-page [id]{scroll-margin-top:160px}
-@media(max-width:1000px){.plot-services{grid-template-columns:repeat(2,minmax(0,1fr))}.plot-project{gap:28px;padding:24px}.plot-upcoming{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:767px){.plot-hero-grid{grid-template-columns:1fr;padding:38px 0;gap:30px}.plot-hero h1{font-size:36px}.plot-hero-copy>p{font-size:16px}.plot-section{padding:44px 0}.plot-page h2{font-size:25px}.plot-page .plot-subheading{font-size:13px}.plot-about-copy p,.plot-section-copy{font-size:15px}.plot-project{grid-template-columns:1fr;gap:24px;padding:22px}.plot-project-copy h3{font-size:21px}.plot-project-images{gap:14px}.plot-photo-collage{padding:10px}.plot-upcoming{grid-template-columns:1fr}.plot-services{grid-template-columns:1fr}.plot-service{padding:24px}.plot-contact{flex-direction:column;gap:15px}}
+.plot-page{
+    --plot-blue:#226bad;
+    --plot-orange:#e5762d;
+    --plot-ink:#203245;
+    --plot-muted:#5d6874;
+    background:#fff;
+    color:var(--plot-ink);
+    font-family:'Inter',Arial,sans-serif;
+    line-height:1.65
+}
+.plot-wrap{
+    width:min(1240px,90%);
+    margin-inline:auto
+}
+.plot-page *{
+    box-sizing:border-box
+}
+.plot-page h1,.plot-page h2,.plot-page h3,.plot-page h4,.plot-page p{
+    margin:0
+}
+.plot-page a:focus-visible{
+    outline:3px solid var(--plot-orange);
+    outline-offset:5px
+}
+.plot-page h2{
+    font-size:clamp(28px,3.1vw,42px);
+    line-height:1.2;
+    letter-spacing:-1.3px;
+    font-weight:750;
+    max-width:970px
+}
+.plot-page h3{
+    font-size:22px;
+    line-height:1.35
+}
+.plot-page p{
+    font-size:16px
+}
+.plot-section{
+    padding:82px 0
+}
+.plot-section>.plot-wrap>p:not(.plot-section-note){
+    max-width:1000px;
+    margin-top:18px;
+    color:var(--plot-muted)
+}
+.plot-section>.plot-wrap>p:first-child{
+    margin-top:0
+}
+.plot-eyebrow,.plot-section>.plot-wrap>p:first-child:has(>strong){
+    font-size:12px!important;
+    line-height:1.5;
+    text-transform:uppercase;
+    letter-spacing:1.8px;
+    font-weight:700;
+    color:var(--plot-blue)!important;
+    margin-bottom:16px!important
+}
+.plot-gradient{
+    background:linear-gradient(100deg,#226bad,#565967 55%,#b85a1b);
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent
+}
+.plot-hero{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    background:#f2f4ed
+}
+.plot-hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    background:url('../images/plotting/hero.webp') right top/auto 165% no-repeat
+}
+.plot-hero::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:linear-gradient(90deg,#fff 0%,#fffffff0 30%,#ffffffac 52%,#ffffff10)
+}
+.plot-hero-copy{
+    max-width:720px;
+    padding:64px 0 52px
+}
+.plot-hero h1{
+    font-size:clamp(38px,4.3vw,61px);
+    line-height:1.1;
+    letter-spacing:-2.2px;
+    font-weight:800
+}
+.plot-hero-copy>p:not(.plot-eyebrow){
+    max-width:620px;
+    margin-top:20px;
+    line-height:1.6
+}
+.plot-hero-copy>p:nth-of-type(2){
+    font-size:20px;
+    font-weight:500
+}
+.plot-hero-copy>.plot-region-note{
+    max-width:570px;
+    font-size:13px;
+    margin-top:25px;
+    color:#4a5965
+}
+.plot-region-note em{
+    font-style:normal
+}
+.plot-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:28px
+}
+.plot-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+    min-height:48px;
+    padding:13px 22px;
+    border:1px solid transparent;
+    border-radius:7px;
+    text-decoration:none;
+    font-size:14px;
+    line-height:1.4;
+    font-weight:700
+}
+.plot-btn-primary{
+    background:var(--plot-blue);
+    color:white!important;
+    box-shadow:0 4px 12px #226bad24
+}
+.plot-btn-primary:hover{
+    background:#195489
+}
+.plot-btn-outline{
+    color:var(--plot-ink);
+    border-color:#9aa5ae;
+    background:#ffffffa6
+}
+.plot-btn-outline:hover{
+    background:#fff
+}
+.plot-section-nav{
+    border-block:1px solid #e5eaf0;
+    background:#fff
+}
+.plot-section-nav>.plot-wrap{
+    display:flex;
+    gap:32px;
+    align-items:center;
+    min-height:62px;
+    overflow-x:auto
+}
+.plot-section-nav a{
+    flex-shrink:0;
+    font-size:13px;
+    color:#4c5c6a;
+    text-decoration:none;
+    font-weight:600;
+    padding-block:20px
+}
+.plot-section-nav a:hover{
+    color:var(--plot-blue)
+}
+.plot-section-intro{
+    max-width:970px
+}
+.plot-section-intro>p:not(.plot-eyebrow){
+    margin-top:20px;
+    color:var(--plot-muted)
+}
+.plot-core-title{
+    margin-top:32px!important;
+    font-size:15px!important;
+    text-transform:uppercase;
+    letter-spacing:1px
+}
+.plot-highlights{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:28px;
+    padding-top:26px
+}
+.plot-highlight{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding-right:15px;
+    border-right:1px solid #dde5ed
+}
+.plot-highlight:last-child{
+    border:0
+}
+.plot-highlight svg{
+    width:40px;
+    height:44px;
+    flex-shrink:0;
+    color:var(--plot-blue)
+}
+.plot-highlight>div{
+    min-width:0
+}
+.plot-highlight strong{
+    display:block;
+    font-size:24px;
+    line-height:1.25;
+    letter-spacing:-.7px
+}
+.plot-highlight span{
+    display:block;
+    color:var(--plot-muted);
+    font-size:12px;
+    line-height:1.4;
+    margin-top:6px
+}
+.plot-footprint{
+    background:#f3f6f8
+}
+.plot-footprint h3{
+    margin:35px 0 22px;
+    color:var(--plot-blue)
+}
+.plot-regional-projects{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:20px
+}
+.plot-experience-card{
+    background:#fff;
+    border:1px solid #e0e7ed;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 12px #182e4307
+}
+.plot-page .plot-experience-card img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:1.4;
+    object-fit:cover
+}
+.plot-experience-copy{
+    padding:20px 17px
+}
+.plot-experience-card h4{
+    font-size:15px;
+    line-height:1.5;
+    font-weight:750;
+    color:#bd591a
+}
+.plot-experience-card p{
+    font-size:13px;
+    line-height:1.65;
+    color:var(--plot-muted);
+    margin-top:12px
+}
+.plot-project-state{
+    display:inline-block!important;
+    background:#eef6ef;
+    color:#376c48!important;
+    font-size:11px!important;
+    font-weight:600;
+    padding:4px 9px;
+    border-radius:4px
+}
+.plot-project-state em{
+    font-style:normal
+}
+.plot-project-state.is-ongoing{
+    background:#fff2e4;
+    color:#9c601e!important
+}
+.plot-upcoming{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px
+}
+.plot-upcoming-card{
+    padding:24px;
+    border:1px solid #efccaf;
+    border-top:3px solid var(--plot-orange);
+    border-radius:9px;
+    background:#fff
+}
+.plot-upcoming-card h4{
+    font-size:17px;
+    line-height:1.4
+}
+.plot-status{
+    display:inline-block;
+    background:#fff0e6;
+    padding:5px 9px;
+    color:#b95b20;
+    font-size:11px!important;
+    margin-top:15px!important;
+    border-radius:4px
+}
+.plot-status em{
+    font-style:normal
+}
+.plot-project-scope p{
+    margin-top:16px;
+    font-size:14px;
+    line-height:1.7;
+    color:var(--plot-muted)
+}
+.plot-section-note{
+    font-size:14px!important;
+    font-weight:600;
+    color:var(--plot-blue)!important;
+    line-height:1.6;
+    border-top:1px solid #dce5ed;
+    padding-top:24px;
+    margin-top:32px!important
+}
+.plot-section-note p{
+    font-size:14px
+}
+.plot-location-layout{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:65px;
+    align-items:center
+}
+.plot-location-layout>div>p{
+    margin-top:20px;
+    color:var(--plot-muted)
+}
+.plot-location-layout>div>.plot-eyebrow,.plot-location-layout>div>p:first-child{
+    margin:0 0 16px;
+    color:var(--plot-blue);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1.7px
+}
+.plot-location-panel{
+    background:#edf4f9;
+    border-radius:16px;
+    padding:32px
+}
+.plot-location-panel h3{
+    font-size:17px
+}
+.plot-location-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    list-style:none;
+    padding:0;
+    margin:22px 0 0
+}
+.plot-location-list li{
+    background:white;
+    border:1px solid #dbe6ed;
+    border-radius:5px;
+    padding:7px 12px;
+    font-size:13px;
+    color:#375b78
+}
+.plot-solutions{
+    background:#f7f9fb
+}
+.plot-services,.plot-reasons-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+    margin-top:35px
+}
+.plot-detail-card{
+    position:relative;
+    padding:28px;
+    background:#fff;
+    border:1px solid #e0e7ee;
+    border-radius:10px
+}
+.plot-step-number{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:39px;
+    height:39px;
+    border-radius:8px;
+    background:#edf4fa;
+    color:var(--plot-blue);
+    font-size:13px;
+    font-weight:750;
+    margin-bottom:20px
+}
+.plot-detail-card h3{
+    font-size:18px;
+    margin-bottom:13px
+}
+.plot-detail-card p{
+    color:var(--plot-muted);
+    font-size:14px;
+    line-height:1.75
+}
+.plot-local-support{
+    background:#18384f;
+    color:white
+}
+.plot-local-support h2{
+    max-width:750px
+}
+.plot-local-support>.plot-wrap>p{
+    color:#c6d6e1!important
+}
+.plot-local-support>.plot-wrap>p:first-child{
+    color:#ffb27c!important
+}
+.plot-local-support>.plot-wrap>h3{
+    margin-top:35px;
+    font-size:18px
+}
+.plot-support-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:25px 45px;
+    margin-top:28px
+}
+.plot-support-item{
+    display:flex;
+    gap:17px;
+    border-top:1px solid #ffffff26;
+    padding-top:25px
+}
+.plot-check{
+    color:#ffad70;
+    font-size:19px
+}
+.plot-support-item h4{
+    font-size:17px;
+    line-height:1.5
+}
+.plot-support-item p{
+    font-size:14px;
+    color:#c6d6e1;
+    margin-top:9px;
+    line-height:1.7
+}
+.plot-partner-note{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px 15px;
+    align-items:baseline;
+    margin-top:40px;
+    padding-top:24px;
+    border-top:1px solid #ffffff26
+}
+.plot-partner-note h3,.plot-partner-note p{
+    font-size:19px
+}
+.plot-partner-note p{
+    color:#ffb27c
+}
+.plot-why .plot-detail-card{
+    border-width:0 0 1px;
+    border-radius:0;
+    padding-left:0;
+    padding-right:20px
+}
+.plot-why .plot-step-number{
+    background:#fff1e6;
+    color:#b65a20
+}
+.plot-process{
+    background:#eef4f8
+}
+.plot-process-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1px;
+    background:#d7e3eb;
+    border:1px solid #d7e3eb;
+    border-radius:12px;
+    overflow:hidden;
+    margin-top:35px
+}
+.plot-process .plot-detail-card{
+    border:0;
+    border-radius:0;
+    background:#f6f9fb;
+    padding:30px
+}
+.plot-process .plot-step-number{
+    background:var(--plot-blue);
+    color:#fff;
+    border-radius:50%
+}
+.plot-audience-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:24px;
+    margin-top:35px
+}
+.plot-audience-card{
+    border-top:3px solid var(--plot-orange);
+    padding:24px 18px;
+    background:#f7f9fb;
+    border-radius:0 0 8px 8px
+}
+.plot-audience-card h3{
+    font-size:18px
+}
+.plot-audience-card p{
+    font-size:14px;
+    line-height:1.7;
+    margin-top:14px;
+    color:var(--plot-muted)
+}
+.plot-contact{
+    background:#eaf1f6;
+    text-align:center
+}
+.plot-contact h2{
+    margin-inline:auto;
+    font-size:clamp(32px,4vw,52px);
+    color:#1c5687
+}
+.plot-contact>.plot-wrap>p{
+    margin-inline:auto;
+    max-width:850px!important
+}
+.plot-contact h3{
+    margin-top:26px;
+    font-size:20px
+}
+.plot-contact .plot-hero-actions{
+    justify-content:center
+}
+.plot-contact .plot-phone{
+    display:inline-block;
+    margin-top:18px;
+    color:#285d84;
+    font-size:14px;
+    text-decoration:none
+}
+.plot-contact>.plot-wrap>p:last-of-type{
+    font-size:14px
+}
+.plot-page [id]{
+    scroll-margin-top:150px
+}
+@media(min-width:577px) and (max-width:1279px){
+    .plot-page{
+        padding-top:54px
+    }
+}
+@media(max-width:1050px){
+    .plot-highlights{
+        gap:20px
+    }
+    .plot-highlight{
+        gap:10px
+    }
+    .plot-highlight strong{
+        font-size:20px
+    }
+    .plot-highlight svg{
+        width:32px
+    }
+    .plot-regional-projects{
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+    .plot-location-layout{
+        gap:30px
+    }
+    .plot-audience-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+    .plot-section-nav>.plot-wrap{
+        gap:25px
+    }
+}
+@media(max-width:767px){
+    .plot-section{
+        padding:50px 0
+    }
+    .plot-page h2{
+        letter-spacing:-.7px
+    }
+    .plot-hero-copy{
+        padding:42px 0 35px
+    }
+    .plot-hero h1{
+        font-size:42px;
+        letter-spacing:-1.6px
+    }
+    .plot-hero::after{
+        background:linear-gradient(90deg,#fffffff5,#ffffffcf)
+    }
+    .plot-hero-copy>p:nth-of-type(2){
+        font-size:18px
+    }
+    .plot-hero-copy>p:not(.plot-eyebrow){
+        font-size:15px
+    }
+    .plot-hero-copy>.plot-region-note{
+        font-size:12px!important
+    }
+    .plot-hero .plot-eyebrow{
+        font-size:10px!important;
+        letter-spacing:1px;
+        max-width:350px
+    }
+    .plot-section-nav>.plot-wrap{
+        min-height:54px;
+        gap:24px
+    }
+    .plot-section-nav a{
+        font-size:12px;
+        padding-block:16px
+    }
+    .plot-highlights{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:28px 20px
+    }
+    .plot-highlight{
+        border:0
+    }
+    .plot-highlight strong{
+        font-size:20px
+    }
+    .plot-highlight span{
+        font-size:11px
+    }
+    .plot-location-layout{
+        grid-template-columns:1fr
+    }
+    .plot-location-panel{
+        padding:25px
+    }
+    .plot-services,.plot-reasons-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:16px
+    }
+    .plot-detail-card{
+        padding:23px
+    }
+    .plot-support-grid{
+        gap:24px
+    }
+    .plot-process-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+    .plot-process .plot-detail-card{
+        padding:25px
+    }
+    .plot-footprint h3{
+        font-size:21px
+    }
+    .plot-upcoming{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:18px
+    }
+}
+@media(max-width:576px){
+    .plot-page{
+        padding-top:38px
+    }
+    .plot-hero h1{
+        font-size:clamp(33px,8.7vw,42px)
+    }
+    .plot-wrap{
+        width:90%
+    }
+    .plot-hero-actions{
+        gap:10px
+    }
+    .plot-btn{
+        font-size:13px;
+        padding:12px 15px;
+        gap:14px
+    }
+    .plot-hero-copy>p:not(.plot-eyebrow){
+        margin-top:17px
+    }
+    .plot-highlight strong{
+        font-size:18px
+    }
+    .plot-highlight svg{
+        width:29px;
+        height:36px
+    }
+    .plot-regional-projects{
+        gap:15px
+    }
+    .plot-experience-copy{
+        padding:16px 12px
+    }
+    .plot-experience-card h4{
+        font-size:13px
+    }
+    .plot-experience-card p{
+        font-size:12px
+    }
+    .plot-upcoming{
+        grid-template-columns:1fr
+    }
+    .plot-upcoming-card{
+        padding:22px
+    }
+    .plot-services,.plot-reasons-grid,.plot-support-grid,.plot-audience-grid{
+        grid-template-columns:1fr
+    }
+    .plot-detail-card{
+        padding:25px
+    }
+    .plot-step-number{
+        margin-bottom:15px
+    }
+    .plot-process .plot-detail-card{
+        padding:22px 16px
+    }
+    .plot-process .plot-detail-card h3{
+        font-size:17px
+    }
+    .plot-process .plot-detail-card p{
+        font-size:13px
+    }
+    .plot-section-note{
+        font-size:13px!important
+    }
+    .plot-contact h3{
+        font-size:18px
+    }
+    .plot-section-intro>p{
+        font-size:15px
+    }
+    .plot-section>.plot-wrap>p{
+        font-size:15px
+    }
+}
