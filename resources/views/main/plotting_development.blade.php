@@ -3,7 +3,7 @@
 @section('meta_description', 'From land to landmark. End-to-end feasibility, surveying, planning, engineering and infrastructure execution across Raigad and the Mumbai 3.0 growth corridor.')
 @section('og_image', asset('images/plotting/hero.webp'))
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/plotting-development.css') }}?v=20261031-full">
+<link rel="stylesheet" href="{{ asset('css/plotting-development.css') }}?v=20261031-services">
 @endpush
 @section('content')
 <div class="plot-page">
@@ -142,31 +142,30 @@
             <p>Whether you are planning a new plotted development, villa community or large-scale land development project, our team can provide technical, planning and execution support tailored to your location and project requirements.</p><p class="plot-section-note"><strong>One Development Partner. Multiple Locations. Complete Project Support.</strong></p>
         </div>
     </section>
-    <section id="development-services" class="plot-section plot-solutions" aria-labelledby="development-services-heading">
+    <section id="development-services" class="plot-section plot-solutions plot-illustrated-solutions" aria-labelledby="development-services-heading">
         <div class="plot-wrap">
-            <p><strong>WHAT WE DO</strong></p><h2 id="development-services-heading">Everything Your Development Needs.</h2><p>Integrated solutions designed to support every stage of plotting and infrastructure development.</p>
-            <div class="plot-services">
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">01</span><h3>Land Feasibility &amp; Assessment</h3><p>Site evaluation, development potential, technical feasibility, market assessment and preliminary project viability.</p>
-                </article>
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">02</span><h3>Land Surveying &amp; Mapping</h3><p>Topographical surveys, boundary measurements, contour mapping, site levels and plot demarcation.</p>
-                </article>
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">03</span><h3>Architectural &amp; Layout Planning</h3><p>Master layouts, plot subdivision, internal road planning, open spaces and development drawings.</p>
-                </article>
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">04</span><h3>Engineering, BOQ &amp; Estimation</h3><p>Infrastructure engineering, structural planning, technical drawings, quantity estimation and development cost planning.</p>
-                </article>
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">05</span><h3>Civil &amp; Infrastructure Construction</h3><p>Internal roads, earthwork, drainage, retaining walls, compound walls, water infrastructure, entrance gates and associated civil works.</p>
-                </article>
-                <article class="plot-detail-card">
-                    <span class="plot-step-number" aria-hidden="true">06</span><h3>Project Management &amp; Handover</h3><p>Execution coordination, contractor supervision, quality monitoring, project documentation and final handover support.</p>
-                </article>
-            </div>
-            <div class="plot-section-note">
-                <p><strong>From Initial Planning to Final Execution — Everything Under One Roof.</strong></p>
+            <h2 id="development-services-heading">Comprehensive Services Across Every Stage of Plotting Development</h2>
+            <p class="plot-services-intro">ConstructKaro provides coordinated technical, planning and construction solutions required for complete plotting development.</p>
+            @php
+                $developmentServices = [
+                    ['feasibility', 'Feasibility Assessment', 'Evaluation of site conditions, land development potential and preliminary project viability.'],
+                    ['surveying', 'Land Surveying', 'Topographical surveys, boundary measurements, site levels and mapping.'],
+                    ['planning', 'Architectural Planning & Design', 'Plot subdivision layouts, road planning, open spaces and master layout drawings.'],
+                    ['estimation', 'Cost Estimation', 'Structural and infrastructure design, BOQ preparation and development cost estimation.'],
+                    ['infrastructure', 'Construction & Infrastructure Development', 'Execution of roads, earthwork, boundary walls, drainage, utilities and associated civil works.'],
+                    ['handover', 'Project Completion & Handover', 'Quality inspections, finishing works and final project delivery.'],
+                ];
+            @endphp
+            <div class="plot-illustrated-services">
+                @foreach($developmentServices as [$illustration, $title, $description])
+                    <article class="plot-illustrated-service">
+                        <img src="{{ asset('images/plotting/services/' . $illustration . '.png') }}" alt="" width="377" height="377" loading="lazy">
+                        <div class="plot-illustrated-service-copy">
+                            <h3><span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }} |</span> {{ $title }}</h3>
+                            <ul><li>{{ $description }}</li></ul>
+                        </div>
+                    </article>
+                @endforeach
             </div>
         </div>
     </section>
