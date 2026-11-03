@@ -631,9 +631,10 @@
 
     <div class="contact-box">
         <p>If you want to make customization, then you can click this contact form.</p>
-        <a href="#" class="contact-btn">Contact Form</a>
+        <button type="button" class="contact-btn" data-open-package-contact aria-haspopup="dialog" aria-controls="packageContactDialog">Contact Form</button>
     </div>
 </section>
+@include('partials.package-contact-form', ['packageType' => 'Core & Shell'])
 <script>
 document.querySelectorAll('.package-click').forEach(function(item) {
     item.addEventListener('click', function() {
