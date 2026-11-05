@@ -36,24 +36,15 @@
     }
 
     .rc-hero {
-        min-height: 300px;
-        display: flex;
-        align-items: center;
-        background:
-            linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.62) 38%, rgba(0,0,0,.10) 100%),
-            url("{{ asset('images/logo/rc1.png') }}") center / cover no-repeat;
-    }
-
-    .rc-hero h1 {
-        max-width: 560px;
         margin: 0;
-        color: #fff;
-        font-family: "Inter", sans-serif;
-        font-size: clamp(34px, 4vw, 56px);
-        font-weight: 900;
-        line-height: 1.05;
+        padding: 0;
     }
 
+    .rc-hero img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
     .rc-section {
         padding: 48px 0 0;
     }
@@ -254,14 +245,6 @@
             width: calc(100% - 24px);
         }
 
-        .rc-hero {
-            min-height: 240px;
-        }
-
-        .rc-hero h1 {
-            font-size: 34px;
-        }
-
         .rc-chip-grid,
         .rc-project-grid,
         .rc-bullets,
@@ -306,10 +289,8 @@
 @endphp
 
 <main class="rc-page">
-    <section class="rc-hero">
-        <div class="rc-wrap">
-            <h1>Residential<br>Contractor</h1>
-        </div>
+    <section class="rc-hero" aria-label="Residential Contractor">
+        <img src="{{ asset('images/logo/rc1.png') }}" alt="Residential Contractor" width="1946" height="487" fetchpriority="high">
     </section>
 
     <section class="rc-section">

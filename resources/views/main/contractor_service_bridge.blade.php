@@ -344,7 +344,7 @@
 <main class="bc-page">
     <section class="bc-hero">
         <div class="bc-wrap">
-            <h1>Bridge Contractor</h1>
+            <!-- <h1>Bridge Contractor</h1> -->
         </div>
     </section>
 

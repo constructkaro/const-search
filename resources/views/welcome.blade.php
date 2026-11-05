@@ -3666,7 +3666,7 @@ html {
 
 .home-page .hero-banner {
     overflow: visible;
-    margin-bottom: 104px;
+    margin-bottom: 0;
     z-index: 2;
 }
 
@@ -3676,17 +3676,15 @@ html {
 }
 
 .hero-discovery-card {
-    position: absolute;
+    position: relative;
     z-index: 5;
-    left: 50%;
-    bottom: -84px;
     width: min(95%, 1804px);
+    margin: -48px auto 0;
     padding: 18px 28px;
     border: 1px solid #2478bb;
     border-radius: 18px;
     background: #fff;
     box-shadow: 0 12px 28px rgba(20, 43, 65, .12);
-    transform: translateX(-50%);
 }
 
 .hero-discovery-search {
@@ -3820,8 +3818,8 @@ html {
 
 .hero-discovery-highlights {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-auto-rows: 64px;
+    grid-template-columns: minmax(0, 871fr) minmax(0, 871fr) minmax(0, 995fr) minmax(0, 1099fr) minmax(0, 987fr) minmax(0, 1099fr);
+    grid-auto-rows: auto;
     align-items: center;
     gap: 16px;
     margin-top: 0;
@@ -3836,17 +3834,17 @@ html {
 
 .hero-discovery-highlight.has-image {
     width: 100%;
-    height: 64px;
+    height: 76px;
     display: grid;
     place-items: center;
     min-width: 0;
 }
 
-.hero-discovery-highlight-image {
+.home-page .hero-discovery-highlight-image {
     display: block;
     width: 100%;
-    max-width: 240px;
-    height: 60px;
+    max-width: 100%;
+    height: 100%;
     margin: 0;
     object-fit: contain;
     object-position: center;
@@ -3857,8 +3855,7 @@ html {
     display: grid;
     place-items: center;
     width: 100%;
-    max-width: 240px;
-    height: 60px;
+    height: 100%;
     min-width: 0;
 }
 
@@ -3955,7 +3952,6 @@ html {
     }
 
     .hero-discovery-highlights {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 10px;
         margin-top: 0;
     }
@@ -3966,19 +3962,11 @@ html {
     }
 
     .hero-discovery-image-swap {
-        max-width: 214px;
-    }
-
-    .hero-discovery-highlight-image {
-        height: 56px;
+        max-width: 100%;
     }
 }
 
 @media (max-width: 1300px) {
-    .home-page .hero-banner {
-        margin-bottom: 170px;
-    }
-
     .hero-discovery-card {
         width: calc(100% - 40px);
         padding: 20px 24px 22px;
@@ -3996,11 +3984,6 @@ html {
         height: 58px;
     }
 
-    .hero-discovery-highlight-image {
-        width: 100%;
-        max-width: 214px;
-        height: 56px;
-    }
 }
 
 @media (max-width: 1000px) {
@@ -4031,7 +4014,7 @@ html {
         left: auto;
         bottom: auto;
         width: calc(100% - 32px);
-        margin: 0 auto;
+        margin: -32px auto 0;
         padding: 16px;
         transform: none;
     }
@@ -4196,6 +4179,7 @@ html {
 
         </div>
     </div>
+</section>
     <div class="hero-discovery-card">
         <div class="hero-discovery-highlights" aria-label="Why choose ConstructKaro">
             <div class="hero-discovery-highlight has-image">
@@ -4236,9 +4220,6 @@ html {
             </div>
         </div>
     </div>
-</section>
-    {{-- ── TRUST STRIP ── --}}
-    @include('partials.plotting-promo')
 
     <section class="ck-trust-section">
         <div class="ck-trust-heading">
